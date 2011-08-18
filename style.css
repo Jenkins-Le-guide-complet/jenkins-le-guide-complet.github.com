@@ -1,0 +1,39 @@
+html {
+	/*
+	border: 1px solid black;
+	*/
+	margin: 0 15% 0 15%;
+	font-size:1.4em;
+}
+
+#footer {
+	background: #fff;
+}
+
+h1 {
+	text-align: center;
+	padding: 0.5em 0 0.5em 0;
+	font-size: 2.2em;
+	width: 100%;
+	background: #def;
+	border: 1px solid;
+}
+
+a {
+	color: #123;
+	padding:0.1em;
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+a:visited {
+	color:#997;
+}
+
+.important {
+	font-size: 200%;
+}
