@@ -1,0 +1,156 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>8.2.&nbsp;Notification par email</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="prev" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="next" href="sect-notification-advanced-email.html" title="8.3.&nbsp;Notification par email avanc&eacute;e">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-notification.html">Chapter&nbsp;8.&nbsp;Notification</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-advanced-email.html">8.3.&nbsp;Notification par email avanc&eacute;e</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-notification-email"></a>8.2.&nbsp;Notification par email
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>La notification
+                        <a class="indexterm" name="ch08-email1"></a>
+                        <a class="indexterm" name="ch08-email2"></a>
+                        par email est la forme de notification la plus &eacute;vidente et la plus commune. L'email est bien connu,
+                        omnipr&eacute;sent et facile &agrave; utiliser et &agrave; configurer (voir<a href="sect-configuration-email.html" title="4.8.&nbsp;Configurer le serveur de messagerie &eacute;lectronique">Section&nbsp;4.8, &#8220;Configurer le serveur de messagerie &eacute;lectronique&#8221;</a>). Ainsi,
+                        quand
+                        les &eacute;quipes mettent en place leur premier environnement d'int&eacute;gration continue, c'est g&eacute;n&eacute;ralement
+                        la strat&eacute;gie de notification qu'ils essaient en premier.
+                    
+         </p>
+         <p>Vous activez les notifications email dans Jenkins en cochant la case Notification
+                        par email et en fournissant la liste des adresses email des
+                        personnes qui doivent &ecirc;tre notifi&eacute;es (voir<a href="sect-notification-email.html#fig-hudson-email-configuration" title="Figure&nbsp;8.1.&nbsp;Configurer les notifications par email">Figure&nbsp;8.1, &#8220;Configurer les notifications par email&#8221;</a>). Par d&eacute;faut,
+                        Jenkins
+                        enverra un courrier pour
+                        <a class="indexterm" name="I_indexterm8_d1e11461"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11468"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11475"></a>
+                        chaque build &eacute;chou&eacute; ou instable. Rappelez-vous,
+                        Jenkins enverra aussi un nouvel email d&egrave;s le premier build r&eacute;ussi apr&egrave;s une s&eacute;rie de builds &eacute;chou&eacute;s ou
+                        instables, afin d'indiquer que le probl&egrave;me a &eacute;t&eacute; r&eacute;solu.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-email-configuration"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e11484"></a><img src="figs/web/jtdg_0801.png" alt="Configurer les notifications par email"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.1.&nbsp;Configurer les notifications par email</b></p>
+         </div><br class="figure-break"><p>Normalement, un build ne devrait pas prendre trop d'essais pour fonctionner &agrave;
+                        nouveau &#8212; les d&eacute;veloppeurs doivent diagnostiquer et reproduire le probl&egrave;me localement, le corriger,
+                        et alors seulement committer leur correction dans le gestionnaire de versions. Des erreurs r&eacute;p&eacute;t&eacute;es
+                        de build indiquent g&eacute;n&eacute;ralement une erreur de configuration chronique ou de mauvaises
+                        pratiques de d&eacute;veloppement (par exemple, des d&eacute;veloppeurs qui soumettent leurs modifications sans
+                        v&eacute;rifier au pr&eacute;alable leur fonctionnement en local).
+                    
+         </p>
+         <p>Vous pouvez &eacute;galement choisir d'envoyer un email distinct &agrave; tous les d&eacute;veloppeurs qui ont
+                        des changements committ&eacute;s dans le build &eacute;chou&eacute;. C'est g&eacute;n&eacute;ralement une bonne id&eacute;e, car
+                        les d&eacute;veloppeurs qui ont committ&eacute; des changements depuis le dernier build sont naturellement
+                        les personnes qui devraient &ecirc;tre les plus int&eacute;ress&eacute;es par les r&eacute;sultats du build. Jenkins
+                        va r&eacute;cup&eacute;rer l'adresse email de l'utilisateur &agrave; partir du domaine de s&eacute;curit&eacute; couramment
+                        configur&eacute; (voir<a href="sect-security-realms.html" title="7.4.&nbsp;Domaines de s&eacute;curit&eacute; &#8212; Identifier les utilisateurs Jenkins">Section&nbsp;7.4, &#8220;Domaines de s&eacute;curit&eacute; &#8212; Identifier les
+                   utilisateurs Jenkins&#8221;</a>), ou en d&eacute;rivant l'adresse email &agrave; partir
+                        de l'utilisateur de l'outil de gestion de versions s'il a &eacute;t&eacute; configur&eacute; (voir
+                        <a href="sect-configuration-email.html" title="4.8.&nbsp;Configurer le serveur de messagerie &eacute;lectronique">Section&nbsp;4.8, &#8220;Configurer le serveur de messagerie &eacute;lectronique&#8221;</a>).
+                    
+         </p>
+         <p>Si vous utilisez cette option, il peut &ecirc;tre moins pertinent d'inclure l'&eacute;quipe
+                        enti&egrave;re dans la liste de diffusion principale. Vous inclurez de pr&eacute;f&eacute;rence les personnes
+                        qui seront int&eacute;ress&eacute;es par le suivi du r&eacute;sultat de chaque build (tels que
+                        les responsables techniques), et laisser Jenkins informer les d&eacute;veloppeurs
+                        <span class="keep-together">contributeurs</span>
+                        directement.
+                    
+         </p>
+         <p>Cela implique que les changements ont provoqu&eacute; l'&eacute;chec du build,
+                        ce qui est g&eacute;n&eacute;ralement (mais pas toujours) le cas. Cependant, si les builds sont
+                        peu fr&eacute;quents (par exemple les builds nocturnes, ou si un build est en attente pendant
+                        plusieurs heures avant d'&ecirc;tre abandonn&eacute;), de nombreux changements peuvent &ecirc;tre
+                        committ&eacute;s. Il est alors difficile de savoir quel est le d&eacute;veloppeur responsable
+                        de l'&eacute;chec du build.
+                    
+         </p>
+         <p>Tous les builds ne sont pas semblables par rapport aux notifications par email.
+                        Les d&eacute;veloppeurs qui ont soumis des changements sont particuli&egrave;rement int&eacute;ress&eacute;s par les r&eacute;sultats
+                        des builds des tests unitaires et des tests d'int&eacute;gration (surtout ceux d&eacute;clench&eacute;s par
+                        leurs propres modifications). Les testeurs seront eux plus int&eacute;ress&eacute;s par
+                        jeter un &#339;il sur le statut des tests d'acceptation automatis&eacute;s. La
+                        configuration des notifications par email sera donc diff&eacute;rente pour chaque &eacute;tape de build. En fait, il
+                        est utile de d&eacute;finir des strat&eacute;gies de notification par email. Par exemple,
+                    
+         </p>
+         <div class="itemizedlist">
+            <ul type="disc">
+               <li>
+                  <p>pour les builds rapides (les tests unitaires/d'int&eacute;gration s'ex&eacute;cutent en moins de 5
+                                         minutes) : les notifications sont envoy&eacute;es aux chefs d'&eacute;quipes et aux d&eacute;veloppeurs
+                                         qui ont committ&eacute; des changements,
+                                     
+                  </p>
+               </li>
+               <li>
+                  <p>pour les builds lents (les builds de tests d'acceptation s'ex&eacute;cutent apr&egrave;s les builds
+                                         rapides) : les notifications sont envoy&eacute;es aux chefs d'&eacute;quipes, aux testeurs, ainsi qu'aux
+                                         d&eacute;veloppeurs
+                                         qui ont committ&eacute; des changements.
+                                     
+                  </p>
+               </li>
+               <li>
+                  <p>pour les builds nocturnes (les m&eacute;triques de qualit&eacute;, tests de performance et autres s'ex&eacute;cutent
+                                         uniquement si les autres builds fonctionnent): les notifications sont envoy&eacute;es &agrave; tous les membres
+                                         d'&eacute;quipe
+                                         &#8212; Ceux-ci fournissent une photo instantan&eacute;e de la sant&eacute; du projet avant la r&eacute;union quotidienne.
+                                     
+                  </p>
+               </li>
+            </ul>
+         </div>
+         <p>En fait, vous devriez adopter au cas par cas la strat&eacute;gie de notification
+                        appropri&eacute;e pour chaque t&acirc;che de build, plut&ocirc;t que d'appliquer une politique
+                        globale pour toutes les t&acirc;ches de build.
+                    
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-notification.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-advanced-email.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;8.&nbsp;Notification&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.3.&nbsp;Notification par email avanc&eacute;e</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

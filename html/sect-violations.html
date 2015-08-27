@@ -1,0 +1,301 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>9.4.&nbsp;Rapports de probl&egrave;mes de qualit&eacute; de code avec le plugin Violations</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-code-quality.html" title="Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code">
+      <link rel="prev" href="sect-code-quality-tools.html" title="9.3.&nbsp;Les outils d&#8217;analyse de qualit&eacute; du code populaires pour Java et Groovy">
+      <link rel="next" href="sect-code-quality-checkstyle.html" title="9.5.&nbsp;Utiliser les rapports Checkstyle, PMD, et FindBugs">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-tools.html">9.3.&nbsp;Les outils d&#8217;analyse de qualit&eacute; du code populaires pour Java et
+                         Groovy</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-checkstyle.html">9.5.&nbsp;Utiliser les rapports Checkstyle, PMD, et FindBugs</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-violations"></a>9.4.&nbsp;Rapports de probl&egrave;mes de qualit&eacute; de code avec le plugin
+                         Violations
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Un<a class="indexterm" name="ch09-vio1"></a><a class="indexterm" name="ch09-vio2"></a><a class="indexterm" name="ch09-vio3"></a><a class="indexterm" name="ch09-vio4"></a> des plugins de qualit&eacute; de code les plus utiles est le
+            plugin Violations. Ce plugin n&#8217;analysera pas le code source de votre projet
+            (vous devez configurer le build pour faire cela), mais il fait un
+                excellent travail en &eacute;laborant des rapports sur les mesures de la qualit&eacute;
+                du code pour les builds individuels et les tendances au fil du temps. Le
+                plugin s&#8217;adresse aux rapports sur les mesures de qualit&eacute; de code venant d&#8217;une large
+                gamme d&#8217;outils d&#8217;analyse statique, comprenant :
+         </p>
+         <div class="variablelist">
+            <dl>
+               <dt><span class="term">Pour Java</span></dt>
+               <dd>
+                  <p>Checkstyle, CPD, PMD, FindBugs, and jcreport</p>
+               </dd>
+               <dt><span class="term">Pour Groovy</span></dt>
+               <dd>
+                  <p>codenarc</p>
+               </dd>
+               <dt><span class="term">Pour JavaScript</span></dt>
+               <dd>
+                  <p>jslint</p>
+               </dd>
+               <dt><span class="term">Pour .Net</span></dt>
+               <dd>
+                  <p>gendarme and stylecop</p>
+               </dd>
+            </dl>
+         </div>
+         <p>Installer ce plugin est d'une simplicit&eacute;. Il suffit d&#8217;aller sur l&#8217;&eacute;cran du
+                Plugin Manager et de s&eacute;lectionner le plugin Violations de Jenkins. Une
+                fois que vous install&eacute; le plugin et red&eacute;marr&eacute; Jenkins, vous serez capable
+                de l&#8217;utiliser pour vos projets.
+         </p>
+         <p>Le plugin Violations ne g&eacute;n&egrave;re pas de mesures de qualit&eacute; de code
+                lui-m&ecirc;me &#8212; vous devez configurer votre build pour faire cela, comme il est montr&eacute;
+                dans la section pr&eacute;c&eacute;dente. Un exemple pour faire cela pour une t&acirc;che de
+                build Maven est illustr&eacute; dans la <a href="sect-violations.html#fig-hudson-quality-goals" title="Figure&nbsp;9.3.&nbsp;G&eacute;n&eacute;rer les rapports de qualit&eacute; de code dans un build Maven">Figure&nbsp;9.3, &#8220;G&eacute;n&eacute;rer les rapports de qualit&eacute; de code dans un build
+                     Maven&#8221;</a>. Notez que nous invoquons ici les
+                goals du plugin Maven directement. Nous aurions pu aussi simplement ex&eacute;cuter
+                <code class="literal">mvn site</code>, mais si nous sommes
+                uniquement int&eacute;ress&eacute;s par les mesures de qualit&eacute; de code, et pas par les
+                autres &eacute;l&eacute;ments du site g&eacute;n&eacute;r&eacute; par Maven, appeler le plugin directement se
+                traduira par des builds plus rapides.
+         </p>
+         <div class="figure"><a name="fig-hudson-quality-goals"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13313"></a><img src="figs/web/jtdg_0903.png" alt="G&eacute;n&eacute;rer les rapports de qualit&eacute; de code dans un build Maven"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.3.&nbsp;G&eacute;n&eacute;rer les rapports de qualit&eacute; de code dans un build
+                        Maven</b></p>
+         </div><br class="figure-break"><p>Une fois que vous l&#8217;avez param&eacute;tr&eacute;, vous pouvez configurer le plugin
+                de violations pour g&eacute;n&eacute;rer des rapports, et si besoin est, des
+                notifications de d&eacute;clenchement, bas&eacute;s sur les r&eacute;sultats de rapport. Il
+                suffit d&#8217;aller dans &#8216;Actions &agrave; la suite du build&#8217; et de cocher la case
+                Report Violations. Les d&eacute;tails de la configuration varient en
+                fonction du type de projet. Penchons-nous sur les t&acirc;ches de build Freestyle dans
+                un premier temps.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e13579"></a>9.4.1.&nbsp;Travailler avec des t&acirc;ches de build free-style
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Les<a class="indexterm" name="ch09-freevio"></a> t&acirc;ches de build free-style vous permettent la
+                     configuration la plus flexible, et sont votre unique option pour des
+                     projets non Java.
+            </p>
+            <p>Lorsque vous utilisez le plugin Violations avec une t&acirc;che de build
+                     free-style, vous devez sp&eacute;cifier les chemins de chaque rapport XML
+                     g&eacute;n&eacute;r&eacute; par les outils d&#8217;analyse de code statiques que vous avez utilis&eacute;
+                     (voir <a href="sect-violations.html#fig-hudson-quality-freestyle-violations" title="Figure&nbsp;9.4.&nbsp;Configurer le plugin violation pour un projet free-style">Figure&nbsp;9.4, &#8220;Configurer le plugin violation pour un projet
+                          free-style&#8221;</a>). Le
+                     plugin peut r&eacute;pondre &agrave; plusieurs rapports depuis le m&ecirc;me outil, ce qui
+                     est utile pour des projets Maven multi-module &#8212; il suffit alors d&#8217;utiliser une
+                     expression g&eacute;n&eacute;rique pour identifier les rapports que vous voulez (par
+                     exemple, <code class="literal">**/target/checkstyle.xml</code>).
+            </p>
+            <div class="figure"><a name="fig-hudson-quality-freestyle-violations"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject9_d1e13341"></a><img src="figs/web/jtdg_0904.png" alt="Configurer le plugin violation pour un projet free-style"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;9.4.&nbsp;Configurer le plugin violation pour un projet
+                             free-style</b></p>
+            </div><br class="figure-break"><p>Le plugin Violations g&eacute;n&egrave;rera un graphique de suivi pour chaque
+                     type de probl&egrave;me au cours du temps (voir <a href="sect-violations.html#fig-hudson-quality-violations-graph" title="Figure&nbsp;9.5.&nbsp;Les violations au cours du temps">Figure&nbsp;9.5, &#8220;Les violations au cours du temps&#8221;</a>). Le graphique affiche
+                     une ligne de diff&eacute;rente couleur pour chaque type de violations que vous
+                     suivez, ainsi qu&#8217;un r&eacute;sum&eacute; des derniers r&eacute;sultats.
+            </p>
+            <div class="figure"><a name="fig-hudson-quality-violations-graph"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject9_d1e13353"></a><img src="figs/web/jtdg_0905.png" alt="Les violations au cours du temps"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;9.5.&nbsp;Les violations au cours du temps</b></p>
+            </div><br class="figure-break"><p>Vous pouvez aussi cliquer sur le graphique pour vous rendre &agrave; un
+                     build particulier. Ici, vous pouvez voir le nombre de probl&egrave;mes soulev&eacute;s
+                     pour un build particulier (voir <a href="sect-violations.html#fig-hudson-quality-violations-build" title="Figure&nbsp;9.6.&nbsp;Les violations pour un build particulier">Figure&nbsp;9.6, &#8220;Les violations pour un build particulier&#8221;</a>), avec diverses
+                     ventilations par type de violation, s&eacute;v&eacute;rit&eacute; et fichier.
+            </p>
+            <div class="figure"><a name="fig-hudson-quality-violations-build"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject9_d1e13365"></a><img src="figs/web/jtdg_0906.png" alt="Les violations pour un build particulier"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;9.6.&nbsp;Les violations pour un build particulier</b></p>
+            </div><br class="figure-break"><p>Enfin, vous pouvez descendre vers une classe particuli&egrave;re, pour
+                     afficher la liste d&eacute;taill&eacute;e des probl&egrave;mes avec leurs emplacements
+                     dans le code source. 
+            </p>
+            <p>Mais le plugin Violations permet aussi une gestion plus proactive
+                     de la qualit&eacute; du code. Vous pouvez utiliser les r&eacute;sultats des rapports
+                     d&#8217;analyse de la qualit&eacute; du code pour influencer l&#8217;ic&ocirc;ne m&eacute;t&eacute;orologique du
+                     tableau de bord de Jenkins. Cette ic&ocirc;ne m&eacute;t&eacute;orologique est normalement li&eacute;e au
+                     nombre de builds d&eacute;faillants parmi les cinq derniers, mais Jenkins
+                     peut aussi prendre en compte d&#8217;autres facteurs, comme les r&eacute;sultats de
+                     la qualit&eacute; du code. Afficher une ic&ocirc;ne pluvieuse ou orageuse pour un
+                     projet sur le tableau de bord est une meilleure fa&ccedil;on de sensibiliser
+                     sur les probl&egrave;mes de qualit&eacute; du code que de simplement s&#8217;appuyer sur des
+                     graphiques et des rapports sur la page de la t&acirc;che de build.
+            </p>
+            <p>Pour le configurer, vous devez revenir dans la section Report
+                     Violations dans Actions &agrave; la suite du build. Les trois premi&egrave;res
+                     colonnes dans <a href="sect-violations.html#fig-hudson-quality-freestyle-violations" title="Figure&nbsp;9.4.&nbsp;Configurer le plugin violation pour un projet free-style">Figure&nbsp;9.4, &#8220;Configurer le plugin violation pour un projet
+                          free-style&#8221;</a>
+                     montre une ic&ocirc;ne ensoleill&eacute;e, une ic&ocirc;ne orageuse et une balle jaune. Celle
+                     avec l&#8217;ic&ocirc;ne de temps ensoleill&eacute; est le nombre maximum de
+                     violations tol&eacute;r&eacute;es pour garder l&#8217;ic&ocirc;ne ensoleill&eacute;e sur la page du tableau
+                     de bord. La deuxi&egrave;me colonne, avec l&#8217;ic&ocirc;ne de temps orageux, est le
+                     nombre de violations qui causera l&#8217;affichage de l&#8217;ic&ocirc;ne orageuse sur le
+                     tableau de bord. Si vous avez un nombre de violations entre ces deux
+                     extr&ecirc;mes, vous aurez l&#8217;une des ic&ocirc;nes nuageuses.
+            </p>
+            <p>Vous pouvez sp&eacute;cifier diff&eacute;rentes valeurs pour diff&eacute;rents outils.
+                     Les seuils exacts varieront entre les &eacute;quipes et entre les projets, et
+                     aussi entre les outils. Par exemple, Checkstyle soul&egrave;vera g&eacute;n&eacute;ralement
+                     beaucoup plus de probl&egrave;mes que FindBugs ou CPD, avec PMD quelque part
+                     entre. Vous devez ajuster les valeurs utilis&eacute;es pour refl&eacute;ter comment
+                     ces outils travaillent avec votre code de base, et vos attentes.
+            </p>
+            <p>Vous pouvez aller encore plus loin avec la troisi&egrave;me colonne
+                     (celle avec la balle jaune). Cette colonne vous permet de sp&eacute;cifier le
+                     nombre de violations qui d&eacute;clarera le build comme <a class="indexterm" name="I_indexterm9_d1e13386"></a><a class="indexterm" name="I_indexterm9_d1e13393"></a>instable. Souvenez-vous, lorsqu&#8217;un build devient instable,
+                     Jenkins enverra des messages de notifications, donc c&#8217;est une strat&eacute;gie
+                     encore plus proactive.
+            </p>
+            <p>Par exemple, dans <a href="sect-violations.html#fig-hudson-quality-freestyle-violations" title="Figure&nbsp;9.4.&nbsp;Configurer le plugin violation pour un projet free-style">Figure&nbsp;9.4, &#8220;Configurer le plugin violation pour un projet
+                          free-style&#8221;</a>, nous avons
+                     configur&eacute; le nombre minimum des violations Checkstyle &agrave; 10, ce qui
+                     signifie que l&#8217;ic&ocirc;ne du temps ensoleill&eacute; appara&icirc;tra uniquement s&#8217;il y a
+                     au maximum 10 violations Checkstyle. S&#8217;il y en a plus de 10, le temps se
+                     d&eacute;gradera progressivement, jusqu&#8217;&agrave; 200 violations marqu&eacute;es, o&ugrave; il
+                     deviendra orageux. Et s&#8217;il y a 500 violations Checkstyle ou plus, le
+                     projet sera signal&eacute; instable.
+            </p>
+            <p>Maintenant regardez la configuration de CPD, le d&eacute;tecteur de code
+                     dupliqu&eacute; qui vient avec PMD. Dans ce projet, nous avons adopt&eacute; une
+                     politique z&eacute;ro tol&eacute;rance pour le code dupliqu&eacute;, donc l&#8217;ic&ocirc;ne ensoleill&eacute;e
+                     est sp&eacute;cifi&eacute;e &agrave; z&eacute;ro. L&#8217;ic&ocirc;ne orageuse est sp&eacute;cifi&eacute;e &agrave; 10, donc s&#8217;il y a
+                     10 violations de copi&eacute;/coll&eacute; ou plus, il sera d&eacute;clar&eacute; instable.
+            </p>
+            <p>Maintenant, sur la page du tableau de bord, le projet appara&icirc;tra
+                     avec &agrave; la fois un une ic&ocirc;ne de temps orageux et comme instable, m&ecirc;me
+                     s&#8217;il n&#8217;y pas d&#8217;&eacute;checs de tests (voir <a href="sect-violations.html#fig-hudson-quality-violations-rollover" title="Figure&nbsp;9.7.&nbsp;Configurer le plugin de violations pour un projet free-style">Figure&nbsp;9.7, &#8220;Configurer le plugin de violations pour un projet
+                          free-style&#8221;</a>). Ce build
+                     particulier est instable parce qu&#8217;il y a 16 violations CPD. En
+                     compl&eacute;ment, si vous placez votre souris sur l&#8217;ic&ocirc;ne du temps, Jenkins
+                     affichera quelques d&eacute;tails suppl&eacute;mentaires sur comment il a calcul&eacute; ce statut
+                     <a class="indexterm" name="I_indexterm9_d1e13409"></a> particulier.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-quality-violations-rollover"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject9_d1e13415"></a><img src="figs/web/jtdg_0907.png" alt="Configurer le plugin de violations pour un projet free-style"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;9.7.&nbsp;Configurer le plugin de violations pour un projet
+                                free-style</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e13675"></a>9.4.2.&nbsp;Travailler avec des t&acirc;ches de build Maven
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Les <a class="indexterm" name="ch09-mavenvio"></a>t&acirc;ches de build Maven dans Jenkins utilisent les
+                     conventions de Maven et les informations du fichier <code class="filename">pom.xml</code> du projet pour rendre la
+                     configuration plus facile et plus l&eacute;g&egrave;re. Lorsque vous utilisez le
+                     plugin Violations avec une t&acirc;che de build Maven, Jenkins utilise ces
+                     conventions pour r&eacute;duire la quantit&eacute; de travail n&eacute;cessaire pour
+                     configurer le plugin. Vous n&#8217;avez pas besoin de dire &agrave; Jenkins o&ugrave;
+                     trouver les rapports XML pour la plupart des outils d&#8217;analyse de code
+                     statique (par exemple, Checkstyle, PMD, FindBugs, et CPD), puisque
+                     Jenkins peut l'interpr&eacute;ter depuis les conventions de Maven et les
+                     configurations du plugin (voir <a href="sect-violations.html#fig-hudson-maven-violations" title="Figure&nbsp;9.8.&nbsp;Configurer le plugin Violations pour un projet Maven.">Figure&nbsp;9.8, &#8220;Configurer le plugin Violations pour un projet Maven.&#8221;</a>). Si vous devez red&eacute;finir ces
+                     conventions, vous pouvez choisir l&#8217;option Pattern dans la liste
+                     d&eacute;roulante &laquo; XML filename pattern &raquo;, et entrer le chemin comme vous
+                     pouvez le faire pour les t&acirc;ches de build free-style.
+            </p>
+            <div class="figure"><a name="fig-hudson-maven-violations"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject9_d1e13439"></a><img src="figs/web/jtdg_0908.png" alt="Configurer le plugin Violations pour un projet Maven."></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;9.8.&nbsp;Configurer le plugin Violations pour un projet Maven.</b></p>
+            </div><br class="figure-break"><p>Le plugin Violations fonctionne bien avec des projets multi-module
+                     Maven, mais au moment de la r&eacute;daction (de ce livre), il a besoin d&#8217;un
+                     peu de peaufinage pour obtenir de meilleurs r&eacute;sultats. Les t&acirc;ches de
+                     build Maven comprennent la structure des projets multi-module (voir
+                     <a href="sect-violations.html#fig-hudson-maven-modules" title="Figure&nbsp;9.9.&nbsp;Les t&acirc;ches de build Maven de Jenkins comprennent les structures multi-modules de Maven">Figure&nbsp;9.9, &#8220;Les t&acirc;ches de build Maven de Jenkins comprennent les structures
+                          multi-modules de Maven&#8221;</a>) ; de plus, vous pouvez
+                     descendre dans n&#8217;importe quel module et obtenir une vue d&eacute;taill&eacute;e des
+                     r&eacute;sultats de construction pour cette t&acirc;che de build.
+            </p>
+            <div class="figure"><a name="fig-hudson-maven-modules"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject9_d1e13451"></a><img src="figs/web/jtdg_0909.png" alt="Les t&acirc;ches de build Maven de Jenkins comprennent les structures multi-modules de Maven"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;9.9.&nbsp;Les t&acirc;ches de build Maven de Jenkins comprennent les structures
+                             multi-modules de Maven</b></p>
+            </div><br class="figure-break"><p>C&#8217;est une fonctionnalit&eacute; tr&egrave;s utile, mais cela signifie que vous
+                     devez faire un peu de travail suppl&eacute;mentaire pour obtenir tous les
+                     avantages des plugins de violations des modules individuels. Par d&eacute;faut,
+                     le plugin Violations affichera une vue agr&eacute;g&eacute;e des mesures de qualit&eacute; de
+                     code comme celle dans <a href="sect-violations.html#fig-hudson-quality-violations-graph" title="Figure&nbsp;9.5.&nbsp;Les violations au cours du temps">Figure&nbsp;9.5, &#8220;Les violations au cours du temps&#8221;</a>. Vous pouvez aussi
+                     cliquer sur le graphique des violations, et voir les rapports d&eacute;taill&eacute;s
+                     de chaque module.
+            </p>
+            <p>Cependant, pour que ceci puisse fonctionner correctement, vous
+                     devez activer le plugin Violations individuellement pour chaque module
+                     en compl&eacute;ment du projet principal. Pour ce faire, cliquez sur le module
+                     que vous voulez configurer dans l&#8217;&eacute;cran Modules, et ensuite cliquez sur
+                     le menu &#8216;Configurer&#8217;. Ici, vous verrez un petit groupe des options de
+                     configuration habituelles (voir <a href="sect-violations.html#fig-hudson-violations-module-config" title="Figure&nbsp;9.10.&nbsp;Activer le plugin Violations pour un module individuel">Figure&nbsp;9.10, &#8220;Activer le plugin Violations pour un module individuel&#8221;</a>). Ici, il vous suffit
+                     d&#8217;activer l&#8217;option Violations, et de configurer les seuils si besoin
+                     est. Le c&ocirc;t&eacute; positif de cela est que vous pouvez d&eacute;finir
+                     diff&eacute;rentes valeurs de seuils pour des modules diff&eacute;rents.
+            </p>
+            <div class="figure"><a name="fig-hudson-violations-module-config"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject9_d1e13467"></a><img src="figs/web/jtdg_0910.png" alt="Activer le plugin Violations pour un module individuel"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;9.10.&nbsp;Activer le plugin Violations pour un module individuel</b></p>
+            </div><br class="figure-break"><p>Une fois que cela est fait, lorsque vous cliquerez sur le
+                     graphique de violations agr&eacute;g&eacute;es sur la page d&#8217;accueil de la t&acirc;che de
+                     build du projet, Jenkins listera les graphiques individuels de
+                     violations pour chaque <a class="indexterm" name="I_indexterm9_d1e13474"></a><a class="indexterm" name="I_indexterm9_d1e13476"></a><a class="indexterm" name="I_indexterm9_d1e13478"></a><a class="indexterm" name="I_indexterm9_d1e13480"></a><a class="indexterm" name="I_indexterm9_d1e13482"></a> module.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-tools.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-checkstyle.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">9.3.&nbsp;Les outils d&#8217;analyse de qualit&eacute; du code populaires pour Java et
+                      Groovy&nbsp;
+               </td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;9.5.&nbsp;Utiliser les rapports Checkstyle, PMD, et FindBugs</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

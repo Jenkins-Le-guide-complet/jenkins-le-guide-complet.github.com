@@ -1,0 +1,307 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>10.4.&nbsp;T&acirc;ches de build multiconfiguration</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-advanced-builds.html" title="Chapter&nbsp;10.&nbsp;Builds avanc&eacute;s">
+      <link rel="prev" href="sect-advanced-builds-triggers.html" title="10.3.&nbsp;D&eacute;clencheurs param&eacute;tr&eacute;s">
+      <link rel="next" href="I_sect110_d1e14808.html" title="10.5.&nbsp;G&eacute;n&eacute;rer vos t&acirc;ches de build Maven automatiquement">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-advanced-builds-triggers.html">10.3.&nbsp;D&eacute;clencheurs param&eacute;tr&eacute;s</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect110_d1e14808.html">10.5.&nbsp;G&eacute;n&eacute;rer vos t&acirc;ches de build Maven automatiquement</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-multi-configuration-build-jobs"></a>10.4.&nbsp;T&acirc;ches de build multiconfiguration
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Les t&acirc;ches de build <a class="indexterm" name="ch10-multi1"></a><a class="indexterm" name="ch10-multi2"></a><a class="indexterm" name="I_indexterm10_d1e14528"></a>multiconfiguration sont une fonctionnalit&eacute; extr&ecirc;mement
+            puissante de Jenkins. Une t&acirc;che de build multiconfiguration peut &ecirc;tre vue
+            comme une t&acirc;che de build param&eacute;tr&eacute; qui peut &ecirc;tre automatiquement
+            lanc&eacute;e avec toutes les combinaisons possibles de param&egrave;tres qu'elle puisse
+            accepter. Elles sont particuli&egrave;rement utiles pour les tests, vous
+                permettant ainsi de tester votre application avec une seule t&acirc;che de
+                build, mais avec une grande vari&eacute;t&eacute; de conditions (navigateurs, bases de
+                donn&eacute;es, et ainsi de suite).
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e14770"></a>10.4.1.&nbsp;Configurer un build multiconfiguration
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Pour <a class="indexterm" name="ch10-mcreate1"></a><a class="indexterm" name="ch10-mcreate2"></a>cr&eacute;er une nouvelle t&acirc;che de build multiconfiguration,
+                     choisissez simplement l'option suivante sur la page Nouvelle T&acirc;che (voir
+                     <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-multi-configuration" title="Figure&nbsp;10.19.&nbsp;Cr&eacute;er une t&acirc;che de build multiconfiguration">Figure&nbsp;10.19, &#8220;Cr&eacute;er une t&acirc;che de build multiconfiguration&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-build-multi-configuration"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e14557"></a><img src="figs/web/jtdg_1019.png" alt="Cr&eacute;er une t&acirc;che de build multiconfiguration"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.19.&nbsp;Cr&eacute;er une t&acirc;che de build multiconfiguration</b></p>
+            </div><br class="figure-break"><p>Une t&acirc;che de build multiconfiguration ressemble &agrave; n'importe quelle
+                     autre t&acirc;che, mais avec un &eacute;l&eacute;ment suppl&eacute;mentaire tr&egrave;s important : la
+                     <em class="firstterm">Matrice de Configuration</em> (voir <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-multi-config" title="Figure&nbsp;10.20.&nbsp;Ajouter un axe &agrave; un build multiconfiguration">Figure&nbsp;10.20, &#8220;Ajouter un axe &agrave; un build multiconfiguration&#8221;</a>). C'est l&agrave; que vous
+                     d&eacute;finissez les diff&eacute;rentes configurations qui seront utilis&eacute;es pour
+                     ex&eacute;cuter vos builds.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-multi-config"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14572"></a><img src="figs/web/jtdg_1020.png" alt="Ajouter un axe &agrave; un build multiconfiguration"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.20.&nbsp;Ajouter un axe &agrave; un build multiconfiguration</b></p>
+               </div><br class="figure-break"></div>
+            <p>Vous pouvez d&eacute;finir diff&eacute;rents axes d'options de configuration,
+                     incluant l'ex&eacute;cution de la t&acirc;che de build sur diff&eacute;rents esclaves ou sur
+                     diff&eacute;rents JDKs, ou en fournissant vos propres propri&eacute;t&eacute;s personnalis&eacute;es
+                     au build. Par exemple, dans les t&acirc;ches de build discut&eacute;es pr&eacute;c&eacute;demmennt,
+                     nous pourrions vouloir tester notre application pour diff&eacute;rentes bases
+                     de donn&eacute;es et diff&eacute;rents syst&egrave;mes d'exploitation. Nous pourrions d&eacute;finir
+                     un axe d&eacute;finissant les machines esclaves avec diff&eacute;rents syst&egrave;mes
+                     d'exploitation sur lesquels nous voudrions faire tourner nos builds, et
+                     un autre axe d&eacute;finissant toutes les valeurs possibles de bases de
+                     donn&eacute;es. Jenkins ex&eacute;cutera ensuite la t&acirc;che de build pour chaque base de
+                     donn&eacute;es et chaque syst&egrave;me d'exploitation possibles.
+            </p>
+            <p>Regardons &agrave; pr&eacute;sent les types d'axes que nous pouvons<a class="indexterm" name="I_indexterm10_d1e14581"></a><a class="indexterm" name="I_indexterm10_d1e14583"></a> d&eacute;finir.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e14822"></a>10.4.2.&nbsp;Configurer un axe Esclave
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>La<a class="indexterm" name="ch10-slave1"></a><a class="indexterm" name="ch10-slave2"></a><a class="indexterm" name="ch10-slave3"></a> premi&egrave;re option consiste &agrave; configurer votre build pour
+                     ex&eacute;cuter simultan&eacute;ment le build sur diff&eacute;rentes machines esclaves (voir
+                     <a href="chapter-distributed-builds.html" title="Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s">Chapter&nbsp;11, <i xmlns:xlink="http://www.w3.org/1999/xlink">Builds distribu&eacute;s</i></a>). Evidemment, l'id&eacute;e
+                     d'avoir un ensemble de machines esclaves est g&eacute;n&eacute;ralement pour que
+                     vous puissiez ex&eacute;cuter votre build sur n'importe laquelle. Mais il y a
+                     des cas o&ugrave; il est normal d'&ecirc;tre plus s&eacute;lectif. Par exemple, vous
+                     pourriez vouloir lancer vos tests sur Windows, Mac OS X, et Linux. Dans
+                     ce cas, vous cr&eacute;ez un nouvel axe pour vos noeuds esclaves, comme montr&eacute;
+                     dans <a href="sect-multi-configuration-build-jobs.html#fig-build-multi-config-slaves" title="Figure&nbsp;10.21.&nbsp;D&eacute;finir un axe de noeuds esclave">Figure&nbsp;10.21, &#8220;D&eacute;finir un axe de noeuds esclave&#8221;</a>. Vous pouvez
+                     choisir les noeuds que vous voulez utiliser de deux fa&ccedil;ons : par label
+                     ou par noeud individuel. Utiliser des labels vous permet d'identifier
+                     des cat&eacute;gories de noeuds de construction (par exemple, des machines
+                     Windows), sans lier le build &agrave; aucune machine en particulier. C'est une
+                     option plus flexible, et elle rend plus facile l'extension de votre
+                     capacit&eacute; de build si n&eacute;cessaire. Parfois, cependant, vous pouvez
+                     r&eacute;ellement vouloir ex&eacute;cuter un build sur une machine sp&eacute;cifique. Dans ce
+                     cas, vous pouvez utiliser l'option "Noeuds individuels" et choisir la
+                     machine dans la liste.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-build-multi-config-slaves"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14616"></a><img src="figs/web/jtdg_1021.png" alt="D&eacute;finir un axe de noeuds esclave"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.21.&nbsp;D&eacute;finir un axe de noeuds esclave</b></p>
+               </div><br class="figure-break"></div>
+            <p>Si vous avez besoin de plus de flexibilit&eacute;, vous pouvez aussi
+                     utiliser une Label Expression, ce qui vous permet de d&eacute;finir quels
+                     noeuds esclaves peuvent &ecirc;tre utilis&eacute;s pour un axe particulier en
+                     utilisant des expressions bool&eacute;ennes et des op&eacute;rateurs logiques pour
+                     combiner les labels. Par exemple, supposons que vous avez d&eacute;fini des
+                     labels pour les machines esclaves en fonction du syst&egrave;me d'exploitation
+                     (&#8220;windows&#8221;, &#8220;linux&#8221;) et des bases de donn&eacute;es install&eacute;es (&#8220;oracle&#8221;,
+                     &#8220;mysql&#8221;, &#8220;db2&#8221;). Pour d&eacute;finir un axe n'ex&eacute;cutant les tests que pour les
+                     machines Windows sur lesquelles est install&eacute; MySQL, vous pouvez utiliser
+                     une expression comme <code class="literal">windows &amp;&amp;
+                        mysql</code>.
+            </p>
+            <p>Nous traitons du travail avec des noeuds esclaves et les builds
+                     distribu&eacute;s plus en <a class="indexterm" name="I_indexterm10_d1e14628"></a><a class="indexterm" name="I_indexterm10_d1e14630"></a><a class="indexterm" name="I_indexterm10_d1e14632"></a>d&eacute;tail dans <span class="keep-together"><a href="chapter-distributed-builds.html" title="Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s">Chapter&nbsp;11, <i xmlns:xlink="http://www.w3.org/1999/xlink">Builds distribu&eacute;s</i></a></span>.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e14874"></a>10.4.3.&nbsp;Configurer un axe JDK
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Si vous<a class="indexterm" name="I_indexterm10_d1e14643"></a><a class="indexterm" name="I_indexterm10_d1e14648"></a><a class="indexterm" name="I_indexterm10_d1e14655"></a> d&eacute;ployez votre application sur une large base client sur
+                     laquelle vous avez un contr&ocirc;le limit&eacute; de l'environnement cible, vous
+                     pouvez avoir besoin de tester votre application en testant diff&eacute;rentes
+                     versions de Java. Dans ce genre de cas, il est utile de pouvoir mettre
+                     en place un axe JDK dans un build multiconfiguration. Quand vous ajoutez
+                     un axe JDK, Jenkins propose automatiquement la liste des versions de JDK
+                     dont il a connaissance (voir <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-multi-config-jdk" title="Figure&nbsp;10.22.&nbsp;D&eacute;finir un axe de versions de JDK">Figure&nbsp;10.22, &#8220;D&eacute;finir un axe de versions de JDK&#8221;</a>). Si vous avez besoin
+                     d'utiliser des JDKs additionnels, ajoutez les simplement &agrave; votre page de
+                     configuration Jenkins.
+            </p>
+            <div class="figure"><a name="fig-hudson-build-multi-config-jdk"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e14666"></a><img src="figs/web/jtdg_1022.png" alt="D&eacute;finir un axe de versions de JDK"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.22.&nbsp;D&eacute;finir un axe de versions de JDK</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e14907"></a>10.4.4.&nbsp;Axe personnalis&eacute;
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Le<a class="indexterm" name="I_indexterm10_d1e14676"></a><a class="indexterm" name="I_indexterm10_d1e14681"></a> troisi&egrave;me type d'axe vous permet de d&eacute;finir diff&eacute;rentes
+                     fa&ccedil;ons d'ex&eacute;cuter votre t&acirc;che de build, bas&eacute;es sur des variables
+                     arbitraires que vous d&eacute;finissez. Par exemple, vous pouvez fournir une
+                     liste de bases de donn&eacute;es que vous avez besoin de tester, ou une liste
+                     de navigateurs &agrave; utiliser dans vos tests web. Ceci est tr&egrave;s similaire
+                     aux param&egrave;tres pour une t&acirc;che de build param&eacute;tr&eacute;, except&eacute; que vous
+                     fournissez la liste compl&egrave;te des valeurs possibles, et que plut&ocirc;t que
+                     d'interroger l'utilisateur pour qu'il entre une valeur, Jenkins lance le
+                     build avec <span class="emphasis"><em>toutes</em></span> les valeurs fournies (<a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-mulit-config-custom" title="Figure&nbsp;10.23.&nbsp;D&eacute;finir un axe sp&eacute;cifique &agrave; l'utilisateur">Figure&nbsp;10.23, &#8220;D&eacute;finir un axe sp&eacute;cifique &agrave; l'utilisateur&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-mulit-config-custom"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14697"></a><img src="figs/web/jtdg_1023.png" alt="D&eacute;finir un axe sp&eacute;cifique &agrave; l'utilisateur"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.23.&nbsp;D&eacute;finir un axe sp&eacute;cifique &agrave; l'utilisateur</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e14938"></a>10.4.5.&nbsp;Ex&eacute;cuter un Build Multiconfiguration
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une fois que<a class="indexterm" name="ch10-mrun1"></a><a class="indexterm" name="ch10-mrun2"></a> vous avez configur&eacute; les axes, vous pouvez ex&eacute;cuter votre
+                     build multiconfiguration comme n'importe quel autre. Toutefois, Jenkins
+                     traitera chaque combinaison de variables comme un build s&eacute;par&eacute;. Jenkins
+                     affiche les r&eacute;sultats agr&eacute;g&eacute;s dans un tableau, o&ugrave; toutes les
+                     combinaisons sont montr&eacute;es (voir <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-multi-config-results" title="Figure&nbsp;10.24.&nbsp;R&eacute;sultats de build multiconfiguration">Figure&nbsp;10.24, &#8220;R&eacute;sultats de build multiconfiguration&#8221;</a>). Si vous cliquez sur
+                     les boules, Jenkins vous emm&egrave;nera aux r&eacute;sultats d&eacute;taill&eacute;s pour un build
+                     particulier.
+            </p>
+            <div class="figure"><a name="fig-hudson-build-multi-config-results"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e14725"></a><img src="figs/web/jtdg_1024.png" alt="R&eacute;sultats de build multiconfiguration"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.24.&nbsp;R&eacute;sultats de build multiconfiguration</b></p>
+            </div><br class="figure-break"><p>Par d&eacute;faut, Jenkins ex&eacute;cutera les t&acirc;ches de build en parall&egrave;le.
+                     Toutefois, il y a quelques cas o&ugrave; cela n'est pas une bonne id&eacute;e. Par
+                     exemple, de nombreuses applications web Java utilisent des tests
+                     Selenium ou WebDriver s'ex&eacute;cutant sur une instance locale de Jetty
+                     automatiquement d&eacute;marr&eacute;e par la t&acirc;che. Les scripts de build de ce genre
+                     doivent &ecirc;tre sp&eacute;cialement configur&eacute;s pour pouvoir s'ex&eacute;cuter en
+                     parall&egrave;le sur la m&ecirc;me machine, pour &eacute;viter les conflits de ports.
+                     L'acc&egrave;s concurrent &agrave; la base de donn&eacute;es pendant les tests peut &ecirc;tre une
+                     autre source de probl&egrave;mes si la gestion de la concurrence n'est pas
+                     int&eacute;gr&eacute;e &agrave; la conception des tests. Si vos builds ne sont pas con&ccedil;us
+                     pour fonctionner en parall&egrave;le, vous pouvez forcer Jenkins &agrave; ex&eacute;cuter les
+                     tests de mani&egrave;re s&eacute;quentielle en cochant la case Ex&eacute;cuter chaque
+                     configuration s&eacute;quentiellement en bas <a class="indexterm" name="I_indexterm10_d1e14732"></a><a class="indexterm" name="I_indexterm10_d1e14737"></a> de la section Configuration de la matrice.
+            </p>
+            <p>Par d&eacute;faut, Jenkins ex&eacute;cutera toutes les combinaisons possibles
+                     des diff&eacute;rents axes. Donc, dans l'exemple ci-dessus, nous avons trois
+                     environnements, deux JDKs et quatre bases de donn&eacute;es. Ceci r&eacute;sulte en un
+                     total de 24 builds. Toutefois, dans certains cas, ex&eacute;cuter certaines
+                     combinaisons ne pourrait avoir aucun sens (ou n'&ecirc;tre pas possible). Par
+                     exemple, supposons que vous ayez une t&acirc;che de build qui ex&eacute;cute des
+                     tests web automatis&eacute;s. Si un axe contient les navigateurs web &agrave; tester
+                     (Firefox, Internet Explorer, Chrome, etc.) et un autre les syst&egrave;mes
+                     d'exploitation (Linux, Windows, Mac OS), cela n'aurait pas beaucoup de
+                     sens d'ex&eacute;cuter Internet Explorer avec Linux ou Mac OS.
+            </p>
+            <p>L'<a class="indexterm" name="I_indexterm10_d1e14749"></a><a class="indexterm" name="I_indexterm10_d1e14756"></a>option de Filtre de Combinaison vous permet de mettre en
+                     place des r&egrave;gles d&eacute;finissant quelles combinaisons de variables sont
+                     valides. Ce champ est une expression bool&eacute;ene Groovy qui utilise les
+                     noms des variables que vous d&eacute;finissez pour chaque axe. L'expression
+                     doit valoir true pour que le build s'ex&eacute;cute. Par exemple, supposez que
+                     vous ayez une t&acirc;che de build ex&eacute;cutant des tests web dans diff&eacute;rents
+                     navigateurs sur diff&eacute;rents syst&egrave;mes d'exploitation (voir <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-multi-config-filters" title="Figure&nbsp;10.25.&nbsp;Mettre en place un filtre de combinaison">Figure&nbsp;10.25, &#8220;Mettre en place un filtre de combinaison&#8221;</a>). Les tests
+                     n&eacute;cessitent d'ex&eacute;cuter Firefox, Internet Explorer et Chrome, sur
+                     Windows, Mac OS X, et Linux. Toutefois Internet Explorer ne fonctionne
+                     que sous Windows, et Chrome ne fonctionne pas sous Linux.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-multi-config-filters"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14767"></a><img src="figs/web/jtdg_1025.png" alt="Mettre en place un filtre de combinaison"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.25.&nbsp;Mettre en place un filtre de combinaison</b></p>
+               </div><br class="figure-break"></div>
+            <p>Pour configurer un Filtre de Combinaison, nous pourrions utiliser
+                     une expression comme la suivante :
+            </p><a name="I_programlisting10_d1e14774"></a><pre class="programlisting">(browser=="firefox")
+|| (browser=="iexplorer" &amp;&amp; os=="windows")
+|| (browser=="chrome" &amp;&amp; os != "linux")</pre><p>Ceci r&eacute;sulterait dans le fait que seules les combinaisons
+                     correctes navigateur/syst&egrave;me d'exploitation seraient ex&eacute;cut&eacute;es (voir
+                     <a href="sect-multi-configuration-build-jobs.html#fig-hudson-multi-config-filter-result" title="Figure&nbsp;10.26.&nbsp;R&eacute;sultats de build utilisant un filtre de combinaison">Figure&nbsp;10.26, &#8220;R&eacute;sultats de build utilisant un filtre de combinaison&#8221;</a>). Les builds
+                     ex&eacute;cut&eacute;s sont affich&eacute;s dans les couleurs habituelles, alors que les
+                     builds non-ex&eacute;cut&eacute;s sont gris&eacute;s.
+            </p>
+            <div class="figure"><a name="fig-hudson-multi-config-filter-result"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e14783"></a><img src="figs/web/jtdg_1026.png" alt="R&eacute;sultats de build utilisant un filtre de combinaison"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.26.&nbsp;R&eacute;sultats de build utilisant un filtre de combinaison</b></p>
+            </div><br class="figure-break"><p>Une autre raison d'utiliser un filtre de build est qu'il y a
+                     simplement trop de combinaisons valides pour s'ex&eacute;cuter dans un temps
+                     raisonnable. Dans ce cas, la meilleure solution pourrait &ecirc;tre
+                     d'augmenter la capacit&eacute; de votre serveur de build. La deuxi&egrave;me meilleure
+                     solution, d'un autre c&ocirc;t&eacute;, serait d'ex&eacute;cuter uniquement un sous-ensemble
+                     des combinaisons, &eacute;ventuellement ex&eacute;cutant l'ensemble complet de
+                     combinaison pendant la nuit. Vous pouvez faire cela en utilisant la
+                     variable sp&eacute;ciale <code class="code">index</code>. Si vous incluez l'expression
+                     <code class="code">(index%2 == 0)</code>, par exemple, cela assurera que seulement un
+                     build sur deux est en fait ex&eacute;cut&eacute;.
+            </p>
+            <p>Vous pourriez aussi vouloir que certains builds s'ex&eacute;cutent avant
+                     les autres, comme tests de coh&eacute;rence. Par exemple, vous pouvez vouloir
+                     ex&eacute;cuter la configuration par d&eacute;faut (et, th&eacute;oriquement, la plus fiable)
+                     pour votre application en premier, avant de continuer avec des
+                     combinaisons plus exotiques. Pour faire cela, vous pouvez utiliser
+                     l'option &#8220;Execute touchstone builds first&#8221;. Ici, vous entrez une valeur
+                     de filtre (comme celle montr&eacute;e ci-dessus) pour d&eacute;finir le ou les
+                     premiers builds &agrave; ex&eacute;cuter. Vous pouvez aussi sp&eacute;cifier si le build
+                     devrait continuer seulement si ces builds sont r&eacute;ussis, ou m&ecirc;me s'ils
+                     &eacute;chouent. Une fois que ces builds se sont termin&eacute;s comme pr&eacute;vu, Jenkins
+                     proc&eacute;dera au lancement des autres<a class="indexterm" name="I_indexterm10_d1e14799"></a><a class="indexterm" name="I_indexterm10_d1e14801"></a><a class="indexterm" name="I_indexterm10_d1e14803"></a><a class="indexterm" name="I_indexterm10_d1e14805"></a> combinaisons.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-advanced-builds-triggers.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect110_d1e14808.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">10.3.&nbsp;D&eacute;clencheurs param&eacute;tr&eacute;s&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;10.5.&nbsp;G&eacute;n&eacute;rer vos t&acirc;ches de build Maven automatiquement</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

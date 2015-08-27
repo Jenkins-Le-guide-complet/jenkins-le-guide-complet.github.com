@@ -1,0 +1,472 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>5.6.&nbsp;Les &eacute;tapes de builds</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-build-jobs.html" title="Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build">
+      <link rel="prev" href="sect-build-triggers.html" title="5.5.&nbsp;D&eacute;clencheurs de build">
+      <link rel="next" href="I_sect15_d1e7235.html" title="5.7.&nbsp;Les actions &agrave; la suite du build">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-triggers.html">5.5.&nbsp;D&eacute;clencheurs de build</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect15_d1e7235.html">5.7.&nbsp;Les actions &agrave; la suite du build</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="I_sect15_d1e6584"></a>5.6.&nbsp;Les &eacute;tapes de builds
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Maintenant, <a class="indexterm" name="ch05-step"></a>Jenkins sait o&ugrave; et &agrave; quelle fr&eacute;quence obtenir le code source du projet. La prochaine chose que vous devez expliquer &agrave; Jenkins
+            est qu&#8217;est ce qu&#8217;il doit faire avec le code source. Dans un build Freestyle, vous pouvez faire ceci en d&eacute;finissant des &eacute;tapes
+            de build. Les &eacute;tapes de build sont des blocs basiques de construction pour le processus de build Freestyle de Jenkins. C&#8217;est
+            ce qui permet de dire &agrave; Jenkins exactement <span class="emphasis"><em>comment</em></span> vous voulez que votre projet soit construit.
+         </p>
+         <p>Une t&acirc;che de build peut avoir une &eacute;tape, ou plusieurs. Il peut &eacute;ventuellement n&#8217;en avoir aucune. Dans un build Freestyle,
+            vous pouvez ajouter autant d&#8217;&eacute;tapes de build que vous le souhaitez dans la section Build de la configuration de votre projet
+            (voir la figure <a href="I_sect15_d1e6584.html#fig-hudson-build-steps" title="Figure&nbsp;5.26.&nbsp;Ajouter une &eacute;tape de build &agrave; une t&acirc;che de build Freestyle">Figure&nbsp;5.26, &#8220;Ajouter une &eacute;tape de build &agrave; une t&acirc;che de build Freestyle&#8221;</a>). Dans une installation Jenkins basique, vous serez capable d&#8217;ajouter des &eacute;tapes pour invoquer Maven et Ant, aussi bien que
+            lancer des commandes shell sp&eacute;cifique &agrave; l&#8217;OS ou des batchs Windows. Et en installant des plugins additionnels, vous pouvez
+            aussi int&eacute;grer d&#8217;autres outils, comme Groovy, Gradle, Grailes, Jython, MSBuild, Phing, Python, Rake, et Ruby, juste pour nommer
+            certains des outils les plus connus.
+         </p>
+         <p>Dans le reste de cette section, nous allons plonger dans quelques-uns des types d&#8217;&eacute;tapes de build les plus communs.</p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e6767"></a>5.6.1.&nbsp;Les &eacute;tapes de build Maven
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Jenkins <a class="indexterm" name="ch05-mavenstep1"></a><a class="indexterm" name="ch05-mavenstep2"></a>a un excellent support de Maven, et les &eacute;tapes de build Maven sont faciles &agrave; configurer et tr&egrave;s flexibles. Il suffit de choisir
+               &laquo; Invoquer les cibles Maven de haut niveau &raquo; depuis la liste des &eacute;tapes de build, choisir une version de Maven &agrave; lancer (si
+               vous avez plusieurs versions install&eacute;es), et entrer les goals Maven que vous souhaitez lancer. Les t&acirc;ches de build Freestyle
+               de Jenkins fonctionnent biens avec Maven 2 et Maven 3.
+            </p>
+            <p>Tout comme en ligne de commande, vous pouvez sp&eacute;cifier autant de goals individuels que vous le souhaitez. Vous pouvez aussi
+               fournir des options en ligne de commande. Quelques options utiles de Maven dans un contexte IC sont :
+            </p>
+            <div class="variablelist">
+               <dl>
+                  <dt><span class="term"><code class="literal">-B</code>, <code class="literal">--batch-mode</code></span></dt>
+                  <dd>
+                     <p>Cette option indique &agrave; Maven de ne pas demander d&#8217;entr&eacute;e &agrave; l&#8217;utilisateur, en utilisant les valeurs par d&eacute;faut si n&eacute;cessaire.
+                        Si Maven demande n&#8217;importe quelle entr&eacute;e durant un build Jenkins, le build sera bloqu&eacute; ind&eacute;finiment.
+                     </p>
+                  </dd>
+                  <dt><span class="term"><code class="literal">-U</code>,
+                                  <code class="literal">--update-snapshots</code></span></dt>
+                  <dd>
+                     <p>Force <a class="indexterm" name="I_indexterm5_d1e6645"></a><a class="indexterm" name="I_indexterm5_d1e6650"></a>Maven &agrave; v&eacute;rifier les mises &agrave; jour des d&eacute;pendances de type release ou snapshot sur le d&eacute;p&ocirc;t distant. Cela vous permet d&#8217;&ecirc;tre
+                        s&ucirc;r que vous &ecirc;tes en train de construire avec les derni&egrave;res et les plus grandes d&eacute;pendances snapshot, et pas uniquement les
+                        vieilles copies locales qui ne sont pas forc&eacute;ment synchronis&eacute;es avec le code source.
+                     </p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">-Dsurefire.useFile=false</code>
+                                  </span></dt>
+                  <dd>
+                     <p>Cette option force Maven &agrave; &eacute;crire la sortie JUnit dans la console, au lieu de le faire dans des fichiers textes dans le r&eacute;pertoire
+                        target comme c&#8217;est fait d&#8217;habitude. Avec ceci, n&#8217;importe quels d&eacute;tails de test en &eacute;chec seront visibles directement dans la
+                        sortie console de la t&acirc;che de build. Les fichiers XML dont Jenkins a besoin pour ses rapports de test seront toujours g&eacute;n&eacute;r&eacute;s.
+                     </p>
+                  </dd>
+               </dl>
+            </div>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-steps"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e6664"></a><img src="figs/web/jtdg_0526.png" alt="Ajouter une &eacute;tape de build &agrave; une t&acirc;che de build Freestyle"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.26.&nbsp;Ajouter une &eacute;tape de build &agrave; une t&acirc;che de build Freestyle</b></p>
+               </div><br class="figure-break"></div>
+            <p>Les options avanc&eacute;es sont &eacute;galement utiles (cliquez sur le bouton Avanc&eacute;).</p>
+            <p>Le champ optionnel <span><strong class="command">POM</strong></span> permet de surcharger l&#8217;emplacement par d&eacute;faut du fichier <code class="filename">pom.xml</code>. C&#8217;est l&#8217;&eacute;quivalent de lancer Maven en ligne de commande <span class="keep-together">avec l&#8217;option </span> <code class="literal">-f</code> ou <span class="keep-together"><code class="literal">--file</code></span>. 
+                      C&#8217;est utile pour certains projets multi modules o&ugrave; le fichier agr&eacute;g&eacute; <code class="filename">pom.xml</code> (celui contenant les sections
+                     <code class="literal">&lt;modules&gt;</code>) est situ&eacute; dans un sous r&eacute;pertoire et non au niveau sup&eacute;rieur.
+            </p>
+            <p>Le champ Properties vous permet de sp&eacute;cifier des valeurs de propri&eacute;t&eacute; qui seront pass&eacute;es au processus de build Maven, en utilisant
+               le format standard de fichier illustr&eacute; ici :
+            </p><a name="I_programlisting5_d1e6700"></a><pre class="programlisting"># Selenium test configuration
+selenium.host=testserver.acme.com
+selenium.port=8080
+selenium.broswer=firefox</pre><p>Ces propri&eacute;t&eacute;s sont pass&eacute;es &agrave; Maven en tant qu&#8217;options de ligne de commande, comme montr&eacute; ici :</p><a name="I_programlisting5_d1e6705"></a><pre class="programlisting">$ <strong class="userinput"><code>mvn verify -Dselenium.host=testserver.acme.com ...</code></strong></pre><p>Le champ JVM Options vous permet de sp&eacute;cifier des options standards de la machine virtuelle Java pour votre t&acirc;che de build.
+               Donc, si votre processus de build est particuli&egrave;rement consommateur de m&eacute;moire, vous pourriez ajouter plus d&#8217;espace pour la
+               heap avec l&#8217;option <code class="literal">-Xmx</code> (par exemple, 
+                     <code class="literal">-Xmx512m</code> peut sp&eacute;cifier la taille maximum de la heap &agrave; 512 Mo).
+            </p>
+            <p>La derni&egrave;re option que vous pouvez configurer est un d&eacute;p&ocirc;t priv&eacute; Maven pour cette t&acirc;che de build. <span class="keep-together">Normalement</span>, Maven utilisera le d&eacute;p&ocirc;t Maven par d&eacute;faut (usuellement le dossier <code class="filename">.m2/repository</code> dans le r&eacute;pertoire personnel de l&#8217;utilisateur). Parfois, cela peut mener &agrave; des interf&eacute;rences entre t&acirc;ches de build, ou utiliser
+               des versions snapshot inconsistantes d&#8217;un build &agrave; un autre. Pour &ecirc;tre s&ucirc;r que votre build est lanc&eacute; dans des conditions de
+               laboratoire, vous pouvez activer cette option. Votre t&acirc;che de build aura son propre d&eacute;p&ocirc;t priv&eacute;, r&eacute;serv&eacute; pour son utilisation
+               exclusive. Sur le plan n&eacute;gatif, la premi&egrave;re fois que la t&acirc;che de build lancera un build, cela prendra du temps pour t&eacute;l&eacute;charger
+               tous les artefacts Maven, et les d&eacute;p&ocirc;ts priv&eacute;s peuvent prendre beaucoup de place. Cependant, c&#8217;est la meilleure fa&ccedil;on de garantir
+               que votre build est lanc&eacute; dans un environnement<a class="indexterm" name="I_indexterm5_d1e6725"></a><a class="indexterm" name="I_indexterm5_d1e6727"></a> vraiment isol&eacute;.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e6892"></a>5.6.2.&nbsp;Les &eacute;tapes de build Ant
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Les t&acirc;ches <a class="indexterm" name="ch05-antstep1"></a><a class="indexterm" name="ch05-antstep2"></a><a class="indexterm" name="I_indexterm5_d1e6747"></a>de build Freestyle fonctionnent &eacute;galement biens avec Ant. <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://ant.apache.org/" target="_top">Apache Ant</a> est un outil de scripting de build Java largement utilis&eacute; et bien connu. En effet, un nombre important de projets Java sont
+               li&eacute;s &agrave; des scripts de build Ant.
+            </p>
+            <p>Ant n&#8217;est pas seulement utilis&eacute; comme un outil de build principal &#8212; m&ecirc;me si votre projet utilise Maven, vous pouvez recourir
+               &agrave; l&#8217;appel de scripts Ant pour faire des t&acirc;ches sp&eacute;cifiques. Il y a des librairies Ant disponibles  pour beaucoup d&#8217;outils
+               de d&eacute;veloppement et des t&acirc;ches bas niveau, comme utiliser SSH, ou travailler avec des serveurs d&#8217;application propri&eacute;taires.
+            </p>
+            <p>Dans da forme la plus basique, configurer une &eacute;tape de build Ant est tr&egrave;s simple, en effet, il vous suffit de fournir la version
+               de Ant que vous souhaitez utiliser et le nom de la target que vous voulez invoquer. Dans la <a href="I_sect15_d1e6584.html#fig-hudson-build-ant-step" title="Figure&nbsp;5.27.&nbsp;Configurer une &eacute;tape de build Ant">Figure&nbsp;5.27, &#8220;Configurer une &eacute;tape de build Ant&#8221;</a>, par exemple, nous invoquons un script Ant pour d&eacute;marrer un script de test JMeter.
+            </p>
+            <div class="figure"><a name="fig-hudson-build-ant-step"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e6765"></a><img src="figs/web/jtdg_0527.png" alt="Configurer une &eacute;tape de build Ant"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.27.&nbsp;Configurer une &eacute;tape de build Ant</b></p>
+            </div><br class="figure-break"><p>Comme dans une &eacute;tape de build Maven, le bouton &laquo; Avanc&eacute;&#8230; &raquo; vous fournit plus d&#8217;options d&eacute;taill&eacute;es, comme sp&eacute;cifier un script
+               de build different, ou un script de build dans un r&eacute;pertoire diff&eacute;rent (celui par d&eacute;faut sera <code class="filename">build.xml</code> dans le r&eacute;pertoire racine).
+                     Vous pouvez aussi sp&eacute;cifier des propri&eacute;t&eacute;s et des options de la JVM, comme vous pouvez le faire pour<a class="indexterm" name="I_indexterm5_d1e6775"></a><a class="indexterm" name="I_indexterm5_d1e6777"></a> Maven.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e6942"></a>5.6.3.&nbsp;Ex&eacute;cuter une commande Batch Shell ou Windows
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Occasionnellement, <a class="indexterm" name="ch05-script1"></a><a class="indexterm" name="ch05-script2"></a><a class="indexterm" name="ch05-script3"></a><a class="indexterm" name="ch05-script4"></a><a class="indexterm" name="ch05-script5"></a><a class="indexterm" name="ch05-script6"></a>vous pouvez avoir besoin d&#8217;ex&eacute;cuter une commande directement au niveau du syst&egrave;me d&#8217;exploitation. Certains processus de build
+               anciens sont li&eacute;s &agrave; des scripts sp&eacute;cifiques &agrave; l&#8217;OS, par exemple. Dans d&#8217;autres cas, vous pourriez avoir besoin d&#8217;effectuer
+               un op&eacute;rateur bas niveau qui serait plus facilement faite avec une commande au niveau OS.
+            </p>
+            <p>Vous pouvez faire ceci avec Jenkins avec une commande <code class="literal">Ex&eacute;cuter un script shell</code> (pour Unix) ou <code class="literal">Ex&eacute;cuter une ligne de commande batch Windows </code>(pour Windows). Par exemple, dans la <a href="I_sect15_d1e6584.html#fig-hudson-build-shell-step" title="Figure&nbsp;5.28.&nbsp;Configurer une &eacute;tape Ex&eacute;cuter un script Shell">Figure&nbsp;5.28, &#8220;Configurer une &eacute;tape Ex&eacute;cuter un script Shell&#8221;</a>, nous avons ajout&eacute; une &eacute;tape pour ex&eacute;cuter la commande Unix <code class="literal">ls</code>.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-shell-step"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e6832"></a><img src="figs/web/jtdg_0528.png" alt="Configurer une &eacute;tape Ex&eacute;cuter un script Shell"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.28.&nbsp;Configurer une &eacute;tape Ex&eacute;cuter un script Shell</b></p>
+               </div><br class="figure-break"></div>
+            <p>La sortie de l&#8217;&eacute;tape de build est montr&eacute;e ici :</p><a name="I_programlisting5_d1e6839"></a><pre class="programlisting">[workspace] $ /bin/sh -xe /var/folders/.../jenkins2542160238803334344.s
++ ls -al
+total 64
+drwxr-xr-x  14 johnsmart  staff   476 30 Oct 15:21 .
+drwxr-xr-x   9 johnsmart  staff   306 30 Oct 15:21 ..
+-rw-r--r--@  1 johnsmart  staff   294 22 Sep 01:40 .checkstyle
+-rw-r--r--@  1 johnsmart  staff   651 22 Sep 01:40 .classpath
+-rw-r--r--@  1 johnsmart  staff   947 22 Sep 01:40 .project
+drwxr-xr-x   5 johnsmart  staff   170 22 Sep 01:40 .settings
+-rw-r--r--@  1 johnsmart  staff   437 22 Sep 01:40 .springBeans
+drwxr-xr-x   9 johnsmart  staff   306 30 Oct 15:21 .svn
+-rw-r--r--@  1 johnsmart  staff  1228 22 Sep 01:40 build.xml
+-rw-r--r--@  1 johnsmart  staff    50 22 Sep 01:40 infinitest.filters
+-rw-r--r--   1 johnsmart  staff  6112 30 Oct 15:21 pom.xml
+drwxr-xr-x   5 johnsmart  staff   170 22 Sep 01:40 src
+drwxr-xr-x   3 johnsmart  staff   102 22 Sep 01:40 target
+drwxr-xr-x   5 johnsmart  staff   170 22 Sep 01:40 tools</pre><p>Vous pouvez soit ex&eacute;cuter une commande sp&eacute;cifique &agrave; l&#8217;OS (ex : <code class="literal">ls</code>), soit stocker un script plus compliqu&eacute; comme un fichier dans votre gestionnaire de contr&ocirc;le de version, et ex&eacute;cuter ce script.
+               Si vous ex&eacute;cutez un script, vous n&#8217;avez juste qu&#8217;&agrave; faire r&eacute;f&eacute;rence au nom de votre script relativement par rapport au r&eacute;pertoire
+               de travail.
+            </p>
+            <p>Les scripts Shell sont ex&eacute;cut&eacute;s en utilisant l&#8217;option <code class="literal">-ex</code> &#8212; les commandes sont affich&eacute;es dans la console, comme si c&#8217;&eacute;tait la sortie. Si n&#8217;importe laquelle des commandes ex&eacute;cut&eacute;es
+               retourne une valeur diff&eacute;rente de z&eacute;ro, le build &eacute;chouera.
+            </p>
+            <p> Lorsque Jenkins ex&eacute;cute un script, il sp&eacute;cifie un nombre en tant que variable d&#8217;environnement que vous pouvez utiliser &agrave;
+               l&#8217;int&eacute;rieur de votre script. Nous discutons de ces variables plus en d&eacute;tail dans le prochaine section.
+            </p>
+            <p>En r&eacute;alit&eacute;, il y a beaucoup de bonnes raisons pour lesquelles vous devriez &eacute;viter d&#8217;utiliser des scripts de niveau OS dans
+               vos t&acirc;ches de build si vous pouvez les &eacute;viter. En particulier, il rend votre t&acirc;che de build au meilleur des cas, sp&eacute;cifique
+               &agrave; l&#8217;OS, et dans le pire d&eacute;pendant de la configuration pr&eacute;cise de la machine. Une alternative plus portable pour ex&eacute;cuter des
+               scripts sp&eacute;cifiques &agrave; l&#8217;OS est d&#8217;&eacute;crire un script &eacute;quivalent dans un langage de script plus portable, comme <a class="indexterm" name="I_indexterm5_d1e6855"></a><a class="indexterm" name="I_indexterm5_d1e6857"></a><a class="indexterm" name="I_indexterm5_d1e6859"></a><a class="indexterm" name="I_indexterm5_d1e6861"></a><a class="indexterm" name="I_indexterm5_d1e6863"></a><a class="indexterm" name="I_indexterm5_d1e6865"></a> Groovy ou Gant.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-hudson-environment-variables"></a>5.6.4.&nbsp;Utiliser les variables d&#8217;environnement Jenkins dans vos builds
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une <a class="indexterm" name="ch05-env1"></a><a class="indexterm" name="ch05-env2"></a><a class="indexterm" name="I_indexterm5_d1e6885"></a>astuce utile qui peut &ecirc;tre utilis&eacute;e dans pratiquement n&#8217;importe quelle &eacute;tape de build est d&#8217;obtenir des informations de la
+               part de Jenkins sur la t&acirc;che de build courante. En r&eacute;alit&eacute;, lorsque Jenkins d&eacute;marre une &eacute;tape de build, il met &agrave; disposition
+               les variables d&#8217;environnement suivantes dans le script de build :
+            </p>
+            <div class="variablelist">
+               <dl>
+                  <dt><span class="term">
+                                    <code class="literal">BUILD_NUMBER</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e6896"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>Le num&eacute;ro du build courant, comme &#8220;153&#8221;.</p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">BUILD_ID</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e6906"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>Un horodatage pour identifier le build courant, sous le format YYYY-MM-DD_hh-mm-ss.</p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">JOB_NAME</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e6916"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>Le nom du job, comme <span class="emphasis"><em>game-of-life</em></span>.
+                     </p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">BUILD_TAG</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e6929"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>Un moyen commode d&#8217;identifier la t&acirc;che de build courante, sous la forme
+                                    <code class="literal">jenkins-${<em class="replaceable"><code>JOB_NAME</code></em>}-${<em class="replaceable"><code>BUILD_NUMBER</code></em>}</code>
+                                    (ex :
+                                    <code class="literal">jenkins-game-of-life-2010-10-30_23-59-59</code>).
+                     </p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">EXECUTOR_NUMBER</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e6951"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>Un nombre identifiant l&#8217;ex&eacute;cuteur ayant d&eacute;marr&eacute; cette construction parmi les ex&eacute;cuteurs sur la m&ecirc;me machine. C&#8217;est le nombre
+                        que vous voyez dans &laquo; Etat du lanceur de construction &raquo;, &agrave; l&#8217;exception que ce nombre commence de 0, pas 1.
+                     </p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">NODE_NAME</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e6961"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>Le nom de l&#8217;esclave si ce build est en train d&#8217;&ecirc;tre lanc&eacute; sur un esclave, ou <code class="literal">""</code> si le build est en train d&#8217;&ecirc;tre lanc&eacute; sur le ma&icirc;tre.
+                     </p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">NODE_LABELS</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e6974"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>La liste des libell&eacute;s  associ&eacute;s au n&#339;ud sur lequel le build est d&eacute;marr&eacute;.</p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">JAVA_HOME</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e6984"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>Si votre t&acirc;che est configur&eacute;e pour utiliser une version sp&eacute;cifique de JDK, cette variable contient la valeur du <code class="literal">JAVA_HOME</code> correspondant au JDK sp&eacute;cifi&eacute;. Lorsque cette variable est fix&eacute;e, la variable <code class="literal">PATH</code> est aussi mise &agrave; jour pour avoir <code class="filename">$JAVA_HOME/bin</code>.
+                     </p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">WORKSPACE</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e7003"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>Le chemin absolu du r&eacute;pertoire de travail.</p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">HUDSON_URL</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e7013"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>L&#8217;URL compl&egrave;te du serveur Jenkins, par exemple <code class="filename">http://ci.acme.com:8080/jenkins/</code>.
+                     </p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">JOB_URL</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e7026"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>L&#8217;URL compl&egrave;te pour cette t&acirc;che de build, par exemple <code class="filename">http://ci.acme.com:8080/jenkins/game-of-life</code>.
+                     </p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">BUILD_URL</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e7040"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>L&#8217;URL compl&egrave;te de ce build, par exemple <code class="filename">http://ci.acme.com:8080/jenkins/game-of-life/20</code>.
+                     </p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">SVN_REVISION</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e7053"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>Pour les projets bas&eacute;s sur Subversion, cette variable contient le num&eacute;ro de la r&eacute;vision courante.</p>
+                  </dd>
+                  <dt><span class="term">
+                                    <code class="literal">CVS_BRANCH</code>
+                                    <a class="indexterm" name="I_indexterm5_d1e7063"></a>
+                                  </span></dt>
+                  <dd>
+                     <p>Pour les projets bas&eacute;s sur CVS, cette variable contient la branche du module. Si CVS est configur&eacute; pour consulter le trunk,
+                        cette variable d&#8217;environnement ne sera pas sp&eacute;cifi&eacute;e.
+                     </p>
+                  </dd>
+               </dl>
+            </div>
+            <p>Ces <a class="indexterm" name="I_indexterm5_d1e7071"></a>variables sont faciles &agrave; utiliser. Dans un script Ant, vous pouvez y acc&eacute;der avec le tag <code class="literal">&lt;property&gt;</code> comme montr&eacute; ici :
+            </p><a name="I_programlisting5_d1e7080"></a><pre class="programlisting">&lt;target name="printinfo"&gt;
+  &lt;property environment="env" /&gt;
+  &lt;echo message="${env.BUILD_TAG}"/&gt;
+&lt;/target&gt;</pre><p>Dans Maven, <a class="indexterm" name="I_indexterm5_d1e7084"></a>vous pouvez acc&eacute;der au variables soit de la m&ecirc;me mani&egrave;re (en utilisant le prefix &laquo; env. &raquo;), soit directement en utilisant
+               la variable d&#8217;environnement Jenkins. Par exemple, dans le fichier <span class="emphasis"><em>pom.xml</em></span>, l&#8217;URL du projet pointera sur la t&acirc;che de build Jenkins qui a lanc&eacute; le build <code class="literal">mvn site</code> :
+            </p><a name="I_programlisting5_d1e7096"></a><pre class="programlisting">&lt;project...&gt;
+  ...
+  &lt;groupId&gt;com.wakaleo.gameoflife&lt;/groupId&gt;
+  &lt;artifactId&gt;gameoflife-core&lt;/artifactId&gt;
+  &lt;version&gt;0.0.55-SNAPSHOT&lt;/version&gt;
+  &lt;name&gt;gameoflife-core&lt;/name&gt;
+  &lt;url&gt;${JOB_URL}&lt;/url&gt;</pre><p>Alternativement, si vous construises une application web, vous pouvez aussi utiliser <code class="filename">maven-war-plugin</code> pour ins&eacute;rer le num&eacute;ro de la t&acirc;che de build dans le manifest de l&#8217;application web, ex :
+            </p><a name="I_programlisting5_d1e7103"></a><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;build&gt;
+    ...
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+        &lt;configuration&gt;
+          &lt;manifest&gt;
+            &lt;addDefaultImplementationEntries&gt;true&lt;/addDefaultImplementationEntries&gt;
+          &lt;/manifest&gt;
+          &lt;archive&gt;
+            &lt;manifestEntries&gt;
+              &lt;Specification-Title&gt;Continuous Integration with Hudson (French Content)&lt;/Specification-Title&gt;
+              &lt;Specification-Version&gt;0.0.4-SNAPSHOT&lt;/Specification-Version&gt;
+              &lt;Implementation-Version&gt;${BUILD_TAG}&lt;/Implementation-Version&gt;
+            &lt;/manifestEntries&gt;
+          &lt;/archive&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+      ...
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+  ...
+&lt;/project&gt;</pre><p>Cela produire un fichier <code class="filename">MANIFEST.MF</code> avec les lignes suivantes :
+            </p><a name="I_programlisting5_d1e7110"></a><pre class="programlisting">Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: johnsmart
+Build-Jdk: 1.6.0_22
+Jenkins-Build-Number: 63
+Jenkins-Project: game-of-life
+Jenkins-Version: 1.382
+Implementation-Version: jenkins-game-of-life-63
+Specification-Title: gameoflife-web
+Specification-Version: 0.0.55-SNAPSHOT</pre><p>Dans un <a class="indexterm" name="I_indexterm5_d1e7115"></a>script Groovy, elles peuvent &ecirc;tre acc&eacute;der via la m&eacute;thode 
+                     <code class="literal">System.getenv()</code> :
+            </p><a name="I_programlisting5_d1e7124"></a><pre class="programlisting">def env = System.getenv()
+env.each {
+    println it
+}</pre><p><a class="indexterm" name="I_indexterm5_d1e7127"></a><a class="indexterm" name="I_indexterm5_d1e7129"></a>ou :
+            </p><a name="I_programlisting5_d1e7132"></a><pre class="programlisting">def env = System.getenv()
+println env['BUILD_NUMBER']</pre></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e7336"></a>5.6.5.&nbsp;Ex&eacute;cuter des scripts Groovy
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Groovy<a class="indexterm" name="ch05-groovy1"></a><a class="indexterm" name="ch05-groovy2"></a><a class="indexterm" name="ch05-groovy3"></a> n&#8217;est pas seulement un langage dynamique populaire de la JVM, c&#8217;est aussi un langage qui convient pour le scripting de bas
+               niveau. Le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org//display/HUDSON/Groovy+Plugin" target="_top">plugin Groovy</a> de Jenkins vous permet d&#8217;ex&eacute;cuter des commandes Groovy arbitraires, ou invoquer des scripts Groovy, dans le cadre de votre
+               processus de build.
+            </p>
+            <p>Une fois que vous avez install&eacute; le plugin Groovy avec la mani&egrave;re habituelle, vous aurez besoin d&#8217;ajouter une r&eacute;f&eacute;rence de
+               votre installation Groovy dans la page de configuration du syst&egrave;me (voir la figure <a href="I_sect15_d1e6584.html#fig-hudson-groovy-installation" title="Figure&nbsp;5.29.&nbsp;Ajouter une installation Groovy &agrave; Jenkins">Figure&nbsp;5.29, &#8220;Ajouter une installation Groovy &agrave; Jenkins&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-groovy-installation"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e7167"></a><img src="figs/web/jtdg_0529.png" alt="Ajouter une installation Groovy &agrave; Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.29.&nbsp;Ajouter une installation Groovy &agrave; Jenkins</b></p>
+               </div><br class="figure-break"></div>
+            <p>Maintenant, vous pouvez ajouter du script Groovy dans votre t&acirc;che de build. Lorsque vous cliquez sur &#8216;Ajouter une &eacute;tape de
+               build&#8217;, vous verrez deux nouvelles entr&eacute;es dans le menu d&eacute;roulant : &laquo; Ex&eacute;cuter un script Groovy &raquo; et &laquo; Ex&eacute;cuter un script
+               Groovy Syst&egrave;me &raquo;.
+                     La premi&egrave;re option est g&eacute;n&eacute;ralement celle que vous <span class="keep-together">souhaitez &#8212; </span>cela ex&eacute;cutera simplement un script Groovy dans une JVM s&eacute;par&eacute;e, comme si vous l&#8217;invoquiez depuis la ligne de commande. La
+               deuxi&egrave;me option lance des commandes Groovy depuis la JVM de Jenkins, avec un acc&egrave;s interne complet &agrave; Jenkins, et est principalement
+               utilis&eacute; pour manipuler les t&acirc;ches de build de Jenkins ou le processus de build lui-m&ecirc;me. C&#8217;est un sujet plus avanc&eacute; dont nous
+               discuterons plus loin dans ce livre.
+            </p>
+            <p>Une &eacute;tape de build Groovy peut prendre une forme sur deux. Pour les cas simples, vous pouvez juste ajouter un petit bout de
+               Groovy, comme montr&eacute; dans la <a href="I_sect15_d1e6584.html#fig-hudson-groovy-build-step" title="Figure&nbsp;5.30.&nbsp;Lancer des commandes Groovy dans le cadre d&#8217;une t&acirc;che de build">Figure&nbsp;5.30, &#8220;Lancer des commandes Groovy dans le cadre d&#8217;une t&acirc;che de build&#8221;</a>. Pour les cas plus complexes ou compliqu&eacute;s, vous pouvez probablement &eacute;crire un script Groovy et le placer sous un syst&egrave;me
+               de contr&ocirc;le de version. Une fois que votre script est en s&ucirc;ret&eacute; dans votre SCM, vous pouvez le d&eacute;marrer en s&eacute;lectionnant l&#8217;option
+               &laquo; Fichier de script Groovy &raquo; et fournir le chemin de votre script (relatif au r&eacute;pertoire de travail de la t&acirc;che de build).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-groovy-build-step"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e7184"></a><img src="figs/web/jtdg_0530.png" alt="Lancer des commandes Groovy dans le cadre d&#8217;une t&acirc;che de build"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.30.&nbsp;Lancer des commandes Groovy dans le cadre d&#8217;une t&acirc;che de build</b></p>
+               </div><br class="figure-break"></div>
+            <p>Dans la <a href="I_sect15_d1e6584.html#fig-hudson-groovy-fitnesse-build-step" title="Figure&nbsp;5.31.&nbsp;Lancer des scripts Groovy dans le cadre d&#8217;une t&acirc;che de build">Figure&nbsp;5.31, &#8220;Lancer des scripts Groovy dans le cadre d&#8217;une t&acirc;che de build&#8221;</a>, vous pouvez voir un exemple l&eacute;g&egrave;rement plus compliqu&eacute;. Ici nous lan&ccedil;ons un script Groovy appel&eacute; <code class="filename">run-fitness-tests.groovy</code>, qui peut &ecirc;tre trouv&eacute; dans le r&eacute;pertoire <code class="filename">scripts</code>. Ce script prend des suites de test pour &ecirc;tre ex&eacute;cut&eacute;s comme ses param&egrave;tres &#8212; nous pouvons les mettre dans le champ Param&egrave;tres
+               Groovy. Sinon vous pouvez aussi fournir des propri&eacute;t&eacute;s en ligne de commande dans le champ Propri&eacute;t&eacute;s &#8212; c&#8217;est simplement un
+               moyen plus pratique d&#8217;utiliser l&#8217;option <code class="literal">-D</code> en ligne de commande pour passer des valeurs de propri&eacute;t&eacute;s <a class="indexterm" name="I_indexterm5_d1e7203"></a><a class="indexterm" name="I_indexterm5_d1e7205"></a><a class="indexterm" name="I_indexterm5_d1e7208"></a> au script Groovy.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-groovy-fitnesse-build-step"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e7214"></a><img src="figs/web/jtdg_0531.png" alt="Lancer des scripts Groovy dans le cadre d&#8217;une t&acirc;che de build"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.31.&nbsp;Lancer des scripts Groovy dans le cadre d&#8217;une t&acirc;che de build</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e7420"></a>5.6.6.&nbsp;Construire des projets dans d&#8217;autres langages
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Jenkins<a class="indexterm" name="I_indexterm5_d1e7224"></a> est un outil flexible, il peut &ecirc;tre utilis&eacute; avec beaucoup plus de de langage que Java et Groovy. Par exemple, Jenkins fonctionne
+               aussi tr&egrave;s bien avec Grails, .Net, Ruby, Python et PHP, juste pour en nommer quelques uns. En utilisant d&#8217;autres langages,
+               vous aurez g&eacute;n&eacute;ralement besoin d&#8217;installer un plugin supportant votre langage favori, qui ajoutera un nouveau type d&#8217;&eacute;tape
+               de build pour ce langage.Nous regarderons <a class="indexterm" name="I_indexterm5_d1e7230"></a>d&#8217;autres exemples dans la section <a href="using-jenkins-with-other-languages.html" title="5.10.&nbsp;Utiliser Jenkins avec d&#8217;autres langages">Section&nbsp;5.10, &#8220;Utiliser Jenkins avec d&#8217;autres langages&#8221;</a>.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-triggers.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect15_d1e7235.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">5.5.&nbsp;D&eacute;clencheurs de build&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;5.7.&nbsp;Les actions &agrave; la suite du build</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

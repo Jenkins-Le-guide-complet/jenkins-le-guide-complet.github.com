@@ -1,0 +1,116 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>6.5.&nbsp;Ignorer des tests</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-automated-testing.html" title="Chapter&nbsp;6.&nbsp;Tests automatis&eacute;s">
+      <link rel="prev" href="sect-chapter-automated-testing-results.html" title="6.4.&nbsp;Afficher les r&eacute;sultats de test">
+      <link rel="next" href="sect-chapter-automated-testing-coverage.html" title="6.6.&nbsp;Couverture de code">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-results.html">6.4.&nbsp;Afficher les r&eacute;sultats de test</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-coverage.html">6.6.&nbsp;Couverture de code</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-chapter-automated-testing-ignoring"></a>6.5.&nbsp;Ignorer des tests
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Jenkins<a class="indexterm" name="ch06-ignore"></a> fait la distinction entre les tests &eacute;chou&eacute;s et les tests
+                ignor&eacute;s. Les tests ignor&eacute;s sont ceux qui ont &eacute;t&eacute; d&eacute;sactiv&eacute;s, par exemple en
+                utilisant l'annotation <code class="literal">@Ignore</code> dans JUnit
+                4:
+         </p><a name="I_programlisting6_d1e8995"></a><pre class="programlisting">@Ignore("Pending more details from the BA")
+@Test 
+public void cashWithdrawalShouldDeductSumFromBalance() throws Exception {
+    Account account = new Account();
+    account.makeDeposit(100);
+    account.makeCashWithdraw(60);
+    assertThat(account.getBalance(), is(40));
+}</pre><div class="figure-float">
+            <div class="figure"><a name="fig-testing-test-result-history"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject6_d1e9000"></a><img src="figs/web/jtdg_0609.png" alt="Jenkins vous permet de voir combien de temps les tests ont mis pour s'ex&eacute;cuter"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;6.9.&nbsp;Jenkins vous permet de voir combien de temps les tests ont mis pour
+                           s'ex&eacute;cuter</b></p>
+            </div><br class="figure-break"></div>
+         <p>Ignorer des tests est parfaitement l&eacute;gitime dans certaines
+                circonstances, comme lors de la mise en place d'un test d'acceptation
+                automatis&eacute;, ou un test technique de plus haut niveau, en attente pendant
+                que vous impl&eacute;mentez les couches inf&eacute;rieures. Dans de tels cas, vous ne
+                voulez pas &ecirc;tre distrait par le test d'acceptation &eacute;chou&eacute;, mais vous ne
+                voulez pas non plus oublier que le test existe. Utiliser des techniques
+                telles que l'annotation <code class="literal">@Ignore</code> est
+                certainement meilleur que de commenter simplement le test ou de le renommer
+                (dans JUnit 3), car cela permet &agrave; Jenkins de garder un oeil sur les tests
+                ignor&eacute;s pour vous.
+         </p>
+         <p>Avec <a class="indexterm" name="I_indexterm6_d1e9012"></a>TestNG, vous pouvez aussi ignorer des tests, en utilisant la
+                propri&eacute;t&eacute; <code class="literal">enabled</code>:
+         </p><a name="I_programlisting6_d1e9019"></a><pre class="programlisting">@Test(enabled=false)
+public void cashWithdrawalShouldDeductSumFromBalance() throws Exception {
+    Account account = new Account();
+    account.makeDeposit(100);
+    account.makeCashWithdraw(60);
+    assertThat(account.getBalance(), is(40));
+}</pre><p>Avec TestNG, vous pouvez aussi d&eacute;finir des d&eacute;pendances entre les tests, de
+                fa&ccedil;on &agrave; ce que certains tests s'ex&eacute;cuteront apr&egrave;s qu'un autre test ou un groupe
+                de tests se soit ex&eacute;cut&eacute;, comme illustr&eacute; ici:
+         </p><a name="I_programlisting6_d1e9023"></a><pre class="programlisting">@Test
+public void serverStartedOk() {...}
+ 
+@Test(dependsOnMethods = { "serverStartedOk" })
+public void whenAUserLogsOnWithACorrectUsernameAndPasswordTheHomePageIsDisplayed(){..}</pre><p>Ici, si le premier test (<code class="literal">serverStartedOk()</code>) &eacute;choue, le test suivant sera
+                ignor&eacute;.
+         </p>
+         <p>Dans tous ces cas, Jenkins marquera les tests qui n'ont pas &eacute;t&eacute;
+                ex&eacute;cut&eacute;s en jaune, &agrave; la fois dans la tendance de r&eacute;sultats de test globale,
+                et dans les d&eacute;tails du test (voir <a href="sect-chapter-automated-testing-ignoring.html#fig-testing-test-skipped" title="Figure&nbsp;6.10.&nbsp;Jenkins affiche les tests ignor&eacute;s en jaune">Figure&nbsp;6.10, &#8220;Jenkins affiche les tests ignor&eacute;s en jaune&#8221;</a>). Les tests ignor&eacute;s ne sont pas aussi
+                mauvais que des tests &eacute;chou&eacute;s, mais il est important de ne pas avoir
+                l'habitude de les n&eacute;gliger. Les tests ignor&eacute;s sont comme des branches dans
+                un syst&egrave;me de gestion de version: un test doit &ecirc;tre ignor&eacute; pour une raison
+                particuli&egrave;re, avec une id&eacute;e claire de la date &agrave; laquelle il sera r&eacute;activ&eacute;.
+                Un test ignor&eacute; qui reste ignor&eacute; pendant une p&eacute;riode trop longue ne sent
+                pas<a class="indexterm" name="I_indexterm6_d1e9034"></a> bon.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-testing-test-skipped"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject6_d1e9041"></a><img src="figs/web/jtdg_0610.png" alt="Jenkins affiche les tests ignor&eacute;s en jaune"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;6.10.&nbsp;Jenkins affiche les tests ignor&eacute;s en jaune</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-results.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-coverage.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">6.4.&nbsp;Afficher les r&eacute;sultats de test&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;6.6.&nbsp;Couverture de code</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

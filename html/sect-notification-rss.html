@@ -1,0 +1,101 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>8.5.&nbsp;Flux RSS</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="prev" href="sect-notification-claiming.html" title="8.4.&nbsp;Revendiquer des builds">
+      <link rel="next" href="sect-build-radiator.html" title="8.6.&nbsp;Radars de build">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-claiming.html">8.4.&nbsp;Revendiquer des builds</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                              </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-radiator.html">8.6.&nbsp;Radars de build</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-notification-rss"></a>8.5.&nbsp;Flux RSS
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Jenkins
+                        <a class="indexterm" name="ch08-rss1"></a>
+                        <a class="indexterm" name="ch08-rss2"></a>
+                        <a class="indexterm" name="ch08-rss3"></a>
+            fournit aussi
+            des flux RSS pratiques pour les r&eacute;sultats de build, tant pour les r&eacute;sultats globaux sur l'ensemble
+            de vos builds (ou juste les builds d'une vue particuli&egrave;re), que pour les r&eacute;sultats d'un build sp&eacute;cifique.
+                        Les ic&ocirc;nes de flux RSS sont disponibles au bas des tableaux de bord des builds
+                        (voir <a href="sect-notification-rss.html#fig-hudson-notification-rss-view" title="Figure&nbsp;8.6.&nbsp;Flux RSS dans Jenkins">Figure&nbsp;8.6, &#8220;Flux RSS dans Jenkins&#8221;</a>) et au bas du panneau de l'historique
+                        des builds pour les t&acirc;ches de build individuel. Ils vous donnent soit acc&egrave;s
+                        &agrave; l'ensemble des r&eacute;sultats des builds, soit acc&egrave;s simplement aux builds &eacute;chou&eacute;s.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-notification-rss-view"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e11806"></a><img src="figs/web/jtdg_0806.png" alt="Flux RSS dans Jenkins"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.6.&nbsp;Flux RSS dans Jenkins</b></p>
+         </div><br class="figure-break"><p>Les URLs des flux RSS sont simples, et fonctionnent pour toute page Jenkins
+                        affichant un ensemble de r&eacute;sultats de build. Vous devez juste rajouter
+                        <code class="filename">/rssAll</code>
+                        pour obtenir le flux RSS de tous les r&eacute;sultats de build d'une page, ou
+                        <code class="filename">/rssFailed</code>
+                        pour n'obtenir que les r&eacute;sultats des builds &eacute;chou&eacute;s. Enfin,
+                        <code class="filename">/rssLatest</code>
+                        vous fournira un flux RSS contenant uniquement les derniers r&eacute;sultats de build. Mais la fa&ccedil;on la plus simple
+                        de r&eacute;cup&eacute;rer l'URL est de cliquer simplement sur l'ic&ocirc;ne RSS sur la page Jenkins correspondante.
+                    
+         </p>
+         <p>Il y a pl&eacute;thore de lecteurs RSS, &agrave; la fois commerciaux et open source, disponibles pour pratiquement
+                        toutes les plates-formes et p&eacute;riph&eacute;riques. Ce peut &ecirc;tre un excellent moyen pour garder un &#339;il sur les
+                        r&eacute;sultats de build. La plupart des navigateurs (Firefox en particulier) et des clients email supportent
+                        les flux RSS. Certains lecteurs ont des probl&egrave;mes avec l'authentification. Si votre instance
+                        Jenkins est s&eacute;curis&eacute;e, il vous faudra peut-&ecirc;tre faire un peu de configuration suppl&eacute;mentaire pour
+                        voir les r&eacute;sultats de votre build.
+                    
+         </p>
+         <p>Les flux RSS peuvent &ecirc;tre une source d'information sur l'ensemble des r&eacute;sultats
+                        de build, et vous permettent de voir l'&eacute;tat de vos builds en un coup d'&#339;il sans
+                        avoir &agrave; se connecter au serveur. N&eacute;anmoins, la plupart des lecteurs RSS sont par
+                        nature passifs - vous pouvez consulter l'&eacute;tat de vos builds, mais le
+                        lecteur RSS ne sera g&eacute;n&eacute;ralement pas en mesure de vous notifier si un nouveau build
+                        en &eacute;chec
+                        <a class="indexterm" name="I_indexterm8_d1e11826"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11828"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11830"></a>
+                        apparait.
+                    
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-claiming.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-radiator.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">8.4.&nbsp;Revendiquer des builds&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.6.&nbsp;Radars de build</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

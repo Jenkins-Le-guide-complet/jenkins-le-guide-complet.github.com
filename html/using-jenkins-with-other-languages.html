@@ -1,0 +1,332 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>5.10.&nbsp;Utiliser Jenkins avec d&#8217;autres langages</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-build-jobs.html" title="Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build">
+      <link rel="prev" href="sect-build-jobs-maven.html" title="5.9.&nbsp;Travailler avec des t&acirc;ches de build Maven">
+      <link rel="next" href="sect-build-jobs-conclusion.html" title="5.11.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-jobs-maven.html">5.9.&nbsp;Travailler avec des t&acirc;ches de build Maven</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-jobs-conclusion.html">5.11.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="using-jenkins-with-other-languages"></a>5.10.&nbsp;Utiliser Jenkins avec d&#8217;autres langages
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Comme mentionn&eacute; plus t&ocirc;t, Jenkins fournit un excellent support pour d&#8217;autres langages. Dans cette section, nous allons voir
+            comment utiliser Jenkins avec certains des plus commun&eacute;ment utilis&eacute;s.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e8295"></a>5.10.1.&nbsp;Construire des projets avec Grails
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Grails<a class="indexterm" name="ch05-grails1"></a><a class="indexterm" name="ch05-grails2"></a> est un framework d&#8217;application web dynamique open-source construit avec Groovy et beaucoup d&#8217;autres frameworks Java open-source
+               bien &eacute;tablis tel que Spring ou Hibernate.
+            </p>
+            <p>Jenkins fournit un excellent support pour les builds Grails. Premi&egrave;rement, vous devez installer le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org/display/HUDSON/Grails+Plugin" target="_top">plugin Grails</a>.Une fois que vous l&#8217;avez install&eacute; et red&eacute;marr&eacute; Jenkins, vous devrez fournir au moins une version de Grails pour Jenkins dans
+               la section Grails de l&#8217;&eacute;cran de configuration du syst&egrave;me (voir la figure <a href="using-jenkins-with-other-languages.html#fig-hudson-build-job-grails-builder" title="Figure&nbsp;5.49.&nbsp;Ajouter une installation Grails &agrave; Jenkins">Figure&nbsp;5.49, &#8220;Ajouter une installation Grails &agrave; Jenkins&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-build-job-grails-builder"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e8115"></a><img src="figs/web/jtdg_0537.png" alt="Ajouter une installation Grails &agrave; Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.49.&nbsp;Ajouter une installation Grails &agrave; Jenkins</b></p>
+            </div><br class="figure-break"><p>Maintenant vous pouvez configurer une t&acirc;che de build Freestyle pour construire un projet Grails. Le plugin Grails ajoute l&#8217;&eacute;tape
+               de build &laquo; Build with Grails &raquo;, que vous pouvez utiliser pour construire un application Grails (voir la figure <a href="using-jenkins-with-other-languages.html#fig-hudson-build-job-grails" title="Figure&nbsp;5.50.&nbsp;Configurer une &eacute;tape de build Grails">Figure&nbsp;5.50, &#8220;Configurer une &eacute;tape de build Grails&#8221;</a>). Ici, vous fournissez la target Grails, ou les targets, que vous voulez ex&eacute;cuter. A la diff&eacute;rence de la ligne de commande,
+               vous pouvez ex&eacute;cuter plusieurs targets dans la m&ecirc;me ligne de commande. Cependant, si vous souhaitez passer des arguments sur
+               une target particulier, vous devez placer la target et ses arguments entre guillement. Dans la <a href="using-jenkins-with-other-languages.html#fig-hudson-build-job-grails" title="Figure&nbsp;5.50.&nbsp;Configurer une &eacute;tape de build Grails">Figure&nbsp;5.50, &#8220;Configurer une &eacute;tape de build Grails&#8221;</a>, par exemple, nous lan&ccedil;ons <code class="literal">grails clean</code>, suivi de <code class="literal">grails test-app
+                        -unit -non-interactive</code>. ur que cela fonctionne correctement, il faut mettre les options de la seconde commande entre guillemet, ce qui nous donne
+               <code class="literal">grails clean "test-app -unit
+                        -non-interactive"</code>.
+            </p>
+            <div class="figure"><a name="fig-hudson-build-job-grails"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e8138"></a><img src="figs/web/jtdg_0538.png" alt="Configurer une &eacute;tape de build Grails"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.50.&nbsp;Configurer une &eacute;tape de build Grails</b></p>
+            </div><br class="figure-break"><p>L&#8217;&eacute;tape de build Grails peut prendre beaucoup de param&egrave;tres optionnels. Par exemple, Grails est minutieux avec les versions
+               &#8212; si vous projet a &eacute;t&eacute; cr&eacute;&eacute; avec une version plus ancienne, Grails vous demandera de la mettre &agrave; jour. Pour jouer la s&eacute;curit&eacute;,
+               par exemple, vous pourriez cocher la case &agrave; cocher Forge Upgrade, qui assure de lancer un <code class="literal">grails upgrade --non-interactive</code> avant de d&eacute;marrer les targets principales.
+            </p>
+            <p>Vous pouvez aussi configurer le port du serveur (utile si vous ex&eacute;cutez des tests web), et n&#8217;importe quel autre propri&eacute;t&eacute;
+               que vous voulez passer<a class="indexterm" name="I_indexterm5_d1e8150"></a><a class="indexterm" name="I_indexterm5_d1e8152"></a> au build.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e8361"></a>5.10.2.&nbsp;Construire des projets avec Gradle
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>
+                       <span class="emphasis"><em>R&eacute;dig&eacute; par Ren&eacute; Groeschke</em></span>
+                     
+            </p>
+            <p>En <a class="indexterm" name="ch05-gradle1"></a><a class="indexterm" name="ch05-gradle2"></a>comparaison des outils de build anciens Ant et Maven, <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://gradle.org" target="_top">Gradle</a>est un nouvel outil de build open source pour la machine virtuel Java. Les scripts de build   pour Gradle sont construits
+               dans un Domain Specific Langage (DSL) bas&eacute; sur Groovy. Gradle impl&eacute;mente la convention avant la configuration, permet un acc&egrave;s
+               direct aux tasks Ant, et utilise une gestion des d&eacute;pendances d&eacute;clarative comme Maven La nature concise du scripting Groovy
+               vous permet d&#8217;&eacute;crire des scripts de build plus expressif avec tr&egrave;s peu de code, au prix de la perte du support d&#8217;un IDE qui
+               existe pour les outils &eacute;tablis tel que Ant et Maven.
+            </p>
+            <p>Il y a deux mani&egrave;res diff&eacute;rentes de lancer des builds Gradle avec Jenkins. Vous pouvez utiliser soit le plugin Gradle pour
+               Jenkins soit la fonctionnalit&eacute; d&#8217;enveloppement (wrapper) de Gradle.
+            </p>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="the-gradle-plugin-for-hudson"></a>5.10.2.1.&nbsp;Le plugin Gradle de Jenkins
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Vous pouvez installer le plugin Gradle avec la fa&ccedil;on habituel &#8212; il suffit d&#8217;aller sur l&#8217;&eacute;cran du gestionnaire de plugin et
+                  de s&eacute;lectionner le plugin Gradle. Cliquez sur installer et red&eacute;marrez l'<span class="keep-together">instance</span> de Jenkins.
+               </p>
+               <p>Une fois que Jenkins a red&eacute;marr&eacute;, il vous faut configurer vous nouveau plugin Gradle.  Vous trouverez maintenant une nouvelle
+                  section Gradle dans la page de configuration du syst&egrave;me. Ici, il vous faudra ajouter une installation de Gradle que vous souhaitez
+                  utiliser. Le processus est similaire que pour les autres installations d&#8217;outil utilis&eacute;. Premi&egrave;rement, cliquez sur le bouton
+                  Ajouter Gradle pour ajouter une nouvelle installation Gradle, et entrez un nom appropri&eacute; (voir la figure <a href="using-jenkins-with-other-languages.html#fig-gradle-plugin" title="Figure&nbsp;5.51.&nbsp;Configurer le plugin Gradle">Figure&nbsp;5.51, &#8220;Configurer le plugin Gradle&#8221;</a>). Si Gradle a d&eacute;j&agrave; &eacute;t&eacute; install&eacute; sur votre serveur de build, vous pouvez pointer vers le r&eacute;pertoire local de Gradle. Sinon,
+                  vous pouvez utiliser la fonctionnalit&eacute; &laquo; Installer automatiquement &raquo; pour t&eacute;l&eacute;charger une installation de Gradle, sous le
+                  forme d&#8217;un fichier ZIP ou GZipped TAR, directement &agrave; partir d&#8217;une URL. Vous pouvez utiliser une URL publique (voir <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://gradle.org/downloads.html" target="_top">http://gradle.org/downloads.html</a>), ou vous pourriez pr&eacute;f&eacute;rer de mettre ces installations disponibles sur le serveur local uniquement.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-gradle-plugin"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e8196"></a><img src="figs/web/jtdg_0539.png" alt="Configurer le plugin Gradle"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.51.&nbsp;Configurer le plugin Gradle</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Vous utilisez typiquement des t&acirc;ches de build Freestyle pour configurer vos builds Gradle. Lorsque vous ajouter une &eacute;tape
+                  de build a une t&acirc;che de build Freestyle, vous aurez maintenant une nouvelle option appel&eacute;e &laquo; Invoque Gradle script &raquo;, qui
+                  vous permet d&#8217;ajouter des options sp&eacute;cifiques de Gradle &agrave; votre t&acirc;che de build.
+               </p>
+               <p>Par exemple, voici un script Gradle tr&egrave;s simple. C&#8217;est un projet simple Java qui utilise une structure de r&eacute;pertoire Maven
+                  et un gestionnaire de d&eacute;p&ocirc;t Maven. Il y a une t&acirc;che param&eacute;trable, appel&eacute;e <span class="emphasis"><em>uploadArchives</em></span>, pour d&eacute;ployer l&#8217;archive g&eacute;n&eacute;r&eacute;e vers un gestionnaire local de d&eacute;p&ocirc;t d&#8217;entreprise :
+               </p><a name="I_programlisting5_d1e8208"></a><pre class="programlisting">apply plugin:'java'
+apply plugin:'maven'
+
+version='1.0-SNAPSHOT'
+group = "org.acme"
+
+repositories{
+  mavenCentral()
+    mavenRepo urls: 'http://build.server/nexus/content/repositories/public'
+}
+
+dependencies{
+  testCompile "junit:junit:4.8.2"
+}
+
+uploadArchives {
+  repositories.mavenDeployer {
+    configuration = configurations.archives
+      repository(url: "http://build.server/nexus/content/repositories/snapshots") {
+        authentication(userName: "admin", password: "password")
+     }
+  }
+}</pre><p>Dans la <a href="using-jenkins-with-other-languages.html#fig-gradle-build-job" title="Figure&nbsp;5.52.&nbsp;Configurer une t&acirc;che de build Gradle">Figure&nbsp;5.52, &#8220;Configurer une t&acirc;che de build Gradle&#8221;</a>, nous utilisons l&#8217;instance &laquo; Gradle-0.9RC2 &raquo; qui vient d&#8217;&ecirc;tre configur&eacute;e pour d&eacute;marrer un build Gradle. Dans ce cas, nous
+                  souhaitons d&eacute;marrer des tests JUnit et t&eacute;l&eacute;charger les artefacts de build vers notre d&eacute;p&ocirc;t local Maven. De plus, nous configurons
+                  notre t&acirc;che pour collecter les r&eacute;sultats de test depuis <code class="filename">**/build/test-results</code>, le r&eacute;pertoire par d&eacute;faut stockant les r&eacute;sultats de test avec Gradle.
+               </p>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="incremental-builds"></a>5.10.2.2.&nbsp;Les builds incr&eacute;mentaux
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Lorsqu&#8217;on lance une t&acirc;che de build Gradle avec des sources non modifi&eacute;es, Gradle lance ses builds incr&eacute;mentaux. Si la sortie
+                  d&#8217;une t&acirc;che Gradle est toujours disponible et que les sources n&#8217;ont pas chang&eacute; depuis le dernier build, Gradle est capable
+                  de sauter l&#8217;ex&eacute;cution de la t&acirc;che et de la marquer comme &agrave; jour. Cette fonctionnalit&eacute; de build incr&eacute;mental peut consid&eacute;rable
+                  diminuer le temps d&#8217;une t&acirc;che de build.
+               </p>
+               <p>Si Gradle &eacute;value qu&#8217;une t&acirc;che de test est &agrave; jour, m&ecirc;me l&#8217;ex&eacute;cution de vos tests unitaires et saut&eacute;e. Cela peut poser des probl&egrave;mes
+                  lorsque vous lancer votre build Gradle avec Jenkins. Dans notre t&acirc;che de build simple ci-dessus, nous avons configur&eacute; une
+                  action &agrave; la suite du build pour publier les rapports JUnit de votre build. Si la t&acirc;che de test est saut&eacute;e par Gradle, Jenkins
+                  marquera la t&acirc;che en erreur avec le message suivant :
+               </p>
+               <div class="blockquote">
+                  <blockquote class="blockquote">
+                     <p>Test reports were found but none of them are new. Did tests
+                                  run?
+                     </p>
+                  </blockquote>
+               </div>
+               <p>Vous pouvez simplement r&eacute;soudre ceci en invalidant la sortie et forcer une r&eacute;ex&eacute;cution de vos tests en ajoutant le bout de
+                  code suivant dans votre fichier Gradle :
+               </p><pre class="screen">test {
+    outputs.upToDateWhen { false }
+}</pre><div class="figure-float">
+                  <div class="figure"><a name="fig-gradle-build-job"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e8234"></a><img src="figs/web/jtdg_0540.png" alt="Configurer une t&acirc;che de build Gradle"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.52.&nbsp;Configurer une t&acirc;che de build Gradle</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Apr&egrave;s avoir ajout&eacute; le bout de code ci-dessus dans votre fichier de build, la sortie console de la t&acirc;che devrait ressembler
+                  &agrave; celle de la figure <a href="using-jenkins-with-other-languages.html#gradle-incremental-build" title="Figure&nbsp;5.53.&nbsp;T&acirc;che incr&eacute;mentale de Gradle">Figure&nbsp;5.53, &#8220;T&acirc;che incr&eacute;mentale de Gradle&#8221;</a>.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="gradle-incremental-build"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e8246"></a><img src="figs/web/jtdg_0541.png" alt="T&acirc;che incr&eacute;mentale de Gradle"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.53.&nbsp;T&acirc;che incr&eacute;mentale de Gradle</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Comme vous pouvez le voir, toutes les t&acirc;ches except&eacute;es <span class="emphasis"><em>test</em></span> et <span class="emphasis"><em>uploadArchives</em></span> ont &eacute;t&eacute; marqu&eacute;es comme &agrave; jour et n&#8217;ont pas &eacute;t&eacute;<a class="indexterm" name="I_indexterm5_d1e8259"></a><a class="indexterm" name="I_indexterm5_d1e8261"></a> ex&eacute;cut&eacute;es.
+               </p>
+            </div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e8472"></a>5.10.3.&nbsp;Construire des projets avec Visual Studio MSBuild
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Jenkins<a class="indexterm" name="ch05-net1"></a><a class="indexterm" name="ch05-net2"></a><a class="indexterm" name="ch05-net3"></a> est une application Java, mais il fournit aussi un excellent support pour les applications .NET.
+            </p>
+            <p>Pour construire des projets .NET dans Jenkins, vous devez installer le <a class="indexterm" name="I_indexterm5_d1e8283"></a><a class="indexterm" name="I_indexterm5_d1e8288"></a><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org/display/HUDSON/MSBuild+Plugin" target="_top">MSBuild plugin</a>.
+            </p>
+            <p>Vous pourriez aussi vouloir installer le <a class="indexterm" name="I_indexterm5_d1e8296"></a><a class="indexterm" name="I_indexterm5_d1e8299"></a><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org//display/HUDSON/MSTest+Plugin" target="_top">plugin MSTest</a> et le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org//display/HUDSON/NUnit+Plugin" target="_top">plugin NUnit</a>, pour afficher vos r&eacute;sultats de test.
+            </p>
+            <p>Une fois que vous avez install&eacute; les plugins .NET et red&eacute;marr&eacute; Jenkins, vous devez configurer vos outils de build .NET. Allez
+               dans la page de configuration du syst&egrave;me et sp&eacute;cifiez le chemin vers l&#8217;ex&eacute;cutable MSBuild (voir la figure <a href="using-jenkins-with-other-languages.html#fig-hudson-msbuild-config" title="Figure&nbsp;5.54.&nbsp;Configurer les outils de build .NET avec Jenkins">Figure&nbsp;5.54, &#8220;Configurer les outils de build .NET avec Jenkins&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-msbuild-config"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e8317"></a><img src="figs/web/jtdg_0542.png" alt="Configurer les outils de build .NET avec Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.54.&nbsp;Configurer les outils de build .NET avec Jenkins</b></p>
+               </div><br class="figure-break"></div>
+            <p>Une fois que vous l&#8217;avez configur&eacute;, vous pouvez retourner dans votre projet Freestyle et ajouter une &eacute;tape de build .NET &agrave;
+               la configuration.
+            </p>
+            <p>Allez dans la section Build et choisissez l&#8217;option &laquo; Build a Visual project or solution using MSBuild &raquo; dans le menu Ajouter
+               une &eacute;tape de build. Ensuite, entrez le chemin vers votre script de build MSBuild (un fichier <code class="filename">.proj</code> ou <code class="filename">.sln</code>), avec n&#8217;importe quelle option de ligne de commande que votre script de build <a class="indexterm" name="I_indexterm5_d1e8332"></a><a class="indexterm" name="I_indexterm5_d1e8334"></a><a class="indexterm" name="I_indexterm5_d1e8336"></a>a besoin (voir la figure <a href="using-jenkins-with-other-languages.html#fig-hudson-msbuild-step" title="Figure&nbsp;5.55.&nbsp;Une &eacute;tape de build utilisant MSBuild">Figure&nbsp;5.55, &#8220;Une &eacute;tape de build utilisant MSBuild&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-msbuild-step"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e8344"></a><img src="figs/web/jtdg_0543.png" alt="Une &eacute;tape de build utilisant MSBuild"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.55.&nbsp;Une &eacute;tape de build utilisant MSBuild</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e8557"></a>5.10.4.&nbsp;Construire des projets avec NAnt
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Un autre<a class="indexterm" name="I_indexterm5_d1e8354"></a><a class="indexterm" name="I_indexterm5_d1e8357"></a> moyen de construire vos applications .NET est d&#8217;utiliser NAnt. NAnt est la version .NET de l&#8217;outil de scripting de build
+               largement utilis&eacute; dans le monde Java. Les scripts de build NAnt sont des fichiers XML (typiquement avec une extension <code class="filename">.build</code>), avec un format tr&egrave;s similaire au script de build Ant.
+            </p>
+            <p>Pour construire avec NAnt dans Jenkins, il vous faut installer le <a class="indexterm" name="I_indexterm5_d1e8368"></a><a class="indexterm" name="I_indexterm5_d1e8371"></a><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org/display/HUDSON/NAnt+Plugin" target="_top">plugin NAnt</a> de Jenkins. Une fois que vous l&#8217;avez install&eacute; et red&eacute;marr&eacute; Jenkins, allez dans la page de configuration du syst&egrave;me et sp&eacute;cifiez
+               un r&eacute;pertoire d&#8217;installation NAnt dans la section NAnt Builder (voir la figure <a href="using-jenkins-with-other-languages.html#fig-hudson-msbuild-config" title="Figure&nbsp;5.54.&nbsp;Configurer les outils de build .NET avec Jenkins">Figure&nbsp;5.54, &#8220;Configurer les outils de build .NET avec Jenkins&#8221;</a>).
+            </p>
+            <p>Maintenant, allez dans la section Build de votre projet Freestyle et choisissez &laquo; Execute NAnt build &raquo; (voir la figure <a href="using-jenkins-with-other-languages.html#fig-hudson-nant-step" title="Figure&nbsp;5.56.&nbsp;Une &eacute;tape de build utilisant NAnt">Figure&nbsp;5.56, &#8220;Une &eacute;tape de build utilisant NAnt&#8221;</a>). Ici, vous sp&eacute;cifiez le script de build et la target que vous voulez invoquer. Si vous cliquez sur l&#8217;option &laquo; Avanc&eacute;e&#8230; &raquo;,
+               vous pouvez aussi sp&eacute;cifier des valeurs de propri&eacute;t&eacute; pour les passer dans le script NAnt.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-nant-step"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e8388"></a><img src="figs/web/jtdg_0544.png" alt="Une &eacute;tape de build utilisant NAnt"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.56.&nbsp;Une &eacute;tape de build utilisant NAnt</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-ruby-builds"></a>5.10.5.&nbsp;Construire des projets avec Ruby et Ruby on Rails
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Jenkins <a class="indexterm" name="ch05-ruby1"></a><a class="indexterm" name="ch05-ruby2"></a><a class="indexterm" name="ch05-ruby3"></a>est un excellent choix lorsqu&#8217;il s&#8217;agit de faire de l&#8217;IC sur vos projets Ruby et Ruby on Rails. Le plugin Rake vous permet
+               d&#8217;ajouter des &eacute;tapes de build Rake dans vos t&acirc;ches de build. Vous pouvez aussi utiliser le plugin Ruby qui vous permet de
+               lancer des scripts Ruby directement dans votre t&acirc;che de build. Finallement, le plugin Ruby Metrics fournit un support pour
+               les outils de m&eacute;triques de qualit&eacute; de code comme RCov, Rails stats, et Flog.
+            </p>
+            <p>Un autre outil pr&eacute;cieux dans ce domaine est <code class="literal">CI:Reporter</code>.Cette librairie est un add-on de <code class="literal">Test::Unit</code>, <code class="literal">RSpec</code>, et <code class="literal">Cucumber</code> qui g&eacute;n&egrave;re des rapports compatible avec JUnit de vos  tests. Comme vous allez le voir, les r&eacute;sultats de test compatibles
+               avec JUnit peuvent &ecirc;tre utilis&eacute;s directement par Jenkins pour faire des rapports de vos r&eacute;sultats de test. Vous devez installer
+               CI:Reporter en utilisant Gem comme illustr&eacute; ici :
+            </p><pre class="screen">$ <strong class="userinput"><code>sudo gem install ci_reporter</code></strong>
+Successfully installed ci_reporter-1.6.4
+1 gem installed</pre><p>Ensuite, il vous faudra le configurer dans votre Rakefile, en ajoutant ce qui suit :</p><a name="I_programlisting5_d1e8431"></a><pre class="programlisting">require 'rubygems'
+gem 'ci_reporter'
+require 'ci/reporter/rake/test_unit' # use this if you're using Test::Unit</pre><p>Dans le chapitre <a href="chapter-code-quality.html" title="Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code">Chapter&nbsp;9, <i xmlns:xlink="http://www.w3.org/1999/xlink">Qualit&eacute; du Code</i></a>, nous discutons de l&#8217;int&eacute;gration des m&eacute;triques de qualit&eacute; de code dans vos builds Jenkins. Jenkins fournit aussi un support
+               sur les m&eacute;triques de couverture de code en Ruby. Le plugin Ruby Metrics supporte les m&eacute;triques de qualit&eacute; de code en utilisant
+               <span><strong class="command">rcov</strong></span> aussi bien que des statistiques de code g&eacute;n&eacute;rales avec <span><strong class="command">Rails stats</strong></span>. Pour installer le <span><strong class="command">plugin rcov</strong></span>, vous devez tout d'abord ex&eacute;cuter quelque chose comme les lignes suivantes :
+            </p><pre class="screen">$ <strong class="userinput"><code>./script/plugin install http://svn.codahale.com/rails_rcov</code></strong></pre><p>Une fois que c&#8217;est configur&eacute;, vous serez en mesure d&#8217;afficher vos r&eacute;sultats de test et la tendance de r&eacute;sultat de test dans
+               Jenkins.
+            </p>
+            <p>Finalement, vous pouvez configurer un build Rake simplement en utilisant une &eacute;tape de build Rake, comme illustr&eacute; dans la <a href="using-jenkins-with-other-languages.html#fig-hudson-rake-step" title="Figure&nbsp;5.57.&nbsp;Une &eacute;tape de build utilisant Rake">Figure&nbsp;5.57, &#8220;Une &eacute;tape de build utilisant Rake&#8221;</a>.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-rake-step"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e8459"></a><img src="figs/web/jtdg_0545.png" alt="Une &eacute;tape de build utilisant Rake"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.57.&nbsp;Une &eacute;tape de build utilisant Rake</b></p>
+               </div><br class="figure-break"></div>
+            <p>Vous devez aussi configurer Jenkins pour faire des rapports sur les r&eacute;sultats des tests et les m&eacute;triques de qualit&eacute;. Vous
+               pouvez faire ceci en activant les options &laquo; Publish JUnit test result report &raquo;, &laquo; Publish Rails stats report &raquo;, et &laquo; Public
+               Rcov report &raquo; (voir la figure <a href="using-jenkins-with-other-languages.html#fig-hudson-rails-metrics" title="Figure&nbsp;5.58.&nbsp;Publier des m&eacute;triques de qualit&eacute; de code pour Ruby et Rails">Figure&nbsp;5.58, &#8220;Publier des m&eacute;triques de qualit&eacute; de code pour Ruby et Rails&#8221;</a>).Les rapports XML JUnit seront trouv&eacute;s dans le r&eacute;pertoire <code class="filename">results</code> (entrez <strong class="userinput"><code>results/*.xml</code></strong> dans le champ &#8220;Test report XMLs&#8221;), et le rapport <a class="indexterm" name="I_indexterm5_d1e8475"></a><a class="indexterm" name="I_indexterm5_d1e8477"></a><a class="indexterm" name="I_indexterm5_d1e8479"></a> dans le r&eacute;pertoire <code class="filename">coverage/units</code>.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-rails-metrics"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e8489"></a><img src="figs/web/jtdg_0546.png" alt="Publier des m&eacute;triques de qualit&eacute; de code pour Ruby et Rails"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.58.&nbsp;Publier des m&eacute;triques de qualit&eacute; de code pour Ruby et Rails</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-jobs-maven.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-jobs-conclusion.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">5.9.&nbsp;Travailler avec des t&acirc;ches de build Maven&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;5.11.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

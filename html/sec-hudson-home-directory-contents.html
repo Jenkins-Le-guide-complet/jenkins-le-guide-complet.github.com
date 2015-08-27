@@ -1,0 +1,406 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.13.&nbsp;What&#8217;s in the Jenkins Home Directory</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="sect-windows-service.html" title="3.12.&nbsp;Installing Jenkins as a Windows Service">
+      <link rel="next" href="sect-jenkins-backing-up-data.html" title="3.14.&nbsp;Backing Up Your Jenkins Data">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-windows-service.html">3.12.&nbsp;Installing Jenkins as a Windows Service</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-jenkins-backing-up-data.html">3.14.&nbsp;Backing Up Your Jenkins Data</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sec-hudson-home-directory-contents"></a>3.13.&nbsp;What&#8217;s in the Jenkins Home Directory
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			<a class="indexterm" name="ch03-home4"></a>
+            			<a class="indexterm" name="ch03-home5"></a>
+            			The Jenkins home directory contains all the details of your
+            			Jenkins server configuration, details that you configure
+            			in the Manage
+            			Jenkins screen. These configuration details are stored in the form of
+            			a
+            			set of XML files. Much of the core
+            			configuration, for example, is stored
+            			in the
+            			<code class="filename">config.xml</code>
+            			file. Other
+            			tools-specific configuration is stored in other appropriately-named XML
+            			files: the details of your Maven
+            			installations, for example, are stored in
+            			a file called
+            			<code class="filename">hudson.tasks.Maven.xml</code>
+            			.
+            			You rarely need to modify these files by hand, though occasionally it
+            			can
+            			come in handy.
+            		
+         </p>
+         <p>
+            			The Jenkins home directory also contains a number of subdirectories
+            			(see
+            			<a href="sec-hudson-home-directory-contents.html#fig-hudson-home-directory" title="Figure&nbsp;3.7.&nbsp;The Jenkins home directory">Figure&nbsp;3.7, &#8220;The Jenkins home directory&#8221;</a>
+            			). Not all of the
+            			files and directories will be present after a fresh installation, as some
+            			are created when required
+            			by Jenkins. And if you look at an existing
+            			Jenkins installation, you will see additional XML files relating to
+            			Jenkins
+            			configuration and plugins.
+            		
+         </p>
+         <p>
+            			The main directories are described in more detail in
+            			<a href="sec-hudson-home-directory-contents.html#hudson-home-directory-structure" title="Table&nbsp;3.1.&nbsp;The Jenkins home directory structure">Table&nbsp;3.1, &#8220;The Jenkins home directory structure&#8221;</a>
+            			.
+            		
+         </p>
+         <div class="table"><a name="hudson-home-directory-structure"></a><p class="title"><b>Table&nbsp;3.1.&nbsp;The Jenkins home directory structure</b></p>
+            <div class="table-contents">
+               <table summary="The Jenkins home directory structure" border="1">
+                  <colgroup>
+                     <col align="left">
+                     <col align="left">
+                  </colgroup>
+                  <thead>
+                     <tr>
+                        <th align="left">Directory</th>
+                        <th align="left">Description</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td align="left">
+                           							<code class="filename">.jenkins</code>
+                           						
+                        </td>
+                        <td align="left">
+                           							The default Jenkins home directory (may be
+                           							<code class="filename">.hudson</code>
+                           							in older installations).
+                           						
+                        </td>
+                     </tr>
+                     <tr>
+                        <td align="left">
+                           							<code class="filename">fingerprints</code>
+                           						
+                        </td>
+                        <td align="left">
+                           							This
+                           							<a class="indexterm" name="I_indexterm3_d1e3823"></a>
+                           							directory is used by Jenkins to keep track of
+                           							artifact fingerprints. We look at how to track artifacts later on
+                           							in
+                           							the book.
+                           						
+                        </td>
+                     </tr>
+                     <tr>
+                        <td align="left">
+                           							<code class="filename">jobs</code>
+                           						
+                        </td>
+                        <td align="left">
+                           							This
+                           							<a class="indexterm" name="ch03-jobs"></a>
+                           							directory contains configuration details about the
+                           							build jobs that Jenkins manages, as well as the artifacts and
+                           							data
+                           							resulting from these builds. We look at this directory in detail
+                           							below.
+                           						
+                        </td>
+                     </tr>
+                     <tr>
+                        <td align="left">
+                           							<code class="filename">plugins</code>
+                           						
+                        </td>
+                        <td align="left">
+                           							This
+                           							<a class="indexterm" name="I_indexterm3_d1e3843"></a>
+                           							directory contains any plugins that you have
+                           							installed. Plugins allow you to extend Jenkins by adding extra
+                           							feature. Note that, with the exception of the Jenkins core plugins
+                           							(subversion, cvs, ssh-slaves, maven, and
+                           							scid-ad), plugins are
+                           							not
+                           							stored with the
+                           							<code class="literal">jenkins</code>
+                           							executable, or in the
+                           							expanded web application directory. This means that you can update
+                           							your Jenkins executable
+                           							and not have to reinstall all your
+                           							plugins.
+                           						
+                        </td>
+                     </tr>
+                     <tr>
+                        <td align="left">
+                           							<code class="filename">updates</code>
+                           						
+                        </td>
+                        <td align="left">
+                           							This
+                           							<a class="indexterm" name="I_indexterm3_d1e3856"></a>
+                           							is an internal directory used by Jenkins to store
+                           							information about available plugin updates.
+                           						
+                        </td>
+                     </tr>
+                     <tr>
+                        <td align="left">
+                           							<code class="filename">userContent</code>
+                           						
+                        </td>
+                        <td align="left">
+                           							You
+                           							<a class="indexterm" name="I_indexterm3_d1e3866"></a>
+                           							can use this directory to place your own custom
+                           							content onto your Jenkins server. You can access files in this
+                           							directory at
+                           							<span class="emphasis"><em>http://myserver/hudson/userContent</em></span>
+                           							(if you
+                           							are running Jenkins on an application server) or
+                           							<span class="emphasis"><em>http://myserver/userContent</em></span>
+                           							(if you are
+                           							running in stand-alone mode).
+                           						
+                        </td>
+                     </tr>
+                     <tr>
+                        <td align="left">
+                           							<code class="filename">users</code>
+                           						
+                        </td>
+                        <td align="left">
+                           							If
+                           							<a class="indexterm" name="I_indexterm3_d1e3882"></a>
+                           							you are using the native Jenkins user database, user
+                           							accounts will be stored in this directory.
+                           						
+                        </td>
+                     </tr>
+                     <tr>
+                        <td align="left">
+                           							<code class="filename">war</code>
+                           						
+                        </td>
+                        <td align="left">
+                           							This
+                           							<a class="indexterm" name="I_indexterm3_d1e3892"></a>
+                           							directory contains the expanded web application.
+                           							When you start Jenkins as a stand-alone application, it will
+                           							extract the web application into this directory.
+                           						
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div><br class="table-break"><div class="figure-float">
+            <div class="figure"><a name="fig-hudson-home-directory"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject3_d1e3899"></a><img src="figs/web/jtdg_0307.png" alt="The Jenkins home directory"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;3.7.&nbsp;The Jenkins home directory</b></p>
+            </div><br class="figure-break"></div>
+         <p>
+            			The
+            			<span><strong class="command">jobs</strong></span>
+            			directory is a crucial
+            			part of the Jenkins directory structure, and deserves a bit more
+            			attention. You can see an
+            			example of a real Jenkins jobs directory in
+            			<a href="sec-hudson-home-directory-contents.html#fig-hudson-jobs-directory" title="Figure&nbsp;3.8.&nbsp;The Jenkins jobs directory">Figure&nbsp;3.8, &#8220;The Jenkins jobs directory&#8221;</a>
+            			.
+            		
+         </p>
+         <div class="figure"><a name="fig-hudson-jobs-directory"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject3_d1e3914"></a><img src="figs/web/jtdg_0308.png" alt="The Jenkins jobs directory"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;3.8.&nbsp;The Jenkins jobs directory</b></p>
+         </div><br class="figure-break"><p>
+            			This directory contains a subdirectory for each Jenkins build job
+            			being managed by this instance of Jenkins. Each job
+            			directory in turn
+            			contains two
+            			<a class="indexterm" name="ch03-builds"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e3924"></a>
+            			subdirectories:
+            			<code class="filename">builds</code>
+            			and
+            			<code class="filename">workspace</code>
+            			, along with some other
+            			files. In particular, it contains the build job
+            			<a class="indexterm" name="I_indexterm3_d1e3934"></a>
+            			<code class="filename">config.xml</code>
+            			file, which
+            			contains, as you might expect, the configuration details for this build
+            			job. There are also some other
+            			files used internally by Jenkins, that you
+            			usually wouldn&#8217;t touch, such as the
+            			<span><strong class="command">nextBuildNumber</strong></span>
+            			file (which contains the number
+            			that will be assigned to the next build in this build job), as well as
+            			symbolic links
+            			to the most recent successful build and the last
+            			stable
+            			one. A successful build is one that does not have any
+            			compilation errors.
+            			A stable build is a successful build that has passed whatever quality
+            			criteria you may have
+            			configured, such as unit tests, code coverage
+            			and so
+            			forth.
+            		
+         </p>
+         <p>
+            			Both the
+            			<code class="filename">build</code>
+            			and the
+            			<code class="filename">workspace</code>
+            			directories are important.
+            			The
+            			<code class="filename">workspace</code>
+            			directory is where
+            			Jenkins builds your project: it contains the source code Jenkins checks
+            			out, plus any files
+            			generated by the build itself. This workspace is
+            			reused for each successive build&#8212;there is only ever one
+            			<code class="filename">workspace</code>
+            			directory per project, and the disk
+            			space it requires tends to be relatively stable.
+            		
+         </p>
+         <p>
+            			The
+            			<code class="filename">builds</code>
+            			directory contains a
+            			history of the builds executed for this job. You rarely need to intervene
+            			directly in these
+            			directories, but it can be useful to know what they
+            			contain. You can see a real example of the builds directory in
+            			<a href="sec-hudson-home-directory-contents.html#fig-hudson-jobs-directory-details" title="Figure&nbsp;3.9.&nbsp;The builds directory">Figure&nbsp;3.9, &#8220;The builds directory&#8221;</a>
+            			, where three builds have
+            			been performed. Jenkins stores
+            			<a class="indexterm" name="ch03-builds2"></a>
+            			build history and artifacts for each build it performs in a
+            			directory labeled with a timestamp (&#8220;2010-03-12_20-42-05&#8221;
+            			and so forth in
+            			<a href="sec-hudson-home-directory-contents.html#fig-hudson-jobs-directory-details" title="Figure&nbsp;3.9.&nbsp;The builds directory">Figure&nbsp;3.9, &#8220;The builds directory&#8221;</a>
+            			). It also contains
+            			symbolic links with the actual build numbers that point to the build
+            			history directories.
+            		
+         </p>
+         <div class="figure"><a name="fig-hudson-jobs-directory-details"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject3_d1e3978"></a><img src="figs/web/jtdg_0309.png" alt="The builds directory"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;3.9.&nbsp;The builds directory</b></p>
+         </div><br class="figure-break"><p>Each build directory contains information such as the build
+            			result
+            			log file, the Subversion revision number used
+            			for this build (if you are
+            			using Subversion), the changes that triggered this build, and any
+            			other
+            			data or metrics that
+            			you have asked Jenkins to keep track of. For
+            			example,
+            			if your build job keeps track of unit test results or test
+            			coverage
+            			metrics, this data will be stored here for each build. The build
+            			directory
+            			also contains any artifacts you are
+            			storing&#8212;binary artifacts, but also
+            			other generated files such as javadoc or code coverage metrics. Some
+            			types
+            			of build
+            			jobs, such as the Jenkins Maven build jobs, will also archive
+            			binary artifacts by default.
+            		
+         </p>
+         <p>
+            			The
+            			<a class="indexterm" name="I_indexterm3_d1e3987"></a>
+            			size of the
+            			<code class="filename">build</code>
+            			directory will
+            			naturally grow over time, as the build history cumulates. You will
+            			probably want to take this into
+            			account when designing your build server
+            			directory structure, especially if your build server is running in a
+            			Unix-style environment with multiple disk partitions. A lot of this
+            			data
+            			takes the form of text or XML files, which
+            			does not consume a large amount
+            			of extra space for each build. However, if your build archives some
+            			of
+            			your build
+            			artifacts, such as JAR or WAR files, they too will be stored
+            			here. The size of these artifacts should be factored into
+            			your disk
+            			space
+            			requirements. We will see later on how to limit the number of builds
+            			stored for a particular build job
+            			if space is an issue. Limiting the
+            			number of build jobs that Jenkins stores is always a trade-off between
+            			disk space
+            			and keeping useful build statistics, as Jenkins does rely on
+            			this build history for its powerful reporting features.
+            		
+         </p>
+         <p>
+            			Jenkins uses the files in this directory extensively to display
+            			build history and metrics data, so you should be
+            			particularly careful not
+            			to delete any of the build history directories without knowing
+            			exactly
+            			what you
+            			<a class="indexterm" name="I_indexterm3_d1e3998"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e4000"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e4002"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e4004"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e4006"></a>
+            			are doing.
+            		
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-windows-service.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-jenkins-backing-up-data.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.12.&nbsp;Installing Jenkins as a Windows Service&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.14.&nbsp;Backing Up Your Jenkins Data</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

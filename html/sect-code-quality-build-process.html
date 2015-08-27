@@ -1,0 +1,109 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>9.2.&nbsp;La qualit&eacute; du code dans votre processus de build</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-code-quality.html" title="Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code">
+      <link rel="prev" href="chapter-code-quality.html" title="Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code">
+      <link rel="next" href="sect-code-quality-tools.html" title="9.3.&nbsp;Les outils d&#8217;analyse de qualit&eacute; du code populaires pour Java et Groovy">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-code-quality.html">Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-tools.html">9.3.&nbsp;Les outils d&#8217;analyse de qualit&eacute; du code populaires pour Java et
+                         Groovy</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-code-quality-build-process"></a>9.2.&nbsp;La qualit&eacute; du code dans votre processus de build
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Avant de voir comment rapporter les mesures de qualit&eacute;s dans
+                Jenkins, cela peut &ecirc;tre utile de revenir en arri&egrave;re pour avoir une vue
+                plus large. Les mesures de la qualit&eacute; du code sont d&#8217;une valeur limit&eacute;e si
+                elles sont isol&eacute;es, elles doivent faire partie d&#8217;une strat&eacute;gie plus large
+                d&#8217;am&eacute;lioration des processus.
+         </p>
+         <p>Le<a class="indexterm" name="I_indexterm9_d1e12757"></a><a class="indexterm" name="I_indexterm9_d1e12762"></a> premier niveau d&#8217;int&eacute;gration de la qualit&eacute; du code devrait
+                &ecirc;tre l&#8217;EDI. Les EDI modernes ont un excellent support de beaucoup d&#8217;outils
+                de qualit&eacute; de code &#8212; Checkstyle, PMD et FindBugs ont tous des plugins pour
+                Eclipse, NetBeans et IntelliJ, qui fournissent un retour d&#8217;information
+                rapide aux d&eacute;veloppeurs sur les probl&egrave;mes de qualit&eacute; du code. C&#8217;est le
+                moyen le plus rapide et le plus efficace pour fournir un retour
+                d&#8217;information &agrave; des d&eacute;veloppeurs et pour leur apprendre
+                les normes de codage de l&#8217;organisation ou du projet.
+         </p>
+         <p>Le <a class="indexterm" name="I_indexterm9_d1e12774"></a><a class="indexterm" name="I_indexterm9_d1e12779"></a>second niveau est votre serveur de build. En plus de vos
+                t&acirc;ches r&eacute;guli&egrave;res de tests unitaires et d&#8217;int&eacute;gration, mettez en
+                place un build de qualit&eacute; de code d&eacute;di&eacute;, qui d&eacute;marrera apr&egrave;s le build
+                r&eacute;gulier et les tests. Le but de ce processus est de fournir des mesures de
+                qualit&eacute; de code &agrave; l&#8217;&eacute;chelle du projet, de garder un &#339;il sur la fa&ccedil;on dont
+                le projet est fait dans son ensemble et de traiter n&#8217;importe
+                quels probl&egrave;mes d&#8217;un niveau &eacute;lev&eacute;. L&#8217;efficacit&eacute; des ces rapports peut &ecirc;tre
+                augment&eacute;e par une revue hebdomadaire de la qualit&eacute; du code, dans laquelle
+                les probl&egrave;mes et les tendances sur la qualit&eacute; du code sont discut&eacute;s au
+                sein de l&#8217;&eacute;quipe.
+         </p>
+         <p>Il est important d'ex&eacute;cuter cette t&acirc;che s&eacute;par&eacute;ment parce que les
+                outils d&#8217;analyse de couverture de code et d&#8217;analyse statique peuvent &ecirc;tre
+                tr&egrave;s longs &agrave; ex&eacute;cuter. Il est &eacute;galement important de garder &eacute;loign&eacute; des builds n&#8217;importe
+                quels tests de couverture du code, puisque le
+                processus de couverture du code produit du code instrument&eacute; qui ne devrait
+                jamais &ecirc;tre d&eacute;ploy&eacute; vers un d&eacute;p&ocirc;t pour une utilisation en
+                production.
+         </p>
+         <p>L&#8217;&eacute;tablissement de rapports sur la de qualit&eacute; de code est, par
+                d&eacute;faut, un processus relativement passif. Personne ne conna&icirc;tra l&#8217;&eacute;tat du
+                projet s&#8217;il ne cherche pas l&#8217;information sur le serveur de build. M&ecirc;me
+                si c&#8217;est mieux que rien, vous &ecirc;tes peut-&ecirc;tre exigeant sur la qualit&eacute; du
+                code, il y a alors un meilleur moyen. Au lieu de simplement &eacute;tablir des rapports
+                sur la qualit&eacute; du code, mettez en place un build d&eacute;di&eacute; &agrave; la qualit&eacute; du
+                code, qui d&eacute;marre apr&egrave;s le build normal et les tests et configurez le
+                build pour &eacute;chouer si les mesures de la qualit&eacute; du code ne sont pas &agrave; un
+                niveau acceptable. Vous pouvez faire cela dans Jenkins ou dans votre
+                script de build, bien qu&#8217;il soit avantageux de le configurer en dehors de votre
+                script de build car vous pourrez changer les crit&egrave;res de d&eacute;faillance
+                du build de qualit&eacute; du code sans changer le code source du projet.
+         </p>
+         <p>Pour finir, souvenez-vous que les normes de codage sont des
+                lignes directrices et des recommandations, pas des r&egrave;gles absolues.
+                Utilisez la d&eacute;faillance des builds et les rapports de qualit&eacute; de code
+                comme des indicateurs d&#8217;une zone possible d&#8217;am&eacute;lioration, non pas comme
+                des mesures de valeur <a class="indexterm" name="I_indexterm9_d1e12793"></a> absolue.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-code-quality.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-tools.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;9.3.&nbsp;Les outils d&#8217;analyse de qualit&eacute; du code populaires pour Java et
+                      Groovy
+               </td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

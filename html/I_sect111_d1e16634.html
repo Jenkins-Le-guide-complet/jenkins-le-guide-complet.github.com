@@ -1,0 +1,304 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>11.6.&nbsp;Cloud computing</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-distributed-builds.html" title="Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s">
+      <link rel="prev" href="node-monitoring.html" title="11.5.&nbsp;Surveillance des noeuds">
+      <link rel="next" href="sect-distributed-builds-Using-the-Cloudbees.html" title="11.7.&nbsp;Utiliser le service CloudBees DEV@cloud">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="node-monitoring.html">11.5.&nbsp;Surveillance des noeuds</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-distributed-builds-Using-the-Cloudbees.html">11.7.&nbsp;Utiliser le service CloudBees DEV@cloud</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="I_sect111_d1e16634"></a>11.6.&nbsp;Cloud computing
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Le cloud computing<a class="indexterm" name="ch11-cloud1"></a><a class="indexterm" name="ch11-cloud2"></a><a class="indexterm" name="ch11-cloud3"></a> consiste &agrave; utiliser des ressources mat&eacute;rielles sur Internet
+            comme extension et/ou en remplacement de votre architecture informatique
+            locale. Le cloud computing est en expansion dans plusieurs domaines de
+            l'entreprise, incluant l'email et le partage de document (Gmail et Google
+            Apps sont des exemples particuli&egrave;rement connus, mais il y en a d'autres),
+                stockage de donn&eacute;es hors-site (comme Amazon S3), aussi bien bien que des
+                services techniques comme des d&eacute;p&ocirc;ts de code source (comme GitHub,
+                Bitbucket, etc.) et de nombreux autres.
+         </p>
+         <p>Bien s&ucirc;r les solutions d'architecture mat&eacute;rielle externalis&eacute;e existent
+                depuis longtemps. Le point principal qui distingue le cloud computing des
+                services plus traditionnels est la vitesse et la flexibilit&eacute; avec laquelle
+                un service peut &ecirc;tre mont&eacute;, et d&eacute;mont&eacute; quand il n'est plus n&eacute;cessaire. Dans
+                un environnement de cloud computing, une nouvelle machine peut fonctionner
+                et &ecirc;tre disponible en quelques secondes.
+         </p>
+         <p>Cependant, le cloud computing dans le contexte de l'Int&eacute;gration
+                Continue n'est pas toujours aussi simple qu'il n'y para&icirc;t. Pour qu'une
+                approche bas&eacute;e sur le cloud fonctionne, certaines de vos ressources internes
+                pourraient devoir &ecirc;tre disponibles au monde ext&eacute;rieur. Ceci peut inclure
+                l'ouverture d'acc&egrave;s &agrave; votre syst&egrave;me de contr&ocirc;le de version, votre base de
+                donn&eacute;es de test, et &agrave; n'importe quelle autre ressource que vos builds et vos
+                tests requi&egrave;rent. Tous ces aspects doivent &ecirc;tre examin&eacute;s attentivement lors
+                du choix d'une architecture d'IC bas&eacute;e sur le cloud, et pourrait limiter vos
+                options si certaines ressources ne peuvent tout simplement pas &ecirc;tre acc&eacute;d&eacute;es
+                depuis Internet. Malgr&eacute; tout, l'IC bas&eacute;e sur le cloud a le potentiel pour
+                vous offrir d'&eacute;normes b&eacute;n&eacute;fices sur l'&eacute;volutivit&eacute; de votre
+                infrastructure.
+         </p>
+         <p>Dans les sections suivantes, nous regarderons comment utiliser les
+                services de cloud computing d'Amazon EC2 pour mettre en place une ferme de
+                build bas&eacute;e sur le cloud.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e16864"></a>11.6.1.&nbsp;Utiliser Amazon EC2
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>En <a class="indexterm" name="ch11-amazon"></a>plus de vendre des livres, Amazon est l'un des fournisseurs
+                     les plus connus de services cloud computing. Si vous &ecirc;tes pr&ecirc;t &agrave; payer
+                     pour le service, Amazon peut vous fournir des machines de build qui
+                     peuvent soit &ecirc;tre utilis&eacute;es de fa&ccedil;on permanente comme partie de votre
+                     ferme de build, soit mis en ligne au besoin lorsque vos machines de build
+                     existantes deviennent surcharg&eacute;es. C'est un moyen excellent et
+                     raisonnablement co&ucirc;teux pour absorber la charge exceptionnel de build en
+                     fonction de vos besoins, et sans le mal de t&ecirc;te associ&eacute; &agrave; des machines
+                     physiques suppl&eacute;mentaires &agrave; maintenir.
+            </p>
+            <p>Si vous voulez la flexibilit&eacute; d'une architecture d'IC bas&eacute;e sur le
+                     cloud, mais que vous ne voulez pas externaliser votre mat&eacute;riel, une autre
+                     option est de mettre en place un cloud <a class="indexterm" name="I_indexterm11_d1e16672"></a>Eucalyptus. Eucalyptus est un outil open source qui vous
+                     permet de cr&eacute;er localement un cloud priv&eacute; sur du mat&eacute;riel existant.
+                     Eucalyptus utilise une API compatible avec Amazon EC2 et S3, et fonctionne
+                     bien avec Jenkins.
+            </p>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e16879"></a>11.6.1.1.&nbsp;Mettre en place votre ferme de build Amazon EC2
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Amazon EC2 est probablement le service de cloud computing
+                          commercial le plus populaire et le plus connu. Pour utiliser ces
+                          services, vous devrez cr&eacute;er un compte EC2 avec Amazon si vous n'en avez
+                          pas d&eacute;j&agrave; un. Le processus requis pour faire cela est bien document&eacute; sur
+                          le site web d'Amazon, nous n'insisterons donc pas ici sur le sujet. Une fois
+                          que vous avez cr&eacute;&eacute; votre compte, vous pouvez cr&eacute;er des machines
+                          virtuelles et des images de machines qui formeront votre ferme de build
+                          bas&eacute;e sur EC2.
+               </p>
+               <p>Quand vous utilisez Amazon EC2, vous cr&eacute;ez des machines
+                          virtuelles, appel&eacute;es instances, en utilisant la console de gestion
+                          Amazon Web<a class="indexterm" name="I_indexterm11_d1e16683"></a><a class="indexterm" name="I_indexterm11_d1e16686"></a> Services (AWS) (voir <a href="I_sect111_d1e16634.html#fig-jenkins-aws-console" title="Figure&nbsp;11.17.&nbsp;Vous g&eacute;rez vos instances EC2 en utilisant la console de gestion Amazon AWS">Figure&nbsp;11.17, &#8220;Vous g&eacute;rez vos instances EC2 en utilisant la console de gestion
+                               Amazon AWS&#8221;</a>). Ce site web vous permet de g&eacute;rer
+                          vos instances en fonctionnement et d'en cr&eacute;er de nouvelles. Vous cr&eacute;ez
+                          ces instances &agrave; partir d'images pr&eacute;d&eacute;finies, appel&eacute;es <a class="indexterm" name="I_indexterm11_d1e16692"></a><a class="indexterm" name="I_indexterm11_d1e16695"></a>Amazon Machine Images (AMIs). Il y a plusieurs images AMI,
+                          &agrave; la fois d'Amazon et dans le domaine public, que vous pouvez utiliser
+                          comme point de d&eacute;part, couvrant la plupart des syst&egrave;mes d'exploitation
+                          populaires. Une fois que vous avez cr&eacute;&eacute; une nouvelle instance, vous
+                          pouvez vous y connecter soit via SSH (pour les machines unix) soit via une
+                          connexion &agrave; distance Windows, pour la configurer en fonction de ce que vous voulez
+                          en faire.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-jenkins-aws-console"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject11_d1e16702"></a><img src="figs/web/jtdg_1117.png" alt="Vous g&eacute;rez vos instances EC2 en utilisant la console de gestion Amazon AWS"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;11.17.&nbsp;Vous g&eacute;rez vos instances EC2 en utilisant la console de gestion
+                                     Amazon AWS</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Pour mettre en place une ferme de build, vous aurez &eacute;galement besoin
+                          de configurer la votre, rendez-vous simplement dans le menu Paires de cl&eacute;s
+                  		dans la S&eacute;curit&eacute; du serveur de build afin d'&ecirc;tre en mesure d'acc&eacute;der &agrave; vos instances EC2. En
+                          particulier, vous aurez besoin d'installer les outils de l'API Amazon
+                          EC2, de configurer les cl&eacute;s priv&eacute;es/publiques appropri&eacute;es, et
+                          d'autoriser les connexions SSH depuis votre serveur ou votre r&eacute;seau vers
+                          vos instances Amazon. Encore une fois, les d&eacute;tails indiquant comment
+                          faire cela sont bien document&eacute;s pour tous les syst&egrave;mes d'exploitation
+                          principaux sur le site web EC2.
+               </p>
+               <p>Vous pouvez utiliser les instances Amazon EC2 de deux fa&ccedil;ons &#8212;
+                          soit vous cr&eacute;ez les machines esclaves sur Amazon EC2 et les utilisez
+                          comme machines distantes, soit vous demandez &agrave; Jenkins de les cr&eacute;er
+                          dynamiquement pour vous &agrave; la demande. Ou vous pouvez avoir une
+                          combinaison des deux. Les approches ont leur utilit&eacute;, et nous
+                          discuterons de chacune d'elles dans les sections suivantes.
+               </p>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e16914"></a>11.6.1.2.&nbsp;Utiliser des instances EC2 comme partie de votre ferme de
+                                   build
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Cr&eacute;er une nouvelle instance EC2 revient tout simplement &agrave; choisir
+                          une image de base que vous voulez utiliser. Vous devrez juste fournir
+                          quelques d&eacute;tails de base &agrave; propos de l'instance, comme sa taille et sa
+                          capacit&eacute;, et la cl&eacute; priv&eacute;e que vous voulez utiliser pour acc&eacute;der &agrave; la
+                          machine. Amazon cr&eacute;era ensuite une nouvelle machine virtuelle bas&eacute;e sur
+                          cette image. Une fois que vous avez configur&eacute; cela, une instance EC2 est
+                          en substance une machine comme n'importe quelle autre, et il est simple
+                          et commode de configurer des machines EC2 permanentes ou semi-permanentes
+                          comme part de votre infrastructure de build. Vous pourriez m&ecirc;me opter
+                          pour utiliser une image EC2 pour votre serveur ma&icirc;tre.
+               </p>
+               <p>Configurer une instance EC2 existante comme un esclave Jenkins est
+                          peu diff&eacute;rent que de configurer n'importe quel autre esclave distant. Si
+                          vous mettez en place un esclave EC2 Unix ou Linux, vous devrez
+                          r&eacute;f&eacute;rencer le fichier de cl&eacute; priv&eacute;e (voir <a href="I_sect111_d1e16634.html#fig-jenkins-ec2-linux" title="Figure&nbsp;11.18.&nbsp;Configurer un esclave Amazon EC2">Figure&nbsp;11.18, &#8220;Configurer un esclave Amazon EC2&#8221;</a>) que vous avez utilis&eacute; pour cr&eacute;er
+                          l'instance EC2 sur la console de gestion AWS. En fonction du type de
+                          Linux que vous utilisez, vous pourriez aussi avoir besoin de fournir un
+                          nom d'utilisateur. La plupart des distributions se connectent en tant
+                          que root, mais certaines, comme Ubuntu, n&eacute;cessitent un nom d'utilisateur
+                          diff&eacute;rent.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-jenkins-ec2-linux"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject11_d1e16723"></a><img src="figs/web/jtdg_1118.png" alt="Configurer un esclave Amazon EC2"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;11.18.&nbsp;Configurer un esclave Amazon EC2</b></p>
+                  </div><br class="figure-break"></div>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e16931"></a>11.6.1.3.&nbsp;Utiliser des instances dynamiques
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>La seconde approche implique de cr&eacute;er de nouvelles machines Amazon
+                          EC2 dynamiquement, lorsqu'elles sont n&eacute;cessaires. Configurer des
+                          instances d&eacute;di&eacute;es n'est pas difficile, mais cela ne s'adapte pas tr&egrave;s
+                          bien &agrave; la charge. Une meilleure approche est de laisser Jenkins cr&eacute;er de
+                          nouvelles instances en fonction du besoin. Pour faire cela, vous aurez
+                          besoin d'installer le plugin Jenkins<a class="indexterm" name="I_indexterm11_d1e16733"></a><a class="indexterm" name="I_indexterm11_d1e16738"></a> Amazon EC2. Ce plugin permet &agrave; Jenkins de d&eacute;marrer des
+                          esclaves EC2 sur le cloud &agrave; la demande, et de les &eacute;teindre ensuite
+                          lorsqu'ils ne sont plus n&eacute;cessaires. Le plugin fonctionne &agrave; la fois avec
+                          Amazon EC2, et <a class="indexterm" name="I_indexterm11_d1e16742"></a>Ubuntu Enterprise Cloud. Nous nous concentrerons ici sur
+                          Amazon EC2. Notez qu'&agrave; l'&eacute;criture de ces lignes le plugin supportait
+                          seulement la gestion des images EC2 Unix.
+               </p>
+               <p>Une fois que vous avez install&eacute; le plugin et red&eacute;marr&eacute; Jenkins,
+                          allez dans l'&eacute;cran principal de configuration et cliquez sur Ajouter un
+                          Nouveau Cloud (voir <a href="I_sect111_d1e16634.html#fig-jenkins-ec2-cloud" title="Figure&nbsp;11.19.&nbsp;Configurer un esclave Amazon EC2">Figure&nbsp;11.19, &#8220;Configurer un esclave Amazon EC2&#8221;</a>). Choisissez
+                          Amazon EC2. Vous devez fournir votre cl&eacute; d'identification d'acc&egrave;s Amazon
+                          (NdT : Amazon Access Key ID) et votre cl&eacute; d'acc&egrave;s secr&egrave;te afin que
+                          Jenkins puisse communiquer avec votre compte Amazon EC2. Vous pouvez
+                          acc&eacute;der &agrave; ceux-ci dans l'&eacute;cran Paires de cl&eacute;s de votre tableau de bord
+                          EC2.
+               </p>
+               <div class="figure"><a name="fig-jenkins-ec2-cloud"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject11_d1e16753"></a><img src="figs/web/jtdg_1119.png" alt="Configurer un esclave Amazon EC2"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;11.19.&nbsp;Configurer un esclave Amazon EC2</b></p>
+               </div><br class="figure-break"><p>Vous devrez aussi fournir votre cl&eacute; priv&eacute;e RSA. Si vous n'en avez
+                          pas, rendez vous simplement dans le menu Paires de cl&eacute; dans l'&eacute;cran
+                          Security Credential et cr&eacute;ez en une. Cela cr&eacute;era une nouvelle paire de
+                          cl&eacute; pour vous et t&eacute;l&eacute;chargera la cl&eacute; priv&eacute;e. Conservez la cl&eacute; priv&eacute;e
+                          dans un endroit s&ucirc;r (vous en aurez besoin si vous voulez vous connecter
+                          &agrave; vos instances EC3 via SSH).
+               </p>
+               <p>Dans les options avanc&eacute;es, vous pouvez utiliser le champ Limite
+                          d'Instances pour limiter le nombre d'instances EC2 que Jenkins lancera.
+                          Cette limite est li&eacute;e au nombre total d'instances en ex&eacute;cution, pas
+                          seulement celles que Jenkins ex&eacute;cute en ce moment. C'est une mesure de
+                          s&eacute;curit&eacute; utile, parce que vous payez pour le temps pendant lequel vos
+                          instances restent actives.
+               </p>
+               <p>Une fois que vous avez configur&eacute; votre connexion EC2 globale, vous
+                          devez d&eacute;finir les machines avec lesquelles vous travaillerez. Vous
+                          faites cela en sp&eacute;cifiant l'identifiant d'Image Miroir Amazon (AMI) de
+                          l'image serveur avec laquelle vous aimeriez d&eacute;marrer. Amazon fournit
+                          quelques images de d&eacute;marrage, et plusieurs autres le sont par la
+                          communaut&eacute;, toutefois elles ne fonctionneront pas toutes avec EC2. A
+                          l'&eacute;criture de ces lignes, seules certaines images bas&eacute;es sur des
+                          distributions Linux 32-bit fonctionnent correctement.
+               </p>
+               <p>Les images AMI pr&eacute;d&eacute;finies par Amazon et publiques sont des points
+                          de d&eacute;part utiles pour vos machines virtuelles permanentes, mais pour les
+                          besoins inh&eacute;rents &agrave; la mise en oeuvre d'un cloud dynamique bas&eacute; sur EC2,
+                          vous devez d&eacute;finir vos propres AMI avec les outils essentiels (Java,
+                          outils de build, configuration SCM etc.) pr&eacute;install&eacute;s. Heureusement,
+                          c'est un processus simple : d&eacute;marrez simplement avec une AMI g&eacute;n&eacute;rique
+                          (de pr&eacute;f&eacute;rence une compatible avec le plugin Jenkins EC2), et installez
+                          tout ce dont vous avez besoin. Assurez-vous d'utiliser une image EBS. De
+                          cette fa&ccedil;on, les changements que vous faites sur votre instance serveur
+                          sont sauvegard&eacute;s sur un volume EBS afin que vous ne les perdiez pas
+                          lorsque le serveur s'&eacute;teint. Cr&eacute;ez alors une nouvelle image en
+                          s&eacute;lectionnant l'option Cr&eacute;er une image dans l'&eacute;cran Instances de la
+                          console de gestion EC2 (voir <a href="I_sect111_d1e16634.html#fig-jenkins-ec2-create-image" title="Figure&nbsp;11.20.&nbsp;Cr&eacute;er une nouvelle image Amazon EC2">Figure&nbsp;11.20, &#8220;Cr&eacute;er une nouvelle image Amazon EC2&#8221;</a>). V&eacute;rifiez que SSH est ouvert
+                          depuis l'adresse IP de votre serveur de build dans le groupe de s&eacute;curit&eacute;
+                          par d&eacute;faut sur Amazon EC2. Si vous ne faites pas cela, Jenkins &eacute;chouera
+                          apr&egrave;s avoir attendu trop longtemps le d&eacute;marrage du nouveau noeud
+                          esclave.
+               </p>
+               <p>Une fois que vous aurez pr&eacute;par&eacute; votre image, vous serez capable de
+                          l'utiliser pour votre configuration EC2.
+               </p>
+               <div class="figure"><a name="fig-jenkins-ec2-create-image"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject11_d1e16779"></a><img src="figs/web/jtdg_1120.png" alt="Cr&eacute;er une nouvelle image Amazon EC2"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;11.20.&nbsp;Cr&eacute;er une nouvelle image Amazon EC2</b></p>
+               </div><br class="figure-break"><p>A pr&eacute;sent, Jenkins cr&eacute;era automatiquement une nouvelle instance
+                          EC2 en utilisant cette image lorsque c'est n&eacute;cessaire, et supprimera (ou
+                          la &#8220;terminera,&#8221; en termes Amazon) l'instance une fois qu'il n'en aura plus
+                          besoin. Sinon, vous pouvez ajouter un nouvel esclave EC2 manuellement
+                          depuis l'&eacute;cran Noeuds en utilisant le bouton Provisionner via EC2 (voir
+                          <a href="I_sect111_d1e16634.html#fig-jenkins-amazon-cloud-manual" title="Figure&nbsp;11.21.&nbsp;Ajouter un nouvel esclave Amazon EC2 manuellement">Figure&nbsp;11.21, &#8220;Ajouter un nouvel esclave Amazon EC2 manuellement&#8221;</a>). C'est un moyen utile
+                          pour tester votre <a class="indexterm" name="I_indexterm11_d1e16788"></a><a class="indexterm" name="I_indexterm11_d1e16790"></a><a class="indexterm" name="I_indexterm11_d1e16792"></a><a class="indexterm" name="I_indexterm11_d1e16794"></a>configuration.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-jenkins-amazon-cloud-manual"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject11_d1e16801"></a><img src="figs/web/jtdg_1121.png" alt="Ajouter un nouvel esclave Amazon EC2 manuellement"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;11.21.&nbsp;Ajouter un nouvel esclave Amazon EC2 manuellement</b></p>
+                  </div><br class="figure-break"></div>
+            </div>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="node-monitoring.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-distributed-builds-Using-the-Cloudbees.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">11.5.&nbsp;Surveillance des noeuds&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;11.7.&nbsp;Utiliser le service CloudBees DEV@cloud</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

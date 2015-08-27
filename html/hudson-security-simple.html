@@ -1,0 +1,95 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>7.3.&nbsp;S&eacute;curit&eacute; simple dans Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-security.html" title="Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins">
+      <link rel="prev" href="sect-security-activating.html" title="7.2.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins">
+      <link rel="next" href="sect-security-realms.html" title="7.4.&nbsp;Domaines de s&eacute;curit&eacute; &#8212; Identifier les utilisateurs Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-security-activating.html">7.2.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-security-realms.html">7.4.&nbsp;Domaines de s&eacute;curit&eacute; &#8212; Identifier les
+                         utilisateurs Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="hudson-security-simple"></a>7.3.&nbsp;S&eacute;curit&eacute; simple dans Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Le <a class="indexterm" name="ch07-none1"></a><a class="indexterm" name="ch07-none2"></a><a class="indexterm" name="I_indexterm7_d1e10103"></a>mod&egrave;le de s&eacute;curit&eacute; le plus simple disponible dans Jenkins
+            permet aux utilisateurs authentifi&eacute;s de faire tout ce qu'ils veulent,
+            alors que les utilisateurs non authentifi&eacute;s auront seulement une vue en
+            lecture seule de leurs t&acirc;ches de build. C'est super pour les petites
+            &eacute;quipes - les d&eacute;veloppeurs peuvent g&eacute;rer les t&acirc;ches de build, alors
+            que les autres utilisateurs (testeur, analyste m&eacute;tier, responsable de
+            projet, etc.) peuvent acc&eacute;der aux t&acirc;ches de build pour voir l'&eacute;tat du
+                projet. En effet, certaines t&acirc;ches pourraient m&ecirc;me &ecirc;tre configur&eacute;es
+                uniquement dans ce but, affichant les r&eacute;sultats de tests d'acceptation
+                automatis&eacute;s ou des m&eacute;triques de qualit&eacute; de code, par exemple.
+         </p>
+         <p>Vous pouvez mettre en place ce type de configuration en choisissant
+                &#8220;Les utilisateurs connect&eacute;s peuvent tout faire&#8221; dans la section
+                Autorisations. Il y a plusieurs fa&ccedil;ons dans Jenkins pour authentifier les
+                utilisateurs (voir <a href="sect-security-realms.html" title="7.4.&nbsp;Domaines de s&eacute;curit&eacute; &#8212; Identifier les utilisateurs Jenkins">Section&nbsp;7.4, &#8220;Domaines de s&eacute;curit&eacute; &#8212; Identifier les
+                   utilisateurs Jenkins&#8221;</a>), mais pour cet
+                exemple, nous allons utiliser l'option la plus simple, qui est d'utiliser
+                <a class="indexterm" name="I_indexterm7_d1e10115"></a><a class="indexterm" name="I_indexterm7_d1e10122"></a><a class="indexterm" name="I_indexterm7_d1e10125"></a><a class="indexterm" name="I_indexterm7_d1e10130"></a>la base de donn&eacute;es int&eacute;gr&eacute;e &agrave; Jenkins (voir <a href="sect-security-realms.html#hudson-users-internal" title="7.4.1.&nbsp;Utiliser la base de donn&eacute;es int&eacute;gr&eacute;e &agrave; Jenkins">Section&nbsp;7.4.1, &#8220;Utiliser la base de donn&eacute;es int&eacute;gr&eacute;e &agrave; Jenkins&#8221;</a>). C'est la configuration illustr&eacute;e dans
+                <a href="sect-security-activating.html#fig-hudson-enabling-security" title="Figure&nbsp;7.1.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins">Figure&nbsp;7.1, &#8220;Activer la s&eacute;curit&eacute; dans Jenkins&#8221;</a>.
+         </p>
+         <p>Assurez-vous <a class="indexterm" name="I_indexterm7_d1e10142"></a>de cocher l'option "Autoriser les utilisateurs &agrave; se
+                connecter". Cette option affichera un lien Se connecter en haut de l'&eacute;cran
+                permettant aux utilisateurs de cr&eacute;er leurs propres comptes (voir <a href="hudson-security-simple.html#fig-hudson-user-signup" title="Figure&nbsp;7.2.&nbsp;La page de connexion Jenkins">Figure&nbsp;7.2, &#8220;La page de connexion Jenkins&#8221;</a>). C'est une bonne id&eacute;e pour les
+                d&eacute;veloppeurs d'utiliser ici leur nom d'utilisateur de gestionnaire de sources : dans ce
+                cas, Jenkins sera capable de retrouver quels utilisateurs ont contribu&eacute;
+                aux changements qui ont d&eacute;clench&eacute; un build particulier.
+         </p>
+         <div class="figure"><a name="fig-hudson-user-signup"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject7_d1e10155"></a><img src="figs/web/jtdg_0702.png" alt="La page de connexion Jenkins"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;7.2.&nbsp;La page de connexion Jenkins</b></p>
+         </div><br class="figure-break"><p>Cette approche est &eacute;videmment un peu trop simple pour beaucoup de
+                situations &#8212; il est utile pour les petites &eacute;quipes de travailler en forte
+                proximit&eacute;, o&ugrave; le but est de connaitre le changement de qui a d&eacute;clench&eacute; (ou
+                cass&eacute;) un build particulier, plut&ocirc;t que de g&eacute;rer l'acc&egrave;s de fa&ccedil;on plus
+                restrictive. Dans les sections suivantes, nous discuterons de deux aspects
+                orthogonaux de la s&eacute;curit&eacute; Jenkins : identifier vos utilisateurs (domaines
+                de s&eacute;curit&eacute;) et d&eacute;terminer ce qu'ils sont autoris&eacute;s &agrave; faire<a class="indexterm" name="I_indexterm7_d1e10162"></a><a class="indexterm" name="I_indexterm7_d1e10164"></a><a class="indexterm" name="I_indexterm7_d1e10166"></a> (Autorisation).
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-security-activating.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-security-realms.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">7.2.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;7.4.&nbsp;Domaines de s&eacute;curit&eacute; &#8212; Identifier les
+                      utilisateurs Jenkins
+               </td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

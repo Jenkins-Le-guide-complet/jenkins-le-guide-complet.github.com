@@ -1,0 +1,104 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>5.2.&nbsp;T&acirc;ches de Build Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-build-jobs.html" title="Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build">
+      <link rel="prev" href="chapter-build-jobs.html" title="Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build">
+      <link rel="next" href="sect-build-jobs-freestyle.html" title="5.3.&nbsp;Cr&eacute;er une t&acirc;che de build free-style">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-build-jobs.html">Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-jobs-freestyle.html">5.3.&nbsp;Cr&eacute;er une t&acirc;che de build free-style</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-build-jobs"></a>5.2.&nbsp;T&acirc;ches de Build Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Cr&eacute;er <a class="indexterm" name="ch05-create"></a> une nouvelle t&acirc;che de build dans Jenkins est simple : cliquez simplement sur
+                    le lien &#8220;Nouveau Job&#8221; du menu dans le tableau de bord de Jenkins. Jenkins supporte diff&eacute;rents
+                    <a class="indexterm" name="I_indexterm5_d1e4989"></a><a class="indexterm" name="I_indexterm5_d1e4994"></a> types de t&acirc;ches de build qui vous sont pr&eacute;sent&eacute;s lorsque vous choisissez de cr&eacute;er
+                    un nouveau job (voir <a href="sect-build-jobs.html#fig-hudson-build-types" title="Figure&nbsp;5.1.&nbsp;Jenkins supporte quatre principaux types de t&acirc;ches de build">Figure&nbsp;5.1, &#8220;Jenkins supporte quatre principaux types de t&acirc;ches de build&#8221;</a>).
+         </p>
+         <div class="variablelist">
+            <dl>
+               <dt><span class="term">Projet free-style</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm5_d1e5008"></a>Les t&acirc;ches de build free-style sont des t&acirc;ches de build g&eacute;n&eacute;rales
+                               apportant une grande flexibilit&eacute;.
+                  </p>
+               </dd>
+               <dt><span class="term">Projet Apache Maven</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm5_d1e5017"></a>Le &#8220;projet maven2/3&#8221; est une t&acirc;che de build sp&eacute;cialement
+                                   adapt&eacute;e aux projets Apache Maven. Jenkins comprend les fichiers <code class="filename">pom</code> et la structure des projets Apache Maven et peut
+                                   utiliser les informations glan&eacute;es dans le fichier <code class="filename">pom</code> pour r&eacute;duire les efforts de configuration n&eacute;cessaires
+                                   &agrave; la configuration de votre projet.
+                  </p>
+               </dd>
+               <dt><span class="term">Contr&ocirc;ler un job externe</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm5_d1e5032"></a><a class="indexterm" name="I_indexterm5_d1e5037"></a>La tache de build &#8220;Contr&ocirc;ler un job externe&#8221; vous permet de
+                                   garder un oeil sur des processus non-interactifs externes comme <a class="indexterm" name="I_indexterm5_d1e5041"></a>des t&acirc;ches cron.
+                  </p>
+               </dd>
+               <dt><span class="term">Projet multi-configuration</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm5_d1e5052"></a><a class="indexterm" name="I_indexterm5_d1e5055"></a>Le &#8220;projet multi-configuration&#8221; (&eacute;galement r&eacute;f&eacute;renc&eacute; comme
+                                   &#8220;projet matrix&#8221;) vous permet de faire tourner la m&ecirc;me t&acirc;che de build avec diff&eacute;rentes configurations.
+                                   Cette puissante fonctionnalit&eacute; peut &ecirc;tre utile pour tester une application
+                                   dans des environnements diff&eacute;rents, avec diff&eacute;rentes bases de donn&eacute;es ou
+                                   m&ecirc;me sur diff&eacute;rentes machines de build. Nous regarderons plus en d&eacute;tails la mani&egrave;re
+                                   de configurer ces t&acirc;ches de build multi-configuration plus loin dans ce livre.
+                  </p>
+               </dd>
+            </dl>
+         </div>
+         <div class="figure"><a name="fig-hudson-build-types"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject5_d1e5064"></a><img src="figs/web/jtdg_0501.png" alt="Jenkins supporte quatre principaux types de t&acirc;ches de build"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;5.1.&nbsp;Jenkins supporte quatre principaux types de t&acirc;ches de build</b></p>
+         </div><br class="figure-break"><p>Vous <a class="indexterm" name="I_indexterm5_d1e5071"></a>pouvez &eacute;galement copier un job existant ce qui est une tr&egrave;s bonne fa&ccedil;on
+                    de cr&eacute;er un nouveau job avec une configuration tr&egrave;s similaire &agrave; une t&acirc;che de build existante,
+                    &agrave; l'exception de quelques d&eacute;tails de configuration.
+         </p>
+         <p>Dans ce chapitre, nous nous concentrerons sur les deux premiers types de t&acirc;ches de build
+                    qui sont les plus couramment utilis&eacute;es. Les autres seront discut&eacute;s plus loin.
+                    D&eacute;marrons avec l'option la plus flexible : la<a class="indexterm" name="I_indexterm5_d1e5079"></a> t&acirc;che de build free-style.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-build-jobs.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-jobs-freestyle.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;5.3.&nbsp;Cr&eacute;er une t&acirc;che de build free-style</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

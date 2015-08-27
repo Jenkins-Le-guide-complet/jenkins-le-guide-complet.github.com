@@ -1,0 +1,156 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>8.9.&nbsp;Notificateurs de bureau</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="prev" href="sect-notification-irc.html" title="8.8.&nbsp;Notification par IRC">
+      <link rel="next" href="sect-notifo.html" title="8.10.&nbsp;Notifications via Notifo">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-irc.html">8.8.&nbsp;Notification par IRC</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notifo.html">8.10.&nbsp;Notifications via Notifo</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-notification-desktop"></a>8.9.&nbsp;Notificateurs de bureau
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Les
+                        <a class="indexterm" name="ch08-desktop1"></a>
+                        <a class="indexterm" name="ch08-desktop2"></a>
+            meilleures strat&eacute;gies de notification push s'int&egrave;grent en douceur dans
+            l'environnement de travail quotidien du d&eacute;veloppeur. C'est pourquoi la messagerie instantan&eacute;e peut
+                        &ecirc;tre une strat&eacute;gie efficace si les d&eacute;veloppeurs ont d&eacute;j&agrave; l'habitude d'utiliser des
+                        messageries instantan&eacute;es pour les autres activit&eacute;s li&eacute;es au travail.
+                    
+         </p>
+         <p>Les outils de notification de bureau entrent aussi dans cette cat&eacute;gorie. Les
+                        outils de notification bureau sont des outils qui s'ex&eacute;cutent localement sur l'ordinateur du d&eacute;veloppeur,
+                        soit comme une application ind&eacute;pendante ou un widget, soit dans le cadre de
+                        l'outil de d&eacute;veloppement du d&eacute;veloppeur (IDE).
+                    
+         </p>
+         <p>Si vous utilisez
+                        <a class="indexterm" name="I_indexterm8_d1e12308"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12311"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12316"></a>
+                        Eclipse, le
+                        <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://code.google.com/p/hudson-eclipse/" target="_top">plugin Eclipse
+                               Jenkins
+                           </a>
+                        affiche une ic&ocirc;ne de sant&eacute; au bas de la fen&ecirc;tre Eclipse.
+                        Si vous cliquez sur cette ic&ocirc;ne, vous pouvez voir une vue d&eacute;taill&eacute;e des projets
+                        Jenkins (voir <a href="sect-notification-desktop.html#fig-hudson-notification-eclipse" title="Figure&nbsp;8.18.&nbsp;Notifications Jenkins dans Eclipse">Figure&nbsp;8.18, &#8220;Notifications Jenkins dans Eclipse&#8221;</a>). Dans
+                        les pr&eacute;f&eacute;rences d'Eclipse, vous indiquez l'URL de votre serveur Jenkins
+                        avec tous les d&eacute;tails d'authentification requis. La configuration est assez simple,
+                        cependant, vous ne pouvez vous connecter &agrave; une instance unique Jenkins pour un
+                        espace de travail Eclipse donn&eacute;.
+                    
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-notification-eclipse"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject8_d1e12330"></a><img src="figs/web/jtdg_0818.png" alt="Notifications Jenkins dans Eclipse"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;8.18.&nbsp;Notifications Jenkins dans Eclipse</b></p>
+            </div><br class="figure-break"></div>
+         <p>
+                        Si vous utilisez
+                        l'IDE NetBeans
+                        <a class="indexterm" name="d0e12571"></a>
+                        ,
+                        vous avez d&eacute;j&agrave; l'int&eacute;gration avec Hudson et Jenkins.
+                        Ouvrez la fen&ecirc;tre
+                        <span class="guilabel">Services</span>
+                        et ajoutez des serveurs sous<span class="guilabel">Hudson Builders</span>.
+                        (Si vous ouvrez un projet Maven dont la section
+                        <code class="code">ciManagement</code>
+                        indique
+                        <code class="code">hudson</code>
+                        ou
+                        <code class="code">jenkins</code>
+                        sous <code class="code">system</code>, le serveur correspondant
+                        sera enregistr&eacute; automatiquement.)
+                        Cette int&eacute;gration a des caract&eacute;ristiques diff&eacute;rentes au-del&agrave; des notifications de build dans la barre
+                        d'&eacute;tat,
+                        telles que l'int&eacute;gration dans la fen&ecirc;tre <span class="guilabel">Tests Results</span>, l'affichage des journaux
+                        de build et des journaux de changement, la navigation dans l'espace de travail, et un assistant de
+                        configuration de t&acirc;che de build.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-netbeans"></a><div class="figure-contents">
+               <div class="mediaobject"><img src="figs/web/hudson-netbeans.png" alt="Connexion de Jenkins dans NetBeans"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.19.&nbsp;Connexion de Jenkins dans NetBeans</b></p>
+         </div><br class="figure-break"><p>Le
+                        <a class="indexterm" name="ch08-tray1"></a>
+                        <a class="indexterm" name="ch08-tray2"></a>
+                        plugin Jenkins Tray Application (voir <a href="sect-notification-desktop.html#fig-hudson-tray-launch" title="Figure&nbsp;8.20.&nbsp;Lancement de Jenkins Tray Application">Figure&nbsp;8.20, &#8220;Lancement de Jenkins Tray Application&#8221;</a>)
+                        vous permet de d&eacute;marrer une petite application cliente Java
+                        &agrave; l'aide de Java Web Start &agrave; partir de votre tableau de bord de Jenkins.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-tray-launch"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12351"></a><img src="figs/web/jtdg_0819.png" alt="Lancement de Jenkins Tray Application"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.20.&nbsp;Lancement de Jenkins Tray Application</b></p>
+         </div><br class="figure-break"><p>Cette application se trouve dans votre barre d'&eacute;tat du syst&egrave;me et vous permet
+                        de visualiser l'&eacute;tat courant de vos builds en un coup d'&#339;il. Elle apporte &eacute;galement des fen&ecirc;tres pop-up
+                        vous informant des nouveaux &eacute;checs de build (voir<a href="sect-notification-desktop.html#fig-hudson-tray" title="Figure&nbsp;8.21.&nbsp;Ex&eacute;cution de Jenkins Tray Application">Figure&nbsp;8.21, &#8220;Ex&eacute;cution de Jenkins Tray Application&#8221;</a>).
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-tray"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12363"></a><img src="figs/web/jtdg_0820.png" alt="Ex&eacute;cution de Jenkins Tray Application"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.21.&nbsp;Ex&eacute;cution de Jenkins Tray Application</b></p>
+         </div><br class="figure-break"><p>C'est certainement une application utile mais elle souffre de quelques
+                        limitations. Au moment de la r&eacute;daction, Jenkins Tray Application ne supporte pas
+                        l'acc&egrave;s aux serveurs s&eacute;curis&eacute;s Jenkins. En outre, le d&eacute;veloppeur doit
+                        se souvenir de le red&eacute;marrer chaque matin. Cela peut sembler un probl&egrave;me mineur,
+                        mais en g&eacute;n&eacute;ral, quand il s'agit de strat&eacute;gies de notification, moins vous en
+                        demandez &agrave; vos d&eacute;veloppeurs meilleure est la solution.
+                    
+         </p>
+         <p>Une des meilleures options pour les notifications Jenkins de bureau est d'utiliser un
+                        service comme Notifo (voir <a href="sect-notifo.html" title="8.10.&nbsp;Notifications via Notifo">Section&nbsp;8.10, &#8220;Notifications via Notifo&#8221;</a>) qui fournit
+                        des clients pour bureaux et mobiles. Nous allons voir comment cela fonctionne en d&eacute;tail dans
+                        <a class="indexterm" name="I_indexterm8_d1e12374"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12376"></a>
+                        la prochaine section.
+                    
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-irc.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notifo.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">8.8.&nbsp;Notification par IRC&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.10.&nbsp;Notifications via Notifo</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

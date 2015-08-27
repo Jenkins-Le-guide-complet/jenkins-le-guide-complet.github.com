@@ -1,0 +1,225 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>2.8.&nbsp;Adding Code Coverage and Other Metrics</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-first-steps.html" title="Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins">
+      <link rel="prev" href="sect-first-steps-javadocs.html" title="2.7.&nbsp;More Reporting&#8212;Displaying Javadocs">
+      <link rel="next" href="I_sect12_d1e2485.html" title="2.9.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-first-steps-javadocs.html">2.7.&nbsp;More Reporting&#8212;Displaying Javadocs</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect12_d1e2485.html">2.9.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-first-steps-metrics"></a>2.8.&nbsp;Adding Code Coverage and Other Metrics
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p><a class="indexterm" name="ch02-coberta1"></a><a class="indexterm" name="ch02-coberta2"></a><a class="indexterm" name="ch02-coberta4"></a><a class="indexterm" name="I_indexterm2_d1e2297"></a>As we mentioned earlier, reporting is one of Jenkins&#8217;s
+                strong points. We have seen how easy it is to display test results and to
+                publish Javadocs, but you can also publish a large number of other very
+                useful reports using Jenkins&#8217;s plugins.
+         </p>
+         <p>Plugins<a class="indexterm" name="ch02-plugin"></a><a class="indexterm" name="I_indexterm2_d1e2312"></a><a class="indexterm" name="I_indexterm2_d1e2317"></a> are another one of Jenkins&#8217;s selling points&#8212;there are
+                plugins for doing just about anything, from integrating new build tools or
+                version control systems to <span class="keep-together">notification</span> mechanisms and reporting. In
+                addition, Jenkins plugins are very easy to install and integrate smoothly
+                into the existing Jenkins architecture.
+         </p>
+         <p>To see how the plugins work, we are going to integrate code coverage
+                metrics using the Cobertura plugin. Code coverage is an indication of how
+                much of your application code is actually executed during your tests&#8212;it
+                can be a useful tool in particular for finding areas of code that have not
+                been tested by your test suites. It can also give some indication as to
+                how well a team is applying good testing practices such as Test-Driven
+                Development or Behavior-Driven Development.
+         </p>
+         <p><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://cobertura.sourceforge.net" target="_top">Cobertura</a> is
+                an open source code coverage tool that works well with both Maven and
+                Jenkins. Our Maven demonstration project is already configured to record
+                code coverage metrics, so all we need to do is to install the Jenkins
+                Cobertura plugin and generate the code coverage metrics for Jenkins to
+                record and display.
+         </p>
+         <div class="figure"><a name="fig-hudson-plugin-manager"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e2337"></a><img src="figs/web/jtdg_0227.png" alt="Jenkins has a large range of plugins available"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.27.&nbsp;Jenkins has a large range of plugins available</b></p>
+         </div><br class="figure-break"><p>To install a new plugin, go to the Manage Jenkins page and click on
+                the Manage Plugins entry. This will display a list of the available
+                plugins as well as the plugins already installed on your server (see <a href="sect-first-steps-metrics.html#fig-hudson-plugin-manager" title="Figure&nbsp;2.27.&nbsp;Jenkins has a large range of plugins available">Figure&nbsp;2.27, &#8220;Jenkins has a large range of plugins available&#8221;</a>). If your build server doesn&#8217;t have
+                an Internet connection, you can also manually install a plugin by
+                downloading the plugin file elsewhere and uploading it to your Jenkins
+                installation (just open the Advanced tab in <a href="sect-first-steps-metrics.html#fig-hudson-plugin-manager" title="Figure&nbsp;2.27.&nbsp;Jenkins has a large range of plugins available">Figure&nbsp;2.27, &#8220;Jenkins has a large range of plugins available&#8221;</a>), or by copying the plugin to the
+                <code class="filename">$JENKINS_HOME/plugins</code>
+                directory.
+         </p>
+         <p>In our case, we are interested in the Cobertura plugin, so go to the
+                Available tab and scroll down until you find the Cobertura Plugin entry in
+                the Build Reports section. Click on the checkbox and then click on the
+                Install button at the bottom of the screen.
+         </p>
+         <p>This will download and install the plugin for you. Once it is done,
+                you will need to restart your Jenkins instance to see the fruits of your
+                labor. When you have restarted Jenkins, go back to the Manage Plugins
+                screen and click on the Installed tab&#8212;there should now be a Cobertura
+                Plugin entry in the list of installed plugins on this<a class="indexterm" name="I_indexterm2_d1e2355"></a> page.
+         </p>
+         <p>Once you have made sure the plugin was successfully installed, go to
+                the configuration page for the <span><strong class="command">gameoflife-default</strong></span> build
+                job.
+         </p>
+         <p>To <a class="indexterm" name="I_indexterm2_d1e2365"></a>set up code coverage metrics in our project, we need to do
+                two things. First we need to generate the Cobertura coverage data in an
+                XML form that Jenkins can use; then we need to configure Jenkins to
+                display the coverage reports.
+         </p>
+         <p>Our Game of Life project already has been configured to generate XML
+                code coverage reports if we ask it. All you need to do is to run
+                <code class="literal">mvn cobertura:cobertura</code> to generate the reports in XML
+                form. Cobertura can also generate HTML reports, but in our case we will be
+                letting Jenkins take care of the reporting, so we can save on build time
+                by not generating the For this example, for simplicity, we will just add
+                the <code class="literal">cobertura:cobertura</code> goal to the second build step
+                (see <a href="sect-first-steps-metrics.html#fig-hudson-cobertura-build-step" title="Figure&nbsp;2.28.&nbsp;Adding another Maven goal to generating test coverage metrics">Figure&nbsp;2.28, &#8220;Adding another Maven goal to generating test coverage
+                     metrics&#8221;</a>). You could also
+                add a new build step just for the code coverage metrics. In a real-world
+                project, code quality metrics like this are typically placed in a distinct
+                build job, which is run less frequently than the default build.
+         </p>
+         <div class="figure"><a name="fig-hudson-cobertura-build-step"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e2385"></a><img src="figs/web/jtdg_0228.png" alt="Adding another Maven goal to generating test coverage metrics"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.28.&nbsp;Adding another Maven goal to generating test coverage
+                        metrics</b></p>
+         </div><br class="figure-break"><p>Next, we need to tell Jenkins to keep track of our code coverage
+                metrics. Scroll down to the &#8220;Post-build Actions&#8221; section. You should see a
+                new checkbox labeled Publish Cobertura Reports. Jenkins will often add UI
+                elements like this when you install a new plugin. When you tick this box,
+                Jenkins will display the configuration options for the Cobertura plugin
+                that we installed earlier (see <a href="sect-first-steps-metrics.html#fig-hudson-cobertura-config" title="Figure&nbsp;2.29.&nbsp;Configuring the test coverage metrics in Jenkins">Figure&nbsp;2.29, &#8220;Configuring the test coverage metrics in Jenkins&#8221;</a>).
+         </p>
+         <p>Like most of the code-quality related plugins in Jenkins, the
+                Cobertura plugin lets you fine-tune not only the way Jenkins displays the
+                report data, but also how it interprets the data. In the Coverage Metrics
+                Targets section, you can define what you consider to be the minimum
+                acceptable levels of code coverage. In <a href="sect-first-steps-metrics.html#fig-hudson-cobertura-config" title="Figure&nbsp;2.29.&nbsp;Configuring the test coverage metrics in Jenkins">Figure&nbsp;2.29, &#8220;Configuring the test coverage metrics in Jenkins&#8221;</a>, we have configured<a class="indexterm" name="I_indexterm2_d1e2398"></a><a class="indexterm" name="I_indexterm2_d1e2403"></a> Jenkins to list any builds with less than 50% test coverage
+                as &#8220;unstable&#8221; (indicated by a yellow ball), and notify the team
+                accordingly.
+         </p>
+         <div class="figure"><a name="fig-hudson-cobertura-config"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e2414"></a><img src="figs/web/jtdg_0229.png" alt="Configuring the test coverage metrics in Jenkins"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.29.&nbsp;Configuring the test coverage metrics in Jenkins</b></p>
+         </div><br class="figure-break"><p>This fine-tuning often comes in handy in real-world builds. For
+                example, you may want to impose a special code coverage constraint in
+                release builds, to ensure high code coverage in release versions. Another
+                strategy that can be useful for legacy projects is to gradually increase
+                the minimum tolerated code coverage level over time. This way you can
+                avoid having to retro-fit unit tests on legacy code just to raise the code
+                coverage, but you do encourage all new code and bug fixes to be well
+                tested.
+         </p>
+         <p>Now trigger a build manually. The first time you run the build job
+                with Cobertura reporting activated, you will see coverage statistics for
+                your build displayed on the build home page, along with a Coverage Report
+                link when you can go for more details (see <a href="sect-first-steps-metrics.html#fig-hudson-initial-coverage-report" title="Figure&nbsp;2.30.&nbsp;Jenkins displays code coverage metrics on the build home page">Figure&nbsp;2.30, &#8220;Jenkins displays code coverage metrics on the build home
+                     page&#8221;</a>). The Cobertura report
+                shows different types of code coverage for the build we just ran. Since we
+                have only run the test coverage metrics once, the coverage will be
+                displayed as red and green bars.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-initial-coverage-report"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e2428"></a><img src="figs/web/jtdg_0230.png" alt="Jenkins displays code coverage metrics on the build home page"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.30.&nbsp;Jenkins displays code coverage metrics on the build home
+                           page</b></p>
+            </div><br class="figure-break"></div>
+         <p>If you click on the Coverage Report icon, you will see code coverage
+                for each package in your application, and even drill down to see the code
+                coverage (or lack thereof) for an individual class (see <a href="sect-first-steps-metrics.html#fig-hudson-code-coverage-class" title="Figure&nbsp;2.31.&nbsp;Jenkins lets you display code coverage metrics for packages and classes">Figure&nbsp;2.31, &#8220;Jenkins lets you display code coverage metrics for packages and
+                     classes&#8221;</a>). When you get to this level,
+                Jenkins displays both the overall coverage statistics for the class, and
+                also highlights the lines that were executed in green, and those that
+                weren&#8217;t in red.
+         </p>
+         <p>This reporting gets better with time. Jenkins not only reports
+                metrics data for the latest build, but also keeps track of metrics over
+                time, so that you can see how they evolve throughout the life of the
+                project.
+         </p>
+         <p>For example, if you drill down into the coverage reports, you will
+                notice that certain parts of this code are not<a class="indexterm" name="I_indexterm2_d1e2441"></a> tested (for example the <code class="literal">Cell.java</code> class
+                in <a href="sect-first-steps-metrics.html#fig-hudson-code-coverage-class" title="Figure&nbsp;2.31.&nbsp;Jenkins lets you display code coverage metrics for packages and classes">Figure&nbsp;2.31, &#8220;Jenkins lets you display code coverage metrics for packages and
+                     classes&#8221;</a>).
+         </p>
+         <div class="figure"><a name="fig-hudson-code-coverage-class"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e2453"></a><img src="figs/web/jtdg_0231.png" alt="Jenkins lets you display code coverage metrics for packages and classes"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.31.&nbsp;Jenkins lets you display code coverage metrics for packages and
+                        classes</b></p>
+         </div><br class="figure-break"><p>Code coverage metrics are a great way to isolate code that has not
+                been tested, in order to add extra tests for corner cases that were not
+                properly tested during the initial development, for example. The Jenkins
+                code coverage graphs are also a great way of keeping track of your code
+                coverage metrics as the project grows. Indeed, as you add new tests, you
+                will notice that Jenkins will display a graph of code coverage over time,
+                not just the latest results (see <a href="sect-first-steps-metrics.html#fig-hudson-code-coverage-graph" title="Figure&nbsp;2.32.&nbsp;Jenkins also displays a graph of code coverage over time">Figure&nbsp;2.32, &#8220;Jenkins also displays a graph of code coverage over time&#8221;</a>).
+         </p>
+         <div class="figure"><a name="fig-hudson-code-coverage-graph"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e2465"></a><img src="figs/web/jtdg_0232.png" alt="Jenkins also displays a graph of code coverage over time"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.32.&nbsp;Jenkins also displays a graph of code coverage over time</b></p>
+         </div><br class="figure-break"><p>Note that our objective here is not to improve the code coverage
+                just for the sake of improving code coverage&#8212;we are adding an extra test
+                to verify some code that was not previously tested, and as a result the
+                code coverage goes up. There is a subtle but important difference
+                here&#8212;code coverage, as with any other metric, is very much a means to an
+                end (high code quality and low maintenance costs), and not an end in
+                itself.
+         </p>
+         <p>Nevertheless, <a class="indexterm" name="I_indexterm2_d1e2474"></a><a class="indexterm" name="I_indexterm2_d1e2476"></a><a class="indexterm" name="I_indexterm2_d1e2478"></a>metrics like this can give you a great insight into the
+                health of your project, and Jenkins presents them in a particularly
+                accessible way.
+         </p>
+         <p>This is just one of the code quality metrics plugins that have been
+                written for Jenkins. There are many more (over fifty reporting plugins
+                alone at the time of writing). We&#8217;ll look at some more of them in <a href="chapter-code-quality.html" title="Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code">Chapter&nbsp;9, <i xmlns:xlink="http://www.w3.org/1999/xlink">Qualit&eacute; du Code</i></a>.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-first-steps-javadocs.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect12_d1e2485.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">2.7.&nbsp;More Reporting&#8212;Displaying Javadocs&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;2.9.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

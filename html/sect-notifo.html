@@ -1,0 +1,131 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>8.10.&nbsp;Notifications via Notifo</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="prev" href="sect-notification-desktop.html" title="8.9.&nbsp;Notificateurs de bureau">
+      <link rel="next" href="sect-notification-mobile.html" title="8.11.&nbsp;Notifications vers mobiles">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-desktop.html">8.9.&nbsp;Notificateurs de bureau</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-mobile.html">8.11.&nbsp;Notifications vers mobiles</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-notifo"></a>8.10.&nbsp;Notifications via Notifo
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+                        <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.notifo.com" target="_top">Notifo</a>
+                        est
+                        <a class="indexterm" name="ch08-notifo"></a>
+                        <a class="indexterm" name="ch08-phone"></a>
+                        <a class="indexterm" name="ch08-phone2"></a>
+            un service rapide et &eacute;conomique pour envoyer en temps-r&eacute;el
+            des notifications vers votre smartphone ou votre bureau. Dans le contexte d'un serveur
+            Jenkins, vous pouvez l'utiliser pour mettre en place gratuitement ou &agrave; faible co&ucirc;t des
+            notifications en temps r&eacute;el pour vos r&eacute;sultats de builds Jenkins.
+            Les comptes individuels (dont vous avez besoin pour &ecirc;tre
+            capable de recevoir des notifications) sont gratuits. Vous avez besoin de mettre en place un compte service
+            pour envoyer des messages de notification de votre serveur Jenkins. C'est ici
+            que Notifo devient payant, m&ecirc;me si lors de la r&eacute;daction un compte
+            service peut envoyer jusqu'&agrave; 10 000 notifications par mois gratuitement,
+            ce qui est habituellement largement suffisant pour une instance moyenne Jenkins. Un des points
+            forts d'un service de notification en temps r&eacute;el comme Notifo est que
+                        les messages de notification peuvent &ecirc;tre envoy&eacute;s &agrave; ces m&ecirc;mes utilisateurs sur diff&eacute;rents dispositifs ;
+                        en particulier les smartphones et les clients de bureau.
+                    
+         </p>
+         <p>La mise en place des notifications Jenkins avec Notifo est relativement
+                        simple. Tout d'abord, allez sur le site Notifio et inscrivez vous pour cr&eacute;er un
+                        compte. Chaque membre de l'&eacute;quipe qui veut &ecirc;tre notifi&eacute; aura besoin de son propre
+                        compte Notifo. Ils auront &eacute;galement besoin d'installer le client Notifo sur &#8203;&#8203;chaque appareil
+                        sur lequel ils ont besoin de recevoir des notifications. Au moment de
+                        l'&eacute;criture de ce livre, les clients Notifo &eacute;taient disponibles pour Windows et Mac OS X,
+                        ainsi que pour les iPhones. Le support pour les smartphones Linux et autres est en
+                        cours.
+                    
+         </p>
+         <p>Ensuite, vous devez configurer un compte de service Notifo pour votre serveur
+                        Jenkins. Vous pouvez faire cela avec un de vos comptes d&eacute;veloppeur, ou cr&eacute;er un
+                        nouveau compte &agrave; cet effet. Connectez-vous au site Notifo, et aller au
+                        menu My Services. Ici, cliquez sur Create Service (voir <a href="sect-notifo.html#fig-hudson-notification-notifo-service" title="Figure&nbsp;8.22.&nbsp;Cr&eacute;er un service Notifo pour votre instance Jenkins">Figure&nbsp;8.22, &#8220;Cr&eacute;er un service Notifo pour votre instance Jenkins&#8221;</a>)
+                        et remplissez les champs. Le plus important est que le nom d'utilisateur du service doit &ecirc;tre
+                        unique. Vous pouvez &eacute;galement sp&eacute;cifier l'URL du site et l'URL de notification par d&eacute;faut
+                        pour pointer vers votre instance Jenkins pour que les utilisateurs puissent ouvrir la console
+                        Jenkins en cliquant sur le message de notification.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-notification-notifo-service"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12407"></a><img src="figs/web/jtdg_0821.png" alt="Cr&eacute;er un service Notifo pour votre instance Jenkins"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.22.&nbsp;Cr&eacute;er un service Notifo pour votre instance Jenkins</b></p>
+         </div><br class="figure-break"><p>Pour recevoir des messages de notification &agrave; partir du serveur Jenkins, les d&eacute;veloppeurs
+                        ont maintenant besoin de souscrire &agrave; ce service. Vous pouvez ensuite ajouter les d&eacute;veloppeurs &agrave; la
+                        liste des abonn&eacute;s sur la page Subscribers du service en leur envoyant
+                        des demandes de souscription. Une fois que le service a &eacute;t&eacute; cr&eacute;&eacute; et que les utilisateurs sont
+                        tous abonn&eacute;s, vous pouvez configurer votre projet pour envoyer des notifications
+                        Notifo (voir <a href="sect-notifo.html#fig-hudson-notification-notifo-config" title="Figure&nbsp;8.23.&nbsp;Configurer les notifications via Notifo dans votre t&acirc;che de build Jenkins">Figure&nbsp;8.23, &#8220;Configurer les notifications via Notifo dans votre t&acirc;che de build Jenkins&#8221;</a>). Vous avez besoin de fournir
+                        le nom d'utilisateur de l'API du service de Jenkins que vous avez mis en place, ainsi que l'API
+                        Secret. Vous pouvez les voir tous les deux dans le tableau de bord du service Notifo.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-notification-notifo-config"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12419"></a><img src="figs/web/jtdg_0822.png" alt="Configurer les notifications via Notifo dans votre t&acirc;che de build Jenkins"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.23.&nbsp;Configurer les notifications via Notifo dans votre t&acirc;che de build Jenkins</b></p>
+         </div><br class="figure-break"><p>Une fois que cela est mis en place, Jenkins enverra en quasi temps-r&eacute;el
+                        les notifications d'&eacute;checs de build &agrave; tous les clients Notifo que le d&eacute;veloppeur a
+                        lanc&eacute;, que ce soit sur un bureau ou sur un appareil mobile (voir <a href="sect-notifo.html#fig-hudson-notifo-iphone" title="Figure&nbsp;8.24.&nbsp;Recevoir une notification via Notifo sur un iPhone">Figure&nbsp;8.24, &#8220;Recevoir une notification via Notifo sur un iPhone&#8221;</a>).
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-notifo-iphone"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12431"></a><img src="figs/web/jtdg_0823.png" alt="Recevoir une notification via Notifo sur un iPhone"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.24.&nbsp;Recevoir une notification via Notifo sur un iPhone</b></p>
+         </div><br class="figure-break"><p>Au moment de l'&eacute;criture de ce livre, les strat&eacute;gies de notification sophistiqu&eacute;es ne sont
+                        pas prises en charge - vous ne pouvez fournir qu'une liste de noms d'utilisateurs Notifo qui doivent &ecirc;tre
+                        notifi&eacute;s. N&eacute;anmoins, cela reste un outil de notification tr&egrave;s efficace pour les d&eacute;veloppeurs en
+                        <a class="indexterm" name="I_indexterm8_d1e12438"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12440"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12442"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12444"></a>
+                        ligne de front.
+                    
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-desktop.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-mobile.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">8.9.&nbsp;Notificateurs de bureau&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.11.&nbsp;Notifications vers mobiles</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

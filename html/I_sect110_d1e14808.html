@@ -1,0 +1,426 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>10.5.&nbsp;G&eacute;n&eacute;rer vos t&acirc;ches de build Maven automatiquement</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-advanced-builds.html" title="Chapter&nbsp;10.&nbsp;Builds avanc&eacute;s">
+      <link rel="prev" href="sect-multi-configuration-build-jobs.html" title="10.4.&nbsp;T&acirc;ches de build multiconfiguration">
+      <link rel="next" href="I_sect110_d1e15110.html" title="10.6.&nbsp;Coordonner vos builds">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-multi-configuration-build-jobs.html">10.4.&nbsp;T&acirc;ches de build multiconfiguration</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect110_d1e15110.html">10.6.&nbsp;Coordonner vos
+                         builds</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="I_sect110_d1e14808"></a>10.5.&nbsp;G&eacute;n&eacute;rer vos t&acirc;ches de build Maven automatiquement
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p><span class="emphasis"><em>R&eacute;dig&eacute; par Evgeny Goldin</em></span></p>
+         <p>Comme <a class="indexterm" name="ch10-mavengen"></a>mentionn&eacute; dans la section pr&eacute;c&eacute;dente, le nombre de t&acirc;ches de
+            build que votre serveur Jenkins h&eacute;berge peut varier. Lorsque ce nombre
+            grossira, il deviendra plus difficile non seulement de les voir dans le
+            tableau de bord Jenkins, mais aussi de les configurer. Imaginez ce que
+            n&eacute;cessiterait la configuration de 20 &agrave; 50 t&acirc;ches une par une ! De plus,
+                plusieurs de ces t&acirc;ches pourraient avoir en commun des &eacute;l&eacute;ments de
+                configuration, comme des goals Maven ou des param&egrave;tres de configuration
+                m&eacute;moire, ce qui r&eacute;sulte en une configuration dupliqu&eacute;e et un surplus de
+                maintenance.
+         </p>
+         <p>Par exemple, si vous d&eacute;cidez d'ex&eacute;cuter <code class="literal">mvn
+                   clean install</code> au lieu de <code class="literal">mvn clean
+                   deploy</code> pour vos t&acirc;ches de release et de passer &agrave; des m&eacute;thodes de
+                d&eacute;ploiement alternatives, comme celles fournies par le plugin<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org/display/JENKINS/Artifactory+Plugin" target="_top">Artifactory
+                   </a>, vous n'aurez plus d'autre choix que d'ouvrir toutes les
+                t&acirc;ches concern&eacute;es et de les mettre &agrave; jour manuellement.
+         </p>
+         <p>Sinon, vous pourriez tirer parti du fait que Jenkins est un outil
+                simple et direct qui garde trace de toutes ses d&eacute;finitions sur le disque 
+                dans des fichiers bruts. En effet, vous pouvez mettre &agrave; jour les
+                fichiers <code class="filename">config.xml</code> de vos t&acirc;ches
+                directement dans le r&eacute;pertoire <code class="filename">.jenkins/jobs</code> o&ugrave; ils sont conserv&eacute;s. Bien que
+                cette approche fonctionnerait, elle est loin d'&ecirc;tre id&eacute;ale parce qu'elle
+                implique un nombre assez important de s&eacute;lections manuelles et de
+                remplacements d&eacute;licats dans des fichiers XML Jenkins.
+         </p>
+         <p>Il y a une troisi&egrave;me fa&ccedil;on d'atteindre le nirvana des mises &agrave; jour
+                massives de t&acirc;ches : g&eacute;n&eacute;rer vos fichiers de configuration automatiquement
+                en utilisant une sorte de fichier de d&eacute;finition. Le <a class="indexterm" name="I_indexterm10_d1e14843"></a><a class="indexterm" name="I_indexterm10_d1e14846"></a> <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://evgeny-goldin.com/wiki/Maven-jenkins-plugin" target="_top">Maven Jenkins
+                   Plugin</a> fait exactement cela : g&eacute;n&eacute;rer les fichiers <code class="filename">config.xml</code> pour toutes les t&acirc;ches en utilisant
+                des d&eacute;finitions standards conserv&eacute;es dans un unique fichier <code class="filename">pom.xml</code>.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e15096"></a>10.5.1.&nbsp;Configurer une t&acirc;che
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Quand <a class="indexterm" name="ch10-mavenconfig"></a>vous configurez une t&acirc;che avec le Maven Jenkins Plugin,
+                     vous pouvez d&eacute;finir tous les &eacute;l&eacute;ments habituels de configuration, comme
+                     les goals Maven, l'emplacement du POM, les URL de d&eacute;p&ocirc;ts, les adresses
+                     e-mail, le nombre de jours pendant lesquels conserver les logs, et ainsi
+                     de suite. Le plugin essaie de vous rapprocher au plus pr&egrave;s de la
+                     configuration classique d'une t&acirc;che dans Jenkins.
+            </p>
+            <p>Jetons un oeil &agrave; la t&acirc;che de build de <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://code.google.com/p/google-guice/" target="_top">Google Guice</a>
+                     :
+            </p><pre class="screen">&lt;job&gt;
+    &lt;id&gt;google-guice-trunk&lt;/id&gt;
+    &lt;description&gt;Building Google Guice trunk.&lt;/description&gt;
+    &lt;descriptionTable&gt;
+        &lt;row&gt;
+            &lt;key&gt;Project Page&lt;/key&gt;
+            &lt;value&gt;
+                &lt;a href="http://code.google.com/p/google-guice/"&gt;
+                    &lt;b&gt;&lt;code&gt;code.google.com/p/google-guice&lt;/code&gt;&lt;/b&gt;
+                &lt;/a&gt;
+            &lt;/value&gt;
+            &lt;escapeHTML&gt;false&lt;/escapeHTML&gt;
+            &lt;bottom&gt;false&lt;/bottom&gt;
+        &lt;/row&gt;
+    &lt;/descriptionTable&gt;
+    &lt;jdkName&gt;jdk1.6.0&lt;/jdkName&gt;
+    &lt;mavenName&gt;apache-maven-3&lt;/mavenName&gt;
+    &lt;mavenOpts&gt;-Xmx256m -XX:MaxPermSize=128m&lt;/mavenOpts&gt;
+    &lt;daysToKeep&gt;5&lt;/daysToKeep&gt;
+    &lt;useUpdate&gt;false&lt;/useUpdate&gt;
+    &lt;mavenGoals&gt;-e clean install&lt;/mavenGoals&gt;
+    &lt;trigger&gt;
+        &lt;type&gt;timer&lt;/type&gt;
+        &lt;expression&gt;0 0 * * *&lt;/expression&gt;
+    &lt;/trigger&gt;
+    &lt;repository&gt;
+        &lt;remote&gt;http://google-guice.googlecode.com/svn/trunk/&lt;/remote&gt;
+    &lt;/repository&gt;
+    &lt;mail&gt;
+        &lt;recipients&gt;jenkins@evgeny-goldin.org&lt;/recipients&gt;
+    &lt;/mail&gt;
+&lt;/job&gt;</pre><p>Cette t&acirc;che utilise un certain nombre de configurations standards
+                     comme <code class="literal">&lt;jdkName&gt;</code>, <code class="literal">&lt;mavenName&gt;</code> et <code class="literal">&lt;mavenOpts&gt;</code>. Le code est r&eacute;cup&eacute;r&eacute; &agrave;
+                     partir d'un d&eacute;p&ocirc;t Subversion (d&eacute;fini dans l'&eacute;l&eacute;ment <code class="literal">&lt;repository&gt;</code>), et un <code class="literal">&lt;trigger&gt;</code> cron qui ex&eacute;cute la t&acirc;che
+                     pendant la nuit &agrave; 00:00. Les notifications Email sont envoy&eacute;es aux
+                     personnes sp&eacute;cifi&eacute;es avec l'&eacute;l&eacute;ment <code class="literal">&lt;mail&gt;</code>. Cette configuration ajoute aussi
+                     un lien vers la page du projet dans le tableau de description g&eacute;n&eacute;r&eacute;
+                     automatiquement pour chaque t&acirc;che.
+            </p>
+            <p>Cette t&acirc;che g&eacute;n&eacute;r&eacute;e est affich&eacute;e dans votre serveur Jenkins comme
+                     illustr&eacute; dans <a href="I_sect110_d1e14808.html#jenkins-plugin-google-guice-trunk-job" title="Figure&nbsp;10.27.&nbsp;Une t&acirc;che g&eacute;n&eacute;r&eacute;e avec le Maven Jenkins plugin">Figure&nbsp;10.27, &#8220;Une t&acirc;che g&eacute;n&eacute;r&eacute;e avec le Maven Jenkins plugin&#8221;</a>.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="jenkins-plugin-google-guice-trunk-job"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14909"></a><img src="figs/web/jtdg_1027.png" alt="Une t&acirc;che g&eacute;n&eacute;r&eacute;e avec le Maven Jenkins plugin"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.27.&nbsp;Une t&acirc;che g&eacute;n&eacute;r&eacute;e avec le Maven Jenkins plugin</b></p>
+               </div><br class="figure-break"></div>
+            <p>Voici une autre t&acirc;che r&eacute;alisant la build de la branche master du projet 
+               	  Jenkins h&eacute;berg&eacute; chez GitHub
+                     :
+            </p><pre class="screen">&lt;job&gt;
+    &lt;id&gt;jenkins-master&lt;/id&gt;
+    &lt;jdkName&gt;jdk1.6.0&lt;/jdkName&gt;
+    &lt;numToKeep&gt;5&lt;/numToKeep&gt;
+    &lt;mavenName&gt;apache-maven-3&lt;/mavenName&gt;
+    &lt;trigger&gt;
+        &lt;type&gt;timer&lt;/type&gt;
+        &lt;expression&gt;0 1 * * *&lt;/expression&gt;
+    &lt;/trigger&gt;
+    &lt;scmType&gt;git&lt;/scmType&gt;
+    &lt;repository&gt;
+        &lt;remote&gt;git://github.com/jenkinsci/jenkins.git&lt;/remote&gt;
+    &lt;/repository&gt;
+    &lt;mail&gt;
+        &lt;recipients&gt;jenkins@evgeny-goldin.org&lt;/recipients&gt;
+        &lt;sendForUnstable&gt;false&lt;/sendForUnstable&gt;
+    &lt;/mail&gt;
+&lt;/job&gt;</pre><p>Elle g&eacute;n&egrave;re la t&acirc;che montr&eacute;e dans <a href="I_sect110_d1e14808.html#jenkins-plugin-jenkins-master-job" title="Figure&nbsp;10.28.&nbsp;T&acirc;che g&eacute;n&eacute;r&eacute;e jenkins-master">Figure&nbsp;10.28, &#8220;T&acirc;che g&eacute;n&eacute;r&eacute;e jenkins-master&#8221;</a>.
+            </p>
+            <div class="figure"><a name="jenkins-plugin-jenkins-master-job"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e14925"></a><img src="figs/web/jtdg_1028.png" alt="T&acirc;che g&eacute;n&eacute;r&eacute;e jenkins-master"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.28.&nbsp;T&acirc;che g&eacute;n&eacute;r&eacute;e jenkins-master</b></p>
+            </div><br class="figure-break"><p>La <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://evgeny-goldin.com/wiki/Maven-jenkins-plugin#.3Cjob.3E" target="_top">documentation</a>
+                     du plugin fournit une r&eacute;f&eacute;rence d&eacute;taille de tous les param&egrave;tres qui
+                     peuvent &ecirc;tre <a class="indexterm" name="I_indexterm10_d1e14936"></a>configur&eacute;s.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e15172"></a>10.5.2.&nbsp;R&eacute;utiliser une configuration de t&acirc;che par h&eacute;ritage
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>&Ecirc;tre <a class="indexterm" name="ch10-inherit"></a> capable de g&eacute;n&eacute;rer des t&acirc;ches Jenkins jobs en utilisant
+                     une configuration centralis&eacute;e, comme un POM Maven, r&eacute;sout le probl&egrave;me de
+                     la cr&eacute;ation et de la mise &agrave; jour de plusieurs t&acirc;ches &agrave; la fois. Tout ce
+                     que vous avez &agrave; faire est de modifier les d&eacute;finitions de job, relancer
+                     le plugin et charger les d&eacute;finitions mises &agrave; jour avec Administrer Jenkins<span class="unicode">&#8594;</span>&#8220;Recharger la configuration &agrave;
+                     partir du disque&#8221;. Cette approche a aussi l'avantage de rendre facile le
+                     stockage de vos configurations de t&acirc;che dans un syst&egrave;me de gestion de
+                     versions, ce qui rend par la m&ecirc;me plus facile le suivi des changements
+                     faits aux configurations de build.
+            </p>
+            <p>Cela ne r&eacute;sout toutefois pas le probl&egrave;me consistant &agrave; maintenir
+                     des t&acirc;ches qui partagent un certain nombre de propri&eacute;t&eacute;s identiques,
+                     comme les goals Maven, les destinataires email ou l'URL du d&eacute;p&ocirc;t de
+                     code. Pour cela, le Maven Jenkins Plugin fournit de l'h&eacute;ritage de
+                     t&acirc;ches, d&eacute;montr&eacute; dans l'exemple suivant<span class="keep-together"></span>:
+            </p><pre class="screen">&lt;jobs&gt;
+    &lt;job&gt;
+        &lt;id&gt;google-guice-inheritance-base&lt;/id&gt;
+        &lt;abstract&gt;true&lt;/abstract&gt;
+        &lt;jdkName&gt;jdk1.6.0&lt;/jdkName&gt;
+        &lt;mavenName&gt;apache-maven-3&lt;/mavenName&gt;
+        &lt;daysToKeep&gt;5&lt;/daysToKeep&gt;
+        &lt;useUpdate&gt;true&lt;/useUpdate&gt;
+        &lt;mavenGoals&gt;-B -e -U clean install&lt;/mavenGoals&gt;
+        &lt;mail&gt;&lt;recipients&gt;jenkins@evgeny-goldin.org&lt;/recipients&gt;&lt;/mail&gt;
+    &lt;/job&gt;
+ 
+    &lt;job&gt;
+        &lt;id&gt;google-guice-inheritance-trunk&lt;/id&gt;
+        &lt;parent&gt;google-guice-inheritance-base&lt;/parent&gt;
+        &lt;repository&gt;
+            &lt;remote&gt;http://google-guice.googlecode.com/svn/trunk/&lt;/remote&gt;
+        &lt;/repository&gt;
+    &lt;/job&gt;
+ 
+    &lt;job&gt;
+        &lt;id&gt;google-guice-inheritance-3.0-rc3&lt;/id&gt;
+        &lt;parent&gt;google-guice-inheritance-base&lt;/parent&gt;
+        &lt;repository&gt;
+            &lt;remote&gt;http://google-guice.googlecode.com/svn/tags/3.0-rc3/&lt;/remote&gt;
+        &lt;/repository&gt;
+    &lt;/job&gt;
+ 
+    &lt;job&gt;
+        &lt;id&gt;google-guice-inheritance-2.0-maven&lt;/id&gt;
+        &lt;parent&gt;google-guice-inheritance-base&lt;/parent&gt;
+        &lt;mavenName&gt;apache-maven-2&lt;/mavenName&gt;
+        &lt;repository&gt;
+            &lt;remote&gt;http://google-guice.googlecode.com/svn/branches/2.0-maven/
+            &lt;/remote&gt;
+        &lt;/repository&gt;
+    &lt;/job&gt;
+&lt;/jobs&gt;</pre><p>Dans cette configuration,
+                     <span class="emphasis"><em>google-guice-inheritance-base</em></span> est une t&acirc;che parent
+                     abstraite contenant toutes les propri&eacute;t&eacute;s communes : le nom du JDK, le
+                     nom de Maven, le nombre de jours de conservation des logs, la politique
+                     de mise &agrave; jour SVN, les goals Maven et les destinataires email. Les
+                     trois t&acirc;ches suivantes sont tr&egrave;s courtes, sp&eacute;cifiant simplement qu'elles
+                     &eacute;tendent une t&acirc;che <code class="literal">&lt;parent&gt;</code> et
+                     ajoutent les configurations manquantes (URLs de d&eacute;p&ocirc;t dans ce
+                     cas)<span class="keep-together">. Une fois g&eacute;n&eacute;r&eacute;es, elles h&eacute;ritent de
+                        toutes les propri&eacute;t&eacute;s de la t&acirc;che parente
+                        automatiquement</span>.
+            </p>
+            <p>Toute propri&eacute;t&eacute; h&eacute;rit&eacute;e peut &ecirc;tre r&eacute;d&eacute;finie, comme d&eacute;montr&eacute; dans
+                     la t&acirc;che <span class="emphasis"><em>google-guice-<span class="keep-together">inheritance-</span>2.0-maven</em></span> o&ugrave; Maven
+                     2 est utilis&eacute; &agrave; la place de Maven 3. Si vous voulez "annuler" une
+                     propri&eacute;t&eacute; h&eacute;ri&eacute;t&eacute;e, vous devrez la red&eacute;finir avec une valeur
+                     vide.
+            </p>
+            <p>L'h&eacute;ritage de t&acirc;ches est un concept tr&egrave;s puissant qui permet aux
+                     t&acirc;ches de former des groupes hi&eacute;rarchiques de n'importe quel type et
+                     dans n'importe quel but. Vous pouvez grouper vos t&acirc;ches d'IC, noctures
+                     ou de release de cette fa&ccedil;on, en centralisant les d&eacute;clencheurs
+                     d'ex&eacute;cution partag&eacute;s, les goals Maven ou les destinataires email dans
+                     des t&acirc;ches parentes. Cette approche emprunt&eacute; au monde orient&eacute; object
+                     permet de r&eacute;soudre le probl&egrave;me de maintenance de t&acirc;ches partageant un
+                     certain nombre de propri&eacute;t&eacute;s <a class="indexterm" name="I_indexterm10_d1e14986"></a>identiques.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e15218"></a>10.5.3.&nbsp;Le support des plugins
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>En plus de configurer une t&acirc;che et de r&eacute;utiliser ses d&eacute;finitions,
+                     vous pouvez b&eacute;n&eacute;ficier d'un support sp&eacute;cial pour un certain nombre
+                     de plugins Jenkins. &Agrave; l'heure actuelle, une utilisation simplifi&eacute;e des
+                     plugins Parameterized Trigger et Artifactory est fournie, un
+                     support pour d'autres plugins populaires est pr&eacute;vu dans de futures
+                     versions.
+            </p>
+            <p>Ci-dessous<a class="indexterm" name="I_indexterm10_d1e14996"></a><a class="indexterm" name="I_indexterm10_d1e14999"></a><a class="indexterm" name="I_indexterm10_d1e15004"></a> se trouve un exemple d'invocation de t&acirc;ches avec le
+                     plugin Parameterized Trigger. Utiliser cette option suppose que vous
+                     avez d&eacute;j&agrave; ce plugin install&eacute; :
+            </p><pre class="screen">&lt;job&gt;
+    &lt;id&gt;google-guice-inheritance-trunk&lt;/id&gt;
+    ...
+    &lt;invoke&gt;
+        &lt;jobs&gt;
+            google-guice-inheritance-3.0-rc3,
+            google-guice-inheritance-2.0-maven
+        &lt;/jobs&gt;
+    &lt;/invoke&gt;
+&lt;/job&gt;
+ 
+&lt;job&gt;
+    &lt;id&gt;google-guice-inheritance-3.0-rc3&lt;/id&gt;
+    ...
+&lt;/job&gt;
+ 
+&lt;job&gt;
+    &lt;id&gt;google-guice-inheritance-2.0-maven&lt;/id&gt;
+    ...
+&lt;/job&gt;</pre><p>L'&eacute;l&eacute;ment <code class="literal">&lt;invoke&gt;</code> vous
+                     permet d'invoquer d'autres t&acirc;ches chaque fois que la t&acirc;che courante se
+                     termine correctement. Vous pouvez cr&eacute;er un pipeline de t&acirc;ches de cette
+                     fa&ccedil;on, vous assurant que chaque t&acirc;che du pipeline invoque la suivante.
+                     Notez que s'il y a plus d'un ex&eacute;cuteur Jenkins disponible au moment de
+                     l'invocation, les t&acirc;ches sp&eacute;cifi&eacute;es d&eacute;marreront en parall&egrave;le. Pour une
+                     ex&eacute;cution en s&eacute;rie, vous devrez connecter chaque t&acirc;che amont &agrave; une t&acirc;che
+                     aval avec <code class="literal">&lt;invoke&gt;</code>.
+            </p>
+            <p>Par d&eacute;faut, l'invocation ne se fait que quand la t&acirc;che courante est
+                     stable. Ceci peut &ecirc;tre modifi&eacute;, comme montr&eacute; dans les exemples suivants
+                     :
+            </p><pre class="screen">&lt;invoke&gt;
+    &lt;jobs&gt;jobA, jobB, jobC&lt;/jobs&gt;
+    &lt;always&gt;true&lt;/always&gt;
+&lt;/invoke&gt;
+ 
+&lt;invoke&gt;
+    &lt;jobs&gt;jobA, jobB, jobC&lt;/jobs&gt;
+    &lt;unstable&gt;true&lt;/unstable&gt;
+&lt;/invoke&gt;
+ 
+&lt;invoke&gt;
+    &lt;jobs&gt;jobA, jobB, jobC&lt;/jobs&gt;
+    &lt;stable&gt;false&lt;/stable&gt;
+    &lt;unstable&gt;false&lt;/unstable&gt;
+    &lt;failed&gt;true&lt;/failed&gt;
+&lt;/invoke&gt;</pre><p>La premi&egrave;re invocation dans l'exemple ci-dessus invoque toujours
+                     les t&acirc;ches avals. Ceci peut &ecirc;tre utilis&eacute; pour un pipeline de t&acirc;ches qui
+                     devraient toujours &ecirc;tre ex&eacute;cut&eacute;es m&ecirc;me si certaines, ou leurs tests,
+                     &eacute;chouent.
+            </p>
+            <p>La seconde invocation dans l'exemple ci-dessus invoque les t&acirc;ches
+                     avals m&ecirc;me si une t&acirc;che amont est instable : l'invocation prend place
+                     quels que soient les r&eacute;sultats des tests. Cela peut &ecirc;tre utilis&eacute; pour un
+                     pipeline de t&acirc;ches moins sensibles aux tests et &agrave; leurs &eacute;checs.
+            </p>
+            <p>La troisi&egrave;me invocation ci-dessus invoque les t&acirc;ches avals
+                     seulement quand une t&acirc;che amont &eacute;choue mais pas lorsqu'elle est stable ou
+                     instable. Cette configuration peut vous &ecirc;tre utile si une t&acirc;che en &eacute;chec
+                     doit effectuer des actions additionnelles autres que les notifications
+                     email tradtionnelles.
+            </p>
+            <p><a class="indexterm" name="I_indexterm10_d1e15033"></a><a class="indexterm" name="I_indexterm10_d1e15036"></a><a class="indexterm" name="I_indexterm10_d1e15041"></a><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://jfrog.org" target="_top">Artifactory</a> est un
+                     d&eacute;p&ocirc;t de binaires &agrave; usage g&eacute;n&eacute;ral qui peut &ecirc;tre utilis&eacute; comme
+                     gestionnaire de d&eacute;p&ocirc;t Maven. Le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org/display/JENKINS/Artifactory+Plugin" target="_top">plugin
+                        Jenkins Artifactory</a>, montr&eacute; dans <a href="I_sect110_d1e14808.html#jenkins-plugin-artifactory" title="Figure&nbsp;10.29.&nbsp;Configuration du plugin Jenkins pour Artifactory">Figure&nbsp;10.29, &#8220;Configuration du plugin Jenkins pour Artifactory&#8221;</a>, fournit un certain nombre
+                     d'avantages pour les t&acirc;ches de build Jenkins. Nous avons d&eacute;j&agrave; pass&eacute; en revue
+                     quelques-unes d'entre elles dans <a href="sect-build-jobs-maven.html#sect-builds-deploy-enterprise-repository" title="5.9.4.&nbsp;D&eacute;ployer vers un gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise">Section&nbsp;5.9.4, &#8220;D&eacute;ployer vers un gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise&#8221;</a>, notamment la
+                     capacit&eacute; &agrave; d&eacute;ployer des artefacts &agrave; l'ach&egrave;vement de la t&acirc;che ou
+                     d'envoyer avec des informations de l'environnement de build avec les
+                     artefacts pour une meilleure tra&ccedil;abilit&eacute;.
+            </p>
+            <div class="figure"><a name="jenkins-plugin-artifactory"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15062"></a><img src="figs/web/jtdg_1029.png" alt="Configuration du plugin Jenkins pour Artifactory"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.29.&nbsp;Configuration du plugin Jenkins pour Artifactory</b></p>
+            </div><br class="figure-break"><p>Vous pouvez aussi utiliser le plugin Jenkins Artifactory
+                     conjointement au Maven Jenkins Plugin pour d&eacute;ployer dans Artifactory,
+                     comme montr&eacute; dans l'exemple suivant&nbsp;:
+            </p><pre class="screen">&lt;job&gt;
+    ...
+    &lt;artifactory&gt;
+        &lt;name&gt;http://artifactory-server/&lt;/name&gt;
+        &lt;deployArtifacts&gt;true&lt;/deployArtifacts&gt;
+        &lt;includeEnvVars&gt;true&lt;/includeEnvVars&gt;
+        &lt;evenIfUnstable&gt;true&lt;/evenIfUnstable&gt;
+    &lt;/artifactory&gt;
+&lt;/job&gt;</pre><p>Les informations d'identit&eacute; pour le d&eacute;ploiement sont sp&eacute;cifi&eacute;es
+                     dans la configuration de Jenkins dans l'&eacute;cran Administrer Jenkins<span class="unicode">&#8594;Configurer le syst&egrave;me</span>. Elles peuvent aussi &ecirc;tre
+                     sp&eacute;cifi&eacute;es pour chaque t&acirc;che Jenkins. Les d&eacute;p&ocirc;ts Maven par d&eacute;faut sont
+                     <code class="filename">libs-releases-local</code> et <code class="filename">libs-snapshots-local</code>. Vous trouverez plus de
+                     d&eacute;tails dans la documentation du plugin &agrave; l'adresse <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org/display/JENKINS/Artifactory+Plugin" target="_top">http://wiki.jenkins-ci.org/display/JENKINS/Artifactory+Plugin</a>.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e15312"></a>10.5.4.&nbsp;Les t&acirc;ches Freestyle
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>En <a class="indexterm" name="I_indexterm10_d1e15089"></a><a class="indexterm" name="I_indexterm10_d1e15094"></a><a class="indexterm" name="I_indexterm10_d1e15097"></a>suppl&eacute;ment des t&acirc;ches Maven, le Maven Jenkins Plugin vous
+                     permet de configurer des t&acirc;ches freestyle Jenkins. Un exemple est montr&eacute;
+                     ici :
+            </p><pre class="screen">&lt;job&gt;
+    &lt;id&gt;free-style&lt;/id&gt;
+    &lt;jobType&gt;free&lt;/jobType&gt;
+    &lt;scmType&gt;git&lt;/scmType&gt;
+    &lt;repository&gt;
+        &lt;remote&gt;git://github.com/evgeny-goldin/maven-plugins-test.git&lt;/remote&gt;
+    &lt;/repository&gt;
+    &lt;tasks&gt;
+        &lt;maven&gt;
+            &lt;mavenName&gt;apache-maven-3&lt;/mavenName&gt;
+            &lt;jvmOptions&gt;-Xmx128m -XX:MaxPermSize=128m -ea&lt;/jvmOptions&gt;
+            &lt;properties&gt;plugins-version = 0.2.2&lt;/properties&gt;
+        &lt;/maven&gt;
+        &lt;shell&gt;&lt;command&gt;pwd; ls -al; du -hs .&lt;/command&gt;&lt;/shell&gt;
+    &lt;/tasks&gt;
+&lt;/job&gt;</pre><p>Les t&acirc;ches Freestyle vous permettent d'ex&eacute;cuter un shell ou une
+                     commande batch, ex&eacute;cuter Maven ou Ant, et invoquer d'autres t&acirc;ches.
+                     Elles fournissent un environnement d'ex&eacute;cution bien pratique pour les
+                     scripts syst&egrave;mes ou tout autre type d'activit&eacute; qui n'est pas directement
+                     impl&eacute;ment&eacute;e dans Jenkins ou l'un des ses plugins. En utilisant cette
+                     approche, vous pouvez g&eacute;n&eacute;rer des fichiers de configuration de t&acirc;che de
+                     build Freestyle de fa&ccedil;on similaire &agrave; l'approche que nous avons vue pour
+                     les t&acirc;ches de build Maven, ce qui peut aider &agrave; rendre votre
+                     environnement de construction plus coh&eacute;rent <a class="indexterm" name="I_indexterm10_d1e15107"></a>et maintenable.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-multi-configuration-build-jobs.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect110_d1e15110.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">10.4.&nbsp;T&acirc;ches de build multiconfiguration&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;10.6.&nbsp;Coordonner vos
+                      builds
+               </td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

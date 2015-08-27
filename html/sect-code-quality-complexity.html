@@ -1,0 +1,100 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>9.6.&nbsp;Les rapports sur la complexit&eacute; du code</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-code-quality.html" title="Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code">
+      <link rel="prev" href="sect-code-quality-checkstyle.html" title="9.5.&nbsp;Utiliser les rapports Checkstyle, PMD, et FindBugs">
+      <link rel="next" href="sect-code-quality-open-tasks.html" title="9.7.&nbsp;Les rapports sur les t&acirc;ches ouvertes">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-checkstyle.html">9.5.&nbsp;Utiliser les rapports Checkstyle, PMD, et FindBugs</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-open-tasks.html">9.7.&nbsp;Les rapports sur les t&acirc;ches ouvertes</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-code-quality-complexity"></a>9.6.&nbsp;Les rapports sur la complexit&eacute; du code
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>La complexit&eacute; du code<a class="indexterm" name="ch09-complex1"></a><a class="indexterm" name="ch09-complex2"></a> est un autre aspect important de la qualit&eacute; du code. La
+            complexit&eacute; du code est mesur&eacute;e avec un certain nombre de moyens, mais une
+            mesure de complexit&eacute; g&eacute;n&eacute;ralement utilis&eacute;e (et facile &agrave; comprendre) est la
+            complexit&eacute; cyclomatique, qui consiste &agrave; mesurer le nombre de chemins
+                diff&eacute;rents &agrave; travers une m&eacute;thode. En utilisant cette m&eacute;trique, le code
+                complexe a g&eacute;n&eacute;ralement un grand nombre d&#8217;instructions conditionnelles
+                et de boucles imbriqu&eacute;es, qui rendent le code plus difficile &agrave; comprendre
+                et &agrave; d&eacute;boguer. 
+         </p>
+         <p>Il y a aussi une th&eacute;orie de qualit&eacute; de code mettant en corr&eacute;lation
+                la complexit&eacute; du code et la couverture du code qui donne une id&eacute;e
+                g&eacute;n&eacute;rale de la fiabilit&eacute; d&#8217;une portion de code. Celle-ci est bas&eacute;e sur l&#8217;id&eacute;e
+                (tr&egrave;s compr&eacute;hensible) que le code qui est &agrave; la fois complexe et peu test&eacute;
+                est plus susceptible de contenir des bugs que du code simple et bien
+                test&eacute;.
+         </p>
+         <p>Le<a class="indexterm" name="I_indexterm9_d1e13637"></a><a class="indexterm" name="I_indexterm9_d1e13642"></a> plugin Coverage Complexity Scatter Plot est con&ccedil;u pour vous
+                laisser visualiser cette information dans vos builds Jenkins (voir <a href="sect-code-quality-complexity.html#fig-hudson-coverage-complexity" title="Figure&nbsp;9.14.&nbsp;Un nuage de point couverture/complexit&eacute;.">Figure&nbsp;9.14, &#8220;Un nuage de point couverture/complexit&eacute;.&#8221;</a>). Les m&eacute;thodes dangereusement
+                complexes et/ou non test&eacute;es appara&icirc;tront hautes sur le graphique, alors
+                que les m&eacute;thodes bien &eacute;crites et bien test&eacute;es appara&icirc;tront plus
+                basses.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-coverage-complexity"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject9_d1e13654"></a><img src="figs/web/jtdg_0914.png" alt="Un nuage de point couverture/complexit&eacute;."></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;9.14.&nbsp;Un nuage de point couverture/complexit&eacute;.</b></p>
+            </div><br class="figure-break"></div>
+         <p>Le graphique de dispersion vous donne un bon aper&ccedil;u de l&#8217;&eacute;tat de
+                votre code en termes de complexit&eacute; et de couverture de test, mais vous pouvez
+                aussi descendre pour poursuivre l&#8217;enqu&ecirc;te. Si vous cliquez sur n&#8217;importe
+                quel point dans le graphique, vous pouvez voir les m&eacute;thodes
+                correspondantes, avec leur couverture de test et leur complexit&eacute; (voir
+                <a href="sect-code-quality-complexity.html#fig-hudson-coverage-complexity-details" title="Figure&nbsp;9.15.&nbsp;Vous pouvez cliquer sur n&#8217;importe quel point du graphique pour poursuivre l&#8217;enqu&ecirc;te">Figure&nbsp;9.15, &#8220;Vous pouvez cliquer sur n&#8217;importe quel point du graphique pour
+                     poursuivre l&#8217;enqu&ecirc;te&#8221;</a>).
+         </p>
+         <div class="figure"><a name="fig-hudson-coverage-complexity-details"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13666"></a><img src="figs/web/jtdg_0915.png" alt="Vous pouvez cliquer sur n&#8217;importe quel point du graphique pour poursuivre l&#8217;enqu&ecirc;te"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.15.&nbsp;Vous pouvez cliquer sur n&#8217;importe quel point du graphique pour
+                        poursuivre l&#8217;enqu&ecirc;te</b></p>
+         </div><br class="figure-break"><p>Au moment de la r&eacute;daction de ce livre, le plugin n&eacute;cessite Clover,
+                donc votre build a besoin d&#8217;avoir g&eacute;n&eacute;r&eacute; un rapport XML de couverture de
+                Clover, et vous avez besoin d&#8217;avoir install&eacute; et configur&eacute; le plugin Clover
+                de Jenkins (voir <a href="sect-chapter-automated-testing-coverage.html#sect-clover" title="6.6.2.&nbsp;Mesurer la couverture de code avec Clover">Section&nbsp;6.6.2, &#8220;Mesurer la couverture de code avec Clover&#8221;</a>). Cependant, un support
+                pour Cobertura et d&#8217;autres outils<a class="indexterm" name="I_indexterm9_d1e13676"></a><a class="indexterm" name="I_indexterm9_d1e13678"></a> est pr&eacute;vu.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-checkstyle.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-open-tasks.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">9.5.&nbsp;Utiliser les rapports Checkstyle, PMD, et FindBugs&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;9.7.&nbsp;Les rapports sur les t&acirc;ches ouvertes</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

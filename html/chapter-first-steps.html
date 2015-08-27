@@ -1,0 +1,103 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="I_sect11_d1e919.html" title="1.7.&nbsp;Et maintenant ?">
+      <link rel="next" href="sect-first-steps-environment.html" title="2.2.&nbsp;Pr&eacute;paration de votre environnement">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect11_d1e919.html">1.7.&nbsp;Et maintenant ?</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-environment.html">2.2.&nbsp;Pr&eacute;paration de votre environnement</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="chapter-first-steps"></a>Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="chapter-first-steps.html#sect-first-steps-introduction">2.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="sect-first-steps-environment.html">2.2. Pr&eacute;paration de votre environnement</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-first-steps-environment.html#d0e1069">2.2.1. Installation de Java</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-first-steps-environment.html#d0e1111">2.2.2. Installation de Git</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-first-steps-environment.html#d0e1161">2.2.3. Configurer un compte GitHub</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-first-steps-environment.html#d0e1185">2.2.4. Configurer les clefs SSH</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-first-steps-environment.html#sect-git-fork">2.2.5. Forker le d&eacute;p&ocirc;t des exemples</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-first-steps-starting.html">2.3. D&eacute;marrer Jenkins</a></span></dt>
+               <dt><span class="sect1"><a href="sect-first-steps-configuring.html">2.4. Configuring the Tools</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-first-steps-configuring.html#d0e1493">2.4.1. Configuring Your Maven Setup</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-first-steps-configuring.html#d0e1548">2.4.2. Configuring the JDK</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-first-steps-configuring.html#d0e1578">2.4.3. Notification</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-first-steps-configuring.html#d0e1599">2.4.4. Setting Up Git</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-first-steps-first-job.html">2.5. Your First Jenkins Build Job</a></span></dt>
+               <dt><span class="sect1"><a href="sect-first-steps-first-job-in-action.html">2.6. Your First Build Job in Action</a></span></dt>
+               <dt><span class="sect1"><a href="sect-first-steps-javadocs.html">2.7. More Reporting&#8212;Displaying Javadocs</a></span></dt>
+               <dt><span class="sect1"><a href="sect-first-steps-metrics.html">2.8. Adding Code Coverage and Other Metrics</a></span></dt>
+               <dt><span class="sect1"><a href="I_sect12_d1e2485.html">2.9. Conclusion</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="sect-first-steps-introduction"></a>2.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p>Dans ce chapitre, nous allons faire un tour rapide des fonctionnalit&eacute;s cl&eacute; de Jenkins. 
+                     Tout d'abord, vous verrez combien il est facile d'installer Jenkins
+                     et d'y configurer votre premi&egrave;re de build automatique. Nous n'entrerons pas
+                     dans les d&eacute;tails - ceux-ci vous seront donn&eacute;s dans les chapitres suivants, ainsi
+                     que dans un chapitre d&eacute;taill&eacute; sur l'administration de Jenkins &agrave; la fin de ce
+                     livre (<a href="chapter-maintaining-jenkins.html" title="Chapter&nbsp;13.&nbsp;Maintenir Jenkins">Chapter&nbsp;13, <i xmlns:xlink="http://www.w3.org/1999/xlink">Maintenir Jenkins</i></a>). Ce chapitre n'est qu'une introduction.
+                     Cependant, quand vous terminerez la lecture de ce chapitre vous aurez aussi eu un aper&ccedil;u des rapports de
+                     sur les r&eacute;sultats des tests, la production de javadoc et la publication de la
+                     couverture de test! Nous avons un long chemin &agrave; parcourir, alors allons-y!
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect11_d1e919.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-environment.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">1.7.&nbsp;Et maintenant ?&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;2.2.&nbsp;Pr&eacute;paration de votre environnement</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

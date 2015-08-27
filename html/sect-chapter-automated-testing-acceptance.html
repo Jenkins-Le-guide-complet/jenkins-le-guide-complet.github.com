@@ -1,0 +1,164 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>6.7.&nbsp;Tests d'acceptation automatis&eacute;s</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-automated-testing.html" title="Chapter&nbsp;6.&nbsp;Tests automatis&eacute;s">
+      <link rel="prev" href="sect-chapter-automated-testing-coverage.html" title="6.6.&nbsp;Couverture de code">
+      <link rel="next" href="sect-chapter-automated-testing-performance.html" title="6.8.&nbsp;Tests de performance automatis&eacute;s avec JMeter">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-coverage.html">6.6.&nbsp;Couverture de code</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-performance.html">6.8.&nbsp;Tests de performance automatis&eacute;s avec JMeter</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-chapter-automated-testing-acceptance"></a>6.7.&nbsp;Tests d'acceptation automatis&eacute;s
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Les tests <a class="indexterm" name="ch06-accept2"></a><a class="indexterm" name="ch06-accept3"></a>d'acceptation automatis&eacute;s jouent un r&ocirc;le important dans de
+            nombreux projets agiles, &agrave; la fois pour la v&eacute;rification et pour la
+            communication. Comme outil de v&eacute;rification, les tests d'acceptation jouent
+            un r&ocirc;le similaire aux tests d'int&eacute;gration, et visent &agrave; d&eacute;montrer que
+            l'application fait effectivement ce qui est attendu d'elle. Mais ce n'est
+            qu'un aspect secondaire des tests d'acceptation automatis&eacute;s. L'objectif
+                principal est en fait la communication &#8212; montrer aux non d&eacute;veloppeurs
+                (experts m&eacute;tier, analystes m&eacute;tiers, testeurs, et ainsi de suite) pr&eacute;cisement
+                o&ugrave; en est le projet.
+         </p>
+         <p>Les tests d'acceptation ne doivent pas &ecirc;tre m&eacute;lang&eacute;s avec des tests
+                orient&eacute;s d&eacute;veloppeurs, parce qu'&agrave; la fois leur finalit&eacute; et leur audience
+                sont tr&egrave;s diff&eacute;rentes. Les tests d'acceptation doivent &ecirc;tre des exemples
+                montrant comment le syst&egrave;me fonctionne, avec un accent sur la d&eacute;monstration
+                plut&ocirc;t que sur une preuve exhaustive. Les tests exhaustifs doivent &ecirc;tre
+                faits au niveau des tests unitaires.
+         </p>
+         <p>Les tests d'acceptation peuvent &ecirc;tre automatis&eacute;s en utilisant des
+                outils conventionnels tels que JUnit, mais il y a une tendance croissante &agrave;
+                utiliser <a class="indexterm" name="I_indexterm6_d1e9602"></a>des frameworks Behavior-Driven Development (BDD) &agrave; cet effet,
+                parce qu'ils correspondent mieux &agrave; l'audience non technique des tests
+                d'acceptation. Les outils Behavior-driven development utilis&eacute;s pour les
+                tests d'acceptation automatis&eacute;s <span class="keep-together">g&eacute;n&egrave;rent</span> g&eacute;n&eacute;ralement des rapports HTML avec
+                une mise en page bien adapt&eacute;e aux non d&eacute;veloppeurs. Ils produisent aussi
+                souvent <a class="indexterm" name="I_indexterm6_d1e9609"></a>des rapports compatibles JUnit qui peuvent &ecirc;tre trait&eacute;s
+                directement par Jenkins.
+         </p>
+         <p>Les frameworks Behavior-Driven Development ont aussi la notion de
+                &#8220;tests en attente&#8221;, tests qui sont automatis&eacute;s, mais qui n'ont pas encore
+                &eacute;t&eacute; impl&eacute;ment&eacute;s par l'&eacute;quipe de d&eacute;veloppement. Cette distinction joue un
+                r&ocirc;le important dans la communication avec les autres acteurs non
+                d&eacute;veloppeurs : si vous pouvez automatiser ces tests t&ocirc;t dans le processus,
+                ils vous donneront un excellent indicateur des fonctionnalit&eacute;s qui ont &eacute;t&eacute;
+                impl&eacute;ment&eacute;es, qui fonctionnent, ou qui n'ont pas encore &eacute;t&eacute;
+                d&eacute;marr&eacute;es.
+         </p>
+         <p>En <a class="indexterm" name="ch06-acceptrep"></a>r&egrave;gle g&eacute;n&eacute;rale, vos tests d'acceptation doivent &ecirc;tre affich&eacute;s
+                s&eacute;par&eacute;ment des autres tests automatis&eacute;s plus conventionnels. S'ils utilisent
+                le m&ecirc;me framework de test que vos tests classiques (e.g., JUnit),
+                assurez-vous qu'ils sont ex&eacute;cut&eacute;s dans une t&acirc;che de build s&eacute;par&eacute;e, de telle
+                fa&ccedil;on que les non-d&eacute;veloppeurs peuvent les visualiser et se concentrer sur
+                les tests orient&eacute;s m&eacute;tier sans &ecirc;tre distraits par ceux de plus bas niveau ou
+                techniques. Il peut &ecirc;tre aussi utile d'adopter des conventions de nommage
+                orient&eacute;es m&eacute;tier et fonctionnelles pour vos tests et classes de test, afin de
+                les rendre plus accessible aux non-d&eacute;veloppeurs (voir <a href="sect-chapter-automated-testing-acceptance.html#fig-hudson-junit-acceptance-tests" title="Figure&nbsp;6.19.&nbsp;Utilisation de conventions de nommage orient&eacute;es m&eacute;tier pour des tests JUnit">Figure&nbsp;6.19, &#8220;Utilisation de conventions de nommage orient&eacute;es m&eacute;tier pour des tests
+                     JUnit&#8221;</a>). La fa&ccedil;on dont vous nommez
+                vos tests et classes de test peut faire une r&eacute;elle diff&eacute;rence quant &agrave; la
+                lecture des rapports de test et la compr&eacute;hension des fonctionnalit&eacute;s et
+                comportements m&eacute;tier qui sont test&eacute;s.
+         </p>
+         <div class="figure"><a name="fig-hudson-junit-acceptance-tests"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject6_d1e9630"></a><img src="figs/web/jtdg_0619.png" alt="Utilisation de conventions de nommage orient&eacute;es m&eacute;tier pour des tests JUnit"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;6.19.&nbsp;Utilisation de conventions de nommage orient&eacute;es m&eacute;tier pour des tests
+                        JUnit</b></p>
+         </div><br class="figure-break"><p>Si vous utilisez un outil qui g&eacute;n&egrave;re des rapports HTML, vous pouvez
+                les afficher dans le m&ecirc;me build que vos tests classiques, tant qu'ils
+                apparaissent dans un rapport s&eacute;par&eacute;. Jenkins fournit un plugin tr&egrave;s pratique
+                pour ce genre de rapport HTML, appel&eacute; le<a class="indexterm" name="ch06-html1"></a><a class="indexterm" name="ch06-html2"></a> plugin HTML Publisher (voir <a href="sect-chapter-automated-testing-acceptance.html#fig-hudson-html-publisher-plugin" title="Figure&nbsp;6.20.&nbsp;Installer le plugin HTML Publisher">Figure&nbsp;6.20, &#8220;Installer le plugin HTML Publisher&#8221;</a>). Bien que ce soit &agrave; vous de
+                vous assurer que votre build <span class="keep-together">produise</span>
+                les bons rapports, Jenkins peut les afficher sur la page de votre t&acirc;che de
+                build, les rendant facilement accessible &agrave; tous les membres de
+                l'&eacute;quipe.
+         </p>
+         <div class="figure"><a name="fig-hudson-html-publisher-plugin"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject6_d1e9654"></a><img src="figs/web/jtdg_0620.png" alt="Installer le plugin HTML Publisher"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;6.20.&nbsp;Installer le plugin HTML Publisher</b></p>
+         </div><br class="figure-break"><p>Ce plugin est facile &agrave; configurer. Allez jusqu'&agrave; la section &#8220;Actions &agrave;
+                la suite du build&#8221; et cochez la case &#8220;Publish HTML reports&#8221; (voir <a href="sect-chapter-automated-testing-acceptance.html#fig-hudson-html-reports" title="Figure&nbsp;6.21.&nbsp;Publier les rapports HTML">Figure&nbsp;6.21, &#8220;Publier les rapports HTML&#8221;</a>). Ensuite, indiquez &agrave; Jenkins le
+                r&eacute;pertoire o&ugrave; ont &eacute;t&eacute; g&eacute;n&eacute;r&eacute;s vos rapports HTML, une page d'index, et un
+                titre pour votre rapport. Vous pouvez aussi demander &agrave; Jenkins de stocker
+                les rapports g&eacute;n&eacute;r&eacute;s pour chaque build, ou de ne conserver que le
+                dernier.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-html-reports"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject6_d1e9666"></a><img src="figs/web/jtdg_0621.png" alt="Publier les rapports HTML"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;6.21.&nbsp;Publier les rapports HTML</b></p>
+            </div><br class="figure-break"></div>
+         <p>Une fois que cela est fait, Jenkins affichera une ic&ocirc;ne sp&eacute;ciale sur
+                votre page d'accueil de votre t&acirc;che de build, avec un lien vers votre
+                rapport HTML. Sur <a href="sect-chapter-automated-testing-acceptance.html#fig-hudson-easyb-report" title="Figure&nbsp;6.22.&nbsp;Jenkins affiche un lien sp&eacute;cial sur la page d'accueil de la t&acirc;che de build pour votre rapport">Figure&nbsp;6.22, &#8220;Jenkins affiche un lien sp&eacute;cial sur la page d'accueil de la t&acirc;che
+                     de build pour votre rapport&#8221;</a>, vous pouvez
+                voir les rapports easyb que nous avions configur&eacute; pr&eacute;c&eacute;demment en
+                action.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-easyb-report"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject6_d1e9679"></a><img src="figs/web/jtdg_0622.png" alt="Jenkins affiche un lien sp&eacute;cial sur la page d'accueil de la t&acirc;che de build pour votre rapport"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;6.22.&nbsp;Jenkins affiche un lien sp&eacute;cial sur la page d'accueil de la t&acirc;che
+                           de build pour votre rapport</b></p>
+            </div><br class="figure-break"></div>
+         <p>Le plugin HTML Publisher fonctionne parfaitement pour les rapports
+                HTML. Si, d'autre part, vous voulez (aussi) publier des documents non-HTML,
+                tels que des fichiers texte, PDFs, et ainsi de suite, alors le<a class="indexterm" name="I_indexterm6_d1e9686"></a><a class="indexterm" name="I_indexterm6_d1e9689"></a> plugin DocLinks est fait pour vous. Ce plugin est semblable
+                au plugin HTML Publisher, mais il vous permet d'archiver &agrave; la fois des
+                rapports HTML aussi bien que des documents dans d'autres formats. Par
+                exemple, dans <a href="sect-chapter-automated-testing-acceptance.html#fig-jenkins-doclinks-plugin" title="Figure&nbsp;6.23.&nbsp;Le plugin DocLinks vous permet d'archiver des documents HTML et non-HTML">Figure&nbsp;6.23, &#8220;Le plugin DocLinks vous permet d'archiver des documents HTML et
+                     non-HTML&#8221;</a>, nous avons
+                configur&eacute; une t&acirc;che de build qui archive &agrave; la fois un document PDF et un
+                rapport HTML. Ces deux documents seront maintenant list&eacute;s sur la page
+                d'accueil de la tache de <a class="indexterm" name="I_indexterm6_d1e9697"></a><a class="indexterm" name="I_indexterm6_d1e9699"></a><a class="indexterm" name="I_indexterm6_d1e9701"></a><a class="indexterm" name="I_indexterm6_d1e9703"></a><a class="indexterm" name="I_indexterm6_d1e9705"></a>build.
+         </p>
+         <div class="figure"><a name="fig-jenkins-doclinks-plugin"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject6_d1e9711"></a><img src="figs/web/jtdg_0623.png" alt="Le plugin DocLinks vous permet d'archiver des documents HTML et non-HTML"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;6.23.&nbsp;Le plugin DocLinks vous permet d'archiver des documents HTML et
+                        non-HTML</b></p>
+         </div><br class="figure-break"></div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-coverage.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-performance.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">6.6.&nbsp;Couverture de code&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;6.8.&nbsp;Tests de performance automatis&eacute;s avec JMeter</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

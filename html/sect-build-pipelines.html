@@ -1,0 +1,771 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>10.7.&nbsp;Pipelines de build et promotions</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-advanced-builds.html" title="Chapter&nbsp;10.&nbsp;Builds avanc&eacute;s">
+      <link rel="prev" href="I_sect110_d1e15110.html" title="10.6.&nbsp;Coordonner vos builds">
+      <link rel="next" href="I_sect110_d1e16005.html" title="10.8.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect110_d1e15110.html">10.6.&nbsp;Coordonner vos
+                         builds</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect110_d1e16005.html">10.8.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-build-pipelines"></a>10.7.&nbsp;Pipelines de build et promotions
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>L'int&eacute;gration<a class="indexterm" name="ch10-pipe"></a><a class="indexterm" name="I_indexterm10_d1e15327"></a> continue ne consiste pas simplement &agrave; construire et tester
+            automatiquement un logiciel, elle peut aussi apporter une aide dans un
+            contexte plus large de d&eacute;v&eacute;loppement de produit logiciel et de cycle de
+            vie de release. Dans de nombreuses organisation, la vie d'une version
+            particuli&egrave;re d'une application ou d'un produit d&eacute;marre en d&eacute;veloppement.
+            Lorsqu'on l'estime pr&ecirc;te, elle est pass&eacute;e &agrave; l'&eacute;quipe d'assurance qualit&eacute;
+            pour la tester. S'ils consid&egrave;rent la version acceptable, ils la
+            transmettent &agrave; des utilisateurs s&eacute;lectionn&eacute;s pour davantage de tests dans
+            un environnement de tests d'acceptation. Si les utilisateurs sont
+            contents, elle est envoy&eacute;e en production. Bien s&ucirc;r, il y a presque autant
+                de variations de cela qu'il y a d'&eacute;quipes de d&eacute;veloppement, mais un
+                principe commun est que des versions sp&eacute;cifiques sont s&eacute;lectionn&eacute;es, selon
+                certains crit&egrave;res de qualit&eacute;, afin d'<a class="indexterm" name="I_indexterm10_d1e15333"></a><a class="indexterm" name="I_indexterm10_d1e15338"></a>&ecirc;tre &#8220;promues" &agrave; l'&eacute;tape suivante du cycle de vie. Ceci est
+                connu sous l'appellation promotion de build, et le processus plus global
+                est connu sous le nom de pipeline de build. Dans cette section, nous
+                regarderons comment impl&eacute;menter des pipelines de build en utilisant
+                Jenkins.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="jenkins-maven-releases"></a>10.7.1.&nbsp;Gestion des releases Maven avec le plugin M2Release
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une part importante de tout pipeline de build est d'avoir une
+                     strat&eacute;gie de release bien d&eacute;finie. Ceci implique, entre autres choses,
+                     de d&eacute;dier comment et quand lancer une nouvelle release, et comment
+                     l'identifier avec un libell&eacute; unique ou num&eacute;ro de version. Si <a class="indexterm" name="ch10-numbers1"></a><a class="indexterm" name="ch10-numbers2"></a><a class="indexterm" name="ch10-numbers3"></a>vous travaillez avec des projets Maven, utiliser
+                     <a class="indexterm" name="I_indexterm10_d1e15361"></a><a class="indexterm" name="I_indexterm10_d1e15366"></a>le plugin Maven Release pour g&eacute;rer les num&eacute;ros de versions
+                     est une pratique hautement recommand&eacute;e.
+            </p>
+            <p>Les projets Maven utilisent des num&eacute;ros de version bien d&eacute;finis et
+                     bien structur&eacute;s. Un num&eacute;ro de version typique est compos&eacute; de trois
+                     digits (e.g., &#8220;1.0.1&#8221;). Les d&eacute;veloppeurs travaillent sur des versions
+                     SNAPSHOT (e.g.,&#8220;1.0.1-SNAPSHOT&#8221;), qui, comme son nom l'indique, n'est
+                     pas con&ccedil;u pour &ecirc;tre d&eacute;finitif. Les releases d&eacute;finitives (e.g., &#8220;1.0.1&#8221;)
+                     sont construites une seule fois et d&eacute;ploy&eacute;es dans le d&eacute;p&ocirc;t local
+                     d'entreprise (ou le d&eacute;p&ocirc;t central Maven pour les biblioth&egrave;ques
+                     opensource), o&ugrave; elles peuvent &agrave; leur tour &ecirc;tre utilis&eacute;es par d'autres
+                     projets. Les num&eacute;ros de version utilis&eacute;s dans des artefacts Maven sont
+                     une part critique du syst&egrave;me de gestion de d&eacute;pendances Maven, et il est
+                     fortement conseill&eacute; de respecter les conventions Maven.
+            </p>
+            <p>Le plugin Maven Release aide &agrave; automatiser le processus de mise &agrave;
+                     jour des num&eacute;ros de version Maven de vos projets. En r&eacute;sum&eacute;, cela
+                     v&eacute;rifie, construit et teste votre application, monte les num&eacute;ros de
+                     version, met &agrave; jour votre syst&egrave;me de contr&ocirc;le de versions avec les tags
+                     appropri&eacute;s, et d&eacute;ploie les versions de release de vos artefacts dans
+                     votre d&eacute;p&ocirc;t Maven. C'est une t&acirc;che fastidieuse &agrave; faire manuellement, le
+                     plugin Maven Release est donc un excellent moyen d'automatiser les
+                     choses.
+            </p>
+            <p>Toutefois, le plugin Maven Release peut aussi &ecirc;tre capricieux. Des
+                     fichiers locaux non-archiv&eacute;s ou modifi&eacute;s peuvent faire &eacute;chouer le
+                     processus, par exemple. Le processus est aussi consommateur en temps et
+                     consomme intensivement le CPU, plus sp&eacute;cialement pour les gros projets :
+                     cela construit et ex&eacute;cute enti&egrave;rement l'ensemble de tests unitaires et
+                     d'int&eacute;gration plusieurs fois, r&eacute;cup&egrave;re une copie propre du code depuis
+                     le d&eacute;p&ocirc;t, et envoie plusieurs artefacts au d&eacute;p&ocirc;t d'entreprise.
+                     Concr&egrave;tement, ce n'est pas le genre de chose que vous voulez ex&eacute;cuter sur
+                     une machine de d&eacute;veloppeur.
+            </p>
+            <p>Il est donc de bon ton d'ex&eacute;cuter ce processus sur votre serveur
+                     de build.
+            </p>
+            <p>Une fa&ccedil;on de faire cela est de configurer une t&acirc;che manuelle de
+                     build sp&eacute;ciale invoquant le plugin Maven Release. Toutefois, le plugin
+                     M2Release propose une approche plus simple. En utilisant ce plugin, vous
+                     pouvez ajouter la possibilit&eacute; de construire une version de release Maven
+                     &agrave; une t&acirc;che existante. Vous pouvez ainsi &eacute;viter de dupliquer des t&acirc;ches
+                     de builds inutilement, facilitant par la m&ecirc;me la maintenance du
+                     serveur.
+            </p>
+            <p>Une fois ce plugin install&eacute;, vous pouvez configurer toute t&acirc;che de
+                     build pour qu'elle propose une &eacute;tape manuelle de release Maven. Ceci
+                     s'effectue en cochant la case &#8220;Maven release build&#8221; dans la section
+                     Environnement de Build (voir <a href="sect-build-pipelines.html#fig-build-m2release-plugin" title="Figure&nbsp;10.36.&nbsp;Configurer une release Maven en utilisant le plugin M2Release">Figure&nbsp;10.36, &#8220;Configurer une release Maven en utilisant le plugin
+                          M2Release&#8221;</a>). Ici, vous d&eacute;finissez les goals
+                     que vous voulez ex&eacute;cuter pour le build (typiquement <code class="literal">release:prepare release:perform</code>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-build-m2release-plugin"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15393"></a><img src="figs/web/jtdg_1036.png" alt="Configurer une release Maven en utilisant le plugin M2Release"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.36.&nbsp;Configurer une release Maven en utilisant le plugin
+                                M2Release</b></p>
+               </div><br class="figure-break"></div>
+            <p>Lorsque ceci est configur&eacute;, vous pouvez d&eacute;clencher manuellement
+                     une release Maven en utilisant une nouvelle option de menu appel&eacute;e
+                     &#8220;Perform Maven Release&#8221; (voir <a href="sect-build-pipelines.html#fig-jenkins-m2-release-menu" title="Figure&nbsp;10.37.&nbsp;L'option de menu Perform Maven Release">Figure&nbsp;10.37, &#8220;L'option de menu Perform Maven Release&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-m2-release-menu"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15405"></a><img src="figs/web/jtdg_1037.png" alt="L'option de menu Perform Maven Release"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.37.&nbsp;L'option de menu Perform Maven Release</b></p>
+               </div><br class="figure-break"></div>
+            <p>Cela d&eacute;clenchera une t&acirc;che de build sp&eacute;ciale utilisant les goals
+                     que vous avez fournis dans la configuration du plugin (voir <a href="sect-build-pipelines.html#fig-jenkins-perform-release" title="Figure&nbsp;10.38.&nbsp;Effectuer une release Maven dans Jenkins">Figure&nbsp;10.38, &#8220;Effectuer une release Maven dans Jenkins&#8221;</a>). Jenkins vous offre le choix
+                     d'utiliser soit les num&eacute;ros de version par d&eacute;faut fournis par Maven (par
+                     exemple, la version 1.0.1-SNAPSHOT sera livr&eacute;e avec la version 1.0.1, et le num&eacute;ro de
+                     version en d&eacute;veloppement sera positionn&eacute;e &agrave; 1.0.2-<span class="keep-together">SNAPSHOT</span>), soit de fournir vos propres
+                     num&eacute;ros de version personnalis&eacute;s. Si, par exemple, vous voulez livrer une version
+                     majeure vous pourriez d&eacute;cider de sp&eacute;cifier manuellement
+                     1.1.0 comme num&eacute;ro de version et 1.1.1-SNAPSHOT comme prochain num&eacute;ro de
+                     version de d&eacute;veloppement.
+            </p>
+            <p>Si vous avez un projet multimodule Maven, vous pouvez choisir une
+                     configuration de num&eacute;ro de version unique pour tous les modules, ou de
+                     fournir une mise &agrave; jour de num&eacute;ro de version diff&eacute;rente pour chaque
+                     module. Notez que ce n'est g&eacute;n&eacute;ralement pas une pratique recommand&eacute;e que
+                     de fournir des num&eacute;ros de version diff&eacute;rents pour diff&eacute;rents modules
+                     dans un projet multimodule.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-perform-release"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15423"></a><img src="figs/web/jtdg_1038.png" alt="Effectuer une release Maven dans Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.38.&nbsp;Effectuer une release Maven dans Jenkins</b></p>
+               </div><br class="figure-break"></div>
+            <p>En fonction de votre configuration SCM, vous pourriez aussi avoir
+                     besoin de fournir un nom d'utilisateur et un mot de passe valide pour
+                     permettre &agrave; Maven de cr&eacute;er les tags dans votre d&eacute;p&ocirc;t de code
+                     source.
+            </p>
+            <p>L'<a class="indexterm" name="I_indexterm10_d1e15432"></a>&eacute;dition professionnelle du D&eacute;p&ocirc;t d'Entreprise Nexus
+                     fournit une fonctionnalit&eacute; appel&eacute;e Staging Repositories, qui permet
+                     de d&eacute;ployer des artefacts dans un espace sp&eacute;cial de staging afin de
+                     faire davantage de tests avant de les livrer officiellement. Si vous
+                     utilisez cette fonctionnalit&eacute;, vous devez param&eacute;trer plus finement votre
+                     configuration de serveur de build pour de meilleurs r&eacute;sultats.
+            </p>
+            <p>Nexus Professional travaille en cr&eacute;ant un nouvel espace de staging
+                     pour chaque adresse IP unique, utilisateur de d&eacute;ploiement et User-Agent
+                     HTTP. Une machine de build Jenkins donn&eacute;e aura toujours la m&ecirc;me adresse
+                     IP et le m&ecirc;me utilisateur. Toutefois, vous voudrez typiquement avoir un
+                     espace de staging s&eacute;par&eacute; pour chaque build. L'astuce est alors de
+                     configurer Maven pour qu'il utilise une cha&icirc;ne de User-Agent HTTP unique
+                     pour le processus de d&eacute;ploiement. Vous pouvez le faire en configurant le
+                     fichier <code class="filename">settings.xml</code> sur votre
+                     serveur de build afin qu'il contienne quelque chose dans le genre des
+                     lignes suivantes (l'ID doit correspondre &agrave; l'ID du d&eacute;p&ocirc;t de release de
+                     la section <span class="emphasis"><em>deployment</em></span> <a class="indexterm" name="I_indexterm10_d1e15443"></a><a class="indexterm" name="I_indexterm10_d1e15445"></a><a class="indexterm" name="I_indexterm10_d1e15447"></a> de votre projet) :
+            </p><a name="I_programlisting10_d1e15451"></a><pre class="programlisting"> &lt;server&gt;
+    &lt;id&gt;nexus&lt;/id&gt;
+    &lt;username&gt;my_login&lt;/username&gt;
+    &lt;password&gt;my_password&lt;/password&gt;
+    &lt;configuration&gt;
+      &lt;httpHeaders&gt;
+        &lt;property&gt;
+          &lt;name&gt;User-Agent&lt;/name&gt;
+          &lt;value&gt;Maven m2Release (java:25.66-b01 ${env.BUILD_TAG }&lt;/value&gt;
+        &lt;/property&gt;
+      &lt;/httpHeaders&gt;
+    &lt;/configuration&gt;
+  &lt;/server&gt;</pre></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-copying-artifacts"></a>10.7.2.&nbsp;Copier des artefacts
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Pendant<a class="indexterm" name="ch10-art1"></a><a class="indexterm" name="ch10-art2"></a><a class="indexterm" name="I_indexterm10_d1e15468"></a> un processus de build impliquant plusieurs t&acirc;ches de
+                     build, comme celle illustr&eacute;e dans <a href="I_sect110_d1e15110.html#fig-build-dependency-graph-join" title="Figure&nbsp;10.33.&nbsp;Un graphe de d&eacute;pendance de t&acirc;che de build plus compliqu&eacute;">Figure&nbsp;10.33, &#8220;Un graphe de d&eacute;pendance de t&acirc;che de build plus
+                          compliqu&eacute;&#8221;</a>, il peut parfois &ecirc;tre utile
+                     de r&eacute;utiliser des artefacts produits par un build dans une t&acirc;che de
+                     build ult&eacute;rieure. Par exemple, vous pourriez vouloir ex&eacute;cuter une s&eacute;rie
+                     de tests web en parall&egrave;les sur des machines s&eacute;par&eacute;es, en utilisant des
+                     serveurs d'application locaux pour am&eacute;liorer les performances. Dans ce
+                     cas, il est normal de r&eacute;cup&eacute;rer le binaire exact qui a &eacute;t&eacute; produit dans
+                     le build pr&eacute;c&eacute;dent, plut&ocirc;t que de le reconstruire chaque fois ou, si
+                     vous utilisez Maven, de reposer sur un build SNAPSHOT d&eacute;ploy&eacute; dans le
+                     d&eacute;p&ocirc;t d'entreprise. En effet, ces deux approches pourraient vous faire
+                     courir le risque de r&eacute;sultats de build incoh&eacute;rent : si vous utilisez une
+                     SNAPSHOT d'un d&eacute;p&ocirc;t d'entreprise, par exemple, vous utiliserez le
+                     dernier build SNAPSHOT, qui pourrait ne pas n&eacute;cessairement &ecirc;tre celui
+                     construit dans la t&acirc;che de build amont.
+            </p>
+            <p>Le <a class="indexterm" name="I_indexterm10_d1e15478"></a><a class="indexterm" name="I_indexterm10_d1e15483"></a> plugin Copy Artifact vous permet de copier des artefacts
+                     d'un build amont et de les r&eacute;utiliser dans votre build courant. Une fois
+                     que vous avez install&eacute; ce plugin et red&eacute;marr&eacute; Jenkins, vous pourrez
+                     ajouter une nouvelle &eacute;tape de build appel&eacute;e &#8220;Copier des artefacts d'un
+                     autre projet&#8221; &agrave; vos t&acirc;ches de build freestyle (voir <a href="sect-build-pipelines.html#fig-build-copy-artifacts" title="Figure&nbsp;10.39.&nbsp;Ajouter une &eacute;tape de build &#8220;Copier des artefacts d'un autre projet&#8221;">Figure&nbsp;10.39, &#8220;Ajouter une &eacute;tape de build &#8220;Copier des artefacts d'un autre
+                          projet&#8221;&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-build-copy-artifacts"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15492"></a><img src="figs/web/jtdg_1039.png" alt="Ajouter une &eacute;tape de build &#8220;Copier des artefacts d'un autre projet&#8221;"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.39.&nbsp;Ajouter une &eacute;tape de build &#8220;Copier des artefacts d'un autre
+                                projet&#8221;</b></p>
+               </div><br class="figure-break"></div>
+            <p>Cette nouvelle &eacute;tape de build vous permet de copier des artefacts
+                     d'un projet dans l'espace de travail du projet courant. Vous pouvez
+                     sp&eacute;cifier n'importe quel autre projet, bien que ce sera typiquement
+                     l'une des t&acirc;ches de build amont. Et bien s&ucirc;r vous pouvez sp&eacute;cifier, avec
+                     une grande flexibilit&eacute; et pr&eacute;cision, les artefacts exacts que vous
+                     souhaitez copier.
+            </p>
+            <p>Vous devez sp&eacute;cifier o&ugrave; trouver les fichiers que vous voulez dans
+                     l'espace de travail de l'autre t&acirc;che de build, et o&ugrave; Jenkins doit les
+                     mettre dans votre espace de travail courant. Ceci peut &ecirc;tre une
+                     expression r&eacute;guli&egrave;re flexible (comme <code class="literal">**/*.war</code>, pour tout fichier WAR produit par la
+                     t&acirc;che de build), ou cela peut &ecirc;tre beaucoup plus pr&eacute;cis (comme <code class="literal">gameoflife-web/target/gameoflife.war</code>). Notez
+                     que par d&eacute;faut, Jenkins copiera la structure de r&eacute;pertoire en m&ecirc;me temps
+                     que le fichier que vous r&eacute;cup&eacute;rez, ainsi si le fichier WAR se trouve
+                     dans dans le r&eacute;pertoire <code class="filename">target</code> du module <code class="literal">gameoflife-web</code>, Jenkins le placera dans le
+                     r&eacute;pertoire <code class="filename">gameoflife-web/target</code> de
+                     votre espace de travail courant. Si cela ne vous convient pas, vous
+                     pouvez cocher l'option &#8220;Aplatir l'arborescence&#8221; pour dire &agrave; Jenkins de
+                     mettre tous les artefacts &agrave; la racine du r&eacute;pertoire que vous sp&eacute;cifiez
+                     (ou, par d&eacute;faut, dans l'espace de travail de votre projet).
+            </p>
+            <p>Souvent, vous voudrez simplement r&eacute;cup&eacute;rer des artefacts depuis le
+                     build r&eacute;ussi le plus r&eacute;cent. Toutefois, vous voudrez parfois plus de
+                     pr&eacute;cision. Le champ "Quel build&#8221; vous permet de sp&eacute;cifier o&ugrave; chercher
+                     des artefacts d'un bon nombre d'autres fa&ccedil;ons, incluant le dernier build
+                     sauv&eacute; (builds qui ont &eacute;t&eacute; marqu&eacute;s &agrave; "toujours conserver"), le dernier
+                     build r&eacute;ussi, ou m&ecirc;me un num&eacute;ro sp&eacute;cifique de build.
+            </p>
+            <p>Si vous avez install&eacute; le plugin Build Promotion (voir <a href="sect-build-pipelines.html#sect-build-promotion" title="10.7.3.&nbsp;Promotions de build">Section&nbsp;10.7.3, &#8220;Promotions de build&#8221;</a>), vous pouvez aussi s&eacute;lectionner le
+                     dernier artefact promu dans un processus de promotion en particulier.
+                     Pour faire cela, choisissez "Sp&eacute;cifier par permalien", puis choisissez
+                     le processus de promotion de build appropri&eacute;. C'est un excellent moyen
+                     de s'assurer d'un pipeline de build fiable et coh&eacute;rent. Par exemple,
+                     vous pouvez configurer un processus de promotion de build pour
+                     d&eacute;clencher un build qui copie un fichier WAR g&eacute;n&eacute;r&eacute; depuis le dernier
+                     build promu et le d&eacute;ploie sur un serveur particulier. Ceci vous assure
+                     de d&eacute;ployer le bon fichier binaire, m&ecirc;me si d'autres builds se sont
+                     produits depuis.
+            </p>
+            <p>Si vous copiez des artefacts d'une t&acirc;che de build multimodule
+                     Maven, Jenkins copiera, par d&eacute;faut, tous les artefacts de ce build.
+                     Toutefois vous &ecirc;tes souvent int&eacute;ress&eacute; uniquement par un artefact
+                     sp&eacute;cifique (comme l'artefact WAR pour une application web, par
+                     exemple).
+            </p>
+            <p>Ce plugin est particuli&egrave;rement utile quand vous avez besoin
+                     d'ex&eacute;cuter des tests fonctionnels ou de performance sur votre
+                     application web. Il est souvent strat&eacute;giquement utile de placer ces tests
+                     dans un projet s&eacute;par&eacute;, et non comme une partie de votre processus de
+                     build principal. Cela facilite l'ex&eacute;cution de ces tests sur diff&eacute;rents
+                     serveurs ou d'ex&eacute;cuter le sous-ensemble des tests en parall&egrave;le, tout en
+                     utilisant le m&ecirc;me artefact binaire pour d&eacute;ployer et tester.
+            </p>
+            <p>Par exemple, imaginez que vous avez une t&acirc;che de build par d&eacute;faut
+                     appel&eacute;e <span class="emphasis"><em>gameoflife</em></span> qui g&eacute;n&egrave;re un fichier WAR, et
+                     que vous vouliez d&eacute;ployer ce WAR sur un serveur d'application local et
+                     ex&eacute;cuter une s&eacute;rie de tests fonctionnels. De plus, vous voulez pouvoir
+                     faire cela en parall&egrave;le sur plusieurs machines distribu&eacute;es.
+            </p>
+            <p>Une fa&ccedil;on de faire cela serait de cr&eacute;er un projet Maven d&eacute;di&eacute; pour
+                     lancer les tests fonctionnels sur un serveur arbitraire. Ensuite, vous
+                     mettriez en place une t&acirc;che de build pour ex&eacute;cuter ces tests
+                     fonctionnels. La t&acirc;che de build utiliserait le plugin Copy Artifact pour
+                     r&eacute;cup&eacute;rer le dernier fichier WAR (ou m&ecirc;me le dernier fichier WAR promu,
+                     pour plus de pr&eacute;cision), et le d&eacute;ploierait sur une instance Tomcat
+                     locale en utilisant Cargo. Cette t&acirc;che de build pourrait ensuite &ecirc;tre
+                     configur&eacute;e en tant que t&acirc;che de build (&#8220;matrix&#8221;) configurable, et
+                     ex&eacute;cut&eacute;e en parall&egrave;le sur plusieurs machines, &eacute;ventuellement avec des
+                     param&egrave;tres de configuration suppl&eacute;mentaires pour filtrer les ex&eacute;cutions
+                     de test de chaque build. Chaque ex&eacute;cution de build utiliserait ensuite
+                     sa propre copie du fichier WAR original. Un exemple d'une configuration
+                     comme celle-ci est illustr&eacute; dans <a href="sect-build-pipelines.html#fig-jenkins-copy-artifact-web" title="Figure&nbsp;10.40.&nbsp;Ex&eacute;cuter des tests web sur un fichier WAR copi&eacute;">Figure&nbsp;10.40, &#8220;Ex&eacute;cuter des tests web sur un fichier WAR copi&eacute;&#8221;</a>.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-copy-artifact-web"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15539"></a><img src="figs/web/jtdg_1040.png" alt="Ex&eacute;cuter des tests web sur un fichier WAR copi&eacute;"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.40.&nbsp;Ex&eacute;cuter des tests web sur un fichier WAR copi&eacute;</b></p>
+               </div><br class="figure-break"></div>
+            <p>Le plugin Copy Artifact n'est pas restreint &agrave; la r&eacute;cup&eacute;ration de
+                     fichiers depuis des t&acirc;ches de build conventionnelles. Vous pouvez aussi
+                     copier des artefacts &agrave; partir de t&acirc;ches de build multiconfiguration
+                     (voir <a href="sect-multi-configuration-build-jobs.html" title="10.4.&nbsp;T&acirc;ches de build multiconfiguration">Section&nbsp;10.4, &#8220;T&acirc;ches de build multiconfiguration&#8221;</a>). Les
+                     artefacts de chaque configuration ex&eacute;cut&eacute;e seront copi&eacute;s dans l'espace
+                     de travail courant, chacun dans son propre r&eacute;pertoire. Jenkins
+                     construira une structure de r&eacute;pertoire en se basant sur les axes
+                     utilis&eacute;s dans le build multiconfiguration. Par exemple, imaginez que
+                     nous ayons besoin de produire une version hautement optimis&eacute;e de notre
+                     produit pour un certain nombre de bases de donn&eacute;es et de serveurs
+                     d'application cibles. Nous pourrions faire cela avec une t&acirc;che de build
+                     multiconfiguration comme celle illustr&eacute;e dans <a href="sect-build-pipelines.html#fig-jenkins-multi-config-artifacts" title="Figure&nbsp;10.41.&nbsp;Copier &agrave; partir d'un build multiconfiguration">Figure&nbsp;10.41, &#8220;Copier &agrave; partir d'un build multiconfiguration&#8221;</a>.
+            </p>
+            <div class="figure"><a name="fig-jenkins-multi-config-artifacts"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15553"></a><img src="figs/web/jtdg_1041.png" alt="Copier &agrave; partir d'un build multiconfiguration"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.41.&nbsp;Copier &agrave; partir d'un build multiconfiguration</b></p>
+            </div><br class="figure-break"><p>Le plugin Copy Artifacts peut dupliquer n'importe lequel ou m&ecirc;me
+                     tous les artefacts produits par cette t&acirc;che de build. Si vous sp&eacute;cifiez
+                     un build multiconfiguration comme source de vos artefacts, le plugin
+                     copiera les artefacts de toutes les configurations dans l'espace de
+                     travail de la t&acirc;che de build cible, en utilisant une structure de
+                     r&eacute;pertoire imbriqu&eacute;e bas&eacute;e sur les axes du build multiconfiguration. Par
+                     exemple, si vous d&eacute;finissez le r&eacute;pertoire cible comme <code class="filename">multi-config-artifacts</code>, Jenkins copiera les
+                     artefacts dans un certain nombre de sous-r&eacute;pertoires dans le r&eacute;pertoire
+                     cible, chacun avec un nom correspondant &agrave; un ensemble particulier de 
+                     param&egrave;tres. Ainsi, en utilisant la t&acirc;che de build illustr&eacute;e dans <a href="sect-build-pipelines.html#fig-jenkins-multi-config-artifacts" title="Figure&nbsp;10.41.&nbsp;Copier &agrave; partir d'un build multiconfiguration">Figure&nbsp;10.41, &#8220;Copier &agrave; partir d'un build multiconfiguration&#8221;</a>, le fichier JAR
+                     personnalis&eacute; pour Tomcat et MySql serait copi&eacute;<a class="indexterm" name="I_indexterm10_d1e15565"></a><a class="indexterm" name="I_indexterm10_d1e15567"></a> dans le r&eacute;pertoire <code class="filename">
+                        $WORKSPACE/multi-config-artifacts/APP_SERVER/tomcat/DATABASE/mysql</code>.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-build-promotion"></a>10.7.3.&nbsp;Promotions de build
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Dans le <a class="indexterm" name="ch10-promote1"></a><a class="indexterm" name="ch10-promote2"></a>monde de l'Int&eacute;gration Continue, tous les builds cr&eacute;&eacute;s ne
+                     sont pas &eacute;gaux. Par exemple, vous pourriez vouloir d&eacute;ployer la derni&egrave;re
+                     version de votre application web sur un serveur de test, mais seulement
+                     apr&egrave;s avoir r&eacute;ussi un certain nombre de tests fonctionnels automatis&eacute;s
+                     ou de charge. Ou vous pourriez vouloir que les testeurs puissent marquer
+                     certains builds comme &eacute;tant pr&ecirc;ts pour un d&eacute;ploiement pour les tests
+                     d'acceptation utilisateur, une fois qu'ils ont termin&eacute; leurs propres
+                     tests.
+            </p>
+            <p>Le plugin<a class="indexterm" name="I_indexterm10_d1e15589"></a><a class="indexterm" name="I_indexterm10_d1e15594"></a> Promoted Builds vous permet d'identifier des builds
+                     sp&eacute;cifiques ayant atteint des crit&egrave;res additionnels de qualit&eacute;, et de
+                     d&eacute;clencher des actions sur ces builds. Par exemple, vous pourriez
+                     construire une application web dans une t&acirc;che de build, ex&eacute;cuter une
+                     s&eacute;rie de tests automatis&eacute;s dans un build ult&eacute;rieur, puis d&eacute;ployer le
+                     fichier WAR g&eacute;n&eacute;r&eacute; sur le serveur de tests d'acceptation utilisateur
+                     pour effectuer davantage de tests.
+            </p>
+            <p>Voyons comment cela fonctionne en pratique. Dans le projet
+                     illustr&eacute; ci-dessus, une t&acirc;che de build par d&eacute;faut (<span><strong class="command">phoenix-default</strong></span>) ex&eacute;cute des tests unitaires
+                     et d'int&eacute;gration, puis produit un fichier WAR. Ce fichier WAR est ensuite
+                     r&eacute;utilis&eacute; pour des tests plus &eacute;tendus (dans la t&acirc;che de build <span><strong class="command">phoenix-integration-tests</strong></span>) et ensuite pour une
+                     s&eacute;rie de tests web automatis&eacute;s (dans la t&acirc;che de build <span><strong class="command">phoenix-web-test</strong></span>). Si le build r&eacute;ussit les
+                     tests web automatis&eacute;s, nous aimerions d&eacute;ployer l'application dans un
+                     environnement de tests fonctionnels o&ugrave; elle pourrait &ecirc;tre test&eacute;e par des
+                     testeurs humains. Le d&eacute;ploiement dans cet environnement est effectu&eacute;
+                     avec la t&acirc;che de build <span><strong class="command">phoenix-test-deploy</strong></span>. Une fois que les testeurs
+                     ont valid&eacute; la version, elle peut &ecirc;tre promue vers l'environnement de tests
+                     d'acceptation utilisateur, et enfin en production. La strat&eacute;gie
+                     compl&egrave;te de promotion est illustr&eacute;e dans <a href="sect-build-pipelines.html#fig-jenkins-build-promotion-jobs" title="Figure&nbsp;10.42.&nbsp;T&acirc;ches de build dans le processus de promotion">Figure&nbsp;10.42, &#8220;T&acirc;ches de build dans le processus de promotion&#8221;</a>.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-build-promotion-jobs"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15617"></a><img src="figs/web/jtdg_1042.png" alt="T&acirc;ches de build dans le processus de promotion"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.42.&nbsp;T&acirc;ches de build dans le processus de promotion</b></p>
+               </div><br class="figure-break"></div>
+            <p>Cette strat&eacute;gie est facile &agrave; impl&eacute;menter en utiliser le plugin
+                     Promoted Builds. Une fois que vous l'avez install&eacute; de la fa&ccedil;on
+                     habituelle, vous trouverez une nouvelle case "Promouvoir builds quand"
+                     dans la page de configuration de la t&acirc;che. Cette option est utilis&eacute; pour
+                     configurer les processus de promotion de build. Vous d&eacute;finissez un ou
+                     plusieurs processus de promotion de build dans la t&acirc;che de build
+                     initiale du processus (<span><strong class="command">phoenix-default</strong></span> dans cet exemple), comme
+                     illustr&eacute; dans <a href="sect-build-pipelines.html#fig-jenkins-build-promotion" title="Figure&nbsp;10.43.&nbsp;Configurer un processus de promotion de build">Figure&nbsp;10.43, &#8220;Configurer un processus de promotion de build&#8221;</a>. Une t&acirc;che
+                     de build peut &ecirc;tre le point de d&eacute;part de plusieurs processus de
+                     promotion de build, certains automatis&eacute;s, certains manuels. Dans <a href="sect-build-pipelines.html#fig-jenkins-build-promotion" title="Figure&nbsp;10.43.&nbsp;Configurer un processus de promotion de build">Figure&nbsp;10.43, &#8220;Configurer un processus de promotion de build&#8221;</a>, par exemple, il y a un
+                     processus de promotion de build automatis&eacute; appel&eacute;
+                     <span class="emphasis"><em>promote-to-test</em></span> et un manuel appel&eacute;
+                     <span class="emphasis"><em>promote-to-uat</em></span>. Les processus de promotion de build
+                     automatis&eacute;s sont d&eacute;clench&eacute;s par les r&eacute;sultats de t&acirc;ches de build avals.
+                     Les processus de promotion manuels (indiqu&eacute;s en cochant la case
+                     &#8216;Seulement si approuv&eacute; manuellement&#8217;) peuvent uniquement &ecirc;tre d&eacute;clench&eacute;s
+                     par une intervention utilisateur.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-build-promotion"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15644"></a><img src="figs/web/jtdg_1043.png" alt="Configurer un processus de promotion de build"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.43.&nbsp;Configurer un processus de promotion de build</b></p>
+               </div><br class="figure-break"></div>
+            <p>Regardons &agrave; pr&eacute;sent comment configurer le processus de build
+                     automatis&eacute; <span class="emphasis"><em>promote-to-test</em></span>.
+            </p>
+            <p>Vous devez commencer par d&eacute;finir comment le processus de promotion
+                     de build sera d&eacute;clench&eacute;. La promotion de build peut &ecirc;tre soit
+                     automatique, bas&eacute;e sur le r&eacute;sultat d'une t&acirc;che de build aval, soit
+                     activ&eacute;e manuellement par un utilisateur. Dans <a href="sect-build-pipelines.html#fig-jenkins-build-promotion" title="Figure&nbsp;10.43.&nbsp;Configurer un processus de promotion de build">Figure&nbsp;10.43, &#8220;Configurer un processus de promotion de build&#8221;</a>, la promotion de build pour
+                     cette t&acirc;che de build sera automatiquement d&eacute;clench&eacute;e lorsque les tests
+                     web automatis&eacute;s (ex&eacute;cut&eacute; par la t&acirc;che de build <span><strong class="command">phoenix-web-tests</strong></span>) auront r&eacute;ussi.
+            </p>
+            <p>Vous pouvez aussi faire que certaines t&acirc;ches de build ne puissent
+                     &ecirc;tre promues que manuellement, comme illustr&eacute; dans <a href="sect-build-pipelines.html#fig-jenkins-manual-build-promotion" title="Figure&nbsp;10.44.&nbsp;Configurer un processus manuel de promotion de build">Figure&nbsp;10.44, &#8220;Configurer un processus manuel de promotion de build&#8221;</a>. La promotion de build
+                     manuelle est utilis&eacute;e pour les cas o&ugrave; une intervention humaine est
+                     requise pour approuver une promotion de build. Le d&eacute;ploiement dans
+                     l'environnement de test d'acceptation utilisateur ou de production
+                     en sont des exemples courants. Autre exemple, lorsque vous
+                     voulez suspendre temporairement les promotions de build pour une courte
+                     p&eacute;riode, comme &agrave; l'approche d'une release.
+            </p>
+            <p>Les builds manuels, comme leur nom le sugg&egrave;re, n&eacute;cessite d'&ecirc;tre
+                     approuv&eacute;s manuellement avant de pouvoir &ecirc;tre ex&eacute;cut&eacute;s. Si le processus
+                     de promotion consiste &agrave; d&eacute;clencher une t&acirc;che de build param&eacute;tr&eacute;e, vous
+                     pouvez aussi fournir des param&egrave;tres que l'approbateur devra entrer lors
+                     de l'approbation. Dans certains cas, il peut &ecirc;tre utile de d&eacute;signer certains
+                     utilisateurs autoris&eacute;s &agrave; activer la promotion manuelle. Vous pouvez
+                     faire cela en sp&eacute;cifiant une liste d'utilisateurs ou de groupes dans la
+                     liste d'approbateurs.
+            </p>
+            <div class="figure"><a name="fig-jenkins-manual-build-promotion"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15671"></a><img src="figs/web/jtdg_1044.png" alt="Configurer un processus manuel de promotion de build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.44.&nbsp;Configurer un processus manuel de promotion de build</b></p>
+            </div><br class="figure-break"><p>Parfois, il est utile de donner un peu de context &agrave; une personne
+                     approuvant une promotion. Quand vous configurez un processus de
+                     promotion manuel, vous pouvez aussi sp&eacute;cifier d'autres conditions devant
+                     &ecirc;tre remplies, en particulier des t&acirc;ches de build avals (ou amonts) qui
+                     doivent avoir &eacute;t&eacute; construites avec succ&egrave;s (voir <a href="sect-build-pipelines.html#fig-jenkins-promotion-details" title="Figure&nbsp;10.45.&nbsp;Voir les d&eacute;tails d'une promotion de build">Figure&nbsp;10.45, &#8220;Voir les d&eacute;tails d'une promotion de build&#8221;</a>). Celles-ci appara&icirc;tront dans
+                     les &#8220;Met Qualifications&#8221; (pour les t&acirc;ches de build en succ&egrave;s) et dans
+                     les &#8220;Unmet Qualifications&#8221; (pour les t&acirc;ches de builds qui ont &eacute;chou&eacute; ou
+                     n'ont pas encore &eacute;t&eacute; ex&eacute;cut&eacute;es).
+            </p>
+            <div class="figure"><a name="fig-jenkins-promotion-details"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15683"></a><img src="figs/web/jtdg_1045.png" alt="Voir les d&eacute;tails d'une promotion de build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.45.&nbsp;Voir les d&eacute;tails d'une promotion de build</b></p>
+            </div><br class="figure-break"><p>Vous devez ensuite dire &agrave; Jenkins ce qu'il doit faire lorsque le
+                     build est promu. Cela se fait en ajoutant des actions, tout comme dans
+                     une t&acirc;che de build freestyle. Ceci rend les promotions de build
+                     extr&ecirc;mement flexible, parce que vous pouvez ajouter pratiquement
+                     n'importe quelle action disponible dans une t&acirc;che de build freestyle
+                     normale, incluant n'importe quelles &eacute;tapes additionnelles offertes par
+                     le plugins install&eacute;s sur votre instance Jenkins. Les actions courantes
+                     incluent l'invocation de script Maven ou Ant, le d&eacute;ploiement d'artefacts
+                     dans un d&eacute;p&ocirc;t Maven, ou le d&eacute;clenchement d'un autre build.
+            </p>
+            <p>Une chose importante &agrave; garder &agrave; l'esprit ici est que vous ne
+                     pouvez pas vous reposer sur des fichiers de l'espace de travail lors de la
+                     promotion de votre build. En effet, au moment o&ugrave; vous promouvez votre
+                     build, automatiquement ou manuellement, d'autres t&acirc;ches de build
+                     pourraient avoir supprim&eacute; ou r&eacute;&eacute;crit les fichiers que vous avez besoin
+                     d'utiliser. Pour cette raison, il est imprudent, par exemple, de
+                     d&eacute;ployer un fichier WAR directement &agrave; partir de l'espace de travail vers
+                     un serveur d'application pendant un processus de promotion de build. Une
+                     solution plus robuste consiste &agrave; d&eacute;clencher une t&acirc;che de build s&eacute;par&eacute;e
+                     et d'utiliser le plugin Copy Artifacts (voir <a href="sect-build-pipelines.html#sect-copying-artifacts" title="10.7.2.&nbsp;Copier des artefacts">Section&nbsp;10.7.2, &#8220;Copier des artefacts&#8221;</a>) pour r&eacute;cup&eacute;rer pr&eacute;cis&eacute;ment le bon
+                     fichier. Dans ce cas, vous copierez des artefacts que vous avez demand&eacute;
+                     &agrave; Jenkins de conserver, plut&ocirc;t que de copier directement des fichiers de
+                     l'espace de travail.
+            </p>
+            <p><a class="indexterm" name="I_indexterm10_d1e15695"></a>Pour que la promotion de build fonctionne correctement,
+                     Jenkins doit pouvoir lier pr&eacute;cis&eacute;ment les t&acirc;ches de build avals &agrave; celles
+                     en amont. La fa&ccedil;on la plus pr&eacute;cise de faire cela est d'utiliser les
+                     <span class="emphasis"><em>fingerprints</em></span>. Dans Jenkins, un fingerprint est le
+                     somme de contr&ocirc;le MD5 d'un fichier produit ou utilis&eacute; dans une t&acirc;che de
+                     build. En faisant correspondre les fingerprints, Jenkins est capable
+                     d'identifier tous les builds utilisant un fichier particulier.
+            </p>
+            <p>Dans le contexte de la promotion de build, une strat&eacute;gie courante
+                     est de construire votre application une seule fois, puis d'ex&eacute;cuter des
+                     tests sur les fichiers binaires g&eacute;n&eacute;r&eacute;s dans une s&eacute;rie de t&acirc;ches de
+                     builds avals. Cette approche fonctionne bien avec la promotion de build,
+                     mais vous devez vous assurer que Jenkins cr&eacute;er un fingerprint des
+                     fichiers partag&eacute;s ou copi&eacute;s entre t&acirc;ches de build. Dans l'exemple montr&eacute;
+                     dans <a href="sect-build-pipelines.html#fig-jenkins-build-promotion" title="Figure&nbsp;10.43.&nbsp;Configurer un processus de promotion de build">Figure&nbsp;10.43, &#8220;Configurer un processus de promotion de build&#8221;</a>, notamment, nous
+                     avons besoin de faire deux choses (<a href="sect-build-pipelines.html#fig-jenkins-build-promotion-fingerprints" title="Figure&nbsp;10.46.&nbsp;Utiliser fingerprints dans le processus de promotion de build">Figure&nbsp;10.46, &#8220;Utiliser fingerprints dans le processus de promotion de
+                          build&#8221;</a>). Premi&egrave;rement,
+                     nous devons archiver le fichier WAR g&eacute;n&eacute;r&eacute; afin qu'il puisse &ecirc;tre
+                     utilis&eacute; dans le projet aval. Deuxi&egrave;mement, nous devons enregistrer un
+                     fingerprint des artefacts archiv&eacute;s. Vous faites cela en cochant l'option
+                     &#8220;Enregistrer les fingerprints de fichiers pour tracer leur utilisation&#8221;,
+                     et en sp&eacute;cifiant les fichiers pour lesquels vous voulez cr&eacute;er un
+                     fingerprint. Un raccourci utile consiste simplement &agrave; cr&eacute;er un
+                     fingerprint pour tous les fichiers archiv&eacute;s, puisque ce sont les
+                     fichiers qui vont typiquement &ecirc;tre r&eacute;cup&eacute;r&eacute;s et r&eacute;utilis&eacute;s par les
+                     t&acirc;ches de build avals.
+            </p>
+            <div class="figure"><a name="fig-jenkins-build-promotion-fingerprints"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15708"></a><img src="figs/web/jtdg_1046.png" alt="Utiliser fingerprints dans le processus de promotion de build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.46.&nbsp;Utiliser fingerprints dans le processus de promotion de
+                             build</b></p>
+            </div><br class="figure-break"><p>C'est tout ce que vous avez besoin de faire pour configurer le
+                     processus initial de build. L'&eacute;tape suivante consiste &agrave; configurer les
+                     tests d'int&eacute;gration ex&eacute;cut&eacute;s dans la t&acirc;che de build <span><strong class="command">phoenix-integration</strong></span>. Ici, nous utilisons le
+                     plugin Copy Artifact pour r&eacute;cup&eacute;rer le WAR g&eacute;n&eacute;r&eacute; par la t&acirc;che de build
+                     <span class="keep-together"><span><strong class="command">phoenix-default</strong></span></span> (voir <a href="sect-build-pipelines.html#fig-jenkins-build-promotion-integration" title="Figure&nbsp;10.47.&nbsp;R&eacute;cup&eacute;rer le fichier WAR depuis la t&acirc;che de build amont">Figure&nbsp;10.47, &#8220;R&eacute;cup&eacute;rer le fichier WAR depuis la t&acirc;che de build amont&#8221;</a>). Comme cette t&acirc;che
+                     de build est d&eacute;clench&eacute;e imm&eacute;diatement apr&egrave;s la t&acirc;che de build <span><strong class="command">phoenix-default</strong></span>, on peut simplement r&eacute;cup&eacute;rer
+                     le fichier WAR depuis le dernier build r&eacute;ussi.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-build-promotion-integration"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15730"></a><img src="figs/web/jtdg_1047.png" alt="R&eacute;cup&eacute;rer le fichier WAR depuis la t&acirc;che de build amont"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.47.&nbsp;R&eacute;cup&eacute;rer le fichier WAR depuis la t&acirc;che de build amont</b></p>
+               </div><br class="figure-break"></div>
+            <p>Cependant, ce n'est pas encore tout &agrave; fait tout ce que nous devons faire pour
+                     les tests d'int&eacute;gration. La t&acirc;che de build <span><strong class="command">phoenix-integration</strong></span> est suivie de la t&acirc;che de
+                     build <span><strong class="command">phoenix-web</strong></span>, qui ex&eacute;cute les
+                     tests web automatis&eacute;s. Pour s'assurer que le m&ecirc;me fichier WAR est
+                     utilis&eacute; &agrave; chaque &eacute;tape du processus de build, nous devons le r&eacute;cup&eacute;rer
+                     dans la t&acirc;che de build amont <span><strong class="command">phoenix-integration</strong></span>, et non depuis la t&acirc;che
+                     originale <span><strong class="command">phoenix-default</strong></span> (qui
+                     pourrait avoir &eacute;t&eacute; ex&eacute;cut&eacute;e &agrave; nouveau dans l'intervalle). Nous avons
+                     donc aussi besoin d'archiver le fichier WAR dans la t&acirc;che de build
+                     <span><strong class="command">phoenix-integration</strong></span> (voir <a href="sect-build-pipelines.html#fig-jenkins-promotion-integration-archive" title="Figure&nbsp;10.48.&nbsp;Archiver le fichier WAR dans la t&acirc;che aval">Figure&nbsp;10.48, &#8220;Archiver le fichier WAR dans la t&acirc;che aval&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-jenkins-promotion-integration-archive"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15759"></a><img src="figs/web/jtdg_1048.png" alt="Archiver le fichier WAR dans la t&acirc;che aval"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.48.&nbsp;Archiver le fichier WAR dans la t&acirc;che aval</b></p>
+            </div><br class="figure-break"><p>Dans la t&acirc;che de build <span><strong class="command">phoenix-web</strong></span>, nous r&eacute;cup&eacute;rons ensuite le WAR
+                     depuis la t&acirc;che <span class="keep-together"><span><strong class="command">phoenix-integration</strong></span></span>, en utilisant une
+                     configuration tr&egrave;s similaire &agrave; celle montr&eacute;e ci-dessus (voir <a href="sect-build-pipelines.html#fig-jenkins-promotion-copy-from-integration" title="Figure&nbsp;10.49.&nbsp;R&eacute;cup&eacute;rer le fichier WAR depuis la t&acirc;che d'int&eacute;gration">Figure&nbsp;10.49, &#8220;R&eacute;cup&eacute;rer le fichier WAR depuis la t&acirc;che d'int&eacute;gration&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-promotion-copy-from-integration"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15778"></a><img src="figs/web/jtdg_1049.png" alt="R&eacute;cup&eacute;rer le fichier WAR depuis la t&acirc;che d'int&eacute;gration"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.49.&nbsp;R&eacute;cup&eacute;rer le fichier WAR depuis la t&acirc;che d'int&eacute;gration</b></p>
+               </div><br class="figure-break"></div>
+            <p>Pour que le processus de promotion de build fonctionne
+                     correctement, il y a une chose importante de plus que nous devons
+                     configurer dans la t&acirc;che de build <span><strong class="command">phoenix-web</strong></span>. Comme nous l'avons &eacute;voqu&eacute;
+                     pr&eacute;c&eacute;demment, Jenkins a besoin de pouvoir &ecirc;tre s&ucirc;r que le fichier WAR
+                     utilis&eacute; dans ces tests est le m&ecirc;me que celui g&eacute;n&eacute;r&eacute; dans le build
+                     original. Nous faisons cela en activant la cr&eacute;ation de fingerprint sur
+                     le fichier WAR que nous avons r&eacute;cup&eacute;r&eacute; depuis la t&acirc;che de build <span><strong class="command">phoenix-integration</strong></span> (qui, rappelez-vous, a
+                     originellement &eacute;t&eacute; construit par la t&acirc;che <span><strong class="command">phoenix-default</strong></span>). Comme nous avons copi&eacute; ce
+                     fichier WAR dans l'espace de travail, une configuration comme celle de
+                     <a href="sect-build-pipelines.html#fig-jenkins-promotion-fingerprint-web" title="Figure&nbsp;10.50.&nbsp;Nous avons besoin de d&eacute;terminer le fingerprint du fichier WAR que nous utilisons">Figure&nbsp;10.50, &#8220;Nous avons besoin de d&eacute;terminer le fingerprint du fichier WAR
+                          que nous utilisons&#8221;</a> fonctionnera
+                     tr&egrave;s bien.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-promotion-fingerprint-web"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15799"></a><img src="figs/web/jtdg_1050.png" alt="Nous avons besoin de d&eacute;terminer le fingerprint du fichier WAR que nous utilisons"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.50.&nbsp;Nous avons besoin de d&eacute;terminer le fingerprint du fichier WAR
+                                que nous utilisons</b></p>
+               </div><br class="figure-break"></div>
+            <p>L'&eacute;tape final consiste &agrave; configurer la t&acirc;che de build <span><strong class="command">phoenix-deploy-to-test</strong></span> pour r&eacute;cup&eacute;rer le
+                     dernier WAR promu (plut&ocirc;t que le dernier r&eacute;ussi). Pour faire
+                     cela, nous utilisons &agrave; nouveau le plugin Copy Artifact, mais cette fois
+                     nous choisissons l'option "Sp&eacute;cifier par permalien". Ici, Jenkins
+                     proposera, entre autres choses, les processus de promotion de build configur&eacute;s pour
+                     la t&acirc;che de build &agrave; partir de laquelle vous &ecirc;tes en train de copier.
+                     Donc, dans <a href="sect-build-pipelines.html#fig-jenkins-copy-promoted-war" title="Figure&nbsp;10.51.&nbsp;R&eacute;cup&eacute;rer le dernier fichier WAR promu">Figure&nbsp;10.51, &#8220;R&eacute;cup&eacute;rer le dernier fichier WAR promu&#8221;</a>, nous
+                     r&eacute;cup&eacute;rons le dernier fichier WAR promu par la t&acirc;che <span><strong class="command">phoenix-default</strong></span>, ce qui est pr&eacute;cis&eacute;ment ce que
+                     nous voulons.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-copy-promoted-war"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15817"></a><img src="figs/web/jtdg_1051.png" alt="R&eacute;cup&eacute;rer le dernier fichier WAR promu"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.51.&nbsp;R&eacute;cup&eacute;rer le dernier fichier WAR promu</b></p>
+               </div><br class="figure-break"></div>
+            <p>Notre processus de promotion est maintenant pr&ecirc;t pour l'action.
+                     Quand les tests web automatis&eacute;s r&eacute;ussiront lors d'un build particulier,
+                     la t&acirc;che de build originale sera promu et le fichier WAR correspondant
+                     d&eacute;ploy&eacute; dans l'environnement de test. Les builds promus sont indiqu&eacute;s
+                     par une &eacute;toile dans l'historique de build (voir <a href="sect-build-pipelines.html#fig-jenkins-promoted-build-history" title="Figure&nbsp;10.52.&nbsp;Les builds promus sont indiqu&eacute;s par une &eacute;toile dans l'historique de build">Figure&nbsp;10.52, &#8220;Les builds promus sont indiqu&eacute;s par une &eacute;toile dans
+                          l'historique de build&#8221;</a>). Par d&eacute;faut, les
+                     &eacute;toiles sont jaunes, mais vous pouvez configurer la couleur de l'&eacute;toile
+                     dans la configuration de la promotion de build.
+            </p>
+            <div class="figure"><a name="fig-jenkins-promoted-build-history"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15829"></a><img src="figs/web/jtdg_1052.png" alt="Les builds promus sont indiqu&eacute;s par une &eacute;toile dans l'historique de build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.52.&nbsp;Les builds promus sont indiqu&eacute;s par une &eacute;toile dans
+                             l'historique de build</b></p>
+            </div><br class="figure-break"><p>Vous pouvez aussi utiliser l'entr&eacute;e de menu &#8220;Etat de Promotion&#8221;
+                     (ou cliquez sur l'&eacute;toile color&eacute;e dans l'historique de build) pour voir
+                     les d&eacute;tails d'une promotion de build particuli&egrave;re, et m&ecirc;me de r&eacute;ex&eacute;cuter
+                     manuellement une promotion (voir <a href="sect-build-pipelines.html#fig-jenkins-promotion-details" title="Figure&nbsp;10.45.&nbsp;Voir les d&eacute;tails d'une promotion de build">Figure&nbsp;10.45, &#8220;Voir les d&eacute;tails d'une promotion de build&#8221;</a>). Toute promotion de build
+                     peut &ecirc;tre d&eacute;clench&eacute;e manuellement, en cliquant sur "Forcer la promotion"
+                     (si cette t&acirc;che de build n'a jamais &eacute;t&eacute; promue) <a class="indexterm" name="I_indexterm10_d1e15838"></a><a class="indexterm" name="I_indexterm10_d1e15840"></a>ou &#8220;R&eacute;-ex&eacute;cuter la promotion&#8221; (si elle l'a &eacute;t&eacute;).
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e16063"></a>10.7.4.&nbsp;Agr&eacute;ger des r&eacute;sultats de tests
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Lorsqu'<a class="indexterm" name="ch10-agg1"></a><a class="indexterm" name="ch10-agg2"></a><a class="indexterm" name="ch10-agg3"></a><a class="indexterm" name="ch10-agg4"></a>on r&eacute;partit diff&eacute;rents types de tests dans diff&eacute;rentes
+                     t&acirc;ches de build, il est facile de perdre la vision globale des r&eacute;sultats
+                     de tests de l'ensemble. Ces r&eacute;sultats sont dispers&eacute;s parmi les diverses
+                     t&acirc;ches de build, sans un endroit central o&ugrave; voir le nombre total de
+                     tests ex&eacute;cut&eacute;s et &eacute;chou&eacute;s.
+            </p>
+            <p>Un bon moyen d'&eacute;viter ce probl&egrave;me est d'utiliser la fonctionnalit&eacute;
+                     d'agr&eacute;gation de r&eacute;sultats de tests de Jenkins. Ceci r&eacute;cup&eacute;rera tout
+                     r&eacute;sultat de test depuis les t&acirc;ches de build avals, et les agr&eacute;gera dans
+                     la t&acirc;che de build amont. Vous pouvez configurer cela dans la t&acirc;che de
+                     build initiale (amont) en cochant l'option "Agr&eacute;ger les r&eacute;sultat de test
+                     avals" (voir <a href="sect-build-pipelines.html#fig-jenkins-aggregate-downstream-tests" title="Figure&nbsp;10.53.&nbsp;Rapport sur l'agr&eacute;gation des r&eacute;sultats de test">Figure&nbsp;10.53, &#8220;Rapport sur l'agr&eacute;gation des r&eacute;sultats de test&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-jenkins-aggregate-downstream-tests"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15878"></a><img src="figs/web/jtdg_1053.png" alt="Rapport sur l'agr&eacute;gation des r&eacute;sultats de test"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.53.&nbsp;Rapport sur l'agr&eacute;gation des r&eacute;sultats de test</b></p>
+            </div><br class="figure-break"><p>Les r&eacute;sultats de test agr&eacute;g&eacute;s peuvent &ecirc;tre consult&eacute;s dans la page
+                     de d&eacute;tails du build (voir <a href="sect-build-pipelines.html#fig-jenkins-show-aggregate-tests" title="Figure&nbsp;10.54.&nbsp;Visualisation des r&eacute;sultats de tests agr&eacute;g&eacute;s">Figure&nbsp;10.54, &#8220;Visualisation des r&eacute;sultats de tests agr&eacute;g&eacute;s&#8221;</a>). Malheureusement, ces
+                     r&eacute;sultats de test agr&eacute;g&eacute;s n'apparaissent pas dans les r&eacute;sultats de test
+                     globaux, mais vous pouvez afficher la liste compl&egrave;te des tests ex&eacute;cut&eacute;s
+                     en cliquant sur le lien R&eacute;sultats de Test Agr&eacute;g&eacute;s sur la page du build
+                     particulier.
+            </p>
+            <div class="figure"><a name="fig-jenkins-show-aggregate-tests"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15890"></a><img src="figs/web/jtdg_1054.png" alt="Visualisation des r&eacute;sultats de tests agr&eacute;g&eacute;s"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.54.&nbsp;Visualisation des r&eacute;sultats de tests agr&eacute;g&eacute;s</b></p>
+            </div><br class="figure-break"><p>Pour que cela fonctionne correctement, vous devez vous assurer
+                     d'avoir configur&eacute;<a class="indexterm" name="I_indexterm10_d1e15897"></a> la cr&eacute;ation de fingerprint pour les fichiers binaires
+                     utilis&eacute;s &agrave; chaque &eacute;tape. Jenkins agr&eacute;gera seulement les r&eacute;sultats de
+                     test avals de builds contenant un artefact avec le <a class="indexterm" name="I_indexterm10_d1e15901"></a><a class="indexterm" name="I_indexterm10_d1e15903"></a><a class="indexterm" name="I_indexterm10_d1e15905"></a><a class="indexterm" name="I_indexterm10_d1e15907"></a>m&ecirc;me fingerprint.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e16130"></a>10.7.5.&nbsp;Pipelines de Build
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Le <a class="indexterm" name="ch10-deploy1"></a><a class="indexterm" name="ch10-deploy2"></a> dernier plugin que nous allons regarder dans cette
+                     section est le plugin Build Pipeline. Le plugin Build Pipelines emm&egrave;ne
+                     l'id&eacute;e de la promotion de build encore plus loin, et vous aide &agrave;
+                     concevoir et superviser des pipelines de d&eacute;ploiement. Un pipeline de
+                     d&eacute;ploiement est une fa&ccedil;on d'orchestrer vos builds au travers d'une s&eacute;rie
+                     de passages garantissant la qualit&eacute;, avec des approbations automatis&eacute;es ou manuelles &agrave;
+                     chaque &eacute;tape, culminant avec le d&eacute;ploiement en production.
+            </p>
+            <p>Le <a class="indexterm" name="I_indexterm10_d1e15926"></a><a class="indexterm" name="I_indexterm10_d1e15929"></a>plugin Build Pipeline fournit une autre fa&ccedil;on de d&eacute;finir
+                     des t&acirc;ches de build avals. Un pipeline de build, contrairement aux
+                     d&eacute;pendances avals conventionnelles, est consid&eacute;r&eacute; comme un processus
+                     lin&eacute;aire, une s&eacute;rie de t&acirc;ches de build ex&eacute;cut&eacute;es en s&eacute;quence.
+            </p>
+            <p>Pour utiliser ce plugin, commencez par configurer les t&acirc;ches de
+                     build avals pour chaque t&acirc;che de build dans le pipeline, en utilisant le
+                     champ &#8220;Construire d'autres projets&#8221; comme vous le feriez habituellement. Le
+                     plugin Build Pipeline utilise les configurations de build amont ou aval
+                     standards, et pour les &eacute;tapes automatiques c'est tout ce que vous avez &agrave;
+                     faire. Toutefois, le plugin Build Pipeline supporte aussi les &eacute;tapes de
+                     build manuelles, o&ugrave; un utilisateur doit manuellement approuver l'&eacute;tape
+                     suivante. Pour les &eacute;tapes manuelles, vous devez aussi configurer les
+                     <span><strong class="command">Post-build Actions</strong></span> de votre t&acirc;che de
+                     build amont : cochez simplement la case &#8220;Build Pipeline Plugin -&gt;
+                     Sp&eacute;cifier Projet Aval&#8221;, s&eacute;lectionnez l'&eacute;tape suivante dans votre projet,
+                     et cochez l'option &#8220;Require manual build executor&#8221; (voir <a href="sect-build-pipelines.html#fig-jenkins-build-pipeline-downstream" title="Figure&nbsp;10.55.&nbsp;Configurer une &eacute;tape manuelle dans le pipeline de build">Figure&nbsp;10.55, &#8220;Configurer une &eacute;tape manuelle dans le pipeline de build&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-build-pipeline-downstream"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15945"></a><img src="figs/web/jtdg_1055.png" alt="Configurer une &eacute;tape manuelle dans le pipeline de build"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.55.&nbsp;Configurer une &eacute;tape manuelle dans le pipeline de build</b></p>
+               </div><br class="figure-break"></div>
+            <p>Une fois que vous avez configur&eacute; votre processus de build &agrave; votre
+                     convenance, vous pouvez configurer la vue build pipeline. Vous pouvez
+                     cr&eacute;er cette vue comme n'importe quelle autre (voir <a href="sect-build-pipelines.html#fig-jenkins-build-pipeline-view" title="Figure&nbsp;10.56.&nbsp;Cr&eacute;er une vue Build Pipeline">Figure&nbsp;10.56, &#8220;Cr&eacute;er une vue Build Pipeline&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-build-pipeline-view"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15957"></a><img src="figs/web/jtdg_1056.png" alt="Cr&eacute;er une vue Build Pipeline"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.56.&nbsp;Cr&eacute;er une vue Build Pipeline</b></p>
+               </div><br class="figure-break"></div>
+            <p>Il y a une astuce &agrave; conna&icirc;tre lors de la configuration de la vue,
+                     cependant. Au moment de l'&eacute;criture de ces lignes, il n'y a pas d'option
+                     de menu ou de bouton vous permettant de configurer la vue directement.
+                     En fait, vous devez entrer l'URL manuellement. Heureusement, ce n'est
+                     pas difficile : ajoutez juste <code class="filename">/configure</code> &agrave; la fin de l'URL lorsque vous
+                     affichez cette vue. par exemple, si vous avez appel&eacute; cette vue
+                     &#8220;phoenix-build-pipeline&#8221;, comme montr&eacute; ici, l'URL pour configurer cette
+                     vue serait <code class="filename">http://my_jenkins_server/view/phoenix-build-pipeline</code>.
+                     (voir <a href="sect-build-pipelines.html#fig-jenkins-build-pipeline-configure" title="Figure&nbsp;10.57.&nbsp;Configurer une vue Build Pipeline">Figure&nbsp;10.57, &#8220;Configurer une vue Build Pipeline&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-jenkins-build-pipeline-configure"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15975"></a><img src="figs/web/jtdg_1057.png" alt="Configurer une vue Build Pipeline"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.57.&nbsp;Configurer une vue Build Pipeline</b></p>
+            </div><br class="figure-break"><p>La chose la plus importante &agrave; configurer dans cet &eacute;cran est la
+                     t&acirc;che initiale. Ceci marque le point d'entr&eacute;e de votre pipeline de
+                     build. Vous pouvez d&eacute;finir de multiples vues de pipeline de build,
+                     chacune avec une t&acirc;che initiale diff&eacute;rente. Vous pouvez aussi configurer
+                     le nombre maximum de s&eacute;quences de build &agrave; faire appara&icirc;tre &agrave; la fois sur
+                     l'&eacute;cran.
+            </p>
+            <p>Une fois que vous avez configur&eacute; le point de d&eacute;part, vous pouvez
+                     retourner &agrave; la vue pour voir l'&eacute;tat courant de votre pipeline de build.
+                     Jenkins affiche les t&acirc;ches de build successives horizontalement, en
+                     utilisant une couleur pour indiquer le r&eacute;sultat de chaque build (<a href="sect-build-pipelines.html#fig-jenkins-build-pipeline" title="Figure&nbsp;10.58.&nbsp;Un Pipeline de Build en action">Figure&nbsp;10.58, &#8220;Un Pipeline de Build en action&#8221;</a>). Il y a une colonne pour chaque
+                     t&acirc;che de build dans le pipeline. D&egrave;s lors que la t&acirc;che de build initiale
+                     d&eacute;marre, une nouvelle ligne appara&icirc;t sur cette page. Alors que le build
+                     progresse parmi les t&acirc;ches de build successives, Jenkins ajoute une
+                     bo&icirc;te color&eacute;e dans les colonnes successives, indiquant le r&eacute;sultat de
+                     chaque &eacute;tape. Vous pouvez cliquer sur la bo&icirc;te pour descendre dans un
+                     r&eacute;sultat de build particulier pour plus de d&eacute;tails. Enfin, si une
+                     ex&eacute;cution manuelle est requise, un bouton sera affich&eacute; afin que
+                     l'utilisateur puisse d&eacute;clencher la t&acirc;che.
+            </p>
+            <div class="figure"><a name="fig-jenkins-build-pipeline"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15990"></a><img src="figs/web/jtdg_1058.png" alt="Un Pipeline de Build en action"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.58.&nbsp;Un Pipeline de Build en action</b></p>
+            </div><br class="figure-break"><p>Ce plugin est encore relativement nouveau, et ne s'int&egrave;gre pas
+                     avec les autres plugins que nous avons vus ici. En particulier, il est
+                     vraiment con&ccedil;u pour un pipeline de build lin&eacute;aire, et ne s'en sort pas
+                     tr&egrave;s bien avec des branches ou des t&acirc;ches de build parall&egrave;les.
+                     N&eacute;anmoins, il donne une excellente vision globale d'un pipeline
+                     <a class="indexterm" name="I_indexterm10_d1e15998"></a><a class="indexterm" name="I_indexterm10_d1e16000"></a><a class="indexterm" name="I_indexterm10_d1e16002"></a> de build.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect110_d1e15110.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect110_d1e16005.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">10.6.&nbsp;Coordonner vos
+                      builds&nbsp;
+               </td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;10.8.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

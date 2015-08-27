@@ -1,0 +1,831 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>5.4.&nbsp;Configurer la Gestion du Code Source</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-build-jobs.html" title="Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build">
+      <link rel="prev" href="sect-build-jobs-freestyle.html" title="5.3.&nbsp;Cr&eacute;er une t&acirc;che de build free-style">
+      <link rel="next" href="sect-build-triggers.html" title="5.5.&nbsp;D&eacute;clencheurs de build">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-jobs-freestyle.html">5.3.&nbsp;Cr&eacute;er une t&acirc;che de build free-style</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-triggers.html">5.5.&nbsp;D&eacute;clencheurs de build</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-subversion"></a>5.4.&nbsp;Configurer la Gestion du Code Source
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Dans<a class="indexterm" name="ch05-scm"></a> son r&ocirc;le le plus basique, un serveur d'Int&eacute;gration Continue
+            surveille votre syst&egrave;me de gestion de version et v&eacute;rifie les derniers
+            changements au fur et &agrave; mesure. Le serveur compile et test alors la
+            version la plus r&eacute;cente du code. Il peut alternativement r&eacute;cup&eacute;rer
+                     et construire simplement la derni&egrave;re version de votre code source de
+                      mani&egrave;re r&eacute;guli&egrave;re. Dans tous les cas, une forte int&eacute;gration avec votre
+                      syst&egrave;me de gestion de version est essentielle.
+         </p>
+         <p>De par leur r&ocirc;le fondamental, les options de configuration du
+                      SCM sont identiques au travers de tous les types de t&acirc;ches de build dans Jenkins. Jenkins <a class="indexterm" name="I_indexterm5_d1e5249"></a><a class="indexterm" name="I_indexterm5_d1e5254"></a>supporte CVS et Subversion nativement, embarque
+                      un support pour Git et s'int&egrave;gre avec un grand nombre d'autres syst&egrave;mes
+                      de gestion de version via des plugins. A l'&eacute;criture de ce livre, le
+                      support par plugin inclus Accurev, Bazaar, BitKeeper, ClearCase, CMVC,
+                      Darcs, Dimensions, Git, CA Harvest, Mercurial, Perforce, PVCS, Rational
+                      Team Concert, StarTeam, Surround SCM, CM/Synergy, Microsoft Team
+                      Foundation Server et m&ecirc;me Visual SourceSafe. Dans le reste de cette
+                      section, nous verrons comment configurer quelques uns des SCM les
+                      plus courants.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e5426"></a>5.4.1.&nbsp;Travailler avec Subversion
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Subversion<a class="indexterm" name="ch05-sub1"></a><a class="indexterm" name="ch05-sub2"></a> est l'un des syst&egrave;mes de gestion de version parmi les plus utilis&eacute;s,
+                     et Jenkins embarque un support complet de Subversion (voir <a href="sect-subversion.html#fig-hudson-new-job-svn" title="Figure&nbsp;5.6.&nbsp;Jenkins embarque par d&eacute;faut le support pour Subversion">Figure&nbsp;5.6, &#8220;Jenkins embarque par d&eacute;faut le support pour Subversion&#8221;</a>). Pour utiliser du code source provenant
+                     d'un d&eacute;p&ocirc;t Subversion, vous devez simplement fournir l'URL correspondante - cela
+                     fonctionnera parfaitement avec n'importe lequel des trois protocoles utilis&eacute;s
+                     par Subversion (http, svn ou file). Jenkins v&eacute;rifiera que l'URL est valide aussit&ocirc;t
+                     que vous l'aurez remplie. Si le d&eacute;p&ocirc;t n&eacute;cessite une authentification, Jenkins vous
+                     questionnera alors sur vos identifiants automatiquement et les enregistrera pour 
+                     tout autre t&acirc;che de build qui aura besoin d'acc&eacute;der &agrave; ce m&ecirc;me d&eacute;p&ocirc;t.
+            </p>
+            <div class="figure"><a name="fig-hudson-new-job-svn"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e5281"></a><img src="figs/web/jtdg_0506.png" alt="Jenkins embarque par d&eacute;faut le support pour Subversion"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.6.&nbsp;Jenkins embarque par d&eacute;faut le support pour Subversion</b></p>
+            </div><br class="figure-break"><p>Par d&eacute;faut, Jenkins r&eacute;cup&eacute;rera le contenu du d&eacute;p&ocirc;t dans un
+                     sous-r&eacute;pertoire de votre espace de travail, dont le nom sera celui
+                     du dernier &eacute;l&eacute;ment de l'URL Subversion. Donc si votre URL Subversion
+                     est <a xmlns:xlink="http://www.w3.org/1999/xlink" href="svn://localhost/gameoflife/trunk" target="_top">svn://localhost/gameoflife/trunk</a>, Jenkins r&eacute;cup&eacute;rera
+                     le contenu du d&eacute;p&ocirc;t dans une r&eacute;pertoire nomm&eacute; <code class="filename">trunk</code> 
+                     dans l'espace de travail de votre t&acirc;che de build. Si vous pr&eacute;f&eacute;rez nommer 
+                     votre r&eacute;pertoire diff&eacute;remment, remplissez le nom que vous souhaitez 
+                     dans le champ <span><strong class="command">Local module directory</strong></span>. 
+                     Mettez un point (&#8220;.&#8221;) dans le champ si vous souhaitez mettre le code 
+                     source directement &agrave; la racine de l'espace de travail.
+            </p>
+            <p>Occasionnellement, vous aurez besoin de r&eacute;cup&eacute;rer du code 
+                     source de plusieurs URLs Subversion. Dans ce cas, utilisez le bouton 
+                     &#8220;Add more locations...&#8221; pour ajouter autant de <span class="keep-together">d&eacute;p&ocirc;ts</span>
+                     sources que vous en avez besoin.
+            </p>
+            <p>Une bonne proc&eacute;dure de build ne devrait pas modifier le code
+                     source ou laisser de fichiers suppl&eacute;mentaires qui pourrait porter &agrave;
+                     confusion votre syst&egrave;me de gestion de version ou la proc&eacute;dure de build. 
+                     Les artefacts g&eacute;n&eacute;r&eacute;s et fichiers temporaires (comme les fichiers de journaux,
+                     rapports, donn&eacute;es de test ou bases de donn&eacute;es fichier) devraient &ecirc;tre 
+                     cr&eacute;&eacute;s dans un r&eacute;pertoire s&eacute;par&eacute; et cr&eacute;&eacute; sp&eacute;cifiquement pour ce besoin (tout comme
+                     le r&eacute;pertoire <code class="filename">target</code> dans les builds Apache 
+                     Maven), et/ou &ecirc;tre configur&eacute;s pour &ecirc;tre ignor&eacute;s par le d&eacute;p&ocirc;t de votre syst&egrave;me 
+                     de gestion de version.
+                     Ces fichiers devrait &eacute;galement &ecirc;tre supprim&eacute;s par la proc&eacute;dure de build, 
+                     une fois que le build n'en a plus besoin. Cela prend &eacute;galement une grande 
+                     importance dans l'assurance de construire une proc&eacute;dure de build propre 
+                     et <span class="keep-together">reproductible&#8212;</span>pour une 
+                     version donn&eacute;e de votre code source, le build devrait se comporter 
+                     exactement de la m&ecirc;me mani&egrave;re, peu importe o&ugrave; et quand il est 
+                     ex&eacute;cut&eacute;. Les changements locaux, et la pr&eacute;sence de fichiers temporaires, 
+                     peuvent potentiellement compromettre cela.
+            </p>
+            <p>Vous pouvez finement configurer la mani&egrave;re dont Jenkins r&eacute;cup&egrave;re 
+                     la derni&egrave;re version de votre code source en s&eacute;lectionnant la valeur 
+                     attendue dans la liste d&eacute;roulante Check-out Strategy. Si votre projet 
+                     est correctement configur&eacute;, vous pouvez cependant acc&eacute;l&eacute;rer grandement 
+                     les choses en choisissant &#8220;Use &#8216;svn update&#8217; as much as possible&#8221;. Il 
+                     s'agit de l'option la plus rapide mais elle laisse les artefacts et 
+                     fichiers des builds pr&eacute;c&eacute;dents dans votre espace de travail. Pour 
+                     vous positionner du c&ocirc;t&eacute; de la s&eacute;curit&eacute;, vous pouvez choisir la 
+                     seconde option (&#8220;Use &#8216;svn update&#8217; as much as possible, with &#8216;svn revert&#8217; 
+                     before update&#8221;), qui ex&eacute;cutera syst&eacute;matiquement <code class="literal">svn revert</code> 
+                     avant de lancer <code class="literal">svn update</code>. Cela vous 
+                     assurera qu'aucun fichier n'aura &eacute;t&eacute; modifi&eacute; localement. Cependant, 
+                     cela ne supprimera pas les fichiers nouvellement cr&eacute;&eacute;s pendant la 
+                     proc&eacute;dure de build. Sinon, vous pouvez demander &agrave; Jenkins de 
+                     supprimer tous les fichiers &agrave; ignorer ou non versionn&eacute;s avant de 
+                     faire un <code class="literal">svn update</code> ou encore 
+                     jouer la carte de la s&eacute;curit&eacute; et r&eacute;cup&eacute;rer une copie propre et 
+                     compl&egrave;te &agrave; chaque build.
+            </p>
+            <p>Une autre<a class="indexterm" name="I_indexterm5_d1e5322"></a><a class="indexterm" name="I_indexterm5_d1e5327"></a><a class="indexterm" name="I_indexterm5_d1e5334"></a> fonctionnalit&eacute; de Jenkins particuli&egrave;rement utile 
+                     est sont int&eacute;gration avec les navigateurs de code source. Un bon 
+                     navigateur de code source est un &eacute;l&eacute;ment important de votre 
+                     configuration d'Int&eacute;gration Continue. Cela vous permet de voir 
+                     d'un coup d'&#339;il les changements qui sont &agrave; l'origine du 
+                     lancement de votre build, ce qui est tr&egrave;s utile quand vous 
+                     avez besoin de localiser un probl&egrave;me lors d'un build &eacute;chou&eacute; 
+                     (voir <a href="sect-subversion.html#fig-hudson-new-job-diff" title="Figure&nbsp;5.7.&nbsp;Navigateur de code source montrant les changements dans le code qui ont caus&eacute; le build.">Figure&nbsp;5.7, &#8220;Navigateur de code source montrant les changements dans le 
+                          code qui ont caus&eacute; le build.&#8221;</a>). Jenkins int&egrave;gre la plupart des 
+                     principaux navigateurs de source code, y compris des outils 
+                     open source comme WebSVN ou Sventon, ainsi que ceux commerciaux 
+                     tels qu'Atlassian FishEye.
+            </p>
+            <div class="figure"><a name="fig-hudson-new-job-diff"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e5345"></a><img src="figs/web/jtdg_0507.png" alt="Navigateur de code source montrant les changements dans le code qui ont caus&eacute; le build."></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.7.&nbsp;Navigateur de code source montrant les changements dans le 
+                             code qui ont caus&eacute; le build.</b></p>
+            </div><br class="figure-break"><p>Jenkins<a class="indexterm" name="I_indexterm5_d1e5352"></a><a class="indexterm" name="I_indexterm5_d1e5359"></a> vous permet &eacute;galement d'affiner la s&eacute;lection des 
+                     changements qui d&eacute;clencheront un build. Dans la section avanc&eacute;e, 
+                     vous pouvez utiliser le champ R&eacute;gions exclues pour dire &agrave; Jenkins 
+                     de ne pas d&eacute;clencher de build si certains fichiers sont modifi&eacute;s. 
+                     Ce champ prend en compte une liste d'expressions r&eacute;guli&egrave;res qui 
+                     identifient les fichiers qui ne doivent <span class="emphasis"><em>pas</em></span> 
+                     d&eacute;clencher de build. Par exemple, supposez que vous ne voulez pas 
+                     que Jenkins d&eacute;marre un build si seulement des images ont &eacute;t&eacute; 
+                     modifi&eacute;es. Pour ce faire, vous pouvez utiliser un groupe d'expressions 
+                     r&eacute;guli&egrave;res comme celles qui suivent :
+            </p><a name="I_programlisting5_d1e5368"></a><pre class="programlisting">/trunk/gameoflife/gameoflife-web/src/main/webapp/.*\.jpg
+/trunk/gameoflife/gameoflife-web/src/main/webapp/.*\.gif
+/trunk/gameoflife/gameoflife-web/src/main/webapp/.*\.png</pre><p>De mani&egrave;re alternative, vous pouvez sp&eacute;cifier uniquement 
+                     les R&eacute;gions Incluses, si vous n'&ecirc;tes int&eacute;ress&eacute; que par les 
+                     changements d'une partie de votre arbre de code source. Vous 
+                     pouvez m&ecirc;me combiner les champs R&eacute;gions exclues et R&eacute;gions 
+                     Incluses &#8212; dans ce cas, un fichier modifi&eacute; ne d&eacute;clenchera 
+                     un build que s'il est inclus dans les R&eacute;gions Incluses mais 
+                     pas dans les R&eacute;gions Exclues.
+            </p>
+            <p>Vous <a class="indexterm" name="I_indexterm5_d1e5375"></a><a class="indexterm" name="I_indexterm5_d1e5382"></a><a class="indexterm" name="I_indexterm5_d1e5387"></a>pouvez &eacute;galement ignorer les changements provenant 
+                     de certains utilisateurs (Utilisateurs Exclus), ou pour certains <a class="indexterm" name="I_indexterm5_d1e5393"></a><a class="indexterm" name="I_indexterm5_d1e5396"></a><a class="indexterm" name="I_indexterm5_d1e5403"></a>messages de commit en particulier (Excluded Commit Messages).
+                     Par exemple, si votre projet utilise Maven, vous pourrez &ecirc;tre amen&eacute; &agrave; 
+                     utiliser le plugin Maven Release Plugin pour promouvoir votre application 
+                     d'une version snapshot<a class="indexterm" name="I_indexterm5_d1e5409"></a><a class="indexterm" name="I_indexterm5_d1e5412"></a> vers une version release officielle. Ce plugin 
+                     poussera automatiquement le num&eacute;ro de version de votre application 
+                     depuis sa version snapshot utilis&eacute;e pendant le d&eacute;veloppement (comme par 
+                     exemple 1.0.1-SNAPSHOT) vers une version release (1.0.1), empaquettera, 
+                     d&eacute;ploiera votre application avec ce num&eacute;ro de version et le mettra 
+                     &agrave; jour avec le prochain num&eacute;ro de version snapshot (par exemple 1.0.2-SNAPSHOT) 
+                     pour les d&eacute;veloppements futurs. Pendant cette <span class="keep-together">proc&eacute;dure</span>, Apache Maven 
+                     s'occupe de multiples &eacute;tapes comptables comme d'effectuer le commit 
+                     du nouveau num&eacute;ro de version, de cr&eacute;er la nouvelle &eacute;tiquette pour la 
+                     livraison de votre application et enfin faire l'op&eacute;ration de commit 
+                     pour le nouveau <span class="keep-together">num&eacute;ro</span> de version 
+                     snapshot.
+            </p>
+            <p>Supposez maintenant que vous avez une t&acirc;che de build sp&eacute;cifique 
+                     pour effectuer une nouvelle livraison utilisant cette <span class="keep-together">proc&eacute;dure</span>. 
+                     Les diff&eacute;rentes op&eacute;rations de commits g&eacute;n&eacute;r&eacute;es par le plugin Maven Release 
+                     Plugin devraient normalement d&eacute;clencher des t&acirc;ches de build dans Jenkins. 
+                     Cependant, comme votre tache de build de livraison est d&eacute;j&agrave; en train de 
+                     compiler et tester cette version de votre application, vous n'avez pas 
+                     besoin que Jenkins le fasse &agrave; nouveau dans une autre t&acirc;che de build. Pour 
+                     s'assurer que Jenkins ne d&eacute;clenche pas un autre build dans ce cas, vous 
+                     pouvez utiliser le champ Excluded Commit Messages avec la valeur suivante :
+            </p><a name="I_programlisting5_d1e5430"></a><pre class="programlisting">[maven-release-plugin] prepare release.*</pre><p>Cela vous assurera que Jenkins sautera les changements correspondant
+                     &agrave; des nouvelles versions de release mais pas ceux correspondant &agrave; la 
+                     prochaine <a class="indexterm" name="I_indexterm5_d1e5434"></a><a class="indexterm" name="I_indexterm5_d1e5436"></a>version snapshot.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="git-plugin"></a>5.4.2.&nbsp;Travailler avec Git
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>
+                       <span class="emphasis"><em>Contribu&eacute; par Matthew McCullough</em></span>
+                     
+            </p>
+            <p><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://git-scm.com/" target="_top">Git</a> est <a class="indexterm" name="ch05-git1"></a><a class="indexterm" name="ch05-git2"></a>un syst&egrave;me de gestion de version distribu&eacute; qui est le
+                         successeur logique de <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://subversion.tigris.org/" target="_top">Subversion</a> et un concurrent
+                         &agrave; <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://mercurial.selenic.com/" target="_top">Mercurial</a> partageant le m&ecirc;me esprit. Le support de Git dans
+                         Jenkins est mature et complet. Il y a &eacute;galement plusieurs plugins
+                         qui peuvent contribuer au workflow g&eacute;n&eacute;ral de Git dans Jenkins. Nous
+                         commencerons par nous int&eacute;resser au plugin Git qui apporte le support
+                         des fonctions principales de Git. Nous aborderons le sujet des plugins
+                         suppl&eacute;mentaires bri&egrave;vement.
+            </p>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="installing-the-plugin"></a>5.4.2.1.&nbsp;Installation du plugin
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Le plugin Git <a class="indexterm" name="ch05-gitinstall1"></a><a class="indexterm" name="ch05-gitinstall2"></a>est disponible dans le Gestionnaire de Plugins Jenkins et
+                              est document&eacute; sur sa propre <a xmlns:xlink="http://www.w3.org/1999/xlink" href="https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin" target="_top">page de
+                                 wiki</a>. Le plugin suppose que Git (version 1.3.3 ou ult&eacute;rieure) a
+                              &eacute;t&eacute; install&eacute; sur le serveur de build. Vous devrez donc vous en assurer
+                              pr&eacute;alablement. Vous pouvez vous en assurer en ex&eacute;cutant la commande suivante
+                              sur votre serveur de build :
+               </p><pre class="screen">$ <strong class="userinput"><code>git --version</code></strong>
+git version 1.7.1</pre><p>Revenez ensuite &agrave; Jenkins et cochez la case correspondante dans le
+                              gestionnaire de plugins Jenkins et cliquez sur le bouton d'installation.
+               </p>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="system-wide-configuration-of-the-plugin"></a>5.4.2.1.1.&nbsp;Configuration syst&egrave;me du plugin
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Apr&egrave;s l'installation du plugin Git, une nouvelle
+                                   section de configuration est disponible dans la page Administrer Jenkins<span class="unicode">&#8594;</span>Configurer le syst&egrave;me (voir <a href="sect-subversion.html#I_figure1_id2245320" title="Figure&nbsp;5.8.&nbsp;Configuration syst&egrave;me du plugin Git">Figure&nbsp;5.8, &#8220;Configuration syst&egrave;me du plugin Git&#8221;</a>). Vous devez en particulier
+                                   fournir le chemin vers l'ex&eacute;cutable de Git. Si Git est d&eacute;j&agrave; install&eacute;
+                                   sur votre syst&egrave;me, entrez simplement &#8220;git&#8221; dans le champ.
+                  </p>
+                  <div class="figure"><a name="I_figure1_id2245320"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e5503"></a><img src="figs/web/jtdg_0508.png" alt="Configuration syst&egrave;me du plugin Git"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.8.&nbsp;Configuration syst&egrave;me du plugin Git</b></p>
+                  </div><br class="figure-break"></div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="ssh-key-setup"></a>5.4.2.1.2.&nbsp;Configuration de la cl&eacute; SSH
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Si le <a class="indexterm" name="I_indexterm5_d1e5513"></a><a class="indexterm" name="I_indexterm5_d1e5516"></a><a class="indexterm" name="I_indexterm5_d1e5521"></a>d&eacute;p&ocirc;t Git auquel vous acc&eacute;dez utilise SSH
+                                   sans mot de passe comme moyen d'<span class="keep-together">authentification&#8212;</span>par exemple si
+                                   l'adresse d'acc&egrave;s ressemble &agrave; <code class="literal">git@github.com:matthewmccullough/some-repo.git</code>&#8212;vous devrez
+                                   fournir la partie priv&eacute;e de la cl&eacute; sous forme de fichier <code class="literal">~/.ssh/id_rsa</code> o&ugrave; <code class="literal">~</code> est le r&eacute;pertoire racine du compte
+                                   utilisateur <span class="keep-together">ex&eacute;cutant</span> Jenkins.
+                  </p>
+                  <p>L'empreinte du serveur distant devra additionnellement &ecirc;tre
+                                   ajout&eacute;e dans <code class="literal">~/.ssh/known_hosts</code>
+                                   pour &eacute;viter que Jenkins ne vous invite &agrave; accepter l'autorisation
+                                   vers le serveur Git lors du premier acc&egrave;s alors que la console sera
+                                   non interactive.
+                  </p>
+                  <p>Alternativement, si vous avez la possibilit&eacute; de vous connecter avec l'utilisateur <code class="literal">jenkins</code>, acc&eacute;dez par SSH &agrave; la machine Jenkins
+                                   en tant que <code class="literal">jenkins</code> et faites une tentative manuelle
+                                   de cloner un d&eacute;p&ocirc;t Git distant. Cela testera la configuration de
+                                   votre cl&eacute; priv&eacute;e et remplira le fichier <code class="literal">known_hosts</code> dans le r&eacute;pertoire <code class="literal">~/.ssh</code>. C'est probablement la
+                                   solution la plus simple de vous familiariser avec les subtilit&eacute;s
+                                   de la <span class="keep-together">configuration</span> SSH.<a class="indexterm" name="I_indexterm5_d1e5568"></a><a class="indexterm" name="I_indexterm5_d1e5570"></a></p>
+               </div>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="using-the-plugin"></a>5.4.2.2.&nbsp;Utilisation du plugin
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Que <a class="indexterm" name="I_indexterm5_d1e5577"></a><a class="indexterm" name="I_indexterm5_d1e5582"></a>cela soit dans un nouveau projet Jenkins ou dans un projet existant, une nouvelle
+                              option de Gestion du Code Source pour Git sera affich&eacute;e. D&egrave;s lors,
+                              vous pouvez configurer une ou plusieurs adresses de d&eacute;p&ocirc;ts (voir <a href="sect-subversion.html#I_figure1_id2245479" title="Figure&nbsp;5.9.&nbsp;Remplir une URL de d&eacute;p&ocirc;t Git">Figure&nbsp;5.9, &#8220;Remplir une URL de d&eacute;p&ocirc;t Git&#8221;</a>). Un seul d&eacute;p&ocirc;t est utilis&eacute; dans la
+                              majorit&eacute; des projets. Ajouter un second d&eacute;p&ocirc;t peut &ecirc;tre utile dans
+                              des cas plus compliqu&eacute;s et vous permet de sp&eacute;cifier des cibles
+                              distinctes pour les op&eacute;rations de <code class="literal">pull</code> et de <code class="literal">push</code>.
+               </p>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="advanced-per-project-source-code-management-configuration"></a>5.4.2.2.1.&nbsp;Configuration avanc&eacute;e par projet de la gestion du code source
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Dans la plupart des cas, l'URL du d&eacute;p&ocirc;t Git que vous utilisez
+                                   devrait &ecirc;tre suffisante. Cependant, si vous avez besoin de plus
+                                   d'options, cliquez sur le bouton Avanc&eacute; (voir <a href="sect-subversion.html#I_figure1_id2245574" title="Figure&nbsp;5.10.&nbsp;Configuration avanc&eacute;e d'une URL de d&eacute;p&ocirc;t Git">Figure&nbsp;5.10, &#8220;Configuration avanc&eacute;e d'une URL de d&eacute;p&ocirc;t Git&#8221;</a>).
+                                   Cela apporte un contr&ocirc;le plus pr&eacute;cis sur le comportement du
+                                   <code class="literal">pull</code>.
+                  </p>
+                  <p>Le <span class="emphasis"><em>Nom du d&eacute;p&ocirc;t</em></span> est un titre raccourci
+                                   (ou <code class="literal">remote</code> en langage Git)
+                                   pour un d&eacute;p&ocirc;t donn&eacute; auquel vous pouvez vous reporter plus
+                                   tard dans la configuration de l'action de merge.
+                  </p>
+                  <p>La <span class="emphasis"><em>Refspec</em></span> est un <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://progit.org/book/ch9-5.html" target="_top">terme</a> sp&eacute;cifique
+                                   du langage Git pour contr&ocirc;ler pr&eacute;cis&eacute;ment ce qui est r&eacute;cup&eacute;r&eacute;
+                                   depuis les serveurs distants et sous quel espace de nom c'est
+                                   stock&eacute; localement.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="branches-to-build"></a>5.4.2.2.2.&nbsp;Branches &agrave; construire
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Le champ <a class="indexterm" name="I_indexterm5_d1e5629"></a><a class="indexterm" name="I_indexterm5_d1e5636"></a>Branch Specifier (<a href="sect-subversion.html#I_figure1_id2245638" title="Figure&nbsp;5.11.&nbsp;Configuration avanc&eacute;e des branches Git &agrave; construire">Figure&nbsp;5.11, &#8220;Configuration avanc&eacute;e des branches Git &agrave; construire&#8221;</a>) peut &ecirc;tre utilis&eacute; &agrave; l'aide d'un caract&egrave;re g&eacute;n&eacute;rique  
+                               ou en sp&eacute;cifiant le nom d'une branche &agrave; construire par Jenkins. Si le 
+                               champ est laiss&eacute; vide, toutes les branches seront construites. Pour 
+                               le moment, lorsque vous sauvegardez votre t&acirc;che pour la premi&egrave;re fois 
+                               et qu'elle est configur&eacute;e avec <span class="emphasis"><em>ce champ</em></span> vide, il est alors rempli 
+                               avec <code class="literal">**</code>, ce qui signifie "construire toutes les branches".
+                  </p>
+                  <div class="figure-float">
+                     <div class="figure"><a name="I_figure1_id2245479"></a><div class="figure-contents">
+                           <div class="mediaobject"><a name="I_mediaobject5_d1e5653"></a><img src="figs/web/jtdg_0509.png" alt="Remplir une URL de d&eacute;p&ocirc;t Git"></div>
+                        </div>
+                        <p class="title"><b>Figure&nbsp;5.9.&nbsp;Remplir une URL de d&eacute;p&ocirc;t Git</b></p>
+                     </div><br class="figure-break"></div>
+                  <div class="figure-float">
+                     <div class="figure"><a name="I_figure1_id2245574"></a><div class="figure-contents">
+                           <div class="mediaobject"><a name="I_mediaobject5_d1e5661"></a><img src="figs/web/jtdg_0510.png" alt="Configuration avanc&eacute;e d'une URL de d&eacute;p&ocirc;t Git"></div>
+                        </div>
+                        <p class="title"><b>Figure&nbsp;5.10.&nbsp;Configuration avanc&eacute;e d'une URL de d&eacute;p&ocirc;t Git</b></p>
+                     </div><br class="figure-break"></div>
+                  <div class="figure"><a name="I_figure1_id2245638"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e5669"></a><img src="figs/web/jtdg_0511.png" alt="Configuration avanc&eacute;e des branches Git &agrave; construire"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.11.&nbsp;Configuration avanc&eacute;e des branches Git &agrave; construire</b></p>
+                  </div><br class="figure-break"></div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="excluded-regions"></a>5.4.2.2.3.&nbsp;R&eacute;gions exclues
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Les r&eacute;gions (vues dans <a href="sect-subversion.html#I_figure1_id2245692" title="Figure&nbsp;5.12.&nbsp;Branches et r&eacute;gions">Figure&nbsp;5.12, &#8220;Branches et r&eacute;gions&#8221;</a>)
+                               <a class="indexterm" name="I_indexterm5_d1e5681"></a><a class="indexterm" name="I_indexterm5_d1e5688"></a>sont des chemins nomm&eacute;s sp&eacute;cifiquement ou g&eacute;n&eacute;riques de votre 
+                               code source qui, m&ecirc;me une fois modifi&eacute;s, ne doivent pas d&eacute;clencher 
+                               de build. Il s'agit g&eacute;n&eacute;ralement de fichiers non compil&eacute;s tels que 
+                               les archives de locales ou d'images qui n'ont &agrave; priori pas d'effet 
+                               sur les tests unitaires ou d'int&eacute;gration.
+                  </p>
+                  <div class="figure"><a name="I_figure1_id2245692"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e5697"></a><img src="figs/web/jtdg_0512.png" alt="Branches et r&eacute;gions"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.12.&nbsp;Branches et r&eacute;gions</b></p>
+                  </div><br class="figure-break"></div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="excluded-users"></a>5.4.2.2.4.&nbsp;Utilisateurs Exclus
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Le plugin <a class="indexterm" name="I_indexterm5_d1e5707"></a><a class="indexterm" name="I_indexterm5_d1e5714"></a><a class="indexterm" name="I_indexterm5_d1e5719"></a>Git vous permet &eacute;galement d'ignorer certains utilisateurs 
+                               m&ecirc;me s'ils effectuent des changements du code source qui auraient 
+                               d&ucirc; normalement d&eacute;clencher un build.
+                  </p>
+                  <p>Cette action n'est pas aussi m&eacute;chante qu'elle peut paraitre : 
+                               les utilisateurs exclus sont g&eacute;n&eacute;ralement des utilisateurs 
+                               automatis&eacute;s ou des d&eacute;veloppeurs non humains, qui ont des 
+                               comptes distincts avec des droits de commit sur le gestionnaire 
+                               de code source. Ces utilisateurs automatis&eacute;s font g&eacute;n&eacute;ralement 
+                               de petites op&eacute;rations comme incr&eacute;menter la version d'un fichier 
+                               <code class="filename">pom.xml</code> plut&ocirc;t que de v&eacute;ritables changements dans la logique de votre 
+                               application. Si vous souhaitez exclure plusieurs utilisateurs, 
+                               ajoutez les simplement sur des lignes s&eacute;par&eacute;es.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="checkoutmerge-to-local-branch"></a>5.4.2.2.5.&nbsp;R&eacute;cup&eacute;rer/fusionner sur une branche locale
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Parfois <a class="indexterm" name="I_indexterm5_d1e5735"></a><a class="indexterm" name="I_indexterm5_d1e5742"></a>vous aurez le besoin de r&eacute;cup&eacute;rer directement 
+                               le <span class="emphasis"><em>HEAD de mani&egrave;re s&eacute;par&eacute;e</em></span> dans une branche au travers du 
+                               hash d'un commit. Dans ce cas, sp&eacute;cifiez votre branche locale 
+                               dans le champ &#8220;Checkout/merge to a local branch&#8221;.
+                  </p>
+                  <p>Il est plus simple de l'illustrer par un exemple. Sans 
+                               sp&eacute;cifier de branche locale, le plugin ferait quelque chose
+                               comme cela : 
+                  </p><pre class="screen">git checkout 73434e4a0af0f51c242f5ae8efc51a88383afc8a</pre><p>Autrement, si vous utilisiez une branche nomm&eacute;e <code class="literal">maBranche</code>, Jenkins ferait la chose 
+                               suivante : 
+                  </p><pre class="screen">git branch -D maBranche
+git checkout -b maBranche 73434e4a0af0f51c242f5ae8efc51a88383afc8a</pre></div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="local-subdirectory-for-repo"></a>5.4.2.2.6.&nbsp;D&eacute;p&ocirc;t dans un sous-r&eacute;pertoire local
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Par <a class="indexterm" name="I_indexterm5_d1e5767"></a><a class="indexterm" name="I_indexterm5_d1e5774"></a>d&eacute;faut, Jenkins clonera le d&eacute;p&ocirc;t Git 
+                               directement dans l'espace de travail de votre t&acirc;che de build. 
+                               Si vous pr&eacute;f&eacute;rez utiliser un r&eacute;pertoire diff&eacute;rent, vous pouvez 
+                               le sp&eacute;cifier ici. Notez que ce r&eacute;pertoire est relatif &agrave; l'espace 
+                               de travail de votre t&acirc;che de build.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="merge-before-build"></a>5.4.2.2.7.&nbsp;Fusionner avant le build
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Le <a class="indexterm" name="I_indexterm5_d1e5785"></a><a class="indexterm" name="I_indexterm5_d1e5792"></a>cas typique d'utilisation de cette option est le remplissage 
+                               d'une branche d'int&eacute;gration proche de la branche <code class="literal">master</code>. N'oubliez pas que 
+                               seulement les fusions ne pr&eacute;sentant pas de conflit seront 
+                               effectu&eacute;es automatiquement. Les fusions plus complexes qui 
+                               requi&egrave;rent une intervention manuelle feront &eacute;chouer le build.
+                  </p>
+                  <p>La branche fusionn&eacute;e qui en r&eacute;sulte ne sera pas pouss&eacute;e 
+                               automatiquement &agrave; moins que l'action de <code class="literal">push</code> 
+                               ne soit activ&eacute;e dans les actions post-build.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="prune-remote-branches-before-build"></a>5.4.2.2.8.&nbsp;Tailler les branches distantes avant le build
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Le taillage <a class="indexterm" name="I_indexterm5_d1e5811"></a><a class="indexterm" name="I_indexterm5_d1e5818"></a> supprime les copies locales de branches distantes qui proviennent 
+                               d'un clone pr&eacute;c&eacute;dent mais qui ne sont plus pr&eacute;sentent sur le d&eacute;p&ocirc;t 
+                               distant. En r&eacute;sum&eacute;, il s'agit du nettoyage du clone local pour qu'il 
+                               soit parfaitement synchronis&eacute; avec son jumeau distant.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="clean-after-checkout"></a>5.4.2.2.9.&nbsp;Nettoyer apr&egrave;s r&eacute;cup&eacute;ration
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Active <a class="indexterm" name="I_indexterm5_d1e5829"></a><a class="indexterm" name="I_indexterm5_d1e5836"></a> la purge de tout fichier ou r&eacute;pertoire non 
+                               versionn&eacute;, ramenant le votre copie de travail &agrave; son &eacute;t&acirc;t vierge.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="recursively-update-submodules"></a>5.4.2.2.10.&nbsp;Mise &agrave; jour r&eacute;cursive des sous-modules
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Si <a class="indexterm" name="I_indexterm5_d1e5848"></a><a class="indexterm" name="I_indexterm5_d1e5855"></a> vous utilisez les fonctionnalit&eacute;s de sous-modules de Git dans 
+                               votre projet, cette option vous assure que chaque sous-module 
+                               est &agrave; jour gr&acirc;ce &agrave; un appel explicite &agrave; la commande <code class="literal">update</code>, m&ecirc;me si les sous-modules 
+                               sont imbriqu&eacute;s dans d'autres sous-modules.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="use-commit-author-in-changelog"></a>5.4.2.2.11.&nbsp;Utiliser l'auteur du commit dans changelog
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Jenkins<a class="indexterm" name="I_indexterm5_d1e5869"></a><a class="indexterm" name="I_indexterm5_d1e5876"></a> note et affiche l'auteur du changement de code dans une 
+                               vue synth&eacute;tique. Git note l'auteur et le commiter du code
+                               distinctement, et cette option vous permet de choisir lequel 
+                               appara&icirc;tra dans le changelog.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="wipe-out-workspace"></a>5.4.2.2.12.&nbsp;Effacer l'espace de travail
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Typiquement<a class="indexterm" name="I_indexterm5_d1e5887"></a><a class="indexterm" name="I_indexterm5_d1e5894"></a> Jenkins r&eacute;utilisera l'espace de travail, le rafra&icirc;chissant simplement 
+                               si n&eacute;cessaire et si vous avez activ&eacute; l'option &#8220;Clean after
+                               checkout&#8221;, nettoiera les fichiers non versionn&eacute;s. Cependant, si vous 
+                               pr&eacute;f&eacute;rez avoir un espace de travail compl&eacute;tement propre, vous pouvez
+                               utiliser l'option &#8220;Wipe out workspace&#8221; pour supprimer et 
+                               reconstruire l'espace de travail de z&eacute;ro. Gardez &agrave; l'esprit 
+                               que cela allongera significativement le temps d'initialisation 
+                               et de construction du projet.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="choosing-strategy"></a>5.4.2.2.13.&nbsp;Choix de la strat&eacute;gie
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Jenkins <a class="indexterm" name="I_indexterm5_d1e5905"></a><a class="indexterm" name="I_indexterm5_d1e5912"></a>decide quelle branches il doit construire en se basant sur 
+                               une certaine <span class="emphasis"><em>strat&eacute;gie</em></span> (voir <a href="sect-subversion.html#I_figure1_id2245980" title="Figure&nbsp;5.13.&nbsp;Choix de la strat&eacute;gie">Figure&nbsp;5.13, &#8220;Choix de la strat&eacute;gie&#8221;</a>). Les utilisateurs peuvent influencer 
+                               cette proc&eacute;dure de recherche de branche. Le choix par d&eacute;faut est de rechercher tous les 
+                               HEADs de branche. Si le plugin Gerrit est install&eacute;, d'autres options 
+                               pour construire tous les commits notifi&eacute;s par Gerrit seront affich&eacute;es.
+                  </p>
+                  <div class="figure-float">
+                     <div class="figure"><a name="I_figure1_id2245980"></a><div class="figure-contents">
+                           <div class="mediaobject"><a name="I_mediaobject5_d1e5926"></a><img src="figs/web/jtdg_0513.png" alt="Choix de la strat&eacute;gie"></div>
+                        </div>
+                        <p class="title"><b>Figure&nbsp;5.13.&nbsp;Choix de la strat&eacute;gie</b></p>
+                     </div><br class="figure-break"></div>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="git-executable"></a>5.4.2.2.14.&nbsp;Ex&eacute;cutable Git
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Dans les <a class="indexterm" name="I_indexterm5_d1e5936"></a>options globales de Jenkins (voir <a href="sect-subversion.html#I_figure1_id2246035" title="Figure&nbsp;5.14.&nbsp;Configuration globale de l'ex&eacute;cutable de Git">Figure&nbsp;5.14, &#8220;Configuration globale de l'ex&eacute;cutable de Git&#8221;</a>), plusieurs ex&eacute;cutables Git 
+                               peuvent &ecirc;tre configur&eacute;s et utilis&eacute;s build par build. Cela est rarement utilis&eacute; et l'est seulement lorsqu'un clone
+                     ou d'autres op&eacute;rations 
+                               Git sont sensibles &agrave; une version particuli&egrave;re de Git. Git tend &agrave;  
+                               &ecirc;tre tr&egrave;s flexible quant &agrave; ses num&eacute;ro de version ; les d&eacute;p&ocirc;ts l&eacute;g&egrave;rement 
+                               anciens peuvent &ecirc;tre clon&eacute;s tr&egrave;s facilement avec une nouvelle version 
+                               de Git et inversement.
+                  </p>
+                  <div class="figure"><a name="I_figure1_id2246035"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e5949"></a><img src="figs/web/jtdg_0514.png" alt="Configuration globale de l'ex&eacute;cutable de Git"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.14.&nbsp;Configuration globale de l'ex&eacute;cutable de Git</b></p>
+                  </div><br class="figure-break"></div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="repository-browser"></a>5.4.2.2.15.&nbsp;Navigateur de d&eacute;p&ocirc;t
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Tout comme <a class="indexterm" name="I_indexterm5_d1e5959"></a><a class="indexterm" name="I_indexterm5_d1e5966"></a><a class="indexterm" name="I_indexterm5_d1e5971"></a>Subversion, Git a plusieurs navigateurs de source qu'il 
+                               peut utiliser. Les plus couramment utilis&eacute;s sont Gitorious, Git Web, ou
+                               <a class="indexterm" name="I_indexterm5_d1e5977"></a>GitHub. Si vous fournissez l'URL 
+                               correspondante &agrave; votre navigateur de d&eacute;p&ocirc;t, Jenkins pourra alors 
+                               afficher un lien direct vers les changements de votre code source 
+                               qui ont d&eacute;clench&eacute; le build (voir <a href="sect-subversion.html#I_figure1_id2246089" title="Figure&nbsp;5.15.&nbsp;Navigateur de d&eacute;p&ocirc;t">Figure&nbsp;5.15, &#8220;Navigateur de d&eacute;p&ocirc;t&#8221;</a>).
+                  </p>
+                  <div class="figure"><a name="I_figure1_id2246089"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e5986"></a><img src="figs/web/jtdg_0515.png" alt="Navigateur de d&eacute;p&ocirc;t"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.15.&nbsp;Navigateur de d&eacute;p&ocirc;t</b></p>
+                  </div><br class="figure-break"></div>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="build-triggers"></a>5.4.2.3.&nbsp;D&eacute;clencheurs de build
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Le <a class="indexterm" name="ch05-gittrigger1"></a><a class="indexterm" name="ch05-gittrigger2"></a>plugin Git de base offre la possibilit&eacute; de 
+                          <span class="emphasis"><em>scruter l'outil de gestion de version</em></span> r&eacute;guli&egrave;rement 
+                          et de v&eacute;rifier si de nouveau changements ont eu lieu depuis la derni&egrave;re 
+                          requ&ecirc;te. Si des changements sont pr&eacute;sents, un build est alors lanc&eacute;. Le 
+                          journal de scrutation (montr&eacute; dans <a href="sect-subversion.html#I_figure1_id2246150" title="Figure&nbsp;5.16.&nbsp;Journal de scrutation">Figure&nbsp;5.16, &#8220;Journal de scrutation&#8221;</a>) est accessible 
+                          par un lien dans la partie gauche de la page dans la barre de navigation 
+                          lorsque vous visitez une t&acirc;che sp&eacute;cifique. Vous y trouverez les 
+                          informations sur la derni&egrave;re fois que le d&eacute;p&ocirc;t a &eacute;t&eacute; scrut&eacute; et s'il a 
+                          renvoy&eacute; une liste de changements (voir
+                          <a href="sect-subversion.html#I_figure1_id2246192" title="Figure&nbsp;5.17.&nbsp;R&eacute;sultats de la scrutation de Git">Figure&nbsp;5.17, &#8220;R&eacute;sultats de la scrutation de Git&#8221;</a>).
+               </p>
+               <div class="figure"><a name="I_figure1_id2246150"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e6019"></a><img src="figs/web/jtdg_0516.png" alt="Journal de scrutation"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.16.&nbsp;Journal de scrutation</b></p>
+               </div><br class="figure-break"><p>La scrutation de Git est disponible dans un format plus orient&eacute; 
+                            d&eacute;veloppeur qui montre les commentaires de commit ainsi que des 
+                            hyperliens pointant vers une vue plus d&eacute;taill&eacute;e des utilisateurs et des 
+                            fichiers modifi&eacute;s.
+               </p>
+               <div class="figure"><a name="I_figure1_id2246192"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e6029"></a><img src="figs/web/jtdg_0517.png" alt="R&eacute;sultats de la scrutation de Git"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.17.&nbsp;R&eacute;sultats de la scrutation de Git</b></p>
+               </div><br class="figure-break"><p>Installer le <span class="emphasis"><em>Gerrit Build Trigger</em></span> ajoute une option 
+                          <span class="emphasis"><em>Gerrit event</em></span> qui peut &ecirc;tre plus efficace et 
+                          pr&eacute;cise que de simplement scruter le d&eacute;p&ocirc;t.
+               </p>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="gerrit-trigger"></a>5.4.2.3.1.&nbsp;D&eacute;clenchement par Gerrit
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://code.google.com/p/gerrit/" target="_top">Gerrit</a>
+                               est<a class="indexterm" name="I_indexterm5_d1e6049"></a><a class="indexterm" name="I_indexterm5_d1e6052"></a> une application web open source qui 
+                               facilite les <a xmlns:xlink="http://www.w3.org/1999/xlink" href="https://review.source.android.com/#q,status:open,n,z" target="_top">revues de 
+                                  code</a> pour les projets dont les sources sont g&eacute;r&eacute;es par Git. Il 
+                               lit le d&eacute;p&ocirc;t Git traditionnel et apporte une comparaison c&ocirc;te-&agrave;-c&ocirc;te 
+                               des changements. Lorsque le code est revu, Gerrit apporte alors un 
+                               lieu pour commenter et d&eacute;placer le patch dans un &eacute;tat <span class="emphasis"><em>ouvert</em></span>, 
+                               <span class="emphasis"><em>fusionn&eacute;</em></span> ou <span class="emphasis"><em>abandonn&eacute;</em></span>.
+                  </p>
+                  <p>Le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.hudson-ci.org/display/HUDSON/Gerrit+Trigger" target="_top">Gerrit
+                                  Trigger</a> est un plugin Jenkins qui peut d&eacute;clencher un build Jenkins 
+                               sur du code quand n'importe quelle activit&eacute; li&eacute;e &agrave; un utilisateur sp&eacute;cifique 
+                               survient dans le projet d'un utilisateur d&eacute;fini du d&eacute;p&ocirc;t Git (voir <a href="sect-subversion.html#I_figure1_id2246304" title="Figure&nbsp;5.18.&nbsp;D&eacute;clenchement par Gerrit">Figure&nbsp;5.18, &#8220;D&eacute;clenchement par Gerrit&#8221;</a>). Il s'agit d'une alternative aux options 
+                               plus r&eacute;guli&egrave;rement utilis&eacute;es comme la <span class="emphasis"><em>construction p&eacute;riodique</em></span> ou la 
+                               <span class="emphasis"><em>scrutation de l'outil de gestion de version</em></span>.
+                  </p>
+                  <div class="figure"><a name="I_figure1_id2246304"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e6087"></a><img src="figs/web/jtdg_0518.png" alt="D&eacute;clenchement par Gerrit"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.18.&nbsp;D&eacute;clenchement par Gerrit</b></p>
+                  </div><br class="figure-break"><p>La configuration de ce plugin est minimale et focalis&eacute;e sur 
+                               le <span class="emphasis"><em>Type du Projet</em></span> et son <span class="emphasis"><em>Pattern</em></span> 
+                               ainsi que le <span class="emphasis"><em>Type de Branches</em></span>
+                               et leur <span class="emphasis"><em>Pattern</em></span>. Dans chaque paire, le
+                               <span class="emphasis"><em>type</em></span> peut &ecirc;tre <span class="emphasis"><em>Plain</em></span>,
+                               <span class="emphasis"><em>Path</em></span> ou bien <span class="keep-together"><span class="emphasis"><em>RegExp</em></span> &#8212; </span>descriptif 
+                               de ce qu'il faut observer &#8212; et la valeur
+                               (<span class="emphasis"><em>pattern</em></span>) &agrave; &eacute;valuer en utilisant le type
+                               <span class="emphasis"><em>type</em></span> comme<a class="indexterm" name="I_indexterm5_d1e6127"></a><a class="indexterm" name="I_indexterm5_d1e6130"></a> guide.
+                  </p>
+               </div>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="post-build-actions"></a>5.4.2.4.&nbsp;Actions post-build
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Le<a class="indexterm" name="ch05-postbuild1"></a><a class="indexterm" name="ch05-postbuild2"></a> plugin Git pour Jenkins ajoute des capacit&eacute;s sp&eacute;cifiques &agrave; Git 
+                          au post-traitement des artefacts du build. Plus sp&eacute;cifiquement, le Git
+                          Publisher (montr&eacute; dans <a href="sect-subversion.html#I_figure1_id2246534" title="Figure&nbsp;5.19.&nbsp;Git Publisher">Figure&nbsp;5.19, &#8220;Git Publisher&#8221;</a>) permet les
+                          actions de merge et de push. Cochez la case du Git Publisher pour afficher
+                          ses quatres options.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="I_figure1_id2246534"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e6156"></a><img src="figs/web/jtdg_0520.png" alt="Git Publisher"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.19.&nbsp;Git Publisher</b></p>
+                  </div><br class="figure-break"></div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="push-only-if-build-succeeds"></a>5.4.2.4.1.&nbsp;Pousser seulement si le build est r&eacute;ussi
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Si une fusion ou tout autre action entra&icirc;nant la 
+                               cr&eacute;ation d'un commit a &eacute;t&eacute; faite pendant le build Jenkins, 
+                               cette option peut alors &ecirc;tre activ&eacute;e pour pousser les
+                               changements dans le d&eacute;p&ocirc;t distant.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="merge-results"></a>5.4.2.4.2.&nbsp;Fusionner les r&eacute;sultats
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Si une fusion au d&eacute;but du build a &eacute;t&eacute; configur&eacute;e, la 
+                               branche r&eacute;sultante est alors pouss&eacute;e vers son origine (voir <a href="sect-subversion.html#I_figure1_id2246482" title="Figure&nbsp;5.20.&nbsp;Fusionner les r&eacute;sultats">Figure&nbsp;5.20, &#8220;Fusionner les r&eacute;sultats&#8221;</a>).
+                  </p>
+                  <div class="figure-float">
+                     <div class="figure"><a name="I_figure1_id2246482"></a><div class="figure-contents">
+                           <div class="mediaobject"><a name="I_mediaobject5_d1e6176"></a><img src="figs/web/jtdg_0519.png" alt="Fusionner les r&eacute;sultats"></div>
+                        </div>
+                        <p class="title"><b>Figure&nbsp;5.20.&nbsp;Fusionner les r&eacute;sultats</b></p>
+                     </div><br class="figure-break"></div>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="tags"></a>5.4.2.4.3.&nbsp;&Eacute;tiquettes
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Lorsque vous poussez des &eacute;tiquettes, chacune d'elle peut &ecirc;tre 
+                               nomm&eacute;e et choisie d'&ecirc;tre cr&eacute;&eacute;e si elle n'existe pas (ce qui &eacute;choue si 
+                               elle existe d&eacute;j&agrave;). Les variables d'environnement peuvent &ecirc;tre 
+                               utilis&eacute;es dans le nom des &eacute;tiquettes. Par exemple vous pouvez 
+                               utiliser l'ID du process avec <code class="literal">HUDSON_BUILD_$PPID</code> ou m&ecirc;me le num&eacute;ro de build 
+                               s'il est fourni par un plugin Jenkins avec <code class="literal">$HUDSON_AUTOTAG_$BUILDNUM</code>. Les &eacute;tiquettes 
+                               peuvent &ecirc;tre cibl&eacute;es sur un d&eacute;p&ocirc;t distant sp&eacute;cifique comme <code class="literal">origin</code> ou <code class="literal">integrationrepo</code>.
+                  </p>
+               </div>
+               <div class="sect4" lang="en">
+                  <div class="titlepage">
+                     <div>
+                        <div>
+                           <h5 class="title"><a name="branches"></a>5.4.2.4.4.&nbsp;Branches
+                           </h5>
+                        </div>
+                     </div>
+                  </div>
+                  <p>Le HEAD courant utilis&eacute; dans le build Jenkins d'une application 
+                               peut &ecirc;tre pouss&eacute; dans d'autres d&eacute;p&ocirc;ts distants lors d'une &eacute;tape suivant 
+                               le build. Vous n'avez &agrave; sp&eacute;cifier que la branche de destination et le 
+                               nom du d&eacute;p&ocirc;t distant.
+                  </p>
+                  <p>Les noms des d&eacute;p&ocirc;ts distants sont valid&eacute;s en comparaison &agrave; la 
+                               configuration pr&eacute;c&eacute;demment faite du plugin. Si le d&eacute;p&ocirc;t n'existe pas, 
+                               un avertissement est <a class="indexterm" name="I_indexterm5_d1e6205"></a><a class="indexterm" name="I_indexterm5_d1e6207"></a>affich&eacute;.
+                  </p>
+               </div>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="github-plugin"></a>5.4.2.5.&nbsp;Plugin GitHub
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Le <a class="indexterm" name="I_indexterm5_d1e6215"></a><a class="indexterm" name="I_indexterm5_d1e6218"></a>plugin GitHub offre deux points d'int&eacute;gration. Premi&egrave;rement, il
+                          apporte un lien optionnel vers la page de d&eacute;marrage du projet sur GitHub. 
+                          Entrez simplement l'URL du projet (sans la partie tree/master ou tree/branch).
+                          Par exemple, <code class="literal">http://github.com/matthewmccullough/git-workshop</code>.
+               </p>
+               <p>Ensuite, <a class="indexterm" name="I_indexterm5_d1e6229"></a>le plugin GitHub plugin permet d'obtenir 
+                          un lien par fichier modifi&eacute; qui sera reli&eacute; directement au <span class="emphasis"><em>navigateur de d&eacute;p&ocirc;t</em></span> 
+                          via la section de <span class="emphasis"><em>gestion du code source</em></span> (voir
+                          <a href="sect-subversion.html#I_figure1_id2246641" title="Figure&nbsp;5.21.&nbsp;Navigateur de d&eacute;p&ocirc;t GitHub">Figure&nbsp;5.21, &#8220;Navigateur de d&eacute;p&ocirc;t GitHub&#8221;</a>).
+               </p>
+               <div class="figure"><a name="I_figure1_id2246641"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e6244"></a><img src="figs/web/jtdg_0521.png" alt="Navigateur de d&eacute;p&ocirc;t GitHub"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.21.&nbsp;Navigateur de d&eacute;p&ocirc;t GitHub</b></p>
+               </div><br class="figure-break"><p>Avec le choix de <code class="literal">githubweb</code> comme
+                          navigateur de d&eacute;p&ocirc;t, tout fichier sur lequel des changements auront &eacute;t&eacute; 
+                          d&eacute;tect&eacute;s sera li&eacute; &agrave; la page web de visualisation du source appropri&eacute;e sur <a class="indexterm" name="I_indexterm5_d1e6254"></a><a class="indexterm" name="I_indexterm5_d1e6256"></a><a class="indexterm" name="I_indexterm5_d1e6258"></a>GitHub (<a href="sect-subversion.html#I_figure1_id2246688" title="Figure&nbsp;5.22.&nbsp;Navigateur de d&eacute;p&ocirc;t GitHub">Figure&nbsp;5.22, &#8220;Navigateur de d&eacute;p&ocirc;t GitHub&#8221;</a>).
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="I_figure1_id2246688"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject5_d1e6266"></a><img src="figs/web/jtdg_0522.png" alt="Navigateur de d&eacute;p&ocirc;t GitHub"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;5.22.&nbsp;Navigateur de d&eacute;p&ocirc;t GitHub</b></p>
+                  </div><br class="figure-break"></div>
+            </div>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-jobs-freestyle.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-triggers.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">5.3.&nbsp;Cr&eacute;er une t&acirc;che de build free-style&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;5.5.&nbsp;D&eacute;clencheurs de build</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

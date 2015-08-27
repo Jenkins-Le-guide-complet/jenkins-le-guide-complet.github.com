@@ -1,0 +1,151 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>2.3.&nbsp;D&eacute;marrer Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-first-steps.html" title="Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins">
+      <link rel="prev" href="sect-first-steps-environment.html" title="2.2.&nbsp;Pr&eacute;paration de votre environnement">
+      <link rel="next" href="sect-first-steps-configuring.html" title="2.4.&nbsp;Configuring the Tools">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-first-steps-environment.html">2.2.&nbsp;Pr&eacute;paration de votre environnement</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-configuring.html">2.4.&nbsp;Configuring the Tools</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-first-steps-starting"></a>2.3.&nbsp;D&eacute;marrer Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p><a class="indexterm" name="ch02-jws1"></a><a class="indexterm" name="ch02-jws2"></a><a class="indexterm" name="I_indexterm2_d1e1179"></a>Il y a plusieurs fa&ccedil;ons d'ex&eacute;cuter Jenkins sur votre machine. Une
+            des plus faciles pour ex&eacute;cuter Jenkins pour la premi&egrave;re fois est d'utiliser Java Web
+            Start. Java Web Start est une technologie qui vous permet de d&eacute;marrer une application 
+            Java sur votre machine locale via une URL sur une page web &#8212; cela vient pr&eacute;install&eacute;
+            avec le JRE Java. Dans notre cas, cela d&eacute;marrera un serveur Jenkins s'ex&eacute;cutant sur 
+            votre machine, et vous permettra de l'exp&eacute;rimenter comme si vous l'aviez install&eacute;
+            localement. Tout ce dont vous avez besoin pour cela est de travailler avec une version r&eacute;cente (Java 6 ou plus)
+                du Java Runtime Environment (JRE), que nous avons install&eacute; dans la section
+                pr&eacute;c&eacute;dente.
+         </p>
+         <p>Par commodit&eacute;, il y a un lien vers l'instance Java Web Start de Jenkins
+                sur la <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.wakaleo.com/books/jenkins-the-definitive-guide" target="_top">page 
+                   de ressources du livre</a>. Vous y trouverez un large bouton orange dans la section Ressources du Livre
+                (voir <a href="sect-first-steps-starting.html#fig-hudson-webstart-page" title="Figure&nbsp;2.4.&nbsp;Ex&eacute;cuter Jenkins en utilisant Java Web Start &agrave; partir du site web du livre">Figure&nbsp;2.4, &#8220;Ex&eacute;cuter Jenkins en utilisant Java Web Start &agrave; partir du site web
+                     du livre&#8221;</a>). Vous pouvez aussi trouver ce lien sur la 
+                page Meet Jenkins sur le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org/display/JENKINS/Meet+Jenkins" target="_top">site Web
+                   de Jenkins</a>, o&ugrave;, si vous scrollez assez loin, vous devriez trouver
+                une section "Test Drive" avec un bouton "Launch" identique.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-webstart-page"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1200"></a><img src="figs/web/jtdg_0304.png" alt="Ex&eacute;cuter Jenkins en utilisant Java Web Start &agrave; partir du site web du livre"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.4.&nbsp;Ex&eacute;cuter Jenkins en utilisant Java Web Start &agrave; partir du site web
+                           du livre</b></p>
+            </div><br class="figure-break"></div>
+         <p>Java Web Start semble fonctionner le mieux sur Firefox. Quand vous cliquez sur le bouton
+                Launch sur l'un de ces sites dans Firefox, le navigateur vous demandera si
+                vous voulez ouvrir un fichier appel&eacute; <code class="filename">jenkins.jnlp</code> en utilisant
+                Java Web Start. Cliquez sur OK &#8212; cela t&eacute;l&eacute;chargera Jenkins et le d&eacute;marrera sur
+                votre machine (voir <a href="sect-first-steps-starting.html#fig-first-steps-downloading-hudson" title="Figure&nbsp;2.5.&nbsp;Java Web Start t&eacute;l&eacute;chargera et ex&eacute;cutera la derni&egrave;re version de Jenkins">Figure&nbsp;2.5, &#8220;Java Web Start t&eacute;l&eacute;chargera et ex&eacute;cutera la derni&egrave;re version de 
+                     Jenkins&#8221;</a>).
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-first-steps-downloading-hudson"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1215"></a><img src="figs/web/jtdg_0205.png" alt="Java Web Start t&eacute;l&eacute;chargera et ex&eacute;cutera la derni&egrave;re version de Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.5.&nbsp;Java Web Start t&eacute;l&eacute;chargera et ex&eacute;cutera la derni&egrave;re version de 
+                           Jenkins</b></p>
+            </div><br class="figure-break"></div>
+         <p>Dans d'autres navigateurs, cliquer sur le bouton pourrait simplement t&eacute;l&eacute;charger le 
+                fichier JNLP. Dans Internet Explorer, vous pourriez m&ecirc;me avoir &agrave; cliquer avec le bouton droit sur
+                le lien et s&eacute;lectionner &#8220;Enregistrer sous&#8221; pour enregistrer le fichier JNLP, et l'ex&eacute;cuter depuis
+                Windows Explorer. Toutefois, dans chacun de ces cas, quand vous ouvrez le 
+                fichier JNLP, Java Web Start t&eacute;l&eacute;chargera et d&eacute;marrera Jenkins.
+         </p>
+         <p>Java Web Start n'aura besoin de t&eacute;l&eacute;charger une version particuli&egrave;re de
+                Jenkins qu'une seule fois. A partir de ce moment, quand vous cliquez sur le bouton &#8220;Launch&#8221; &agrave; nouveau,
+                Java Web Start utilisera une copie de Jenkins qu'il a d&eacute;j&agrave; t&eacute;l&eacute;charg&eacute;e
+                (jusqu'&agrave; ce qu'une nouvelle version sorte). Ignorez tout message que votre
+                syst&egrave;me d'exploitation ou votre anti-virus pourrait afficher &#8212; il est parfaitement
+                s&ucirc;r d'ex&eacute;cuter Jenkins sur votre machine locale.
+         </p>
+         <p>Une fois qu'il aura fini de t&eacute;l&eacute;charger, il d&eacute;marrera Jenkins sur votre
+                machine. Vous pourrez le voir s'ex&eacute;cuter dans une petite fen&ecirc;tre
+                appel&eacute;e<a class="indexterm" name="I_indexterm2_d1e1226"></a> &#8220;Console Jenkins&#8221; (voir <a href="sect-first-steps-starting.html#fig-first-steps-console" title="Figure&nbsp;2.6.&nbsp;Java Web Start ex&eacute;cutant Jenkins">Figure&nbsp;2.6, &#8220;Java Web Start ex&eacute;cutant Jenkins&#8221;</a>). Pour arr&ecirc;ter <a class="indexterm" name="I_indexterm2_d1e1232"></a>Jenkins &agrave; tout moment, fermez simplement cette <a class="indexterm" name="I_indexterm2_d1e1238"></a><a class="indexterm" name="I_indexterm2_d1e1240"></a>fen&ecirc;tre.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-first-steps-console"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1246"></a><img src="figs/web/jtdg_0206.png" alt="Java Web Start ex&eacute;cutant Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.6.&nbsp;Java Web Start ex&eacute;cutant Jenkins</b></p>
+            </div><br class="figure-break"></div>
+         <p>Il <a class="indexterm" name="I_indexterm2_d1e1253"></a><a class="indexterm" name="I_indexterm2_d1e1260"></a><a class="indexterm" name="I_indexterm2_d1e1263"></a>y a aussi des installeurs disponibles pour les principaux syst&egrave;mes d'exploitations sur le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://jenkins-ci.org" target="_top">site Web
+                   de Jenkins</a>. Ou, si vous &ecirc;tes un utilisateur Java exp&eacute;riment&eacute; vers&eacute; dans
+                les manipulations de fichiers WAR, vous pourriez pr&eacute;f&eacute;rer simplement t&eacute;l&eacute;charger la derni&egrave;re version de
+                Jenkins et l'ex&eacute;cuter depuis la ligne de commande. Jenkins est fourni sous la forme d'un 
+                WAR ex&eacute;cutable &#8212; vous pouvez t&eacute;l&eacute;charger la version la plus r&eacute;cente &agrave; partir
+                de <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://http://jenkins-ci.org" target="_top">la page d'accueil</a> du site de Jenkins. 
+                Par facilit&eacute;, il y a un lien vers la derni&egrave;re version
+                de Jenkins dans la section Ressources du <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.wakaleo.com/books/jenkins-the-definitive-guide" target="_top">site web</a> de ce livre.
+         </p>
+         <p>Une fois <a class="indexterm" name="I_indexterm2_d1e1283"></a>t&eacute;l&eacute;charg&eacute;, vous pouvez d&eacute;marrer Jenkins depuis 
+                la ligne de commande comme montr&eacute; ici&nbsp;:
+         </p><pre class="screen">$ <strong class="userinput"><code>java -jar jenkins.war</code></strong></pre><p>Si vous avez d&eacute;marr&eacute; Jenkins en utilisant Java Web Start ou via
+                la ligne de commande, Jenkins devrait &agrave; pr&eacute;sent tourner sur votre machine locale. Par
+                d&eacute;fault, Jenkins s'ex&eacute;cutera sur le port 8080, vous pouvez donc acc&eacute;der &agrave; Jenkins
+                dans votre <span class="keep-together">navigateur web sur </span> <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://localhost:8080" target="_top">http://localhost:8080</a>.
+         </p>
+         <p>Sinon, si vous &ecirc;tes familier avec les serveurs d'application
+                comme <a class="indexterm" name="I_indexterm2_d1e1304"></a><a class="indexterm" name="I_indexterm2_d1e1311"></a><a class="indexterm" name="I_indexterm2_d1e1316"></a>Tomcat, vous pouvez simplement d&eacute;ployer le WAR de Jenkins dans votre 
+                serveur d'application &#8212; avec Tomcat, par exemple, vous pouvez simplement placer le fichier
+                <code class="filename">jenkins.war</code> dans le r&eacute;pertoire
+                <code class="filename">webapps</code> de Tomcat. Si vous ex&eacute;cutez
+                Jenkins sur un serveur d'application, l'URL &agrave; utiliser pour acc&eacute;der &agrave; Jenkins
+                sera l&eacute;g&egrave;rement diff&eacute;rente. Sur une installation Tomcat par d&eacute;faut, par exemple, ,
+                vous pouvez acc&eacute;der &agrave; Jenkins dans votre navigateur web &agrave; l'adresse <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://localhost:8080/jenkins" target="_top">http://localhost:8080/jenkins</a>.
+         </p>
+         <p>Quand <a class="indexterm" name="I_indexterm2_d1e1332"></a><a class="indexterm" name="I_indexterm2_d1e1337"></a><a class="indexterm" name="I_indexterm2_d1e1340"></a>vous ouvrez Jenkins dans votre navigateur, vous devez voir un &eacute;cran 
+                comme celui montr&eacute; dans <a href="sect-first-steps-starting.html#fig-hudson-start" title="Figure&nbsp;2.7.&nbsp;La page de d&eacute;marrage Jenkins">Figure&nbsp;2.7, &#8220;La page de d&eacute;marrage Jenkins&#8221;</a>. Vous &ecirc;tes maintenant
+                pr&ecirc;t &agrave; faire vos premiers pas avec Jenkins&nbsp;!
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-start"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1351"></a><img src="figs/web/jtdg_0303.png" alt="La page de d&eacute;marrage Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.7.&nbsp;La page de d&eacute;marrage Jenkins</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-first-steps-environment.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-configuring.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">2.2.&nbsp;Pr&eacute;paration de votre environnement&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;2.4.&nbsp;Configuring the Tools</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

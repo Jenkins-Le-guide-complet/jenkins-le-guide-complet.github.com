@@ -1,0 +1,203 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.2.&nbsp;T&eacute;l&eacute;charger et installer Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="next" href="chapter-installing-build-server.html" title="3.3.&nbsp;Pr&eacute;paration d'un serveur de build pour Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-installing.html">Chapter&nbsp;3.&nbsp;Installer Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="chapter-installing-build-server.html">3.3.&nbsp;Pr&eacute;paration d'un serveur de build pour Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="chapter-installing-downloading"></a>3.2.&nbsp;T&eacute;l&eacute;charger et installer Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			Jenkings est simple &agrave; installer, et vous pouvez le faire tourner
+            			n'importe o&ugrave;. Vous pouvez le lancer soit comme une
+            			application, ou le d&eacute;ployer dans un conteneur d'application Java classique comme Tomcat ou JBoss. La premi&egrave;re option est
+            			simple &agrave; mettre &agrave; oeuvre, et permet de tester Jenkins sur votre poste de travail, en quelques minutes, vous pouvez
+            			installer et lancer une version minimaliste de Jenkins.
+            		
+         </p>
+         <p>
+            			<a class="indexterm" name="I_indexterm3_d1e2510"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2515"></a>
+            			Jenkins &eacute;tant une application Java, vous aurez besoin d'une version
+            			r&eacute;cente de Java sur votre machine. Plus pr&eacute;cis&eacute;ment, vous aurez besoin de Java 5. En fait, sur votre
+            			serveur, vous aurez m&ecirc;me certainement besoin du Java
+            			Development Kit (JDK) 5.0 ou d'une version sup&eacute;rieure pour
+            			ex&eacute;cuter vos builds. Si vous n'en &ecirc;tes pas s&ucirc;r, vous pouvez v&eacute;rifier
+            			<a class="indexterm" name="I_indexterm3_d1e2521"></a>
+            			en &eacute;x&eacute;cutant la commande suivante sur votre machine :
+            			<code class="literal">java
+               				-version
+               			</code>
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>java -version</code></strong>
+			java version "1.6.0_17"
+			Java(TM) SE Runtime Environment (build 1.6.0_17-b04-248-10M3025)
+			Java HotSpot(TM) 64-Bit Server VM (build 14.3-b01-101, mixed mode)
+		</pre><p>
+            			Jenkins
+            			<a class="indexterm" name="I_indexterm3_d1e2536"></a>
+            			est disponible sous la forme d'une application Java packag&eacute;e (un fichier WAR). Vous pouvez t&eacute;l&eacute;charger
+            			la derni&egrave;re version sur le site web de Jenkins (
+            			<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://jenkins-ci.org" target="_top">http://jenkins-ci.org</a>
+            			&#8212;voir
+            			<a href="chapter-installing-downloading.html#fig-jenkins-windows-installer" title="Figure&nbsp;3.1.&nbsp;Vous pouvez t&eacute;l&eacute;charger les binaires de Jenkins sur le site web de Jenkins">Figure&nbsp;3.1, &#8220;Vous pouvez t&eacute;l&eacute;charger les binaires de Jenkins sur le site web de Jenkins
+               			&#8221;</a>
+            			) ou depuis le site web du livre.
+            			Jenkins est un projet actif, et de nouvelles versions sont disponibles r&eacute;guli&egrave;rement.
+            		
+         </p>
+         <p>
+            			Pour
+            			<a class="indexterm" name="I_indexterm3_d1e2550"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2557"></a>
+            			les utilisateurs de Windows, il existe un installateur Windows pour Jenkins. L'installateur se pr&eacute;sente sous la forme
+            			d'un fichier zip contenant un package MSI pour Jenkins, ainsi qu'un fichier
+            			<code class="filename">setup.exe</code>
+            			pouvant &ecirc;tre utilis&eacute; pour installer
+            			les librairies .NET si elles n'ont pas d&eacute;j&agrave; &eacute;t&eacute; install&eacute;es sur votre
+            			poste. Dans la plupart des cas, tout ce que vous aurez &agrave; faire sera de d&eacute;compresser le fichier zip et de lancer le
+            			fichier
+            			<code class="filename">jenkins-x.x.msi</code>
+            			(voir
+            			<a href="chapter-installing-downloading.html#fig-hudson-home-page" title="Figure&nbsp;3.2.&nbsp;L'assistant de configuration sous Windows">Figure&nbsp;3.2, &#8220;L'assistant de configuration sous Windows&#8221;</a>
+            			). L'installateur MSI est livr&eacute; avec une version du JRE int&eacute;gr&eacute;, il n'est donc pas n&eacute;cessaire d'avoir une version de
+            			Java install&eacute;e.
+            		
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-jenkins-windows-installer"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject3_d1e2574"></a><img src="figs/web/jtdg_0301.png" alt="Vous pouvez t&eacute;l&eacute;charger les binaires de Jenkins sur le site web de Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;3.1.&nbsp;Vous pouvez t&eacute;l&eacute;charger les binaires de Jenkins sur le site web de Jenkins
+                     			</b></p>
+            </div><br class="figure-break"></div>
+         <p>
+            			Une fois que vous avez lanc&eacute; l'installateur,
+            			<a class="indexterm" name="I_indexterm3_d1e2581"></a>
+            			Jenkins d&eacute;marrera automatiquement sur le port 8080 (voir
+            			<a href="chapter-installing-downloading.html#fig-hudson-starting-page" title="Figure&nbsp;3.3.&nbsp;La page d'accueil de Jenkins">Figure&nbsp;3.3, &#8220;La page d'accueil de Jenkins&#8221;</a>
+            			).
+            			L'installateur cr&eacute;&eacute;ra un service Jenkins pour vous, que vous pourrez d&eacute;marrer et
+            			arr&ecirc;ter comme n'importe quel autre service Windows.
+            		
+         </p>
+         <p>
+            			Il existe &eacute;galement de tr&egrave;s bon installateurs pour Mac OS X et
+            			&eacute;galement pour la plupart des distributions Linux,
+            			comme Ubuntu, RedHat (incluant CentOS et Fedora) et OpenSolaris. Nous expliquerons comment installer Jenkins
+            			sur Ubuntu et RedHat plus loin.
+            		
+         </p>
+         <p>
+            			Si vous
+            			<a class="indexterm" name="I_indexterm3_d1e2593"></a>
+            			n'installez pas Jenkins via l'une des installations natives, vous pouvez simplement t&eacute;l&eacute;charger la derni&egrave;re
+            			installation depuis le site web de Jenkins. Une fois que vous aurez t&eacute;l&eacute;charg&eacute; la derni&egrave;re
+            			installation de Jenkins, copiez le dans un r&eacute;pertoire appropri&eacute; sur votre serveur de build.
+            			Dans un
+            			<a class="indexterm" name="I_indexterm3_d1e2601"></a>
+            			environnement Windows, vous devriez installer Jenkins dans un r&eacute;pertoire comme
+            			<code class="filename">C:\Tools\Jenkins</code>
+            			(il est pr&eacute;f&eacute;rable de 
+            			<span class="emphasis"><em>ne pas</em></span>
+            			installer Jenkins dans un r&eacute;pertoire contenant des espaces, comme par exemple
+            			<code class="filename">C:\Program
+               				Files
+               			</code>
+            			, cel&agrave; peut causer des probl&egrave;mes dans certains cas). Sur
+            			<a class="indexterm" name="I_indexterm3_d1e2619"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2626"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2633"></a>
+            			un serveur Linux ou Unix, vous pouvez l'installer dans
+            			<code class="filename">/usr/local/jenkins</code>
+            			,
+            			<code class="filename">/opt/jenkins</code>
+            			, ou dans un autre r&eacute;pertoire, selon vos conventions et les pr&eacute;f&eacute;rences de votre administrateur syst&egrave;me.
+            		
+         </p>
+         <div class="figure"><a name="fig-hudson-home-page"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject3_d1e2649"></a><img src="figs/web/jtdg_0302.png" alt="L'assistant de configuration sous Windows"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;3.2.&nbsp;L'assistant de configuration sous Windows</b></p>
+         </div><br class="figure-break"><p>
+            	Avant
+            	<a class="indexterm" name="I_indexterm3_d1e2656"></a>
+            	d'aller plus loin, d&eacute;marrons simplement Jenkins et jetons-y un coup d'oeil. Si vous ne l'avez pas encore test&eacute; dans les chapitres
+            	pr&eacute;c&eacute;dents, il est temps de vous salir les mains. Ouvrez une invite de commande dans le r&eacute;pertoire contenant le fichier 
+            	<code class="filename">jenkins.war</code> et lancez la commande suivante:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>java -jar jenkins.war</code></strong>
+			[Winstone 2008/07/01 20:54:53] - Beginning extraction from war file
+			...
+			INFO: Took 35 ms to load
+			...
+			[Winstone 2008/07/01 20:55:08] - HTTP Listener started: port=8080
+			[Winstone 2008/07/01 20:55:08] - Winstone Servlet Engine v0.9.10 running:
+			controlPort=disabled
+			[Winstone 2008/07/01 20:55:08] - AJP13 Listener started: port=8009
+		</pre><p>
+            	Jenkins devrait &ecirc;tre disponible 
+            	<a class="indexterm" name="I_indexterm3_d1e2674"></a>
+            	sur le port 8080. Ouvrez votre navigateur et allez &agrave; l'adresse 
+            	<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://localhost:8080" target="_top">http://localhost:8080</a>
+            	et jetez y un 
+            	<a class="indexterm" name="I_indexterm3_d1e2682"></a>
+            	oeil. (voir
+            	<a href="chapter-installing-downloading.html#fig-hudson-starting-page" title="Figure&nbsp;3.3.&nbsp;La page d'accueil de Jenkins">Figure&nbsp;3.3, &#8220;La page d'accueil de Jenkins&#8221;</a>
+            	).
+            		
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-starting-page"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject3_d1e2690"></a><img src="figs/web/jtdg_0303.png" alt="La page d'accueil de Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;3.3.&nbsp;La page d'accueil de Jenkins</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-installing.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="chapter-installing-build-server.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;3.&nbsp;Installer Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.3.&nbsp;Pr&eacute;paration d'un serveur de build pour Jenkins</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

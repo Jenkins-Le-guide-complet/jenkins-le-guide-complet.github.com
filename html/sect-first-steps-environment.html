@@ -1,0 +1,212 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>2.2.&nbsp;Pr&eacute;paration de votre environnement</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-first-steps.html" title="Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins">
+      <link rel="prev" href="chapter-first-steps.html" title="Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins">
+      <link rel="next" href="sect-first-steps-starting.html" title="2.3.&nbsp;D&eacute;marrer Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-first-steps.html">Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-starting.html">2.3.&nbsp;D&eacute;marrer Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-first-steps-environment"></a>2.2.&nbsp;Pr&eacute;paration de votre environnement
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Vous<a class="indexterm" name="ch02-env"></a> pouvez 
+            aborder ce chapitre de deux mani&egrave;res diff&eacute;rentes. Vous le lisez enti&egrave;rement, sans toucher un clavier, pour vous faire une
+            id&eacute;e
+                  sur ce qu'est Jenkins. Ou, vous pouvez mettre les mains dans le cambouis, et suivre les &eacute;tapes sur votre machine.
+         </p>
+         <p>Si vous voulez<a class="indexterm" name="I_indexterm2_d1e949"></a> suivre tranquillement, il se peut que cela n&eacute;cessite
+                    d'installer certains logiciels sur votre machine. Souvenez-vous que la
+                    fonction principale de tout outil d'Int&eacute;gration Continue est de surveiller
+                    du code source dans un outil de gestion de configuration, d'en extraire
+                    la derni&egrave;re version et de la construire d&egrave;s que des modifications sont apport&eacute;es.
+                    Donc, il vous faudra un outil de gestion de configuration. Dans le cas qui nous        occupe, nous utiliserons <a class="indexterm" name="I_indexterm2_d1e953"></a><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://git-scm.com" target="_top">Git</a>.
+                    Le code source de notre simple projet se trouve h&eacute;berg&eacute; sur <a class="indexterm" name="I_indexterm2_d1e959"></a><a xmlns:xlink="http://www.w3.org/1999/xlink" href="https://github.com" target="_top">GitHub</a>.
+                    Ne vous inqui&eacute;tez pas, vous ne risquerez pas de perturber ce r&eacute;f&eacute;rentiel avec vos modifications : vous travaillerez
+            sur votre propre r&eacute;plique et vous pourrez y faire ce que vous voulez. Si vous n'avez jamais utilis&eacute; Git et/ou si vous n'avez
+            pas un compte sur GitHub, ne vous inqui&eacute;tez pas nous vous guiderons pour vos premiers pas et l'installation est tr&egrave;s bien
+            document&eacute;e sur le site web de GitHub. Nous vous expliquerons comment mettre tout cela en place par la suite.
+         </p>
+         <p>Dans ce chapitre, nous utiliserons Jenkins pour construire une application Java
+                    avec Apache Maven. <a class="indexterm" name="I_indexterm2_d1e968"></a>Apache Maven est un outil de build tr&egrave;s largement utilis&eacute; dans le monde Java,
+                    avec de nombreuses et puissantes fonctionalit&eacute;s telles que la gestion d&eacute;clarative
+                    des d&eacute;pendances, le principe de convention plut&ocirc;t que configuration et un tr&egrave;s grand
+                    nombre de plugins. Pour construire tout cela, nous
+                    utiliserons les derni&egrave;res versions du<a class="indexterm" name="I_indexterm2_d1e972"></a>
+                      <a class="indexterm" name="I_indexterm2_d1e975"></a>Java Development Kit (JDK) et d'Apache Maven, mais
+                    si vous ne les avez pas d&eacute;j&agrave; install&eacute;es sur votre machine ne vous inqui&eacute;tez pas!
+                    Comme nous le verrons, Jenkins  saura les installer pour vous.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e1069"></a>2.2.1.&nbsp;Installation de Java
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>La<a class="indexterm" name="I_indexterm2_d1e986"></a> premi&egrave;re chose que vous allez devoir installer sur votre machine est Java.
+                     Hudson est une application web Java web application, aussi vous aurez besoin au minimum
+                     du Java Runtime Environment, ou JRE<a class="indexterm" name="I_indexterm2_d1e992"></a>
+                     <a class="indexterm" name="I_indexterm2_d1e995"></a>  pour l'ex&eacute;cuter. Pour les exemples de ce chapite, vous devrez avoir une version
+                     r&eacute;cente de Java 6 (ces exemples ont &eacute;t&eacute; &eacute;crits avec Java 6 update 17 et la derni&egrave;re
+                     version disponible au moment o&ugrave; j'&eacute;cris ces mots est Java 6 update 19). Si vous n'&ecirc;tes pas
+                     s&ucirc;r, vous pouvez v&eacute;rifier votre version depuis la ligne de commande (en ouvrant une console
+                       DOS sous Windows) et en ex&eacute;cutant <code class="literal">java -version</code>. 
+                       Si Java est install&eacute; sur votre machine vous devriez obtenir un r&eacute;sultat ressemblant &agrave; ceci :
+            </p><pre class="screen">$ <strong class="userinput"><code>java -version</code></strong>
+java version "1.6.0_17"
+Java(TM) SE Runtime Environment (build 1.6.0_17-b04-248-10M3025)
+Java HotSpot(TM) 64-Bit Server VM (build 14.3-b01-101, mixed mode)</pre><p>Si vous n'avez une version d&eacute;j&agrave; install&eacute;e ou si votre version est plus ancienne, t&eacute;l&eacute;chargez et
+                       isntallez la derni&egrave;re version de la JRE depuis le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://java.sun.com/javase/downloads/index.jsp" target="_top">
+                          site web de Java</a>, comme le montre <a href="sect-first-steps-environment.html#fig-installing-java" title="Figure&nbsp;2.1.&nbsp;Installer Java">Figure&nbsp;2.1, &#8220;Installer Java&#8221;</a>.
+            </p>
+            <div class="figure"><a name="fig-installing-java"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1017"></a><img src="figs/web/jtdg_0201.png" alt="Installer Java"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.1.&nbsp;Installer Java</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e1111"></a>2.2.2.&nbsp;Installation de Git
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Etant donn&eacute;<a class="indexterm" name="I_indexterm2_d1e1027"></a><a class="indexterm" name="I_indexterm2_d1e1032"></a> que nous utiliserons Git, il va vous falloir installer et configurer
+                     Git sur votre machine. Si vous &ecirc;tes novice en ce qui concerne Git, un petit tour sur le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://gitref.org" target="_top">site de r&eacute;f&eacute;rence de Git</a> peut
+                     vous &ecirc;tre utile. Et si vous vous perdez en cours de route, la mani&egrave;re de proc&eacute;der est enti&egrave;rement d&eacute;crite dans les <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://help.github.com" target="_top">pages d'aide de GitHub</a>.
+            </p>
+            <p>Avant toute chose, il vous faut installer Git sur votre machine. Cela exige de t&eacute;l&eacute;charger le 
+                       programme d'installation appropri&eacute; pour votre syst&egrave;me d'exploitation depuis le 
+                       <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://git-scm.com" target="_top">site web de Git</a>. Il existe des programmes 
+                       d'installtion packag&eacute;s pour Windows et Mac OS X. Si vous utilisez GNU/Linux vous &ecirc;tes sur le terrain
+                       de Git : les distributions GNU/Linux. Sur Ubunut ou toute autre distribution bas&eacute;es sur Debian, vous
+                       pouvez ex&eacute;cuter une commande comme celle-ci :
+            </p><pre class="screen">$ <strong class="userinput"><code>sudo apt-get install git-core</code></strong></pre><p>Sur Fedora ou toute distribution bas&eacute;e sur RPM, il pouvez utiliser <code class="literal">yum</code> &agrave; la place :
+            </p><pre class="screen">$ <strong class="userinput"><code>sudo yum install git-core</code></strong></pre><p>Et, puisqu'il s'agit de GNU/Linux, vous avez aussi la possibilit&eacute; d'installer l'application &agrave; partir des sources. 
+                       Les instructions sont disponibles sur le site web de  Git.
+            </p>
+            <p>Une fois cette op&eacute;ration r&eacute;alis&eacute;e, v&eacute;rifiez que Git est correctement install&eacute; en ex&eacute;cutant la commande suivante :</p><pre class="screen">$ <strong class="userinput"><code>git --version</code></strong>
+git version 1.7.1</pre></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e1161"></a>2.2.3.&nbsp;Configurer un compte GitHub
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Ensuite, <a class="indexterm" name="I_indexterm2_d1e1077"></a>si vous
+                     n'en poss&eacute;dez pas d&eacute;j&agrave; un, vous devrez vous cr&eacute;er un compte Github. Cela est simple et (pour notre usage du moins) gratuit,
+               sans compter que tous les gars cools
+                     en ont un. Allez sur la <a xmlns:xlink="http://www.w3.org/1999/xlink" href="https://github.com/plans" target="_top">page d'enregistrement de GitHub</a> et choissisez l'option &#8220;Create a free account&#8221;. 
+                     Vousn'aurez qu'&agrave; fournir un nom d'utilisateur, un mot de passe et votre adresse e-mail (cf. <a href="sect-first-steps-environment.html#fig-github-signup" title="Figure&nbsp;2.2.&nbsp;Cr&eacute;er un compte GitHub">Figure&nbsp;2.2, &#8220;Cr&eacute;er un compte GitHub&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-github-signup"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1091"></a><img src="figs/web/jtdg_0202.png" alt="Cr&eacute;er un compte GitHub"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.2.&nbsp;Cr&eacute;er un compte GitHub</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e1185"></a>2.2.4.&nbsp;Configurer les clefs SSH
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>GitHub <a class="indexterm" name="I_indexterm2_d1e1101"></a>utilise les clefs SSH pour &eacute;tablir une connexion s&eacute;curi&eacute;s&eacute;e entre
+                     votre ordinateur et les serveurs Github. Les configurer n'est pas compliqu&eacute; mais demande un peu d'effort : heureusement
+               il 
+                     existe des instructions claires et d&eacute;taill&eacute;es pour chaque syst&egrave;me d'exploitation sur le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://help.github.com/set-up-git-redirect" target="_top">site de GitHub</a>.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-git-fork"></a>2.2.5.&nbsp;Forker le d&eacute;p&ocirc;t des exemples
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Comme <a class="indexterm" name="ch02-fork"></a>nous l'avons mentionn&eacute; plus t&ocirc;t, tout les exemples de code de ce livre
+                     sont stock&eacute;s sur GitHub, &agrave; l'URL suivante&nbsp;: <a xmlns:xlink="http://www.w3.org/1999/xlink" href="https://github.com/wakaleo/game-of-life" target="_top">https://github.com/wakaleo/game-of-life</a>. C'est un d&eacute;p&ocirc;t
+                     public, vous pouvez donc librement voir les sources en ligne et r&eacute;cup&eacute;rer
+                     votre propre copie de travail. Toutefois, si vous voulez effectuer des changements, vous devrez
+                     cr&eacute;er votre propre fork. Un fork est une copie personnelle d'un d&eacute;p&ocirc;t 
+                     que vous pouvez utiliser &agrave; votre guise. Pour cr&eacute;er un fork, connectez &agrave; votre compte 
+                     GitHub et cliquez sur l'<a xmlns:xlink="http://www.w3.org/1999/xlink" href="https://github.com/wakaleo/game-of-life" target="_top">URL du d&eacute;p&ocirc;t</a>.
+                     Cliquez ensuite sur le bouton Fork (see <a href="sect-first-steps-environment.html#fig-github-fork" title="Figure&nbsp;2.3.&nbsp;Forker le d&eacute;p&ocirc;t des exemples de code">Figure&nbsp;2.3, &#8220;Forker le d&eacute;p&ocirc;t des exemples de code&#8221;</a>).
+                     Cela cr&eacute;era votre propre copie du d&eacute;p&ocirc;t.
+            </p>
+            <p>Une fois que <a class="indexterm" name="I_indexterm2_d1e1128"></a>vous avez fork&eacute; le d&eacute;p&ocirc;t, vous devez cloner une copie
+                     locale pour v&eacute;rifier que tout est correctement configur&eacute;. Ouvrez la ligne de commande
+                     et ex&eacute;cutez la commande suivante (en rempla&ccedil;ant
+                     <em class="replaceable"><code>&lt;username&gt;</code></em> avec votre propre nom d'utilisateur GitHub):
+            </p><pre class="screen">$ <strong class="userinput"><code>git clone git@github.com:<em class="replaceable"><code>&lt;username&gt;</code></em>/game-of-life.git</code></strong></pre><p>Ceci va &#8220;cloner&#8221; (ou faire un check out, en termes Subversion) une copie du
+                     projet sur votre disque local&nbsp;:
+            </p><pre class="screen">git clone git@github.com:john-smart/game-of-life.git
+Initialized empty Git repository in /Users/johnsmart/.../game-of-life/.git/
+remote: Counting objects: 1783, done.
+remote: Compressing objects: 100% (589/589), done.
+remote: Total 1783 (delta 1116), reused 1783 (delta 1116)
+Receiving objects: 100% (1783/1783), 14.83 MiB | 119 KiB/s, done.
+Resolving deltas: 100% (1116/1116), done.</pre><p>Vous devriez &agrave; pr&eacute;sent disposer d'une copie locale du projet 
+                     que vous pouvez construire et ex&eacute;cuter. Nous utiliserons ce projet plus tard pour d&eacute;clencher des changements
+                     dans <a class="indexterm" name="I_indexterm2_d1e1150"></a><a class="indexterm" name="I_indexterm2_d1e1152"></a>le d&eacute;p&ocirc;t.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-github-fork"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject2_d1e1158"></a><img src="figs/web/jtdg_0203.png" alt="Forker le d&eacute;p&ocirc;t des exemples de code"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;2.3.&nbsp;Forker le d&eacute;p&ocirc;t des exemples de code</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-first-steps.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-starting.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;2.3.&nbsp;D&eacute;marrer Jenkins</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,126 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>4.3.&nbsp;Configurer l'environnement syst&egrave;me</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-configuration.html" title="Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins">
+      <link rel="prev" href="sect-configuration-manage-hudson.html" title="4.2.&nbsp;Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer Jenkins">
+      <link rel="next" href="sect-configuration-global.html" title="4.4.&nbsp;Configurer les propri&eacute;t&eacute;s globales">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-manage-hudson.html">4.2.&nbsp;Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer
+                         Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-global.html">4.4.&nbsp;Configurer les propri&eacute;t&eacute;s globales</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-configuration-system"></a>4.3.&nbsp;Configurer l'environnement syst&egrave;me
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>La <a class="indexterm" name="ch04-configsys1"></a><a class="indexterm" name="ch04-configsys2"></a>page d'administration la plus importante de Jenkins est
+                l'&eacute;cran Configurer le syst&egrave;me (<a href="sect-configuration-system.html#fig-configure-system" title="Figure&nbsp;4.2.&nbsp;Configuration du syst&egrave;me dans Jenkins">Figure&nbsp;4.2, &#8220;Configuration du syst&egrave;me dans Jenkins&#8221;</a>).
+                Ici, vous param&eacute;trez la plupart des outils fondamentaux dont Jenkins a
+                besoin pour son travail quotidien. L'&eacute;cran par d&eacute;faut contient un certain
+                nombre de sections, chacune concernant un domaine diff&eacute;rent ou un outil
+                externe. De plus, quand vous installez des plugins, leur configuration
+                syst&egrave;me globale est aussi souvent effectu&eacute;e dans cet &eacute;cran.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-configure-system"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject4_d1e4330"></a><img src="figs/web/jtdg_0402.png" alt="Configuration du syst&egrave;me dans Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;4.2.&nbsp;Configuration du syst&egrave;me dans Jenkins</b></p>
+            </div><br class="figure-break"></div>
+         <p>L'&eacute;cran Configurer le syst&egrave;me vous permet de d&eacute;finir les param&egrave;tres
+                globaux pour votre installation Jenkins, et aussi pour vos outils externes
+                n&eacute;cessaires au processus de build. La premi&egrave;re partie de cet &eacute;cran
+                permet de d&eacute;finir certains param&egrave;tres de niveau syst&egrave;me.
+         </p>
+         <p>Le r&eacute;pertoire de travail<a class="indexterm" name="I_indexterm4_d1e4339"></a><a class="indexterm" name="I_indexterm4_d1e4342"></a> de Jenkins est indiqu&eacute;, pour r&eacute;f&eacute;rence. De cette fa&ccedil;on,
+                vous pouvez v&eacute;rifier d'un coup d'&#339;il que vous travaillez avec le
+                r&eacute;pertoire de travail auquel vous vous attendez. Rappelez-vous, vous
+                pouvez changer ce r&eacute;pertoire en positionnant la variable d'environnement
+                <a class="indexterm" name="I_indexterm4_d1e4348"></a> <code class="literal">JENKINS_HOME</code> dans votre
+                environnement (voir <a href="sec-hudson-home-directory.html" title="3.4.&nbsp;Le r&eacute;pertoire de travail de Jenkins">Section&nbsp;3.4, &#8220;Le r&eacute;pertoire de travail de Jenkins&#8221;</a>).
+         </p>
+         <p>Le champ Message du syst&egrave;me<a class="indexterm" name="I_indexterm4_d1e4359"></a><a class="indexterm" name="I_indexterm4_d1e4364"></a><a class="indexterm" name="I_indexterm4_d1e4367"></a> sert &agrave; plusieurs choses. Ce texte est affich&eacute; en haut de
+                votre page d'accueil Jenkins. Vous pouvez utiliser des balises HTML, c'est
+                donc un moyen simple de personnaliser votre serveur de build en
+                incluant le nom de votre serveur et un petit la&iuml;us sur son r&ocirc;le. Vous
+                pouvez aussi l'utiliser pour afficher des messages pour tous les
+                utilisateurs, pour annoncer par exemple des indisponibilit&eacute;s du syst&egrave;me,
+                etc.
+         </p>
+         <p>La P&eacute;riode d'attente est <a class="indexterm" name="I_indexterm4_d1e4375"></a><a class="indexterm" name="I_indexterm4_d1e4380"></a><a class="indexterm" name="I_indexterm4_d1e4385"></a><a class="indexterm" name="I_indexterm4_d1e4388"></a>utile pour les outils de gestion de sources comme CVS qui
+                committent les fichiers un par un, au lieu de les grouper ensemble en une
+                seule transaction atomique. Normalement, Jenkins d&eacute;clenchera un
+                build d&egrave;s qu'il d&eacute;tectera un changement dans le d&eacute;p&ocirc;t de sources.
+                Toutefois, cela ne convient pas &agrave; tous les environnements. Si vous
+                utilisez un outil comme CVS, vous ne devriez pas lancer un build
+                d&egrave;s que le premier changement arrive, parce que le d&eacute;p&ocirc;t sera dans un &eacute;tat
+                inconsistant tant que tous les changements n'auront pas &eacute;t&eacute; committ&eacute;s.
+                Vous pouvez utiliser le champ P&eacute;riode d'attente pour &eacute;viter des probl&egrave;mes
+                de ce genre. Si vous mettez une valeur &agrave; cet endroit, Jenkins attendra
+                qu'aucun changement n'ait &eacute;t&eacute; d&eacute;tect&eacute; pendant le nombre sp&eacute;cifi&eacute; de
+                secondes avant de d&eacute;clencher le build. Ceci permet de s'assurer que
+                tous les changements ont &eacute;t&eacute; committ&eacute;s et que le d&eacute;p&ocirc;t est dans un &eacute;tat
+                stable avant de d&eacute;marrer le build.
+         </p>
+         <p>Pour les syst&egrave;mes de gestion de version modernes, comme Subversion,
+                Git ou Mercurial, les commits sont atomiques. Cela signifie que des
+                changements dans plusieurs fichiers sont soumis au d&eacute;p&ocirc;t comme unit&eacute;
+                simple, et le code source sur le d&eacute;p&ocirc;t est garanti d'&ecirc;tre &agrave; tout moment
+                dans un &eacute;tat stable. Toutefois, certaines &eacute;quipes utilisent encore une
+                approche o&ugrave; un changement logique est livr&eacute; en plusieurs commits. 
+                Dans ce cas, vous pouvez utiliser la P&eacute;riode d'attente pour vous
+                assurer que le build utilise toujours une version stable de code
+                source.
+         </p>
+         <p>La valeur de P&eacute;riode d'attente sp&eacute;cifi&eacute;e est la valeur par d&eacute;faut au
+                niveau syst&egrave;me &#8212; si n&eacute;cessaire, vous pouvez red&eacute;finir cette valeur
+                individuellement pour chaque projet.
+         </p>
+         <p>Vous pouvez aussi g&eacute;rer les comptes utilisateurs et les droits ici.
+                Par d&eacute;faut, Jenkins laisse n'importe quel utilisateur faire ce qu'il
+                souhaite. Si vous souhaitez une approche plus restrictive, vous devrez
+                activer la s&eacute;curit&eacute; de Jenkins en s&eacute;lectionnant le champ Activer la
+                s&eacute;curit&eacute;. Il y a plusieurs fa&ccedil;ons de g&eacute;rer cela, nous regarderons cet
+                aspect de Jenkins<a class="indexterm" name="I_indexterm4_d1e4400"></a><a class="indexterm" name="I_indexterm4_d1e4402"></a> plus tard (voir <a href="chapter-security.html" title="Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins">Chapter&nbsp;7, <i xmlns:xlink="http://www.w3.org/1999/xlink">S&eacute;curiser Jenkins</i></a>).
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-manage-hudson.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-global.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">4.2.&nbsp;Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer
+                      Jenkins&nbsp;
+               </td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;4.4.&nbsp;Configurer les propri&eacute;t&eacute;s globales</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,78 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>11.2.&nbsp;L'Architecture de build distribu&eacute;e de Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-distributed-builds.html" title="Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s">
+      <link rel="prev" href="chapter-distributed-builds.html" title="Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s">
+      <link rel="next" href="sect-master-slave-strategies.html" title="11.3.&nbsp;Strat&eacute;gies Ma&icirc;tre/Esclave dans Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-distributed-builds.html">Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-master-slave-strategies.html">11.3.&nbsp;Strat&eacute;gies Ma&icirc;tre/Esclave dans Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-distributed-build-architecture"></a>11.2.&nbsp;L'Architecture de build distribu&eacute;e de Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Jenkins<a class="indexterm" name="ch11-ms1"></a><a class="indexterm" name="ch11-ms2"></a><a class="indexterm" name="ch11-ms3"></a><a class="indexterm" name="ch11-ms4"></a> utilise une architecture ma&icirc;tre/esclave pour g&eacute;rer les builds
+            distribu&eacute;s. Votre serveur Jenkins principal (celui que nous avons utilis&eacute;
+            jusqu'&agrave; pr&eacute;sent) est le ma&icirc;tre. En un mot, le r&ocirc;le du ma&icirc;tre est de g&eacute;rer
+            l'ordonnancement des t&acirc;ches de build, de r&eacute;partir les builds sur les
+            esclaves pour leur ex&eacute;cution r&eacute;elle, surveiller les esclaves (en les mettant
+                &eacute;ventuellement hors-ligne si n&eacute;cessaire) et enfin enregistrer et pr&eacute;senter
+                les r&eacute;sultats de build. M&ecirc;me dans une architecture distribu&eacute;e, une instance
+                ma&icirc;tre de Jenkins peut aussi ex&eacute;cuter des t&acirc;ches de build
+                directement.
+         </p>
+         <p>Le r&ocirc;le des esclaves est de faire ce qu'on leur dit, ce qui inclut
+                l'ex&eacute;cution de t&acirc;ches de build envoy&eacute;es par le ma&icirc;tre. Vous pouvez
+                configurer un projet pour qu'il s'ex&eacute;cute toujours sur un esclave
+                particulier, sur un type particulier de machine, ou simplement laisser
+                Jenkins s&eacute;lectionner le prochain esclave disponible.
+         </p>
+         <p>Un esclave est un petit ex&eacute;cutable Java qui fonctionne sur une machine
+                distante et se met en &eacute;coute de requ&ecirc;tes de la part de l'instance ma&icirc;tre
+                Jenkins. Les esclaves peuvent (et c'est g&eacute;n&eacute;ralement le cas) s'ex&eacute;cuter sur
+                diff&eacute;rents syst&egrave;mes d'exploitation. L'instance esclave peut &ecirc;tre d&eacute;marr&eacute;e de
+                fa&ccedil;ons diverses, en fonction du syst&egrave;me d'exploitation et de l'architecture
+                r&eacute;seau. Une fois que l'instance esclave est en marche, elle communique avec
+                l'instance ma&icirc;tre au travers d'une connexion TCP/IP. Nous regarderons
+                diff&eacute;rentes configurations dans le reste de ce <a class="indexterm" name="I_indexterm11_d1e16072"></a><a class="indexterm" name="I_indexterm11_d1e16074"></a>chapitre.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-distributed-builds.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-master-slave-strategies.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;11.3.&nbsp;Strat&eacute;gies Ma&icirc;tre/Esclave dans Jenkins</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

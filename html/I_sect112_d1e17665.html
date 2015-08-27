@@ -1,0 +1,76 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>12.4.&nbsp;Conclusion</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-automated-deployment.html" title="Chapter&nbsp;12.&nbsp;D&eacute;ploiement automatis&eacute; et livraison continue">
+      <link rel="prev" href="sect-deploying-to-an-app-server.html" title="12.3.&nbsp;D&eacute;ployer vers un serveur d'application">
+      <link rel="next" href="chapter-maintaining-jenkins.html" title="Chapter&nbsp;13.&nbsp;Maintenir Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-deploying-to-an-app-server.html">12.3.&nbsp;D&eacute;ployer vers un serveur d'application</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="chapter-maintaining-jenkins.html">Chapter&nbsp;13.&nbsp;Maintenir Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="I_sect112_d1e17665"></a>12.4.&nbsp;Conclusion
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Le D&eacute;ploiement Automatis&eacute;, et ses formes plus avanc&eacute;es, le D&eacute;ploiement Continu ou la Livraison
+            	Continue, peuvent &ecirc;tre consid&eacute;r&eacute;s comme le point culminant d'une infrastructure moderne d'Int&eacute;gration
+            	Continue.
+         </p>
+         <p>Dans ce chapitre, nous avons vu plusieurs techniques de D&eacute;ploiement Automatis&eacute;, essentiellement ax&eacute;es
+            	autour de d&eacute;ploiements Java. Cependant, les principes g&eacute;n&eacute;raux discut&eacute;s ici sont valables pour n'importe quelle
+            	technologie. En effet, le processus de d&eacute;ploiement dans de nombreuses autres technologies, sp&eacute;cialement pour les
+            	langages de scripts tels Ruby et PHP, sont consid&eacute;rablement plus simple que leur &eacute;quivalent Java, impliquant
+            	essentiellement de copier des fichiers vers le serveur de production. Ruby b&eacute;n&eacute;ficie aussi d'outils tels qu'Heroku
+            	et Capistrano pour aider &agrave; accomplir cette t&acirc;che.
+         </p>
+         <p>Il y a plusieurs aspects importants &agrave; prendre en compte lors de la mise en place d'un D&eacute;ploiement Automatis&eacute;.
+            	En premier lieu, le D&eacute;ploiement Automatis&eacute; est le point final de votre architecture d'Int&eacute;gration Continue : vous devez
+            	d&eacute;finir un s&eacute;quenceur de build, de la compilation initiale et des tests unitaires vers des tests fonctionnels
+            	et d'acceptation automatis&eacute;s ainsi que des contr&ocirc;les de qualit&eacute; du code, culminant au d&eacute;ploiement vers une
+            	ou plusieurs plate formes. Le degr&eacute; de confiance dans votre s&eacute;quenceur de build d&eacute;pend largement du degr&eacute; de 
+            	confiance que avez en vos tests. En d'autres termes, plus les tests sont douteux et limit&eacute;s, le plus t&ocirc;t vous aurez 
+            	&agrave; recourir &agrave; des tests manuels et &agrave; une intervention humaine.
+         </p>
+         <p>Finallement, si possible, il est important de construire vos artefacts d&eacute;ployables en une fois seulement,
+            	et ensuite de les r&eacute;utiliser dans les &eacute;tapes suivantes, que ce soit pour les tests fonctionnels ou des d&eacute;ploiements 
+            	vers diff&eacute;rentes plateformes.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-deploying-to-an-app-server.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="chapter-maintaining-jenkins.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">12.3.&nbsp;D&eacute;ployer vers un serveur d'application&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;Chapter&nbsp;13.&nbsp;Maintenir Jenkins</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

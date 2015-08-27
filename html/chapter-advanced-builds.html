@@ -1,0 +1,134 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;10.&nbsp;Builds avanc&eacute;s</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="sect-code-quality-conclusion.html" title="9.9.&nbsp;Conclusion">
+      <link rel="next" href="sect-advanced-builds-parameterized.html" title="10.2.&nbsp;T&acirc;ches de build param&eacute;tr&eacute;es">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-conclusion.html">9.9.&nbsp;Conclusion</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                               </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-advanced-builds-parameterized.html">10.2.&nbsp;T&acirc;ches de build param&eacute;tr&eacute;es</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="chapter-advanced-builds"></a>Chapter&nbsp;10.&nbsp;Builds avanc&eacute;s
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="chapter-advanced-builds.html#sect-advanced-builds-introduction">10.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="sect-advanced-builds-parameterized.html">10.2. T&acirc;ches de build param&eacute;tr&eacute;es</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#d0e14145">10.2.1. Cr&eacute;er des t&acirc;ches de build param&eacute;tr&eacute;es</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#d0e14223">10.2.2. Adapter vos build pour travailler avec des scripts de builds
+                                    param&eacute;tr&eacute;s</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#d0e14331">10.2.3. Types de param&egrave;tres plus avanc&eacute;s</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#sect-build-from-svn-tag">10.2.4. Construire &agrave; partir d'un tag Subversion</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#sect-building-git-tag">10.2.5. R&eacute;aliser un build &agrave; partir d'un tag Git</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#d0e14575">10.2.6. D&eacute;marrer une t&acirc;che de build param&eacute;tr&eacute;e &agrave; distance</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#d0e14615">10.2.7. Historique des t&acirc;ches de build param&eacute;tr&eacute;es</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-advanced-builds-triggers.html">10.3. D&eacute;clencheurs param&eacute;tr&eacute;s</a></span></dt>
+               <dt><span class="sect1"><a href="sect-multi-configuration-build-jobs.html">10.4. T&acirc;ches de build multiconfiguration</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-multi-configuration-build-jobs.html#d0e14770">10.4.1. Configurer un build multiconfiguration</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-multi-configuration-build-jobs.html#d0e14822">10.4.2. Configurer un axe Esclave</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-multi-configuration-build-jobs.html#d0e14874">10.4.3. Configurer un axe JDK</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-multi-configuration-build-jobs.html#d0e14907">10.4.4. Axe personnalis&eacute;</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-multi-configuration-build-jobs.html#d0e14938">10.4.5. Ex&eacute;cuter un Build Multiconfiguration</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="I_sect110_d1e14808.html">10.5. G&eacute;n&eacute;rer vos t&acirc;ches de build Maven automatiquement</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="I_sect110_d1e14808.html#d0e15096">10.5.1. Configurer une t&acirc;che</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect110_d1e14808.html#d0e15172">10.5.2. R&eacute;utiliser une configuration de t&acirc;che par h&eacute;ritage</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect110_d1e14808.html#d0e15218">10.5.3. Le support des plugins</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect110_d1e14808.html#d0e15312">10.5.4. Les t&acirc;ches Freestyle</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="I_sect110_d1e15110.html">10.6. Coordonner vos
+                            builds</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="I_sect110_d1e15110.html#d0e15343">10.6.1. Les builds parall&egrave;les dans Jenkins</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect110_d1e15110.html#d0e15370">10.6.2. Graphes de d&eacute;pendance</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect110_d1e15110.html#d0e15404">10.6.3. Jonctions</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect110_d1e15110.html#d0e15487">10.6.4. Plugin Locks and Latches</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-build-pipelines.html">10.7. Pipelines de build et promotions</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-build-pipelines.html#jenkins-maven-releases">10.7.1. Gestion des releases Maven avec le plugin M2Release</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-pipelines.html#sect-copying-artifacts">10.7.2. Copier des artefacts</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-pipelines.html#sect-build-promotion">10.7.3. Promotions de build</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-pipelines.html#d0e16063">10.7.4. Agr&eacute;ger des r&eacute;sultats de tests</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-pipelines.html#d0e16130">10.7.5. Pipelines de Build</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="I_sect110_d1e16005.html">10.8. Conclusion</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="sect-advanced-builds-introduction"></a>10.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p>Dans ce chapitre, nous regarderons quelques configurations avanc&eacute;es
+                   de t&acirc;ches de build. Nous traiterons des builds param&eacute;tr&eacute;s, qui permettent
+                   &agrave; Jenkins de demander &agrave; l'utilisateur des param&egrave;tres suppl&eacute;mentaires qui
+                   seront pass&eacute;s &agrave; la t&acirc;che de build, et des t&acirc;ches de build
+                   multiconfigurations, qui vous permettent d'ex&eacute;cuter une simple t&acirc;che selon
+                   de nombreuses variations. Nous verrons comment ex&eacute;cuter les t&acirc;ches en
+                   parall&egrave;le, et comment attendre le r&eacute;sultat d'une ou plusieurs t&acirc;ches avant de
+                   continuer. Nous verrons enfin comment impl&eacute;menter des strat&eacute;gies de
+                   promotion de build et de pipelines de build afin de pouvoir utiliser
+                   Jenkins non seulement comme un serveur de build, mais aussi comme un
+                   serveur de d&eacute;ploiement.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-conclusion.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-advanced-builds-parameterized.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">9.9.&nbsp;Conclusion&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;10.2.&nbsp;T&acirc;ches de build param&eacute;tr&eacute;es</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,154 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;12.&nbsp;D&eacute;ploiement automatis&eacute; et livraison continue</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="sect-distributed-builds-conclusion.html" title="11.8.&nbsp;Conclusion">
+      <link rel="next" href="sect-implementing-cd.html" title="12.2.&nbsp;Mise en oeuvre du d&eacute;ploiement automatis&eacute; et continu">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-distributed-builds-conclusion.html">11.8.&nbsp;Conclusion</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-implementing-cd.html">12.2.&nbsp;Mise en oeuvre du d&eacute;ploiement automatis&eacute; et continu</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="chapter-automated-deployment"></a>Chapter&nbsp;12.&nbsp;D&eacute;ploiement automatis&eacute; et livraison continue
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="chapter-automated-deployment.html#sect-continuous-deployment-introduction">12.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="sect-implementing-cd.html">12.2. Mise en oeuvre du d&eacute;ploiement automatis&eacute; et continu</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-implementing-cd.html#sect-deployment-script">12.2.1. Le script de d&eacute;ploiement</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-implementing-cd.html#sect-liquibase">12.2.2. Mises &agrave; jour de base de donn&eacute;es</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-implementing-cd.html#sect-smoke-tests">12.2.3. Tests fumigatoires</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-implementing-cd.html#sect-rolling-back">12.2.4. Revenir sur des changements</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-deploying-to-an-app-server.html">12.3. D&eacute;ployer vers un serveur d'application</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-deploying-to-an-app-server.html#sect-deploying-java-app">12.3.1. D&eacute;ployer une application Java</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect3"><a href="sect-deploying-to-an-app-server.html#sect-deploy-plugin">12.3.1.1. Utiliser le plugin Deploy</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-deploying-to-an-app-server.html#d0e17479">12.3.1.2. Red&eacute;ployer une version sp&eacute;cifique</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-deploying-to-an-app-server.html#d0e17496">12.3.1.3. D&eacute;ployer une version depuis un build Jenkins pr&eacute;c&eacute;dent</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-deploying-to-an-app-server.html#d0e17657">12.3.1.4. D&eacute;ployer une version depuis un d&eacute;p&ocirc;t Maven</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect2"><a href="sect-deploying-to-an-app-server.html#d0e17790">12.3.2. D&eacute;ployer des applications &agrave; base de scripts telles Ruby et PHP</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="I_sect112_d1e17665.html">12.4. Conclusion</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="sect-continuous-deployment-introduction"></a>12.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p><a class="indexterm" name="ch12-auto1"></a>
+               	<a class="indexterm" name="ch12-auto2"></a>L'Int&eacute;gration Continue ne devrait pas s'arr&ecirc;ter une fois que
+               	votre application compile correctement. Elle ne devrait pas non plus 
+               	s'interrompre une fois que des tests, contr&ocirc;les automatiques ou audit de
+               	la qualit&eacute; du code puissent &ecirc;tre lanc&eacute;s. L'enchainement naturel, une fois
+               	toutes ces &eacute;tapes <span class="keep-together">mises en oeuvre</span>,
+               	est d'&eacute;tendre votre processus de construction automatis&eacute; au d&eacute;ploiement. 
+               	Cette pratique est connue globalement sous le nom de D&eacute;ploiement 
+               	<span class="keep-together">Automatis&eacute;</span> ou D&eacute;ploiement 
+               	<span class="keep-together">Continu</span>.
+                   
+            </p>
+            <p>Dans sa forme la plus &eacute;labor&eacute;e, le D&eacute;ploiement Continu est le processus
+               	o&ugrave; toute modification du code, dot&eacute;e des tests automatis&eacute;s et autres v&eacute;rifications
+               	appropri&eacute;es, est imm&eacute;diatemement d&eacute;ploy&eacute;e en production. Le but est de r&eacute;duire
+               	la dur&eacute;e du cycle ainsi que le temps et l'effort du processus de d&eacute;ploiement. Cela
+               	aide &eacute;galement les &eacute;quipes de d&eacute;velopemment &agrave; r&eacute;duire le temps n&eacute;cessaire pour livrer
+               	des fonctionnalit&eacute;s individuelles ou des corrections de bogue, et par cons&eacute;quent
+               	augmente significativement la productivit&eacute; des &eacute;quipes. R&eacute;duire ou &eacute;liminer ces
+               	p&eacute;riodes d'intenses activit&eacute;s menant &agrave; une livraison traditionnelle ou &agrave; un
+               	d&eacute;ploiement lib&egrave;re &eacute;galement du temps et des ressources pour am&eacute;liorer les processus
+               	et pour l'innovation. Cette approche est comparable &agrave; la philosophie de l'am&eacute;lioration
+               	continue promue par des processus Lean tel que Kanban. 
+            </p>
+            <p>Cependant, d&eacute;ployer syst&eacute;matiquement le dernier code en production
+               	n'est pas toujours appropri&eacute;, quelque soit la qualit&eacute; de vos tests automatis&eacute;s.
+               	De nombreuses organisations ne sont pas pr&eacute;par&eacute;es &agrave; ce que de nouvelles
+               	versions apparaissent sans annonce chaque semaine. Des utilisateurs ont 
+               	peut &ecirc;tre besoin d'&ecirc;tre form&eacute;s, du marketing peut &ecirc;tre n&eacute;cessaire autour du
+               	produit et ainsi de suite. Une variante plus conservative de ce principe,
+               	souvent vue dans les organisations de grande taille, est d'avoir le processus
+               	de d&eacute;ploiement enti&egrave;rement automatis&eacute; mais de d&eacute;clencher le d&eacute;ploiement
+               	effectif via un m&eacute;canisme &agrave; un clic. Cela est connu sous le nom de Livraison
+               	Continue, et a tous les avantages du D&eacute;ploiement Continu sans ses inconv&eacute;nients.
+               	Des variantes au processus de Livraison Continue peuvent aussi impliquer des
+               	d&eacute;ploiements automatis&eacute;s vers certains environnement (tels que test et AQ) tout
+               	en utilisant un d&eacute;ploiement manuel &agrave; un clic pour d'autres environnements (tels que
+               	recette et production). La caract&eacute;ristique la plus importante de la Livraison
+               	Continue est que chaque build ayant pass&eacute; avec succ&egrave;s tous les tests automatis&eacute;s
+               	et v&eacute;rifications de qualit&eacute;s appropri&eacute;s puisse &ecirc;tre potentiellement d&eacute;ploy&eacute; en
+               	production au moyen d'un processus enti&egrave;rement automatis&eacute; et d&eacute;clench&eacute; via
+               	un clic, au choix de l'utilisateur final et en quelques minutes. Le processus
+               	n'est cependant pas automatique : c'est l'&eacute;quipe m&eacute;tier et non informatique qui
+               	d&eacute;cide du meilleur moment pour livrer les derni&egrave;res modifications.
+                   
+            </p>
+            <p>Le D&eacute;ploiement Continu et la Livraison Continue sont tous deux consid&eacute;r&eacute;s,
+               	&agrave; juste titre, comme signes d'un haut niveau de maturit&eacute; en termes de
+               	processus de build et de pratiques SDLC. Ces techniques ne peuvent exister
+               	sans un ensemble tr&egrave;s solide de tests automatis&eacute;s. Pas plus qu'ils ne peuvent
+               	exister sans un environnement d'Int&eacute;gration Continue et un s&eacute;quenceur de build
+               	robuste. En effet, le D&eacute;ploiement Continu ou la Livraison Continue repr&eacute;sente
+               	g&eacute;n&eacute;ralement la derni&egrave;re &eacute;tape et le but d'un pipeline de build. Cependant,
+               	vu les avantages significatifs que ces pratiques apportent, elles sont un
+               	objectif pertinent. Dans la suite de ce chapitre nous allons utiliser le terme
+               	"D&eacute;ploiement Continu" pour parler tant de D&eacute;ploiement Continu que de Livraison
+               	Continue. En effet, le D&eacute;ploiement Continu peut &ecirc;tre vu comme la Livraison
+               	Continue avec une &eacute;tape finale (le d&eacute;ploiement en production) dict&eacute;e par
+               	la partie m&eacute;tier plut&ocirc;t que l'&eacute;quipe de d&eacute;velopement. 
+                   
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-distributed-builds-conclusion.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-implementing-cd.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">11.8.&nbsp;Conclusion&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;12.2.&nbsp;Mise en oeuvre du d&eacute;ploiement automatis&eacute; et continu</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

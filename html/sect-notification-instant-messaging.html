@@ -1,0 +1,376 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>8.7.&nbsp;Messagerie instantan&eacute;e</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="prev" href="sect-build-radiator.html" title="8.6.&nbsp;Radars de build">
+      <link rel="next" href="sect-notification-irc.html" title="8.8.&nbsp;Notification par IRC">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-radiator.html">8.6.&nbsp;Radars de build</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-irc.html">8.8.&nbsp;Notification par IRC</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-notification-instant-messaging"></a>8.7.&nbsp;Messagerie instantan&eacute;e
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>La
+                        <a class="indexterm" name="ch08-im1"></a>
+                        <a class="indexterm" name="ch08-im2"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11925"></a>
+            messagerie instantan&eacute;e (ou IM) est aujourd'hui
+            largement utilis&eacute;e comme un moyen rapide et l&eacute;ger de communication, aussi bien professionnelle que
+            personnelle.
+            La messagerie instantan&eacute;e est, par d&eacute;finition, instantan&eacute;e, ce qui lui donne un avantage sur l'email
+            quand il s'agit de notification rapide. Elle est &eacute;galement &laquo;push&raquo; plut&ocirc;t que
+            &laquo;pull&raquo;. Lorsque vous recevez un message, il appara&icirc;tra sur votre &eacute;cran et
+                        attirera votre attention. Il est un peu plus difficile de l'ignorer ou de reporter
+                        qu'un simple message email.
+                    
+         </p>
+         <p>Jenkins offre un bon support pour les notifications via messagerie
+                        instantan&eacute;e. Le
+                        <a class="indexterm" name="I_indexterm8_d1e11933"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11938"></a>
+                        plugin Instant
+                        Messaging fournit un support g&eacute;n&eacute;rique pour communiquer avec Jenkins via
+                        la messagerie instantan&eacute;e. Des
+                        <span class="keep-together">plugins</span>
+                        sp&eacute;cifiques peuvent ensuite &ecirc;tre ajout&eacute;s pour diff&eacute;rents protocoles de
+                        messagerie instantan&eacute;e tels que Jabber ou IRC.
+                    
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e12169"></a>8.7.1.&nbsp;Notification par IM avec Jabber
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>De
+                               <a class="indexterm" name="ch08-jabber1"></a>
+                               <a class="indexterm" name="ch08-jabber2"></a>
+                               nombreux serveurs de messagerie instantan&eacute;e sont bas&eacute;s sur Jabber, un
+                               protocole de messagerie instantan&eacute;e open source et bas&eacute; sur XML. Jenkins fournit un bon
+                               support pour la messagerie instantan&eacute;e Jabber, de telle sorte que les d&eacute;veloppeurs peuvent recevoir
+                               des notifications en temps r&eacute;el des &eacute;checs de build. De plus, le plugin ex&eacute;cute
+                               un robot de messagerie instantan&eacute;e qui &eacute;coute les canaux de communication et permet aux d&eacute;veloppeurs
+                               d'ex&eacute;cuter
+                               des commandes sur le serveur Jenkins via des messages instantan&eacute;s.
+                           
+            </p>
+            <p>La mise en place du support de messagerie instantan&eacute;e dans Jenkins est simple. D'abord, vous
+                               devez installer &agrave; la fois le plugin Jenkins instant-messaging et
+                               le
+                               <a class="indexterm" name="I_indexterm8_d1e11961"></a>
+                               <a class="indexterm" name="I_indexterm8_d1e11966"></a>
+                               plugin Jenkins Jabber Notifier en utilisant la page
+                               standard du gestionnaire de plugins et en red&eacute;marrant Jenkins
+                               (voir <a href="sect-notification-instant-messaging.html#fig-email-notification-jabber-plugins" title="Figure&nbsp;8.9.&nbsp;Installation des plugins Jenkins de messagerie instantan&eacute;e">Figure&nbsp;8.9, &#8220;Installation des plugins Jenkins de messagerie instantan&eacute;e&#8221;</a>).
+                           
+            </p>
+            <div class="figure"><a name="fig-email-notification-jabber-plugins"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject8_d1e11975"></a><img src="figs/web/jtdg_0809.png" alt="Installation des plugins Jenkins de messagerie instantan&eacute;e"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;8.9.&nbsp;Installation des plugins Jenkins de messagerie instantan&eacute;e</b></p>
+            </div><br class="figure-break"><p>Une fois cela fait, vous devez configurer votre serveur de messagerie
+                               instantan&eacute;e. N'importe quel serveur Jabber peut faire l'affaire. Vous pouvez utiliser un service public
+                               comme
+                               Google Chat, ou configurer votre propre serveur de messagerie instantan&eacute;e localement (le
+                               serveur de messagerie instantann&eacute;e open source Java
+                               <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.igniterealtime.org/projects/openfire/index.jsp" target="_top">OpenFire</a>
+                               est un bon choix). Utiliser un service public pour les communications internes
+                               peut &ecirc;tre mal vu par les administrateurs syst&egrave;me, et vous pouvez avoir
+                               des difficult&eacute;s pour passer les firewalls de l'entreprise. D'autre part, configurer votre propre
+                               service de messagerie interne a du sens pour une &eacute;quipe de d&eacute;veloppement ou toute autre organisation en
+                               g&eacute;n&eacute;ral, car il fournit un autre
+                               canal de communication qui fonctionne bien pour partager des questions techniques ou
+                               commentaires entre d&eacute;veloppeurs. Les exemples suivants utiliseront un
+                               serveur OpenFire local, mais l'approche g&eacute;n&eacute;rale fonctionne pour tout
+                               serveur Jabber-
+                               <span class="keep-together">compatible</span>
+               				.
+                           
+            </p>
+            <p>La premi&egrave;re &eacute;tape consiste &agrave; cr&eacute;er un compte d&eacute;di&eacute; sur votre
+                               serveur Jabber pour Jenkins. Celui-ci est juste un compte de messagerie instantann&eacute;e ordinaire, mais il
+                               doit &ecirc;tre distinct des comptes de vos d&eacute;veloppeurs (voir <a href="sect-notification-instant-messaging.html#fig-hudson-notification-im-users" title="Figure&nbsp;8.10.&nbsp;Jenkins n&eacute;cessite son propre compte de messagerie instantan&eacute;e">Figure&nbsp;8.10, &#8220;Jenkins n&eacute;cessite son propre compte de messagerie instantan&eacute;e&#8221;</a>).
+                           
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-notification-im-users"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject8_d1e11995"></a><img src="figs/web/jtdg_0810.png" alt="Jenkins n&eacute;cessite son propre compte de messagerie instantan&eacute;e"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;8.10.&nbsp;Jenkins n&eacute;cessite son propre compte de messagerie instantan&eacute;e</b></p>
+               </div><br class="figure-break"></div>
+            <p>Une fois que vous avez configur&eacute; un compte de messagerie instantan&eacute;e, vous devez configurer Jenkins
+                               pour envoyer des notifications par message instantan&eacute; via ce compte. Allez &agrave; la page de configuration
+                               principale
+                               et cochez la case Enable Jabber Notification (voir <a href="sect-notification-instant-messaging.html#fig-hudson-notification-jabber-basic" title="Figure&nbsp;8.11.&nbsp;Mise en place de notifications de base Jabber dans Jenkins">Figure&nbsp;8.11, &#8220;Mise en place de notifications de base Jabber dans Jenkins&#8221;</a>
+                               ).
+                               Ici, vous fournissez
+                               l'identifiant Jabber et le mot de passe pour votre compte. Jenkins peut habituellement
+                               retrouver le serveur de messagerie &agrave; partir de l'identifiant Jabber (s'il est diff&eacute;rent, vous pouvez
+                               le remplacer dans les options avanc&eacute;es). Si vous utilisez les canaux de communication en groupe
+                               (une autre strat&eacute;gie de communication utile pour les &eacute;quipes de d&eacute;veloppement), vous
+                               pouvez aussi renseigner ici le nom de ces salons de discussion. De cette fa&ccedil;on, Jenkins
+                               sera en mesure de traiter les instructions envoy&eacute;es dans les salons de chat, ainsi
+                               que ceux re&ccedil;us comme des messages directs.
+                           
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-notification-jabber-basic"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject8_d1e12007"></a><img src="figs/web/jtdg_0811.png" alt="Mise en place de notifications de base Jabber dans Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;8.11.&nbsp;Mise en place de notifications de base Jabber dans Jenkins</b></p>
+               </div><br class="figure-break"></div>
+            <p>C'est tout ce dont vous avez besoin pour une configuration de base. Cependant, vous devrez peut-&ecirc;tre
+                               donner quelques informations suppl&eacute;mentaires dans la section avanc&eacute;e pour des d&eacute;tails qui sont
+                               sp&eacute;cifiques &agrave; votre installation (voir <a href="sect-notification-instant-messaging.html#fig-hudson-notification-jabber-advanced" title="Figure&nbsp;8.12.&nbsp;Configuration avanc&eacute;e Jabber">Figure&nbsp;8.12, &#8220;Configuration avanc&eacute;e Jabber&#8221;</a>). Ici,
+                               vous pouvez
+                               sp&eacute;cifier le nom et le port de votre serveur Jabber s'ils ne peuvent &ecirc;tre
+                               d&eacute;riv&eacute;s de l'identifiant Jenkins Jabber. Vous pouvez &eacute;galement fournir un suffixe
+                               par d&eacute;faut qui peut &ecirc;tre appliqu&eacute; &agrave; l'utilisateur Jenkins pour g&eacute;n&eacute;rer
+                               l'identifiant Jabber correspondant. Surtout, si vous avez s&eacute;curis&eacute; votre
+                               serveur Jenkins, vous devrez fournir un nom d'utilisateur et un
+                               mot de passe Jenkins valides afin que le robot de messagerie instantan&eacute;e puisse r&eacute;agir correctement
+                               <span class="keep-together">aux instructions</span>.
+                           
+            </p>
+            <div class="figure"><a name="fig-hudson-notification-jabber-advanced"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject8_d1e12022"></a><img src="figs/web/jtdg_0812.png" alt="Configuration avanc&eacute;e Jabber"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;8.12.&nbsp;Configuration avanc&eacute;e Jabber</b></p>
+            </div><br class="figure-break"><p>Une fois configur&eacute;, vous devez d&eacute;finir une strat&eacute;gie de notification Jabber
+                               pour chacune de vos t&acirc;ches de build. Ouvrez la page de configuration de t&acirc;che de build
+                               et cliquez sur l'option Jabber Notification.
+                           
+            </p>
+            <p>D'abord, vous devez d&eacute;finir une liste de destinataires pour les messages. Vous
+                               pouvez envoyer des messages &agrave; des individus (utilisez simplement l'identifiant Jabber correspondant,
+                               tel que<span class="emphasis"><em>joe@jabber.acme.com</em></span>) ou &agrave; des salons de messagerie instantan&eacute;e que vous avez
+                               cr&eacute;&eacute;. Pour les salons, vous devez normalement ajouter une &#8220;*&#8221; au d&eacute;but
+                               de son identifiant (ex : &#8220;*gameoflife@conference.jabber.acme.org&#8221;).
+                               Cependant, si cet identifiant contient &#8220;@conference.&#8221;, Jenkins comprendra
+                               qu'il s'agit d'un salon de messagerie instantan&eacute;e et ajoutera automatiquement l'&#8220;*&#8221;.
+                               L'approche bas&eacute;e sur un salon est la plus souple bien que pour que cette strat&eacute;gie soit vraiment
+                               efficace,
+                               vous devez &ecirc;tre s&ucirc;r que les d&eacute;veloppeurs y sont connect&eacute;s en permanence.
+                           
+            </p>
+            <p>Vous devez aussi d&eacute;finir une strat&eacute;gie de notification. Celle-ci d&eacute;termine
+                               lesquels de vos r&eacute;sultats de build provoqueront un envoi de message. Les options
+                               sont:
+                           
+            </p>
+            <div class="variablelist">
+               <dl>
+                  <dt><span class="term">all</span></dt>
+                  <dd>
+                     <p>Envoie une notification pour chaque build.</p>
+                  </dd>
+                  <dt><span class="term">failure</span></dt>
+                  <dd>
+                     <p>Envoie une notification uniquement pour les builds &eacute;chou&eacute;s et instables.</p>
+                  </dd>
+                  <dt><span class="term">failure and fixed</span></dt>
+                  <dd>
+                     <p>Envoie une notification pour les builds &eacute;chou&eacute;s et instables, et
+                                                    le premier build en succ&egrave;s apr&egrave;s un build &eacute;chou&eacute; ou instable.
+                                                
+                     </p>
+                  </dd>
+                  <dt><span class="term">change</span></dt>
+                  <dd>
+                     <p>Envoie une notification quand le r&eacute;sultat de build change.</p>
+                  </dd>
+               </dl>
+            </div>
+            <p>Si vous utilisez les salons de messagerie instantan&eacute;e, vous pouvez demander &agrave; Jenkins d'envoyer
+                               une notification au salon lorsqu'un build d&eacute;marre (en utilisant l'option
+                               &#8220;Notify on build starts&#8221;).
+                           
+            </p>
+            <p>En ce qui concerne les builds d&eacute;marr&eacute;s par les syst&egrave;mes de gestion de version,
+                               Jenkins peut aussi notifier des destinataires suppl&eacute;mentaires. Pour cela, il faut utiliser le suffixe
+                               par d&eacute;faut d&eacute;crit pr&eacute;c&eacute;demment afin de g&eacute;n&eacute;rer l'identifiant Jabber &agrave; partir de l'utilisateur du syst&egrave;me
+                               de gestion de version. Vous pouvez choisir de notifier :
+                           
+            </p>
+            <div class="variablelist">
+               <dl>
+                  <dt><span class="term">SCM committers</span></dt>
+                  <dd>
+                     <p>Tous les utilisateurs qui ont committ&eacute; des changements pour le build courant,
+                                                    et donc soup&ccedil;onn&eacute;s d'avoir cass&eacute; le build.
+                                                
+                     </p>
+                  </dd>
+                  <dt><span class="term">SCM culprits</span></dt>
+                  <dd>
+                     <p>Tous les utilisateurs qui ont committ&eacute; des changements depuis le dernier build avec
+                                                    succ&egrave;s.
+                                                
+                     </p>
+                  </dd>
+                  <dt><span class="term">SCM fixers</span></dt>
+                  <dd>
+                     <p>Tous les utilisateurs qui ont committ&eacute; des changements du premier build avec succ&egrave;s
+                                                    apr&egrave;s un build &eacute;chou&eacute; ou instable.
+                                                
+                     </p>
+                  </dd>
+                  <dt><span class="term">Upstream committers</span></dt>
+                  <dd>
+                     <p>Envoie une notification aux utilisateurs qui ont committ&eacute; des changements pour les builds
+                                                    en amont et courant. Cela fonctionne automatiquement pour les t&acirc;ches de build Maven, mais
+                                                    n&eacute;cessite d'activer l'empreinte num&eacute;rique (fingerprint) des autres types de syst&egrave;mes de
+                                                    build.
+                                                
+                     </p>
+                  </dd>
+               </dl>
+            </div>
+            <p>Au moment de la r&eacute;daction, vous ne pouvez d&eacute;finir qu'une strat&eacute;gie
+                               de notification. Ainsi, certaines des options avanc&eacute;es que nous avons vu dans
+                               <a href="sect-notification-advanced-email.html" title="8.3.&nbsp;Notification par email avanc&eacute;e">Section&nbsp;8.3, &#8220;Notification par email avanc&eacute;e&#8221;</a>
+                               ne sont pas encore disponibles pour
+                               la messagerie instantan&eacute;e.
+                           
+            </p>
+            <p>Les d&eacute;veloppeurs seront notifi&eacute;s via leur client de messagerie instantan&eacute;e favori (voir
+                               <a href="sect-notification-instant-messaging.html#fig-hudson-notification-im-messages" title="Figure&nbsp;8.13.&nbsp;Messages Jenkins Jabber en action">Figure&nbsp;8.13, &#8220;Messages Jenkins Jabber en action&#8221;</a>). Ils peuvent
+                               aussi interagir avec le serveur de build via une session de messagerie en utilisant un ensemble de
+                               commandes simples dont voici les plus utiles :
+                           
+            </p>
+            <div class="itemizedlist">
+               <ul type="disc">
+                  <li>
+                     <p><code class="literal">!build game-of-life</code>&#8212;D&eacute;marre le
+                                                build
+                                                <span class="emphasis"><em>game-of-life</em></span>
+                                                imm&eacute;diatement.
+                                            
+                     </p>
+                  </li>
+                  <li>
+                     <p><code class="literal">!build game-of-life 15m</code>&#8212;D&eacute;marre le
+                                                build
+                                                <span class="emphasis"><em>game-of-life</em></span>
+                                                dans 15 minutes.
+                                            
+                     </p>
+                  </li>
+                  <li>
+                     <p><code class="literal">!comment game-of-life 207 'oops'</code>&#8212;Ajouter
+                                                une description au build d&eacute;fini.
+                                            
+                     </p>
+                  </li>
+                  <li>
+                     <p><code class="literal">!status game-of-life</code>&#8212;Affiche le status
+                                                du dernier build de cette t&acirc;che de build.
+                                            
+                     </p>
+                  </li>
+                  <li>
+                     <p><code class="literal">!testresult game-of-life</code>&#8212;Affiche le r&eacute;sultat complet
+                                                du dernier build.
+                                            
+                     </p>
+                  </li>
+                  <li>
+                     <p><code class="literal">!health game-of-life</code>&#8212;Affiche un r&eacute;sum&eacute; plus
+                                                complet de l'&eacute;tat de sant&eacute; du dernier build.
+                                            
+                     </p>
+                  </li>
+               </ul>
+            </div>
+            <p>Vous pouvez obtenir une liste complete des commandes en envoyant le message
+                               <code class="literal">!help</code>
+                               &agrave; l'utilisateur
+                               <a class="indexterm" name="I_indexterm8_d1e12141"></a>
+                               <a class="indexterm" name="I_indexterm8_d1e12143"></a>
+                               Jenkins.
+                           
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-notification-im-messages"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject8_d1e12150"></a><img src="figs/web/jtdg_0813.png" alt="Messages Jenkins Jabber en action"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;8.13.&nbsp;Messages Jenkins Jabber en action</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e12380"></a>8.7.2.&nbsp;Notification avec IRC
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une
+                               <a class="indexterm" name="ch08-irc1"></a>
+                               <a class="indexterm" name="ch08-irc3"></a>
+                               autre forme de messagerie instantan&eacute;e Internet populaire est
+                               Internet Relay Chat, ou IRC. IRC est traditionnellement centr&eacute; sur les groupes
+                               de discussions (m&ecirc;me si la messagerie directe est &eacute;galement support&eacute;e). Elle est une
+                               forme de communication tr&egrave;s populaire parmi les d&eacute;veloppeurs, en particulier dans le monde
+                               open source.
+                           
+            </p>
+            <p>Le
+                               <a class="indexterm" name="I_indexterm8_d1e12171"></a>
+                               <a class="indexterm" name="I_indexterm8_d1e12176"></a>
+                               plugin Jenkins IRC vous permet d'interagir avec votre serveur Jenkins
+                               via un canal IRC, &agrave; la fois pour recevoir des messages de notification, mais aussi pour
+                               envoyer des commandes au serveur. Comme le plugin Jabber, vous devez
+                               installer le plugin Instant Messaging pour que le plugin Jenkins IRC
+                               <a class="indexterm" name="I_indexterm8_d1e12180"></a>
+                               <a class="indexterm" name="I_indexterm8_d1e12182"></a>
+                               fonctionne.
+                           
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-radiator.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-irc.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">8.6.&nbsp;Radars de build&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.8.&nbsp;Notification par IRC</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

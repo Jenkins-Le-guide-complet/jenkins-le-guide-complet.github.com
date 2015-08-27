@@ -1,0 +1,125 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>13.5.&nbsp;Archiver les t&acirc;ches de build</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-maintaining-jenkins.html" title="Chapter&nbsp;13.&nbsp;Maintenir Jenkins">
+      <link rel="prev" href="sect-maint-backups.html" title="13.4.&nbsp;Sauvegarde de votre configuration">
+      <link rel="next" href="sect-maint-migrating-jobs.html" title="13.6.&nbsp;Migrer les t&acirc;ches de build">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-maint-backups.html">13.4.&nbsp;Sauvegarde de votre configuration</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-maint-migrating-jobs.html">13.6.&nbsp;Migrer les t&acirc;ches de build</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-maint-archiving-jobs"></a>13.5.&nbsp;Archiver les t&acirc;ches de build
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			Une autre fa&ccedil;on
+            			<a class="indexterm" name="ch13-arc1"></a>
+            			<a class="indexterm" name="ch13-arc2"></a>
+            			<a class="indexterm" name="ch13-arc3"></a>
+            			<a class="indexterm" name="ch13-arc4"></a>
+            			d'aborder la probl&eacute;matique de l'espace disque est de supprimer ou
+            			d'archiver les projets qui ne sont plus actifs. Archiver un projet
+            			vous permet de le restaurer ais&eacute;ment ult&eacute;rieurement afin de consulter
+            			ses donn&eacute;es ou artefacts. Archiver un projet est facile : il suffit
+            			de d&eacute;placer le r&eacute;pertoire de celui-ci en dehors du r&eacute;pertoire des
+            			t&acirc;ches. Bien s&ucirc;r, g&eacute;n&eacute;ralement, le r&eacute;pertoire de la t&acirc;che est en premier
+            			lieu compress&eacute; dans un fichier ZIP ou une tarball.
+            		
+         </p>
+         <p>
+            			Dans l'exemple qui suit, nous voulons archiver le project
+            			<span class="emphasis"><em>tweeter-default</em></span>
+            			. En premier lieu, nous nous rendons dans le r&eacute;pertoire
+            			<code class="filename">jobs</code>
+            			de Jenkins et y cr&eacute;ons une "tarball" (archive compress&eacute;e) du
+            			r&eacute;pertoire
+            			<code class="filename">tweeter-default</code>
+            			se trouvant dans le r&eacute;pertoire des t&acirc;ches.
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>cd $JENKINS_HOME/jobs</code></strong>
+			$
+			<strong class="userinput"><code>ls</code></strong>
+			gameoflife-default tweeter-default
+			$
+			<strong class="userinput"><code>tar czf tweeter-default.tgz
+				tweeter-default</code></strong>
+			$
+			<strong class="userinput"><code>ls</code></strong>
+			gameoflife-default tweeter-default tweeter-default.tgz
+		</pre><p>Si le projet n'est pas en cours de construction par Jenkins,
+            			vous pouvez alors le supprimer en toute s&eacute;curit&eacute; et d&eacute;placer
+            			l'archive vers son lieu de stockage :
+            			
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>rm -Rf tweeter-default</code></strong>
+			$
+			<strong class="userinput"><code>mv tweeter-default.tgz
+				/data/archives/jenkins</code></strong>
+		</pre><p>
+            			Une fois cela r&eacute;alis&eacute;, vous pouvez tout simplement recharger la
+            			configuration depuis le disque dans l'&eacute;cran "Administrer Jenkins"
+            			(voir
+            			<a href="sect-maint-archiving-jobs.html#fig-maintenance-reload-configuration" title="Figure&nbsp;13.14.&nbsp;Recharger la configuration &agrave; partir du disque">Figure&nbsp;13.14, &#8220;Recharger la configuration &agrave; partir du disque&#8221;</a>
+            			). Le projet archiv&eacute; va dispairaitre instantan&eacute;ment de votre tableau
+            			de bord.
+            		
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-maintenance-reload-configuration"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject13_d1e18203"></a><img src="figs/web/jtdg_1314.png" alt="Recharger la configuration &agrave; partir du disque"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;13.14.&nbsp;Recharger la configuration &agrave; partir du disque</b></p>
+            </div><br class="figure-break"></div>
+         <p>
+            			Sur une machine Windows, vous pouvez faire exactement la m&ecirc;me chose en
+            			cr&eacute;ant un fichier ZIP du
+            			<a class="indexterm" name="I_indexterm13_d1e18210"></a>
+            			<a class="indexterm" name="I_indexterm13_d1e18212"></a>
+            			<a class="indexterm" name="I_indexterm13_d1e18214"></a>
+            			<a class="indexterm" name="I_indexterm13_d1e18216"></a>
+            			r&eacute;pertoire du projet.
+            		
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-maint-backups.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-maint-migrating-jobs.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">13.4.&nbsp;Sauvegarde de votre configuration&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;13.6.&nbsp;Migrer les t&acirc;ches de build</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

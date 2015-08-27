@@ -1,0 +1,272 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>5.7.&nbsp;Les actions &agrave; la suite du build</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-build-jobs.html" title="Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build">
+      <link rel="prev" href="I_sect15_d1e6584.html" title="5.6.&nbsp;Les &eacute;tapes de builds">
+      <link rel="next" href="I_sect15_d1e7582.html" title="5.8.&nbsp;D&eacute;marrer votre nouvelle t&acirc;che de build">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect15_d1e6584.html">5.6.&nbsp;Les &eacute;tapes de builds</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect15_d1e7582.html">5.8.&nbsp;D&eacute;marrer votre nouvelle t&acirc;che de build</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="I_sect15_d1e7235"></a>5.7.&nbsp;Les actions &agrave; la suite du build
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Une fois<a class="indexterm" name="ch05-post"></a> qu&#8217;un build est termin&eacute;, il y a toujours des petites choses &agrave; voir apr&egrave;s. Vous pourriez avoir besoin d&#8217;archiver certains
+            artefacts g&eacute;n&eacute;r&eacute;s, faire des rapports sur les r&eacute;sultats des tests, et notifier des personnes sur les r&eacute;sultats. Dans cette
+            section, nous allons regarder certaines des t&acirc;ches les plus courantes que vous aurez besoin de configurer apr&egrave;s que le build
+            est effectu&eacute;.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e7447"></a>5.7.1.&nbsp;Rapport sur les r&eacute;sultats de tests
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>L'une<a class="indexterm" name="ch05-report1"></a><a class="indexterm" name="ch05-report2"></a><a class="indexterm" name="ch05-report3"></a> des exigences les plus &eacute;videntes sur une t&acirc;che de build est de faire des rapports sur les r&eacute;sultats des tests. Non seulement
+               s&#8217;il y a des &eacute;checs aux tests, mais aussi combien de tests sont ex&eacute;cut&eacute;s, en combien de temps, et ainsi de suite. Dans le
+               monde Java, JUnit est la librairie de test la plus couramment utilis&eacute;e, et le format XML JUnit pour les r&eacute;sultats de test
+               est tr&egrave;s utilis&eacute; et aussi bien compris par les autres outils.
+            </p>
+            <p>Jenkins fournit un grand support pour les rapports de test. Dans une t&acirc;che de build freestyle, vous devez cocher l&#8217;option
+               &laquo; Publier le rapport des r&eacute;sultats de tests JUnit &raquo;, et fournir un chemin vers vos fichiers de rapport JUnit (voir <a href="I_sect15_d1e7235.html#fig-hudson-build-job-junit" title="Figure&nbsp;5.32.&nbsp;Rapport sur les r&eacute;sultats de tests">Figure&nbsp;5.32, &#8220;Rapport sur les r&eacute;sultats de tests&#8221;</a>). Vous pouvez utiliser une expression g&eacute;n&eacute;rique (comme <code class="literal">**/target/surefire-reports/*.xml</code>
+                     dans un projet Maven) pour inclure les rapports JUnit depuis un grand nombre de r&eacute;pertoires diff&eacute;rents &#8212; Jenkins agr&eacute;gera
+               les r&eacute;sultats dans un seul rapport.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-job-junit"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e7281"></a><img src="figs/web/jtdg_0532.png" alt="Rapport sur les r&eacute;sultats de tests"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.32.&nbsp;Rapport sur les r&eacute;sultats de tests</b></p>
+               </div><br class="figure-break"></div>
+            <p>Nous regarderons les tests automatis&eacute;s plus<a class="indexterm" name="I_indexterm5_d1e7288"></a><a class="indexterm" name="I_indexterm5_d1e7290"></a><a class="indexterm" name="I_indexterm5_d1e7292"></a> en d&eacute;tail dans le chapitre <a href="chapter-automated-testing.html" title="Chapter&nbsp;6.&nbsp;Tests automatis&eacute;s">Chapter&nbsp;6, <i xmlns:xlink="http://www.w3.org/1999/xlink">Tests automatis&eacute;s</i></a>.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e7498"></a>5.7.2.&nbsp;Archiver les r&eacute;sultats de build
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>A <a class="indexterm" name="ch05-archive1"></a><a class="indexterm" name="ch05-archive2"></a><a class="indexterm" name="ch05-archive3"></a>quelques exceptions pr&egrave;s, le but principal d&#8217;une t&acirc;che de build est g&eacute;n&eacute;ralement de construire quelque chose. Dans Jenkins,
+               nous appelons cette chose un artefact. Un artefact pourrait &ecirc;tre un ex&eacute;cutable binaire (un fichier JAR ou WAR pour un projet
+               Java, par exemple), ou certains autres livrables li&eacute;s, comme de la documentation ou du code source. Une t&acirc;che de build peut
+               stocker un ou plusieurs diff&eacute;rents artefacts, gardant uniquement la derni&egrave;re copie ou chaque artefact tous les builds.
+            </p>
+            <p>Configurer Jenkins pour stocker vos artefacts est simple &#8212; cochez la case &agrave; cocher &laquo; Archiver les artefacts &raquo; dans les Actions
+               &agrave; la suite de build, et sp&eacute;cifier quels artefacts vous voulez stocker (voir la figure <a href="I_sect15_d1e7235.html#fig-hudson-build-job-artifact-configuration" title="Figure&nbsp;5.33.&nbsp;Configurer les artefacts de builds">Figure&nbsp;5.33, &#8220;Configurer les artefacts de builds&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-job-artifact-configuration"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e7327"></a><img src="figs/web/jtdg_0533.png" alt="Configurer les artefacts de builds"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.33.&nbsp;Configurer les artefacts de builds</b></p>
+               </div><br class="figure-break"></div>
+            <p>Dans le champ &laquo; Fichiers &agrave; archiver &raquo;, vous pouvez sp&eacute;cifier les chemins complets des fichiers que vous souhaitez archiver
+               (relatif au r&eacute;pertoire de travail de la t&acirc;che de build), ou, utiliser un caract&egrave;re g&eacute;n&eacute;rique (ex. : <code class="literal">**/*.jar</code>, pour tous les fichiers JAR, n&#8217;importe o&ugrave; dans le r&eacute;pertoire de travail). L&#8217;un des avantages d&#8217;utiliser des caract&egrave;res g&eacute;n&eacute;riques
+               est qu&#8217;il permet de rendre votre build moins d&eacute;pendant de votre configuration de gestion de version. Par exemple, si vous
+               utilisez Subversion (voir la section <a href="sect-subversion.html" title="5.4.&nbsp;Configurer la Gestion du Code Source">Section&nbsp;5.4, &#8220;Configurer la Gestion du Code Source&#8221;</a>), Jenkins va parcourir votre projet directement depuis le r&eacute;pertoire de travail, ou depuis un sous-r&eacute;pertoire, en fonction
+               de votre configuration. Si vous utilisez un caract&egrave;re g&eacute;n&eacute;rique comme <code class="literal">**/target/*.war</code>, Jenkins trouvera le fichier ind&eacute;pendamment du r&eacute;pertoire o&ugrave; est positionn&eacute; le projet.
+            </p>
+            <p>Comme d&#8217;habitude, le bouton Avanc&eacute; donne acc&egrave;s &agrave; quelques options suppl&eacute;mentaires. Si vous utilisez un caract&egrave;re g&eacute;n&eacute;rique
+               pour trouver vos artefacts, vous pourriez avoir besoin d&#8217;exclure certains r&eacute;pertoires dans la recherche. Vous pouvez faire
+               ceci en remplissant le champ Exclusions. Vous entrez un mod&egrave;le de nom de fichier que vous <span class="emphasis"><em>ne souhaitez pas</em></span> archiver, m&ecirc;me s&#8217;ils seraient normalement inclus par le champ "Fichiers &agrave; archiver".
+            </p>
+            <p>Les artefacts archiv&eacute;s peuvent prendre beaucoup de place sur le disque, en particulier si les builds sont fr&eacute;quents. Pour
+               cette raison, vous pouvez vouloir garder uniquement le dernier en succ&egrave;s. Pour faire ceci, il suffit de cocher l&#8217;option &laquo;
+               Supprime tous les artefacts, &agrave; l'exception du dernier artefact stable ou construit avec succ&egrave;s, afin de gagner de l'espace
+               disque &raquo;. Jenkins gardera les artefacts des derniers builds stables (s&#8217;il y en a). Il gardera aussi les artefacts du dernier
+               build instable construit juste apr&egrave;s un build stable (s&#8217;il y a), et &eacute;galement du dernier build en &eacute;chec qui est arriv&eacute;.
+            </p>
+            <p>Les artefacts de build archiv&eacute;s apparaissent sur la page des r&eacute;sultats de build (voir la figure <a href="I_sect15_d1e7235.html#fig-hudson-build-artifact" title="Figure&nbsp;5.34.&nbsp;Les artefacts de build sont affich&eacute;s sur la page de r&eacute;sultat d&#8217;un build et la page d&#8217;accueil d&#8217;un job">Figure&nbsp;5.34, &#8220;Les artefacts de build sont affich&eacute;s sur la page de r&eacute;sultat d&#8217;un build et la page d&#8217;accueil d&#8217;un job&#8221;</a>). Les artefacts de build les plus r&eacute;cents sont aussi affich&eacute;s dans la page d&#8217;accueil d&#8217;un job.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-artifact"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e7356"></a><img src="figs/web/jtdg_0534.png" alt="Les artefacts de build sont affich&eacute;s sur la page de r&eacute;sultat d&#8217;un build et la page d&#8217;accueil d&#8217;un job"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.34.&nbsp;Les artefacts de build sont affich&eacute;s sur la page de r&eacute;sultat d&#8217;un build et la page d&#8217;accueil d&#8217;un job</b></p>
+               </div><br class="figure-break"></div>
+            <p>Vous pouvez aussi utiliser les URLs permanentes pour acc&eacute;der aux artefacts de build les plus r&eacute;cents. Il s'agit d'une excellente
+               fa&ccedil;on de r&eacute;utiliser les derniers artefacts de vos builds, que ce soit depuis des t&acirc;ches de build Jenkins ou depuis des scripts
+               externes, par exemple. Trois URLs sont disponibles : dernier build stable, dernier build en succ&egrave;s et dernier build construit.
+            </p>
+            <p>Avant que nous regardions les URLs, nous devrions discuter du concept de builds 
+                     <span class="emphasis"><em>stables</em></span> et <span class="emphasis"><em>en succ&egrave;s</em></span>.
+            </p>
+            <p>Un build est <span class="emphasis"><em>en succ&egrave;s</em></span> lorsque la compilation n&#8217;est pas signal&eacute;e en erreur.
+            </p>
+            <p>Un build est <a class="indexterm" name="I_indexterm5_d1e7379"></a><a class="indexterm" name="I_indexterm5_d1e7386"></a>consid&eacute;r&eacute; <span class="emphasis"><em>stable</em></span> s&#8217;il a &eacute;t&eacute; construit avec succ&egrave;s, et qu&#8217;aucun &eacute;diteur ne l&#8217;a signal&eacute; comme instable. Par exemple, d&eacute;pendamment de votre configuration
+               de projet, des &eacute;checs de tests unitaires, une couverture de code insuffisante, ou d&#8217;autres probl&egrave;mes de qualit&eacute; de code, peuvent
+               provoquer la mise &agrave; l&#8217;&eacute;tat instable d&#8217;un build. Donc un build stable est toujours en succ&egrave;s, mais l&#8217;inverse n&#8217;est pas n&eacute;cessairement
+               vrai &#8212; un build peut &ecirc;tre en succ&egrave;s sans &ecirc;tre n&eacute;cessairement stable.
+            </p>
+            <p>Un build <span class="emphasis"><em>complet</em></span> est simplement un build qui a fini, peu importe son r&eacute;sultat. A noter que l&#8217;&eacute;tape d&#8217;archivage aura lieu quel que soit le
+               r&eacute;sultat de la construction.
+            </p>
+            <p>Le format des URLs d&#8217;artefact est intuitif, et prend la forme suivante :</p>
+            <div class="variablelist">
+               <dl>
+                  <dt><span class="term">Dernier build stable</span></dt>
+                  <dd>
+                     <p>
+                                      <code class="filename"><em class="replaceable"><code>&lt;server-url&gt;</code></em>/job/<em class="replaceable"><code>&lt;build-job&gt;</code></em>/lastStableBuild/artifact/<em class="replaceable"><code>&lt;path-to-artifact&gt;</code></em></code>
+                                    
+                     </p>
+                  </dd>
+                  <dt><span class="term">Dernier build en succ&egrave;s</span></dt>
+                  <dd>
+                     <p>
+                                      <code class="filename"><em class="replaceable"><code>&lt;server-url&gt;</code></em>/job/<em class="replaceable"><code>&lt;build-job&gt;</code></em>/lastSuccessfulBuild/artifact/<em class="replaceable"><code>&lt;path-to-artifact&gt;</code></em></code>
+                                    
+                     </p>
+                  </dd>
+                  <dt><span class="term">Dernier build complet</span></dt>
+                  <dd>
+                     <p>
+                                      <code class="filename"><em class="replaceable"><code>&lt;server-url&gt;</code></em>/job/<em class="replaceable"><code>&lt;build-job&gt;</code></em>/lastCompletedBuild/artifact/<em class="replaceable"><code>&lt;path-to-artifact&gt;</code></em></code>
+                                    
+                     </p>
+                  </dd>
+               </dl>
+            </div>
+            <p>C&#8217;est mieux illustr&eacute; par quelques exemples. Supposez que votre serveur Jenkins est d&eacute;marr&eacute; sur <span class="emphasis"><em>http://myserver:8080</em></span>, votre job de construction se nomme <code class="filename">game-of-life</code>, et vous stockez un fichier appel&eacute; <code class="filename">gameoflife.war</code>, qui est dans le r&eacute;pertoire target de votre r&eacute;pertoire de travail. Les URLs pour cet artefact seraient les suivantes :
+            </p>
+            <div class="variablelist">
+               <dl>
+                  <dt><span class="term">Dernier build stable</span></dt>
+                  <dd>
+                     <p>
+                                      <code class="filename">http://myserver:8080/job/gameoflife/lastStableBuild/artifact/target/gameoflife.war</code>
+                                    
+                     </p>
+                  </dd>
+                  <dt><span class="term">Dernier build en succ&egrave;s</span></dt>
+                  <dd>
+                     <p>
+                                      <code class="filename">http://myserver:8080/job/gameoflife/lastSuccessfulBuild/artifact/target/gameoflife.war</code>
+                                    
+                     </p>
+                  </dd>
+                  <dt><span class="term">Dernier build complet</span></dt>
+                  <dd>
+                     <p>
+                                      <code class="filename">http://myserver:8080/job/gameoflife/lastCompletedBuild/artifact/target/gameoflife.war</code>
+                                    
+                     </p>
+                  </dd>
+               </dl>
+            </div>
+            <p>Les  artefacts peuvent ne pas juste &ecirc;tre des ex&eacute;cutables binaires. Imaginez, par exemple, que votre processus de build implique
+               de d&eacute;ployer automatiquement tous les builds sur un server de test. Pour plus de commodit&eacute;s, vous voulez garder une copie du
+               code source exact associ&eacute; &agrave; chaque fichier WAR d&eacute;ploy&eacute;. Une mani&egrave;re de faire cela serait de g&eacute;n&eacute;rer le code source associ&eacute;
+               &agrave; un build, et d&#8217;archiver &agrave; la fois ce fichier le fichier WAR. Nous pouvons faire ceci en g&eacute;n&eacute;rant le fichier JAR contenant
+               le code source de l&#8217;application (par exemple, en utilisant le Maven Source Plugin pour un projet Maven), et ensuite inclure
+               celui-ci dans la liste des artefacts &agrave; stocker (voir la figure <a href="I_sect15_d1e7235.html#fig-hudson-archiving-source" title="Figure&nbsp;5.35.&nbsp;Archiver le code source et un paquet binaire">Figure&nbsp;5.35, &#8220;Archiver le code source et un paquet binaire&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-archiving-source"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e7485"></a><img src="figs/web/jtdg_0535.png" alt="Archiver le code source et un paquet binaire"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.35.&nbsp;Archiver le code source et un paquet binaire</b></p>
+            </div><br class="figure-break"><p>Bien s&ucirc;r, cet exemple est un peu acad&eacute;mique : il serait probablement plus simple de juste utiliser le num&eacute;ro de r&eacute;vision pour
+               ce build (qui est affich&eacute; sur la page de r&eacute;sultat du build) pour retrouver le code source depuis votre syst&egrave;me de gestion
+               de version. Mais vous voyez l&#8217;id&eacute;e.
+            </p>
+            <p>Notez que si vous utiliser un gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise comme Nexus ou Artifcatory pour stocker vos artefacts binaires,
+               vous n&#8217;auriez pas besoin de les garder sur le serveur Jenkins. Vous pourriez simplement pr&eacute;f&eacute;rer d&eacute;ployer automatiquement
+               vos artefacts dans votre gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise dans le cadre de la construction de votre job, et de les y retrouver
+               lorsque<a class="indexterm" name="I_indexterm5_d1e7494"></a><a class="indexterm" name="I_indexterm5_d1e7496"></a><a class="indexterm" name="I_indexterm5_d1e7498"></a> c&#8217;est n&eacute;cessaire.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e7713"></a>5.7.3.&nbsp;Notifications
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Le <a class="indexterm" name="ch05-notif1"></a><a class="indexterm" name="ch05-notif2"></a>but d&#8217;un serveur IC est de permettre d&#8217;informer les gens lorsqu&#8217;un build est rompu. Dans Jenkins, cela se passe dans la rubrique
+               Notification.
+            </p>
+            <p>Jenkins fournit le support des notifications par email. Vous pouvez l&#8217;activer en cochant la case &agrave; cocher &laquo; Notifier par email
+               &raquo;dans les actions &agrave; la suite du build (voir <a href="I_sect15_d1e7235.html#fig-hudson-build-job-email" title="Figure&nbsp;5.36.&nbsp;Notification par email">Figure&nbsp;5.36, &#8220;Notification par email&#8221;</a>). Ensuite, entrez les adresses emails des membres de l&#8217;&eacute;quipe qui doivent savoir lorsqu&#8217;un build est rompu. Lorsqu&#8217;un build
+               est rompu, Jenkins enverra un message amical aux utilisateurs dans la liste contenant un lien vers les builds rompus.
+            </p>
+            <div class="figure"><a name="fig-hudson-build-job-email"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e7524"></a><img src="figs/web/jtdg_0536.png" alt="Notification par email"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.36.&nbsp;Notification par email</b></p>
+            </div><br class="figure-break"><p>Vous pouvez aussi opter pour envoyer un email s&eacute;par&eacute; &agrave; l&#8217;utilisateur dont le commit &agrave; (probablement) rompu le build. Pour
+               que cela fonctionne, vous devez avoir activ&eacute; la s&eacute;curit&eacute; dans votre serveur Jenkins (voir la figure <a href="chapter-security.html" title="Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins">Chapter&nbsp;7, <i xmlns:xlink="http://www.w3.org/1999/xlink">S&eacute;curiser Jenkins</i></a>).
+            </p>
+            <p>Normalement, Jenkins enverra une notification par email &agrave; chaque fois qu&#8217;un build &eacute;chouera (par exemple, &agrave; cause d&#8217;une erreur
+               de compilation). Il enverra aussi une notification lorsque le build devient <a class="indexterm" name="I_indexterm5_d1e7535"></a><a class="indexterm" name="I_indexterm5_d1e7542"></a>instable pour la premi&egrave;re fois (par exemple, s&#8217;il y a des tests en &eacute;checs). A moins que vous le configurer pour faire &ccedil;a,
+               Jenkins n&#8217;enverra pas d&#8217;emails pour chaque build instable, mais uniquement pour le premier.
+            </p>
+            <p>Finalement, Jenkins enverra un message lorsque un build pr&eacute;c&eacute;demment en &eacute;chec ou instable r&eacute;ussi, pour permettre d&#8217;informer
+               tout le monde que le probl&egrave;me a &eacute;t&eacute;<a class="indexterm" name="I_indexterm5_d1e7550"></a><a class="indexterm" name="I_indexterm5_d1e7552"></a> r&eacute;solu.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e7767"></a>5.7.4.&nbsp;Construire d&#8217;autres projets
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Vous <a class="indexterm" name="I_indexterm5_d1e7560"></a>pouvez aussi d&eacute;marrer d&#8217;autres constructions de job dans les actions &agrave; la suite du build, en utilisant l&#8217;option &laquo; Construire
+               d&#8217;autres projets (projets en aval) &raquo;. Ceci est utile si vous souhaitez organiser votre processus de build en plusieurs, plus
+               petites &eacute;tapes, &agrave; la place d&#8217;une seul longue construction de job. Il suffit de lister les projets que vous souhaitez d&eacute;marrer
+               apr&egrave;s celui-ci. Normalement, ces projets seront d&eacute;clench&eacute;s uniquement si le build est stable, mais vous pouvez optionnellement
+               d&eacute;clencher d&#8217;autre construction de job m&ecirc;me si le build courant est <a class="indexterm" name="I_indexterm5_d1e7566"></a><a class="indexterm" name="I_indexterm5_d1e7573"></a>instable. Cela peut &ecirc;tre utile, par exemple, si vous voulez d&eacute;marrer une construction de job effectuant des rapports sur des
+               mesures de qualit&eacute; de code apr&egrave;s une construction de job principal du projet, m&ecirc;me s&#8217;il y a des tests en &eacute;checs dans le<a class="indexterm" name="I_indexterm5_d1e7579"></a> build principal.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect15_d1e6584.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect15_d1e7582.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">5.6.&nbsp;Les &eacute;tapes de builds&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;5.8.&nbsp;D&eacute;marrer votre nouvelle t&acirc;che de build</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,128 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.10.&nbsp;Running Jenkins on an Application Server</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="sect-jenkins-apache.html" title="3.9.&nbsp;Running Jenkins Behind an Apache Server">
+      <link rel="next" href="I_sect13_d1e3564.html" title="3.11.&nbsp;Memory Considerations">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-jenkins-apache.html">3.9.&nbsp;Running Jenkins Behind an Apache Server</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect13_d1e3564.html">3.11.&nbsp;Memory Considerations</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-jenkins-app-server"></a>3.10.&nbsp;Running Jenkins on an Application Server
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			Since
+            			<a class="indexterm" name="ch03-app2"></a>
+            			<a class="indexterm" name="ch03-app"></a>
+            			Jenkins is distributed as an ordinary WAR file, it is easy
+            			to deploy it on any standard Java application server such
+            			as Tomcat,
+            			Jetty, or GlassFish. Running Jenkins on an application server is
+            			arguably
+            			more complicated to setup and to
+            			maintain. You also loose certain nice
+            			administration features such as the ability to upgrade Jenkins or
+            			restart
+            			the
+            			server directly from within Jenkins. On the other hand, your system
+            			administrators might be more familiar with
+            			maintaining an application
+            			running on Tomcat or GlassFish than on the more obscure Winstone
+            			server.
+            		
+         </p>
+         <p>
+            			Let&#8217;s look at how you would typically deploy Jenkins onto a Tomcat
+            			server. The easiest approach is undoubtedly to
+            			simply unzip the
+            			Tomcat
+            			binary distribution onto your disk (if it is not already installed) and
+            			copy the
+            			<code class="filename">jenkins.war</code>
+            			file
+            			<span class="keep-together">into</span>
+            			the Tomcat
+            			<span class="keep-together">
+               				<code class="filename">webapps</code>
+               			</span>
+            			directory. You can download the Tomcat binaries from the
+            			<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://tomcat.apache.org" target="_top">Tomcat website</a>
+            			.
+            		
+         </p>
+         <p>
+            			You start Tomcat by running the
+            			<code class="filename">startup.bat</code>
+            			or
+            			<code class="filename">startup.sh</code>
+            			script in the Tomcat bin directory.
+            			Jenkins will be available when you start Tomcat. You should note that, in
+            			this
+            			case, Jenkins will be executed in its own web application
+            			context
+            			(typically &#8220;
+            			<span class="keep-together">jenkins</span>
+            			&#8221;), so you will
+            			need to include this in the URL you use to access your Jenkins server
+            			(e.g.,
+            			<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://localhost:8080/jenkins" target="_top">http://localhost:8080/jenkins</a>
+            			).
+            		
+         </p>
+         <p>
+            			However, this approach is not necessarily the most flexible or
+            			robust option. If your build server is a Windows box,
+            			for example, you
+            			probably should install Tomcat as a Windows service, so that you can
+            			ensure that it starts
+            			automatically whenever the server reboots.
+            			Similarly, if you are installing Tomcat in a Unix environment, it
+            			should
+            			be
+            			set up as a
+            			<a class="indexterm" name="I_indexterm3_d1e3558"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e3560"></a>
+            			service.
+            		
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-jenkins-apache.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect13_d1e3564.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.9.&nbsp;Running Jenkins Behind an Apache Server&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.11.&nbsp;Memory Considerations</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

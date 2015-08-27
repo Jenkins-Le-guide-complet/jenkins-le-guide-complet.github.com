@@ -1,0 +1,195 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>7.6.&nbsp;Audit &#8212; Garder la trace des actions utilisateurs</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-security.html" title="Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins">
+      <link rel="prev" href="sect-authorization.html" title="7.5.&nbsp;Autorisation &#8212; Qui peut faire quoi">
+      <link rel="next" href="sect-security-conclusion.html" title="7.7.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-authorization.html">7.5.&nbsp;Autorisation &#8212; Qui peut faire quoi</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-security-conclusion.html">7.7.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-security-auditing"></a>7.6.&nbsp;Audit &#8212; Garder la trace des actions utilisateurs
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>En <a class="indexterm" name="ch07-audit1"></a><a class="indexterm" name="ch07-audit2"></a>plus de configurer les comptes utilisateurs et leurs droits
+                d'acc&egrave;s, il peut &ecirc;tre utile de garder des actions de chaque utilisateur :
+                en d'autres termes, qui a fait quoi &agrave; votre configuration serveur. Ce type
+                de tra&ccedil;age est m&ecirc;me requis dans certaines organisations.
+         </p>
+         <p>Il y a deux plugins Jenkins qui peuvent vous aider &agrave; accomplir cela.
+                Le plugin Audit Trail conserve un enregistrement des changements
+                utilisateur dans un fichier de log sp&eacute;cial. Et le plugin JobConfigHistory
+                vous permet de garder des copies de versions pr&eacute;c&eacute;dentes des diverses
+                configurations de t&acirc;ches et du syst&egrave;me que Jenkins utilise.
+         </p>
+         <p>Le plugin<a class="indexterm" name="ch07-at1"></a><a class="indexterm" name="ch07-at2"></a> Audit Trail garde une trace des principales actions
+                utilisateur dans un ensemble de fichiers de logs tournants. Pour mettre
+                cela en place, allez sur la page G&eacute;rer les plugins et s&eacute;lectionnez le
+                plugin Audit Trail dans la liste des plugins disponibles. Ensuite, comme
+                d'habitude, cliquez sur Installer et red&eacute;marrez Jenkins une fois que le
+                plugin a &eacute;t&eacute; t&eacute;l&eacute;charg&eacute;.
+         </p>
+         <p>La configuration de l'audit trail s'effectue dans la section Audit
+                Trail de l'&eacute;cran de configuration principal de Jenkins (voir <a href="sect-security-auditing.html#fig-hudson-security-audit-trail" title="Figure&nbsp;7.28.&nbsp;Configurer le plugin Audit Trail">Figure&nbsp;7.28, &#8220;Configurer le plugin Audit Trail&#8221;</a>). Le champ le plus important
+                est l'emplacement des logs, qui indique o&ugrave; se trouve le r&eacute;pertoire dans
+                lequel les logs doivent &ecirc;tre &eacute;crits. L'audit trail est con&ccedil;u pour produire
+                des logs de style syst&egrave;me, qui sont souvent plac&eacute;s dans un r&eacute;pertoire
+                syst&egrave;me comme <code class="filename">/var/log</code>. Vous pouvez
+                aussi configurer le nombre de fichiers de logs &agrave; maintenir, et la taille
+                maximale (approximative) de chaque fichier. L'option la plus simple est de
+                fournir un chemin absolu (comme <code class="filename">/var/log/hudson.log</code>), auquel cas Jenkins &eacute;crira
+                dans des fichiers de logs avec des noms comme <code class="filename">/var/log/hudson.log.1</code>, <code class="filename">/var/log/hudson.log.2</code>, et ainsi de suite. Bien
+                s&ucirc;r, vous devez vous assurer que l'utilisateur ex&eacute;cutant votre instance
+                Jenkins peut &eacute;crire dans ce r&eacute;pertoire.
+         </p>
+         <div class="figure"><a name="fig-hudson-security-audit-trail"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject7_d1e11294"></a><img src="figs/web/jtdg_0728.png" alt="Configurer le plugin Audit Trail"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;7.28.&nbsp;Configurer le plugin Audit Trail</b></p>
+         </div><br class="figure-break"><p>Vous pouvez aussi utiliser le format d&eacute;fini dans la classe de l'API
+                de logging Java <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://download.oracle.com/javase/1.5.0/docs/api/java/util/logging/FileHandler.html" target="_top">FileHandler</a>
+                pour plus de contr&ocirc;le sur les fichiers de log g&eacute;n&eacute;r&eacute;s. Dans ce format,
+                vous pouvez ins&eacute;rer des variables telles que <code class="literal">%h</code>, pour le r&eacute;pertoire racine de l'utilisateur
+                courant, et <code class="literal">%t</code>, pour le r&eacute;pertoire
+                temporaire du syst&egrave;me, afin de construire un chemin de fichier plus
+                dynamique.
+         </p>
+         <p>Par d&eacute;faut, les d&eacute;tails enregistr&eacute;s dans les logs d'audit sont assez
+                l&eacute;gers &#8212; ils enregistrement effectivement les actions cl&eacute;s effectu&eacute;es,
+                comme la cr&eacute;ation, la modification ou la suppression de configurations de
+                t&acirc;ches ou de vues, ainsi que l'utilisateur qui a effectu&eacute; ces actions. Le
+                log montre aussi comment les t&acirc;ches individuelles ont &eacute;t&eacute; d&eacute;marr&eacute;es. Voici
+                un extrait du log par d&eacute;faut :
+         </p><a name="I_programlisting7_d1e11312"></a><pre class="programlisting">Dec 27, 2010 9:16:08 AM /job/game-of-life/configSubmit by johnsmart
+Dec 27, 2010 9:16:42 AM /view/All/createItem by johnsmart
+Dec 27, 2010 9:16:57 AM /job/game-of-life-prod-deployment/doDelete by johnsmart
+Dec 27, 2010 9:24:38 AM job/game-of-life/ #177 Started by user johnsmart
+Dec 27, 2010 9:25:57 AM job/game-of-life-acceptance-tests/ #107 Started by upstream 
+    project "game-of-life" build number 177
+Dec 27, 2010 9:25:58 AM job/game-of-life-functional-tests/ #7 Started by upstream 
+    project "game-of-life" build number 177
+Dec 27, 2010 9:28:15 AM /configSubmit by johnsmart</pre><p>L'audit trail est certainement utile, particuli&egrave;rement avec une
+                perspective d'administration syst&egrave;me. Toutefois, cela ne produit pas
+                d'information &agrave; propos des changements exacts qui ont &eacute;t&eacute; faits &agrave; la
+                configuration Jenkins. N&eacute;anmoins, une des raisons les plus importantes
+                pour garder des traces d'actions utilisateurs dans Jenkins est de savoir
+                quels changements ont &eacute;t&eacute; faits aux configurations de t&acirc;ches de build.
+                Quand quelque chose se passe mal, il peut &ecirc;tre utile de savoir quels
+                changements ont &eacute;t&eacute; faits et &ecirc;tre donc capables de les d&eacute;faire. Le plugin
+                JobConfigHistory vous permet justement de faire <a class="indexterm" name="I_indexterm7_d1e11316"></a><a class="indexterm" name="I_indexterm7_d1e11318"></a> cela.
+         </p>
+         <p>Le <a class="indexterm" name="ch07-jobconfig"></a><a class="indexterm" name="ch07-jobconfig2"></a>plugin JobConfigHistory est un outil puissant vous
+                permettant de conserver l'historique complet des changements faits &agrave; la
+                fois sur les t&acirc;ches et fichiers de configuration syst&egrave;me. Vous l'installez
+                depuis le gestionnaire de plugin de la fa&ccedil;on habituelle. Une fois
+                install&eacute;, vous pouvez r&eacute;gler finement la configuration de l'historique des
+                t&acirc;ches dans l'&eacute;cran Administrer Jenkins (voir <a href="sect-security-auditing.html#fig-hudson-security-confighistory-setup" title="Figure&nbsp;7.29.&nbsp;Mettre en place l'historique des configurations de t&acirc;ches">Figure&nbsp;7.29, &#8220;Mettre en place l'historique des configurations de t&acirc;ches&#8221;</a>).
+         </p>
+         <div class="figure"><a name="fig-hudson-security-confighistory-setup"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject7_d1e11338"></a><img src="figs/web/jtdg_0729.png" alt="Mettre en place l'historique des configurations de t&acirc;ches"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;7.29.&nbsp;Mettre en place l'historique des configurations de t&acirc;ches</b></p>
+         </div><br class="figure-break"><p>Ici, vous pouvez configurer un bon nombre d'options utiles non
+                standard. En particulier, vous devriez sp&eacute;cifier un r&eacute;pertoire o&ugrave; Jenkins
+                peut stocker l'historique de configuration, dans le champ "R&eacute;pertoire
+                racine de l'historique&#8221;. C'est le r&eacute;pertoire dans lequel Jenkins stockera
+                un enregistrement des changements &agrave; la fois li&eacute;s au syst&egrave;me et aux
+                configuration de t&acirc;ches. Cela peut &ecirc;tre &agrave; la fois un r&eacute;pertoire absolu
+                (comme <code class="filename">/var/hudson/history</code>), ou un
+                r&eacute;pertoire relatif, calcul&eacute; &agrave; partir de la racine du r&eacute;pertoire de Jenkins
+                (voir <a href="sec-hudson-home-directory.html" title="3.4.&nbsp;Le r&eacute;pertoire de travail de Jenkins">Section&nbsp;3.4, &#8220;Le r&eacute;pertoire de travail de Jenkins&#8221;</a>). Si vous ne faites pas
+                cela, l'historique de configuration des t&acirc;ches sera stock&eacute; dans les
+                t&acirc;ches elles-m&ecirc;mes, et tout sera perdu si vous supprimez une t&acirc;che.
+         </p>
+         <p>Il y a un certain nombre d'autres options utiles dans la section
+                Avanc&eacute;. La case &agrave; cocher &#8220;Sauver les changements de configuration syst&egrave;me&#8221;
+                vous permet de garder la trace de mise &agrave; jour de configuration de niveau
+                syst&egrave;me, et non pas seulement de celles sp&eacute;cifiques aux t&acirc;ches. Et la case
+                &agrave; cocher &#8220;Ne pas sauver d'historique dupliqu&eacute;&#8221; vous permet d'&eacute;viter
+                d'avoir des enregistrements de configuration si aucun changement r&eacute;el n'a
+                &eacute;t&eacute; effectu&eacute;. Sinon, une nouvelle version du fichier de configuration sera
+                enregistr&eacute;e, m&ecirc;me si vous avez seulement appuy&eacute; sur le bouton Sauver sans
+                faire aucun changement. Jenkins peut aussi provoquer cela en interne - par
+                exemple, le param&eacute;trage de la configuration syst&egrave;me est enti&egrave;rement
+                sauv&eacute; &agrave; chaque fois que la page principale de configuration est sauv&eacute;e,
+                m&ecirc;me si aucune modification n'a &eacute;t&eacute; faite.
+         </p>
+         <p>Une fois que vous avez mis ce plugin en place, vous pouvez acc&eacute;der &agrave;
+                l'historique pour le serveur complet, incluant les mises &agrave; jour de
+                configuration syst&egrave;me, aussi bien qu'aux changements effectu&eacute;s &agrave; la
+                configuration de chaque projet. Dans les deux cas, vous pouvez voir ces
+                changements en cliquant sur l'ic&ocirc;ne Job Config History sur la droite de
+                l'&eacute;cran. Cliquer sur cette ic&ocirc;ne affichera une vue de tout votre
+                historique de configuration, incluant les changements de t&acirc;ches et les
+                changements de niveau syst&egrave;me (voir <a href="sect-security-auditing.html#fig-hudson-jobconfig-global-history" title="Figure&nbsp;7.30.&nbsp;Pr&eacute;sentation de l'historique de configuration des t&acirc;ches">Figure&nbsp;7.30, &#8220;Pr&eacute;sentation de l'historique de configuration des t&acirc;ches&#8221;</a>).
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-jobconfig-global-history"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e11359"></a><img src="figs/web/jtdg_0730.png" alt="Pr&eacute;sentation de l'historique de configuration des t&acirc;ches"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.30.&nbsp;Pr&eacute;sentation de l'historique de configuration des t&acirc;ches</b></p>
+            </div><br class="figure-break"></div>
+         <p>Si vous cliquez sur un changement de niveau syst&egrave;me (indiqu&eacute; par le
+                suffixe &#8220;(system)&#8221; dans la liste), Jenkins vous emm&egrave;ne vers un &eacute;cran
+                listant toutes les versions de ce fichier, et vous permet de voir les
+                diff&eacute;rences entre les versions (voir <a href="sect-security-auditing.html#fig-hudson-jobconfig-config-history" title="Figure&nbsp;7.31.&nbsp;Voir les diff&eacute;rences dans l'historique de configuration des t&acirc;ches">Figure&nbsp;7.31, &#8220;Voir les diff&eacute;rences dans l'historique de configuration des
+                     t&acirc;ches&#8221;</a>). Les diff&eacute;rences sont
+                affich&eacute;es sous la forme de fichiers <span class="emphasis"><em>diff</em></span>, ce qui
+                n'est pas particuli&egrave;rement lisible en soi. Toutefois, pour de petits
+                changements, le format XML lisible de Jenkins rend cela suffisant pour
+                comprendre le changement qui a &eacute;t&eacute; effectu&eacute;.
+         </p>
+         <div class="figure"><a name="fig-hudson-jobconfig-config-history"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject7_d1e11374"></a><img src="figs/web/jtdg_0731.png" alt="Voir les diff&eacute;rences dans l'historique de configuration des t&acirc;ches"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;7.31.&nbsp;Voir les diff&eacute;rences dans l'historique de configuration des
+                        t&acirc;ches</b></p>
+         </div><br class="figure-break"><p>Le plugin JobConfigHistory est un outil puissant. Toutefois, &agrave;
+                l'&eacute;criture de ces lignes, il a ses limites. Comme mentionn&eacute;, le plugin
+                affiche uniquement les diff&eacute;rences au format <code class="filename">diff</code> brut, et vous ne pouvez pas restaurer une
+                version pr&eacute;c&eacute;dente d'un fichier de configuration (faire cela hors contexte
+                pourrait &ecirc;tre dangereux dans certaines circonstances, particuli&egrave;rement
+                pour les fichiers de configuration syst&egrave;me). Cependant, il donne un aper&ccedil;u
+                tr&egrave;s clair des changements ayant &eacute;t&eacute; effectu&eacute;s, &agrave; la fois sur vos t&acirc;ches
+                de build et sur votre configuration<a class="indexterm" name="I_indexterm7_d1e11384"></a><a class="indexterm" name="I_indexterm7_d1e11386"></a><a class="indexterm" name="I_indexterm7_d1e11388"></a><a class="indexterm" name="I_indexterm7_d1e11390"></a> syst&egrave;me.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-authorization.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-security-conclusion.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">7.5.&nbsp;Autorisation &#8212; Qui peut faire quoi&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;7.7.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

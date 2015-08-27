@@ -1,0 +1,128 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;8.&nbsp;Notification</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="sect-security-conclusion.html" title="7.7.&nbsp;Conclusion">
+      <link rel="next" href="sect-notification-email.html" title="8.2.&nbsp;Notification par email">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-security-conclusion.html">7.7.&nbsp;Conclusion</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                            </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-email.html">8.2.&nbsp;Notification par email</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="chapter-notification"></a>Chapter&nbsp;8.&nbsp;Notification
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="chapter-notification.html#sect-notification-introduction">8.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-email.html">8.2. Notification par email</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-advanced-email.html">8.3. Notification par email avanc&eacute;e</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-claiming.html">8.4. Revendiquer des builds</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-rss.html">8.5. Flux RSS</a></span></dt>
+               <dt><span class="sect1"><a href="sect-build-radiator.html">8.6. Radars de build</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-instant-messaging.html">8.7. Messagerie instantan&eacute;e</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-notification-instant-messaging.html#d0e12169">8.7.1. Notification par IM avec Jabber</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-notification-instant-messaging.html#d0e12380">8.7.2. Notification avec IRC</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-notification-irc.html">8.8. Notification par IRC</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-desktop.html">8.9. Notificateurs de bureau</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notifo.html">8.10. Notifications via Notifo</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-mobile.html">8.11. Notifications vers mobiles</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-sms.html">8.12. Notifications via SMS</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-noise.html">8.13. Faire du bruit</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-extreme.html">8.14. Appareils de retour extr&egrave;mes</a></span></dt>
+               <dt><span class="sect1"><a href="sect-notification-conclusion.html">8.15. Conclusion</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="sect-notification-introduction"></a>8.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p>
+                           <a class="indexterm" name="I_indexterm8_d1e11406"></a>
+               Bien qu'il soit important que votre serveur de build construise votre
+               logiciel, il est encore plus important qu'il signale lorsqu'il ne peut pas le faire.
+               Une part importante de la proposition de valeur de tout
+                           environnement d'int&eacute;gration continue est d'am&eacute;liorer le flux d'information
+                           sur la sant&eacute; de votre projet ; que ce soit des tests d'int&eacute;gration &eacute;chou&eacute;s, des r&eacute;gressions
+                           dans la suite des tests d'int&eacute;gration ou d'autres probl&egrave;mes de qualit&eacute; comme une
+                           baisse dans la couverture de code ou de m&eacute;triques de qualit&eacute; de code.
+                           Dans tous les cas, un serveur d'int&eacute;gration continue
+                           doit permettre aux bonnes personnes de conna&icirc;tre les nouveaux probl&egrave;mes, et il doit pouvoir le
+                           faire rapidement. C'est ce que nous appelons : Notification.
+                       
+            </p>
+            <p>Il y a deux principales cat&eacute;gories de strat&eacute;gies de notification, que
+                           j'appelle
+                           <a class="indexterm" name="I_indexterm8_d1e11412"></a>
+                           <a class="indexterm" name="I_indexterm8_d1e11417"></a>
+                           <span class="emphasis"><em>passive</em></span>
+                           et
+                           <span class="emphasis"><em>
+                                     <a class="indexterm" name="I_indexterm8_d1e11425"></a>
+                                     <a class="indexterm" name="I_indexterm8_d1e11428"></a>
+                                     active
+                                 </em></span>
+                           (ou
+                           <span class="emphasis"><em>pull</em></span>/<span class="emphasis"><em>push</em></span>). Les notifications passives
+                           (pull) demandent aux d&eacute;veloppeurs de consulter consciemment le statut du dernier
+                           build. Ces notifications comprennent les flux RSS, les radars de build, et (dans une certaine mesure)
+                           les e-mails. Les notifications actives (push) vont alerter les d&eacute;veloppeurs de mani&egrave;re pro-active
+                           lorsqu'un build &eacute;choue. Ces notifications comprennent des m&eacute;thodes telles que des notifieurs int&eacute;gr&eacute;s
+                           au bureau, le dialogue en direct et les SMS. Ces deux approches ont leurs points positifs et n&eacute;gatifs. Les
+                           strat&eacute;gies
+                           de notifications passives telles que les radars de build peuvent diffuser une connaissance
+                           g&eacute;n&eacute;rale sur les builds &eacute;chou&eacute;s et aider &agrave; installer une culture d'&eacute;quipe o&ugrave;
+                           la correction des builds cass&eacute;s prend une haute priorit&eacute;. Des formes plus directes de
+                           notification peuvent encourager activement les d&eacute;veloppeurs &agrave; prendre les choses en
+                           main et corriger les builds cass&eacute;s plus rapidement.
+                       
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-security-conclusion.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-email.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">7.7.&nbsp;Conclusion&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.2.&nbsp;Notification par email</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

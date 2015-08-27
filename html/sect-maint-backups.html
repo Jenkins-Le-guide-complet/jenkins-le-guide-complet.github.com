@@ -1,0 +1,338 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>13.4.&nbsp;Sauvegarde de votre configuration</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-maintaining-jenkins.html" title="Chapter&nbsp;13.&nbsp;Maintenir Jenkins">
+      <link rel="prev" href="sect-maint-server-load.html" title="13.3.&nbsp;Surveiller la charge serveur">
+      <link rel="next" href="sect-maint-archiving-jobs.html" title="13.5.&nbsp;Archiver les t&acirc;ches de build">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-maint-server-load.html">13.3.&nbsp;Surveiller la charge serveur</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-maint-archiving-jobs.html">13.5.&nbsp;Archiver les t&acirc;ches de build</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-maint-backups"></a>13.4.&nbsp;Sauvegarde de votre configuration
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			Sauvegarder
+            			<a class="indexterm" name="ch13-backups"></a>
+            			<a class="indexterm" name="ch13-backups2"></a>
+            			<a class="indexterm" name="ch13-backups3"></a>
+            			vos donn&eacute;es est une pratique universellement recommand&eacute;e, et vos serveurs
+            			Jenkins ne devraient pas y faire exception. Par chance, sauvergarder
+            			Jenkins est relativement ais&eacute;. Dans cette section nous allons
+            			regarder plusieurs fa&ccedil;ons de r&eacute;aliser cela.
+            		
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e18194"></a>13.4.1.&nbsp;Fondamentaux de la sauvegarde Jenkins
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>
+               				Dans la plus simple des configurations, il suffit de sauvegarder
+               				p&eacute;riodiquement votre dossier
+               				<code class="filename">JENKINS_HOME</code>
+               				.
+               				Il contient la configuration de toutes vos t&acirc;ches de build, les
+               				configurations de vos noeuds esclaves et l'historique des builds. La
+               				sauvegarde peut se faire pendant que Jenkins tourne. Il n'y a pas
+               				besoin de couper votre serveur pendant la sauvegarde.
+               			
+            </p>
+            <p>
+               				L'inconv&eacute;nient de cette approche est que le dossier
+               				<code class="filename">JENKINS_HOME</code>
+               				peut contenir un volume tr&egrave;s important de donn&eacute;es (voir
+               				<a href="sec-hudson-home-directory-contents.html" title="3.13.&nbsp;What&#8217;s in the Jenkins Home Directory">Section&nbsp;3.13, &#8220;What&#8217;s in the Jenkins Home Directory&#8221;</a>
+               				). Si cela devient un probl&egrave;me, vous pouvez en gagner un peu en ne
+               				sauvegardant pas les dossiers suivants, qui contiennent des donn&eacute;es
+               				ais&eacute;ment recr&eacute;es &agrave; la demande par Jenkins :
+               			
+            </p>
+            <div class="variablelist">
+               <dl>
+                  <dt><span class="term">
+                        						<code class="filename">$JENKINS_HOME/war</code>
+                        					</span></dt>
+                  <dd>
+                     <p>Le fichier WAR eclat&eacute;</p>
+                  </dd>
+                  <dt><span class="term">
+                        						<code class="filename">$JENKINS_HOME/cache</code>
+                        					</span></dt>
+                  <dd>
+                     <p>Outils t&eacute;l&eacute;charg&eacute;s</p>
+                  </dd>
+                  <dt><span class="term">
+                        						<code class="filename">$JENKINS_HOME/tools</code>
+                        					</span></dt>
+                  <dd>
+                     <p>Outils d&eacute;compress&eacute;s</p>
+                  </dd>
+               </dl>
+            </div>
+            <p>
+               				Vous pouvez aussi &ecirc;tre s&eacute;lectif concernant ce que vous sauvegarder
+               				dans vos t&acirc;ches de build.
+               				Le dossier
+               				<code class="filename">$JENKINS_HOME/jobs</code>
+               				contient la configuration de la t&acirc;che, l'historique des builds et les
+               				fichiers archiv&eacute;s pour chacun de vos builds. La structure d'un
+               				dossier de t&acirc;che de build est pr&eacute;sent&eacute;e dans
+               				<a href="sect-maint-backups.html#fig-jenkins-build-directory" title="Figure&nbsp;13.9.&nbsp;Le dossier des builds">Figure&nbsp;13.9, &#8220;Le dossier des builds&#8221;</a>
+               				.
+               			
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-build-directory"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject13_d1e17989"></a><img src="figs/web/jtdg_1309.png" alt="Le dossier des builds"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;13.9.&nbsp;Le dossier des builds</b></p>
+               </div><br class="figure-break"></div>
+            <p>
+               				Pour savoir comment optimiser vos sauvegardes Jenkins, vous devez
+               				comprendre comment sont organis&eacute;s les dossiers de t&acirc;che de build. Au sein
+               				du dossier
+               				<span class="emphasis"><em>jobs</em></span>
+               				, il y a un dossier pour chaque t&acirc;che de build. Ce dossier contient deux
+               				dossiers :
+               				<code class="filename">builds</code>
+               				et
+               				<code class="filename">workspace</code>
+               				. Il n'y a pas besoin de sauvegarder le dossier
+               				<code class="filename">workspace</code>
+               				, vu qu'il sera simplement restaur&eacute; via une simple r&eacute;cup&eacute;ration
+               				si Jenkins constate son absence.
+               			
+            </p>
+            <p>
+               				Au contraire, le dossier
+               				<code class="filename">builds</code>
+               				requiert plus d'attention. Il contient l'historique de vos r&eacute;sultats
+               				de build et de vos artefacts g&eacute;n&eacute;r&eacute;s pr&eacute;c&eacute;dement, avec un dossier
+               				horodat&eacute; pour chaque build pr&eacute;c&eacute;dent.
+               				Si vous n'&ecirc;tes pas int&eacute;ress&eacute;s par la restauration de votre historique
+               				des builds ou d'anciens artefacts, vous n'avez pas besoin de sauver
+               				ce dossier.
+               				Si vous l'&ecirc;tes, continuez &agrave; lire! Dans chacun de ces dossiers,
+               				vous trouverez l'historique des builds (stock&eacute;s sous la forme de
+               				fichiers XML, par exemple les r&eacute;sultats des tests JUnit)
+               				et les artefacts archiv&eacute;s. Jenkins utilise les fichiers texte et XML
+               				pour r&eacute;aliser les graphiques affich&eacute;s sur le tableau de bord des t&acirc;che de build. 
+               				Le dossier
+               				<code class="filename">archive</code>
+               				contient les fichiers binaires ayant &eacute;t&eacute; g&eacute;n&eacute;r&eacute;s et stock&eacute;s par les
+               				builds pr&eacute;c&eacute;dents. Les binaires peuvent vous &ecirc;tre importants ou non,
+               				mais ils peuvent prendre beaucoup de place. Aussi, si vous les
+               				excluez de vos sauvegardes, vous pourriez &eacute;conomiser beaucoup
+               				d'espace.
+               			
+            </p>
+            <p>
+               				De m&ecirc;me qu'il est sage de r&eacute;aliser des sauvegardes fr&eacute;quentes, il
+               				est &eacute;galement sage de tester votre proc&eacute;dure de sauvegarde. Avec
+               				Jenkins, cela est facile &agrave; faire.
+               				Les r&eacute;pertoires racine de Jenkins sont totalement portables, pour tester
+               				votre sauvegarde, il suffit donc de l'extraire dans un dossier
+               				temporaire et de lancer une instance
+               				Jenkins. Par exemple, imaginons que vous ayez extrait votre
+               				sauvegarde dans un dossier temporaire nomm&eacute;
+               				<code class="filename">/tmp/jenkins-backup</code>
+               				. Pour tester cette sauvegarde, assigner le chemin du dossier
+               				temporaire &agrave; la variable
+               				<code class="filename">JENKINS_HOME</code>
+               				:
+               			
+            </p><a name="I_programlisting13_d1e18024"></a><pre class="programlisting">
+				$
+				<strong class="userinput"><code>export
+					JENKINS_HOME=/tmp/jenkins-backup</code></strong>
+			</pre><p>Puis d&eacute;marrer Jenkins sur un port diff&eacute;rent et regardez s'il
+               				fonctionne :
+               			
+            </p><a name="I_programlisting13_d1e18031"></a><pre class="programlisting">
+				$
+				<strong class="userinput"><code>java -jar jenkins.war --httpPort=8888</code></strong>
+			</pre><p>Vous pouvez maintenant voir Jenkins tourner sur ce port et
+               				v&eacute;rifier que votre sauvegarde fonctionne correctement.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e18296"></a>13.4.2.&nbsp;Utilisation du Backup Plugin
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>
+               				L'approche
+               				<a class="indexterm" name="I_indexterm13_d1e18042"></a>
+               				<a class="indexterm" name="I_indexterm13_d1e18045"></a>
+               				d&eacute;crite dans la section pr&eacute;c&eacute;dente est suffisamment simple pour
+               				s'int&eacute;grer dans vos proc&eacute;dures normales de sauvegardes, mais vous
+               				pourriez pr&eacute;f&eacute;rer quelque chose de plus sp&eacute;cifique &agrave; Jenkins. Le
+               				plugin Backup (voir
+               				<a href="sect-maint-backups.html#fig-jenkins-backup-manager" title="Figure&nbsp;13.10.&nbsp;Le plugin Jenkins Backup Manager">Figure&nbsp;13.10, &#8220;Le plugin Jenkins Backup Manager&#8221;</a>
+               				) fournit une interface utilisateur simple que vous pouvez utiliser pour
+               				sauvegarder et restaurer vos configurations et donn&eacute;es Jenkins.
+               			
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-backup-manager"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject13_d1e18056"></a><img src="figs/web/jtdg_1310.png" alt="Le plugin Jenkins Backup Manager"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;13.10.&nbsp;Le plugin Jenkins Backup Manager</b></p>
+               </div><br class="figure-break"></div>
+            <p>
+               				Ce plugin vous permet de configurer et de lancer des sauvegardes tant des
+               				configurations de vos t&acirc;ches de build que de votre historique des
+               				builds. L'&eacute;cran "Configuration" vous donne un important contr&ocirc;le sur les
+               				&eacute;l&eacute;ments &agrave; sauvegarder (voir
+               				<a href="sect-maint-backups.html#fig-jenkins-backup-config" title="Figure&nbsp;13.11.&nbsp;Configurer Jenkins Backup Manager">Figure&nbsp;13.11, &#8220;Configurer Jenkins Backup Manager&#8221;</a>
+               				). Vous pouvez choisir de seulement sauvegarder les fichiers XML de
+               				configuration, ou de sauvegarder avec l'historique des builds.
+               				Vous pouvez aussi choisir de sauvegarder (ou non) les artefacts Maven
+               				automatiquement g&eacute;n&eacute;r&eacute;s (dans de nombreux processus de build, ces
+               				artefacts sont disponibles dans votre Entreprise Repository Manager
+               				local). Vous pouvez aussi sauvegarder les espaces de travail des
+               				t&acirc;ches (g&eacute;n&eacute;ralement non n&eacute;cessaire, comme discut&eacute; plus haut) et toutes
+               				empreintes num&eacute;riques g&eacute;n&eacute;r&eacute;es.
+               			
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-backup-config"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject13_d1e18068"></a><img src="figs/web/jtdg_1311.png" alt="Configurer Jenkins Backup Manager"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;13.11.&nbsp;Configurer Jenkins Backup Manager</b></p>
+               </div><br class="figure-break"></div>
+            <p>
+               				Vous pouvez d&eacute;clencher une sauvegarde manuellement, depuis l'&eacute;cran
+               				"Gestionnaire de backup" (accessible depuis l'&eacute;cran "Administrer Jenkins").
+               				La sauvegarde prend du temps et stoppe Jenkins durant cette p&eacute;riode (&agrave; moins
+               				de d&eacute;sactiver cette option dans la
+               				<span class="keep-together">configuration</span>
+               				de la sauvegarde).
+               			
+            </p>
+            <p>
+               				A l'heure o&ugrave; ces lignes sont &eacute;crites, il n'est pas possible de
+               				planifier cette op&eacute;ration depuis Jenkins, mais vous pouvez d&eacute;marrer
+               				la sauvegarde en invoquant l'adresse correspondante (par exemple
+               				<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://localhost:8080/backup/backup" target="_top">http://localhost:8080/backup/backup</a>
+               				si votre instance Jenkins tourne localment sur le port 8080). Dans
+               				un environnement unix, par exemple, cela serait g&eacute;n&eacute;ralement fait
+               				via une t&acirc;che cron en utilisant un outil tel que
+               				<code class="literal">wget</code>
+               				ou
+               				<code class="literal">curl</code>
+               				pour d&eacute;marrer la sauvegarde.
+               			
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e18348"></a>13.4.3.&nbsp;Des sauvegardes automatis&eacute;es plus l&eacute;g&egrave;res
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>
+               				Si tout
+               				<a class="indexterm" name="I_indexterm13_d1e18093"></a>
+               				<a class="indexterm" name="I_indexterm13_d1e18096"></a>
+               				<a class="indexterm" name="I_indexterm13_d1e18101"></a>
+               				ce que vous voulez sauvegarder est votre configuration des t&acirc;ches de build,
+               				le plugin Backup Manager peut &ecirc;tre consid&eacute;r&eacute; excessif. Une
+               				autre option est d'utiliser le plugin "Thin Backup", qui permet de
+               				planifier des sauvegardes compl&egrave;tes et incr&eacute;mentales de vos fichiers
+               				de configuration.
+               				Vu qu'ils ne sauvegardent pas votre historique des
+               				builds ou vos artefacts, ces sauvegardes sont tr&egrave;s rapides et peuvent
+               				ainsi &ecirc;tre r&eacute;alis&eacute;es sans stopper le serveur pour les r&eacute;aliser.
+               			
+            </p>
+            <p>
+               				Tout comme le plugin Backup, ce plugin ajoute une ic&ocirc;ne dans la page
+               				"Administrer Jenkins". De l&agrave;, vous pouvez configurer et planifier
+               				les sauvegardes de votre configuration, d&eacute;clencher une sauvegarde
+               				imm&eacute;diate ou restaurer une sauvegarde pr&eacute;c&eacute;dente. La configuration
+               				est sans d&eacute;tours (voir
+               				<a href="sect-maint-backups.html#fig-lightweight-backup-config" title="Figure&nbsp;13.12.&nbsp;Configurer le plugin Thin Backup">Figure&nbsp;13.12, &#8220;Configurer le plugin Thin Backup&#8221;</a>
+               				). Elle implique simplement de configurer des sauvegardes compl&egrave;tes
+               				et incr&eacute;mentales en utilisant une syntaxe similaire &agrave; celle de cron
+               				et de fournir un dossier o&ugrave; stocker les sauvegardes.
+               			
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-lightweight-backup-config"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject13_d1e18112"></a><img src="figs/web/jtdg_1312.png" alt="Configurer le plugin Thin Backup"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;13.12.&nbsp;Configurer le plugin Thin Backup</b></p>
+               </div><br class="figure-break"></div>
+            <p>
+               				Pour restaurer une configuration pr&eacute;c&eacute;dente, aller simplement &agrave; la
+               				page "Restore" et choisissez la date de la configuration que vous
+               				voulez r&eacute;appliquer (voir
+               				<a href="sect-maint-backups.html#fig-restore-light-plugin" title="Figure&nbsp;13.13.&nbsp;Restaurer une configiuratiopn pr&eacute;c&eacute;dente">Figure&nbsp;13.13, &#8220;Restaurer une configiuratiopn pr&eacute;c&eacute;dente&#8221;</a>
+               				). Une fois la configuration pr&eacute;c&eacute;dente restaur&eacute;e, vous devez
+               				recharger la configuration Jenkins depuis le disque
+               				<a class="indexterm" name="I_indexterm13_d1e18121"></a>
+               				<a class="indexterm" name="I_indexterm13_d1e18123"></a>
+               				<a class="indexterm" name="I_indexterm13_d1e18125"></a>
+               				ou red&eacute;marrer Jenkins.
+               			
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-restore-light-plugin"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject13_d1e18131"></a><img src="figs/web/jtdg_1313.png" alt="Restaurer une configiuratiopn pr&eacute;c&eacute;dente"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;13.13.&nbsp;Restaurer une configiuratiopn pr&eacute;c&eacute;dente</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-maint-server-load.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-maint-archiving-jobs.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">13.3.&nbsp;Surveiller la charge serveur&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;13.5.&nbsp;Archiver les t&acirc;ches de build</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

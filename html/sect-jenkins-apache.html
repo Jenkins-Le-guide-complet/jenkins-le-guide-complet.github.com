@@ -1,0 +1,177 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.9.&nbsp;Running Jenkins Behind an Apache Server</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="sect-running-hudson-standalone.html" title="3.8.&nbsp;Ex&eacute;cuter Jenkins comme une application autonome">
+      <link rel="next" href="sect-jenkins-app-server.html" title="3.10.&nbsp;Running Jenkins on an Application Server">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-running-hudson-standalone.html">3.8.&nbsp;Ex&eacute;cuter Jenkins comme une application autonome</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-jenkins-app-server.html">3.10.&nbsp;Running Jenkins on an Application Server</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-jenkins-apache"></a>3.9.&nbsp;Running Jenkins Behind an Apache Server
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			If you
+            			<a class="indexterm" name="ch03-apache"></a>
+            			are running Jenkins in a Unix environment, you may want to
+            			hide it behind an Apache HTTP server in order to harmonize
+            			the server
+            			URLs
+            			and simplify maintenance and access. This way, users can access the
+            			Jenkins server using a URL
+            			<span class="keep-together">like</span>
+            			<span class="emphasis"><em>http://myserver.myorg.com/jenkins</em></span>
+            			rather than
+            			<span class="emphasis"><em>http://myserver.myorg.com:8081</em></span>
+            			.
+            		
+         </p>
+         <p>
+            			One way to do this is to use the Apache
+            			<code class="literal">mod_proxy</code>
+            			and
+            			<code class="literal">mod_proxy_ajp</code>
+            			modules. These modules let you use
+            			implement proxying on your Apache server using the AJP13 (Apache JServer
+            			Protocol
+            			version 1.3). Using this module, Apache will transfer
+            			requests to
+            			particular URL patterns on your Apache server
+            			(running on port 80)
+            			directly to the Jenkins server running on a different port. So when a user
+            			opens a URL like
+            			<span class="emphasis"><em>http://www.myorg.com/jenkins</em></span>
+            			, Apache
+            			will transparently forward traffic to your Jenkins server running on
+            			<span class="emphasis"><em>http://buildserver.myorg.com:8081/jenkins</em></span>
+            			.Technically,
+            			this is known as &#8220;Reverse Proxying,&#8221; as the client has no knowledge that
+            			the server is doing any
+            			proxying, or where the proxied server is
+            			located.
+            			So you can safely tuck your Jenkins server away behind a firewall,
+            			while
+            			still providing broader access to your Jenkins instance via the
+            			public-facing URL.
+            		
+         </p>
+         <p>The exact configuration of this module will vary depending on
+            			the
+            			details of your Apache version and installation
+            			details, but one possible
+            			approach is shown here.
+            		
+         </p>
+         <p>
+            			First of all, if you are running Jenkins as a stand-alone
+            			application, make sure you start up Jenkins using the
+            			<code class="literal">--prefix</code>
+            			option. The prefix you choose must match the
+            			suffix in the public-facing URL you want to use. So if you want to access
+            			Jenkins via the URL
+            			<span class="emphasis"><em>http://myserver.myorg.com/jenkins</em></span>
+            			, you will need to
+            			provide
+            			<code class="literal">jenkins</code>
+            			as a prefix:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>java -jar jenkins.war --httpPort=8081
+				--ajp13Port=8010 --prefix=jenkins</code></strong>
+		</pre><p>
+            			If you are running Jenkins on an application server such as Tomcat,
+            			it will already be running under a particular web
+            			context
+            			(
+            			<code class="literal">/jenkins</code>
+            			by default).
+            		
+         </p>
+         <p>
+            			Next, make sure the
+            			<code class="literal">mod_proxy</code>
+            			and
+            			<code class="literal">mod_proxy_ajp</code>
+            			modules are activated. In your
+            			<code class="filename">httpd.conf</code>
+            			file (often in the
+            			<code class="filename">/etc/httpf/conf</code>
+            			directory), you should have the
+            			following line:
+            		
+         </p><pre class="screen">LoadModule proxy_module modules/mod_proxy.so</pre><p>
+            			The proxy is actually configured in the
+            			<code class="filename">proxy_ajp.conf</code>
+            			file (often in the
+            			<code class="filename">/etc/httpd/conf.d</code>
+            			directory). Note that the
+            			name of the proxy path (
+            			<code class="literal">/jenkins</code>
+            			in this example) must
+            			match the prefix or web context that Jenkins is using. An example of such
+            			a configuration file is
+            			given here:
+            		
+         </p><pre class="screen">LoadModule proxy_ajp_module
+			modules/mod_proxy_ajp.so
+
+			ProxyPass /jenkins http://localhost:8081/jenkins
+			ProxyPassReverse /jenkins http://localhost:8081/jenkins
+			ProxyRequests Off</pre><p>Once this is done, you just need to restart your Apache
+            			server:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>sudo /etc/init.d/httpd restart</code></strong>
+			Stopping httpd: [ OK ]
+			Starting httpd: [ OK ]
+		</pre><p>
+            			Now you should be able to access your Jenkins server using a URL
+            			<a class="indexterm" name="I_indexterm3_d1e3502"></a>
+            			<span class="keep-together">like</span>
+            			<span class="emphasis"><em>http://myserver.myorg.com/jenkins</em></span>
+            			.
+            		
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-running-hudson-standalone.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-jenkins-app-server.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.8.&nbsp;Ex&eacute;cuter Jenkins comme une application autonome&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.10.&nbsp;Running Jenkins on an Application Server</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

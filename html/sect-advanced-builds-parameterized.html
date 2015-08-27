@@ -1,0 +1,432 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>10.2.&nbsp;T&acirc;ches de build param&eacute;tr&eacute;es</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-advanced-builds.html" title="Chapter&nbsp;10.&nbsp;Builds avanc&eacute;s">
+      <link rel="prev" href="chapter-advanced-builds.html" title="Chapter&nbsp;10.&nbsp;Builds avanc&eacute;s">
+      <link rel="next" href="sect-advanced-builds-triggers.html" title="10.3.&nbsp;D&eacute;clencheurs param&eacute;tr&eacute;s">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-advanced-builds.html">Chapter&nbsp;10.&nbsp;Builds avanc&eacute;s</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-advanced-builds-triggers.html">10.3.&nbsp;D&eacute;clencheurs param&eacute;tr&eacute;s</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-advanced-builds-parameterized"></a>10.2.&nbsp;T&acirc;ches de build param&eacute;tr&eacute;es
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Les builds<a class="indexterm" name="ch10-param1"></a><a class="indexterm" name="ch10-param2"></a> param&eacute;tr&eacute;s sont un concept puissant vous permettant
+                d'ajouter une nouvelle dimension &agrave; vos t&acirc;ches de build.
+         </p>
+         <p>Le plugin <a class="indexterm" name="I_indexterm10_d1e13891"></a><a class="indexterm" name="I_indexterm10_d1e13896"></a> Parameterized Build vous permet de configurer des
+                param&egrave;tres pour vos t&acirc;ches de build, qui peuvent &ecirc;tre entr&eacute;s par
+                l'utilisateur lorsque le build est d&eacute;clench&eacute;, ou (comme nous le verrons
+                plus tard) depuis une autre t&acirc;che.
+         </p>
+         <p>Par exemple, vous pourriez avoir une t&acirc;che de d&eacute;ploiement, o&ugrave; vous
+                choisiriez un environnement cible dans une liste d&eacute;roulante quand vous
+                d&eacute;marrez le build. Vous pourriez aussi vouloir sp&eacute;cifier la version de
+                l'application que vous souhaitez d&eacute;ployer. Ou, en ex&eacute;cutant une t&acirc;che de
+                build incluant des tests web, vous pourriez sp&eacute;cifier le navigateur dans
+                lequel vous voulez faire tourner vos tests Selenium ou WebDriver. Vous 
+            	pouvez m&ecirc;me t&eacute;l&eacute;transf&eacute;rer un fichier n&eacute;cessaire &agrave; l'ex&eacute;cution de la t&acirc;che
+            	de build.
+         </p>
+         <p>Notez que c'est le r&ocirc;le du script de build d'analyser et de traiter
+                correctement les valeurs de param&egrave;tres &#8212; Jenkins fournit simplement une
+                interface utilisateur permettant d'entrer les valeurs des param&egrave;tres, puis
+                de passer ces param&egrave;tres au script de build.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e14145"></a>10.2.1.&nbsp;Cr&eacute;er des t&acirc;ches de build param&eacute;tr&eacute;es
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Vous <a class="indexterm" name="I_indexterm10_d1e13909"></a><a class="indexterm" name="I_indexterm10_d1e13916"></a> installez le plugin Parameterized Build comme d'habitude,
+                     via l'&eacute;cran de gestion des plugins. Une fois que vous avez fait cela,
+                     configurer une t&acirc;che de build param&eacute;tr&eacute;e est simple. Cochez simplement
+                     l'option &#8220;Ce build a des param&egrave;tres&#8221; et cliquez sur Ajouter un param&egrave;tre
+                     pour ajouter un nouveau param&egrave;tre de t&acirc;che de build (voir <a href="sect-advanced-builds-parameterized.html#fig-hudson-parameterized-build" title="Figure&nbsp;10.1.&nbsp;Cr&eacute;er une t&acirc;che de build param&eacute;tr&eacute;e">Figure&nbsp;10.1, &#8220;Cr&eacute;er une t&acirc;che de build param&eacute;tr&eacute;e&#8221;</a>). Vous pouvez ajouter des
+                     param&egrave;tres &agrave; n'importe quelle sorte de build, et vous pouvez ajouter
+                     autant de param&egrave;tres que vous voulez &agrave; une t&acirc;che de build donn&eacute;e.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-parameterized-build"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e13927"></a><img src="figs/web/jtdg_1001.png" alt="Cr&eacute;er une t&acirc;che de build param&eacute;tr&eacute;e"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.1.&nbsp;Cr&eacute;er une t&acirc;che de build param&eacute;tr&eacute;e</b></p>
+               </div><br class="figure-break"></div>
+            <p>Pour ajouter un param&egrave;tre &agrave; votre t&acirc;che de build, s&eacute;lectionnez
+                     simplement le type de param&egrave;tre dans la liste d&eacute;roulante. Cela vous
+                     permettra de configurer les d&eacute;tails de votre param&egrave;tre (voir <a href="sect-advanced-builds-parameterized.html#fig-hudson-string-build-parameter" title="Figure&nbsp;10.2.&nbsp;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build">Figure&nbsp;10.2, &#8220;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build&#8221;</a>). Vous pouvez choisir
+                     diff&eacute;rents <a class="indexterm" name="I_indexterm10_d1e13936"></a><a class="indexterm" name="I_indexterm10_d1e13941"></a><a class="indexterm" name="I_indexterm10_d1e13948"></a>types de param&egrave;tres, comme des cha&icirc;nes de caract&egrave;res, des
+                     bool&eacute;ens, et des listes d&eacute;roulantes. En fonction du type que vous
+                     choisissez, vous devrez entrer des valeurs de configuration l&eacute;g&egrave;rement
+                     diff&eacute;rentes, mais le processus de base est le m&ecirc;me. Tous les types de
+                     param&egrave;tres, &agrave; l'exception du param&egrave;tre Fichier, ont un nom et une
+                     description, et le plus souvent une valeur par d&eacute;faut.
+            </p>
+            <p>Dans <a href="sect-advanced-builds-parameterized.html#fig-hudson-enter-string-parameter" title="Figure&nbsp;10.3.&nbsp;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build">Figure&nbsp;10.3, &#8220;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build&#8221;</a>, par
+                     exemple, nous ajoutons un param&egrave;tre appel&eacute; <code class="literal">version</code> &agrave; une t&acirc;che de d&eacute;ploiement. La valeur
+                     par d&eacute;faut (<code class="literal">RELEASE</code>) sera
+                     initialement affich&eacute;e lorsque Jenkins demandera &agrave; l'utilisateur de
+                     valoriser ce param&egrave;tre, donc si l'utilisateur ne change rien, cette
+                     valeur sera utilis&eacute;e.
+            </p>
+            <div class="figure"><a name="fig-hudson-string-build-parameter"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e13965"></a><img src="figs/web/jtdg_1002.png" alt="Ajouter un param&egrave;tre &agrave; la t&acirc;che de build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.2.&nbsp;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build</b></p>
+            </div><br class="figure-break"><p>Quand l'utilisateur d&eacute;marre un build param&eacute;tr&eacute; (les builds
+                     param&eacute;tr&eacute;s sont tr&egrave;s souvent d&eacute;marr&eacute;es manuellement), Jenkins propose
+                     une page dans laquelle l'utilisateur peut entrer une valeur pour chacun
+                     des param&egrave;tres de la t&acirc;che de build (voir <a href="sect-advanced-builds-parameterized.html#fig-hudson-enter-string-parameter" title="Figure&nbsp;10.3.&nbsp;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build">Figure&nbsp;10.3, &#8220;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-enter-string-parameter"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e13977"></a><img src="figs/web/jtdg_1003.png" alt="Ajouter un param&egrave;tre &agrave; la t&acirc;che de build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.3.&nbsp;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e14223"></a>10.2.2.&nbsp;Adapter vos build pour travailler avec des scripts de builds
+                              param&eacute;tr&eacute;s
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une fois<a class="indexterm" name="ch10-script"></a><a class="indexterm" name="ch10-script2"></a><a class="indexterm" name="ch10-script3"></a><a class="indexterm" name="I_indexterm10_d1e14004"></a> que vous avez ajout&eacute; un param&egrave;tre, vous devez configurer
+                     vos scripts de build pour l'utiliser. Bien choisir le nom du param&egrave;tre
+                     est important, parce que c'est aussi le nom de la variable que Jenkins
+                     passera comme <a class="indexterm" name="I_indexterm10_d1e14010"></a>variable d'environnement lorsqu'il lance la t&acirc;che de
+                     build. Pour illustrer cela, consid&eacute;rons la configuration de build tr&egrave;s
+                     basique de <a href="sect-advanced-builds-parameterized.html#fig-hudson-parameterized-shell" title="Figure&nbsp;10.4.&nbsp;D&eacute;monstration d'un param&egrave;tre de build">Figure&nbsp;10.4, &#8220;D&eacute;monstration d'un param&egrave;tre de build&#8221;</a>, o&ugrave; on
+                     affiche simplement le param&egrave;tre de build en retour dans la console.
+                     Notez que, pour rendre les variables plus portables &agrave; travers diff&eacute;rents
+                     syst&egrave;mes d'exploitation, il est pr&eacute;f&eacute;rable de les mettre en
+                     majuscules.
+            </p>
+            <div class="figure"><a name="fig-hudson-parameterized-shell"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e14021"></a><img src="figs/web/jtdg_1004.png" alt="D&eacute;monstration d'un param&egrave;tre de build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.4.&nbsp;D&eacute;monstration d'un param&egrave;tre de build</b></p>
+            </div><br class="figure-break"><p>Quand on ex&eacute;cute cela, on obtient les lignes suivantes dans la
+                     console :
+            </p><pre class="screen">Started by user anonymous
+Building on master
+[workspace] $ /bin/sh -xe /var/folders/y+/y+a+wZ-jG6WKHEm9KwnSvE+++TI/-Tmp-/
+jenkins5862957776458050998.sh
+<strong class="userinput"><code>+ echo Version=1.2.3</code></strong>
+<strong class="userinput"><code>Version=1.2.3</code></strong>
+Notifying upstream projects of job completion
+Finished: SUCCESS</pre><p>Vous pouvez aussi utiliser ces variables d'environnement au
+                     sein de vos scripts de build. Par exemple, dans un build Ant ou
+                     Maven, vous pouvez utiliser la propri&eacute;t&eacute; sp&eacute;ciale <code class="literal">env</code> pour acc&eacute;der aux variables d'environnement
+                     courantes :
+            </p><a name="I_programlisting10_d1e14041"></a><pre class="programlisting">&lt;target name="printversion"&gt;
+  &lt;property environment="env" /&gt;
+  &lt;echo message="${env.VERSION}"/&gt;
+&lt;/target&gt;</pre><p>Une autre option consiste &agrave; passer les <a class="indexterm" name="I_indexterm10_d1e14045"></a>param&egrave;tres au script de build comme une valeur de
+                     propri&eacute;t&eacute;. Ce qui suit est un exemple plus pratique d'un fichier POM de
+                     Maven. Dans cet exemple, Maven est configur&eacute; pour d&eacute;ployer un fichier
+                     WAR sp&eacute;cifique. Nous fournissons la version du fichier WAR &agrave; d&eacute;ployer
+                     dans la propri&eacute;t&eacute; <code class="literal">target.version</code>, qui
+                     est utilis&eacute; dans la d&eacute;claration de la d&eacute;pendance, comme montr&eacute;
+                     ci-dessous :
+            </p><a name="I_programlisting10_d1e14054"></a><pre class="programlisting">  ...
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;com.wakaleo.gameoflife&lt;/groupId&gt;
+      &lt;artifactId&gt;gameoflife-web&lt;/artifactId&gt;
+      &lt;type&gt;war&lt;/type&gt;
+      &lt;version&gt;<strong class="userinput"><code>${target.version}</code></strong>&lt;/version&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+  &lt;properties&gt;
+    &lt;target.version&gt;RELEASE&lt;/target.version&gt;
+    ...
+  &lt;/properties&gt;</pre><p>Quand on invoque Maven, on passe le param&egrave;tre comme l'une des
+                     propri&eacute;t&eacute;s du build (voir <a href="sect-advanced-builds-parameterized.html#fig-hudson-inject-parameter-maven" title="Figure&nbsp;10.5.&nbsp;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build Maven">Figure&nbsp;10.5, &#8220;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build Maven&#8221;</a>). On peut ensuite
+                     utiliser un outil comme Cargo pour faire le d&eacute;ploiement r&eacute;el &#8212; Maven
+                     t&eacute;l&eacute;chargera la version demand&eacute;e du WAR depuis le gestionnaire de d&eacute;p&ocirc;t
+                     d'entreprise, et la d&eacute;ploiera sur un serveur d'application.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-inject-parameter-maven"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14066"></a><img src="figs/web/jtdg_1005.png" alt="Ajouter un param&egrave;tre &agrave; la t&acirc;che de build Maven"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.5.&nbsp;Ajouter un param&egrave;tre &agrave; la t&acirc;che de build Maven</b></p>
+               </div><br class="figure-break"></div>
+            <p>En r&eacute;sum&eacute;, cela montre comment il vous est possible d'int&eacute;grer des
+                     param&egrave;tres de t&acirc;ches de build dans vos builds. Toutefois, en plus des bons vieux
+                     param&egrave;tres de type cha&icirc;ne de caract&egrave;res, il existe quelques
+                     types de param&egrave;tres plus sophistiqu&eacute;s, que nous regarderons dans les
+                     <a class="indexterm" name="I_indexterm10_d1e14074"></a><a class="indexterm" name="I_indexterm10_d1e14076"></a><a class="indexterm" name="I_indexterm10_d1e14078"></a>paragraphes suivants (voir <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-types" title="Figure&nbsp;10.6.&nbsp;Diff&eacute;rents types de param&egrave;tres sont disponibles">Figure&nbsp;10.6, &#8220;Diff&eacute;rents types de param&egrave;tres sont disponibles&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-build-parameter-types"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e14086"></a><img src="figs/web/jtdg_1006.png" alt="Diff&eacute;rents types de param&egrave;tres sont disponibles"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.6.&nbsp;Diff&eacute;rents types de param&egrave;tres sont disponibles</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e14331"></a>10.2.3.&nbsp;Types de param&egrave;tres plus avanc&eacute;s
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p><em class="firstterm">Les param&egrave;tres Mot de passe</em> <a class="indexterm" name="I_indexterm10_d1e14098"></a><a class="indexterm" name="ch10-type1"></a><a class="indexterm" name="ch10-type2"></a>sont, comme vous pourriez vous y attendre, tr&egrave;s similaires
+                     aux param&egrave;tres String, mis &agrave; part qu'ils sont affich&eacute;s comme des champs
+                     mot de passe.
+            </p>
+            <p>Il existe plusieurs cas o&ugrave; vous souhaiteriez pr&eacute;senter un ensemble
+                     limit&eacute; d'options de param&egrave;tres. Dans un build de d&eacute;ploiement, vous
+                     pourriez permettre &agrave; l'utilisateur de choisir parmi un ensemble
+                     de serveurs cibles. Ou vous pourriez pr&eacute;senter une liste de navigateurs
+                     support&eacute;s pour une suite de tests d'acceptation. <em class="firstterm">Les
+                        param&egrave;tres Choix</em> vous permettent de d&eacute;finir un ensemble de
+                     valeurs qui seront affich&eacute;es dans une liste d&eacute;roulante (voir <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-choice" title="Figure&nbsp;10.7.&nbsp;Configurer un param&egrave;tre Choix">Figure&nbsp;10.7, &#8220;Configurer un param&egrave;tre Choix&#8221;</a>). Vous devez fournir une
+                     liste de valeurs possibles, une par ligne, en commen&ccedil;ant par la valeur
+                     par d&eacute;faut.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-parameter-choice"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14124"></a><img src="figs/web/jtdg_1007.png" alt="Configurer un param&egrave;tre Choix"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.7.&nbsp;Configurer un param&egrave;tre Choix</b></p>
+               </div><br class="figure-break"></div>
+            <p><em class="firstterm">Les param&egrave;tres Bool&eacute;en</em> <a class="indexterm" name="I_indexterm10_d1e14133"></a>sont, comme vous vous y attendez, des param&egrave;tres qui
+                     prennent comme valeur <code class="literal">true</code> ou <code class="literal">false</code>. Ils sont pr&eacute;sent&eacute;s en tant que case &agrave;
+                     cocher.
+            </p>
+            <p>Deux types de param&egrave;tres plus exotiques, qui se comportent un peu
+                     diff&eacute;remment des autres, sont les <em class="firstterm">param&egrave;tres Run</em>
+                     et <em class="firstterm">les param&egrave;tres Fichier</em>.
+            </p>
+            <p>Les param&egrave;tres Run <a class="indexterm" name="I_indexterm10_d1e14153"></a><a class="indexterm" name="I_indexterm10_d1e14156"></a>vous permettent de s&eacute;lectionner une ex&eacute;cution particuli&egrave;re
+                     (ou un build) d'un build donn&eacute; (voir <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-run-param" title="Figure&nbsp;10.8.&nbsp;Configurer un param&egrave;tre Run">Figure&nbsp;10.8, &#8220;Configurer un param&egrave;tre Run&#8221;</a>). L'utilisateur
+                     effectue une s&eacute;lection &agrave; partir d'une liste de num&eacute;ros d'ex&eacute;cution de
+                     build. L'URL correspondant &agrave; l'ex&eacute;cution est stock&eacute;e dans le param&egrave;tre
+                     sp&eacute;cifi&eacute;.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-parameter-run-param"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14167"></a><img src="figs/web/jtdg_1008.png" alt="Configurer un param&egrave;tre Run"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.8.&nbsp;Configurer un param&egrave;tre Run</b></p>
+               </div><br class="figure-break"></div>
+            <p>L'URL (qui devrait ressembler &agrave;
+                     <span class="emphasis"><em>http://jenkins.myorg.com/job/game-of-life/197/</em></span>)
+                     peut &ecirc;tre utilis&eacute;e pour obtenir une information ou des artefacts d'une
+                     ex&eacute;cution de build. Par exemple, vous pourriez r&eacute;cup&eacute;rer le fichier JAR
+                     ou WAR archiv&eacute; lors d'un build pr&eacute;c&eacute;dent et ex&eacute;cuter des tests plus
+                     pouss&eacute;s sur celui-ci dans une t&acirc;che de build s&eacute;par&eacute;e. Ainsi, pour
+                     acc&eacute;der au fichier WAR d'un build pr&eacute;c&eacute;dent dans un projet Maven
+                     multimodules, l'URL ressemblerait &agrave; celle-ci :
+            </p><a name="I_programlisting10_d1e14177"></a><pre class="programlisting">http://buildserver/job/game-of-life/197/artifact/gameoflife-web/target/
+      gameoflife.war</pre><p>Donc, en utilisant le param&egrave;tre configur&eacute; dans <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-run-param" title="Figure&nbsp;10.8.&nbsp;Configurer un param&egrave;tre Run">Figure&nbsp;10.8, &#8220;Configurer un param&egrave;tre Run&#8221;</a>, vous pourriez acc&eacute;der
+                     au fichier WAR en utilisant l'expression suivante :
+            </p><a name="I_programlisting10_d1e14184"></a><pre class="programlisting">${RELEASE_BUILD}gameoflife-web/target/gameoflife.war</pre><p>Les param&egrave;tres Fichier <a class="indexterm" name="I_indexterm10_d1e14188"></a>vous permettent de t&eacute;l&eacute;transf&eacute;rer un fichier dans l'espace de
+                     travail de la t&acirc;che de build, afin qu'il puisse &ecirc;tre utilis&eacute; dans le
+                     script de build (voir <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-file" title="Figure&nbsp;10.9.&nbsp;Configurer un param&egrave;tre Fichier">Figure&nbsp;10.9, &#8220;Configurer un param&egrave;tre Fichier&#8221;</a>). Jenkins stockera le
+                     fichier &agrave; l'emplacement sp&eacute;cifi&eacute; dans l'espace de travail du projet, o&ugrave;
+                     vous pouvez y acc&eacute;der dans vos scripts de build. Vous pouvez utiliser la
+                     variable <code class="literal">WORKSPACE</code> pour faire
+                     r&eacute;f&eacute;rence au r&eacute;pertoire de l'espace de travail courant, afin que vous
+                     puissiez manipuler le fichier t&eacute;l&eacute;transfer&eacute; dans <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-file" title="Figure&nbsp;10.9.&nbsp;Configurer un param&egrave;tre Fichier">Figure&nbsp;10.9, &#8220;Configurer un param&egrave;tre Fichier&#8221;</a> en utilisant l'<a class="indexterm" name="I_indexterm10_d1e14199"></a><a class="indexterm" name="I_indexterm10_d1e14201"></a>expression <code class="literal">${WORKSPACE}/deploy/app.war</code>.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-parameter-file"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14211"></a><img src="figs/web/jtdg_1009.png" alt="Configurer un param&egrave;tre Fichier"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.9.&nbsp;Configurer un param&egrave;tre Fichier</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-build-from-svn-tag"></a>10.2.4.&nbsp;Construire &agrave; partir d'un tag Subversion
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Le <a class="indexterm" name="ch10-sub1"></a><a class="indexterm" name="ch10-sub2"></a><a class="indexterm" name="ch10-sub3"></a> d&eacute;clenchement param&eacute;tr&eacute; poss&egrave;de un support sp&eacute;cial
+                     pour Subversion, vous permettant ainsi de r&eacute;aliser un build &agrave; partir d'un tag
+                     Subversion sp&eacute;cifique. C'est utile si vous voulez lancer un build de
+                     release en utilisant un tag g&eacute;n&eacute;r&eacute; par un build pr&eacute;c&eacute;dent. Par exemple,
+                     une t&acirc;che de build amont pourrait cr&eacute;er un tag d'une r&eacute;vision
+                     particuli&egrave;re. Vous pourriez aussi utiliser le processus standard de
+                     release Maven (voir <a href="sect-build-pipelines.html#jenkins-maven-releases" title="10.7.1.&nbsp;Gestion des releases Maven avec le plugin M2Release">Section&nbsp;10.7.1, &#8220;Gestion des releases Maven avec le plugin M2Release&#8221;</a>) pour
+                     g&eacute;n&eacute;rer une nouvelle release. Dans ce cas, un tag avec le num&eacute;ro de
+                     release Maven sera automatiquement g&eacute;n&eacute;r&eacute; dans Subversion.
+            </p>
+            <p>Cette approche est utile pour des projets qui ont besoin d'&ecirc;tre
+                     partiellement ou enti&egrave;rement reconstruits avant de pouvoir &ecirc;tre d&eacute;ploy&eacute;s
+                     sur une plateforme donn&eacute;e. Par exemple, vous pourriez avoir besoin
+                     d'ex&eacute;cuter le build Ant ou Maven en utilisant diff&eacute;rentes propri&eacute;t&eacute;s ou
+                     profils pour diff&eacute;rentes plateformes, afin que les fichiers de
+                     configuration sp&eacute;cifiques puissent &ecirc;tre embarqu&eacute;s dans les WAR ou EAR
+                     d&eacute;ploy&eacute;s.
+            </p>
+            <p>Vous pouvez configurer un build Jenkins pour qu'il s'ex&eacute;cute sur
+                     un tag s&eacute;lectionn&eacute; en utilisant le type de param&egrave;tre &#8220;List Subversion
+                     Tag&#8221; (voir <a href="sect-advanced-builds-parameterized.html#fig-jenkins-parameterized-subversion-tag" title="Figure&nbsp;10.10.&nbsp;Ajouter des param&egrave;tres pour r&eacute;aliser un build &agrave; partir d'un tag Subversion">Figure&nbsp;10.10, &#8220;Ajouter des param&egrave;tres pour r&eacute;aliser un build &agrave; partir d'un tag
+                          Subversion&#8221;</a>).
+                     Vous devez simplement fournir l'URL du d&eacute;p&ocirc;t Subversion pointant sur le
+                     r&eacute;pertoire des tags de votre projet.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-parameterized-subversion-tag"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14250"></a><img src="figs/web/jtdg_1010.png" alt="Ajouter des param&egrave;tres pour r&eacute;aliser un build &agrave; partir d'un tag Subversion"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.10.&nbsp;Ajouter des param&egrave;tres pour r&eacute;aliser un build &agrave; partir d'un tag
+                                Subversion</b></p>
+               </div><br class="figure-break"></div>
+            <p>Quand vous ex&eacute;cuterez ce build, Jenkins proposera une liste de
+                     tags dans laquelle choisir <a class="indexterm" name="I_indexterm10_d1e14257"></a><a class="indexterm" name="I_indexterm10_d1e14259"></a><a class="indexterm" name="I_indexterm10_d1e14261"></a> (voir <a href="sect-advanced-builds-parameterized.html#fig-jenkins-parameterized-subversion" title="Figure&nbsp;10.11.&nbsp;R&eacute;aliser un build &agrave; partir d'un tag Subversion">Figure&nbsp;10.11, &#8220;R&eacute;aliser un build &agrave; partir d'un tag Subversion&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-parameterized-subversion"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14269"></a><img src="figs/web/jtdg_1011.png" alt="R&eacute;aliser un build &agrave; partir d'un tag Subversion"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.11.&nbsp;R&eacute;aliser un build &agrave; partir d'un tag Subversion</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-building-git-tag"></a>10.2.5.&nbsp;R&eacute;aliser un build &agrave; partir d'un tag Git
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>R&eacute;aliser un build <a class="indexterm" name="ch10-git1"></a><a class="indexterm" name="ch10-git2"></a><a class="indexterm" name="ch10-git3"></a>&agrave; partir d'un tag Git n'est pas aussi simple que de le
+                     faire &agrave; partir d'un tag Subversion, bien que vous puissisez toujours
+                     utiliser un param&egrave;tre pour indiquer quel tag utiliser. En effet, &agrave; cause
+                     de la nature m&ecirc;me de Git, quand Jenkins obtient une copie du code source
+                     depuis Git, il clone le d&eacute;p&ocirc;t Git, en incluant tous les tags. Une fois
+                     que vous avez la derni&egrave;re version du d&eacute;p&ocirc;t sur votre serveur Jenkins,
+                     vous pouvez ensuite proc&eacute;der &agrave; la r&eacute;cup&eacute;ration d'une version en
+                     utilisant <code class="literal">git checkout
+                        &lt;tagname&gt;</code>.
+            </p>
+            <p>Pour configurer cela avec Jenkins, vous devez commencer par
+                     ajouter un param&egrave;tre String &agrave; votre t&acirc;che de build (appel&eacute;e <code class="literal">RELEASE</code> dans cet exemple &#8212; voir <a href="sect-advanced-builds-parameterized.html#fig-jenkins-git-release-param" title="Figure&nbsp;10.12.&nbsp;Configurer un param&egrave;tre pour un tag Git">Figure&nbsp;10.12, &#8220;Configurer un param&egrave;tre pour un tag Git&#8221;</a>). Contrairement au support
+                     Subversion, il n'est pas possible de lister les tags Git disponibles
+                     dans une liste d&eacute;roulante, les utilisateur devront donc conna&icirc;tre le nom
+                     du tag qu'ils veulent livrer.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-git-release-param"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14310"></a><img src="figs/web/jtdg_1012.png" alt="Configurer un param&egrave;tre pour un tag Git"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.12.&nbsp;Configurer un param&egrave;tre pour un tag Git</b></p>
+               </div><br class="figure-break"></div>
+            <p>Une fois que vous avez ajout&eacute; ce param&egrave;tre, vous devez faire un
+                     checkout du tag correspondant une fois que le d&eacute;p&ocirc;t a &eacute;t&eacute; clon&eacute; localement.
+                     Ainsi, si vous avez un build freestyle, la premi&egrave;re &eacute;tape du build sera
+                     un appel en ligne de commande &agrave; Git pour faire un checkout du tag
+                     r&eacute;f&eacute;renc&eacute; par le param&egrave;tre <code class="literal">RELEASE</code>
+                     (voir <a href="sect-advanced-builds-parameterized.html#fig-jenkins-git-tag" title="Figure&nbsp;10.13.&nbsp;R&eacute;aliser un build &agrave; partir d'un tag Git">Figure&nbsp;10.13, &#8220;R&eacute;aliser un build &agrave; partir d'un tag Git&#8221;</a>). Bien s&ucirc;r, un moyen plus
+                     portable de faire cela serait d'&eacute;crire un simple script Ant ou Groovy
+                     pour faire l'&eacute;quivalent d'une fa&ccedil;on plus<a class="indexterm" name="I_indexterm10_d1e14322"></a><a class="indexterm" name="I_indexterm10_d1e14324"></a><a class="indexterm" name="I_indexterm10_d1e14326"></a> ind&eacute;pendante du syst&egrave;me d'exploitation.
+            </p>
+            <div class="figure"><a name="fig-jenkins-git-tag"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e14332"></a><img src="figs/web/jtdg_1013.png" alt="R&eacute;aliser un build &agrave; partir d'un tag Git"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.13.&nbsp;R&eacute;aliser un build &agrave; partir d'un tag Git</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e14575"></a>10.2.6.&nbsp;D&eacute;marrer une t&acirc;che de build param&eacute;tr&eacute;e &agrave; distance
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Vous <a class="indexterm" name="ch10-remote1"></a><a class="indexterm" name="ch10-remote2"></a>pouvez aussi d&eacute;marrer une t&acirc;che de build param&eacute;tr&eacute;e &agrave;
+                     distance, en invoquant l'URL de la t&acirc;che de build. La forme typique
+                     d'une URL de t&acirc;che de build est illustr&eacute;e ci-apr&egrave;s :
+            </p><a name="I_programlisting10_d1e14355"></a><pre class="programlisting">http://jenkins.acme.org/job/myjob/buildWithParameters?PARAMETER=Value</pre><p>Ainsi, dans l'exemple ci-dessus, vous pourriez d&eacute;clencher un build
+                     de la fa&ccedil;on suivante :
+            </p><a name="I_programlisting10_d1e14359"></a><pre class="programlisting">http://jenkins.acme.org/job/parameterized-build/buildWithParameters?VERSION=1.2.3</pre><p>Quand vous utilisez une URL pour d&eacute;marrer une t&acirc;che de build de
+                     cette fa&ccedil;on, rappelez-vous que les noms des param&egrave;tres sont sensibles &agrave;
+                     la casse, et que les valeurs doivent &ecirc;tre &eacute;chapp&eacute;es (comme n'importe
+                     quel autre param&egrave;tre HTTP). Et si vous utilisez un param&egrave;tre Run, vous
+                     devez fournir le nom de la t&acirc;che de build <span class="emphasis"><em>et</em></span> le
+                     num&eacute;ro d'ex&eacute;cution (e.g., <code class="literal">game-of-life#197</code>) et pas seulement le
+                     num&eacute;ro<a class="indexterm" name="I_indexterm10_d1e14369"></a><a class="indexterm" name="I_indexterm10_d1e14371"></a> <span class="keep-together">d'ex&eacute;cution</span>.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e14615"></a>10.2.7.&nbsp;Historique des t&acirc;ches de build param&eacute;tr&eacute;es
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Enfin, <a class="indexterm" name="I_indexterm10_d1e14383"></a><a class="indexterm" name="I_indexterm10_d1e14388"></a><a class="indexterm" name="I_indexterm10_d1e14395"></a>il est indispensable de savoir quels param&egrave;tres ont &eacute;t&eacute;
+                     utilis&eacute;s pour lancer un build param&eacute;tr&eacute; particulier. Par exemple, dans
+                     une t&acirc;che de build de d&eacute;ploiement automatis&eacute;, il est utile de savoir
+                     exactement quelle version a r&eacute;ellement &eacute;t&eacute; d&eacute;ploy&eacute;e. Heureusement,
+                     Jenkins stocke ces valeurs dans l'historique de<a class="indexterm" name="I_indexterm10_d1e14401"></a><a class="indexterm" name="I_indexterm10_d1e14403"></a> build (voir <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-history" title="Figure&nbsp;10.14.&nbsp;Jenkins stocke les valeurs des param&egrave;tres utilis&eacute;es pour chaque build">Figure&nbsp;10.14, &#8220;Jenkins stocke les valeurs des param&egrave;tres utilis&eacute;es pour chaque
+                          build&#8221;</a>), afin que vous puissiez
+                     toujours retrouver un ancien build et en v&eacute;rifier les param&egrave;tres.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-parameter-history"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e14411"></a><img src="figs/web/jtdg_1014.png" alt="Jenkins stocke les valeurs des param&egrave;tres utilis&eacute;es pour chaque build"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.14.&nbsp;Jenkins stocke les valeurs des param&egrave;tres utilis&eacute;es pour chaque
+                                build</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-advanced-builds.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-advanced-builds-triggers.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;10.&nbsp;Builds avanc&eacute;s&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;10.3.&nbsp;D&eacute;clencheurs param&eacute;tr&eacute;s</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

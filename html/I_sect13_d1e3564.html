@@ -1,0 +1,116 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.11.&nbsp;Memory Considerations</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="sect-jenkins-app-server.html" title="3.10.&nbsp;Running Jenkins on an Application Server">
+      <link rel="next" href="sect-windows-service.html" title="3.12.&nbsp;Installing Jenkins as a Windows Service">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-jenkins-app-server.html">3.10.&nbsp;Running Jenkins on an Application Server</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-windows-service.html">3.12.&nbsp;Installing Jenkins as a Windows Service</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="I_sect13_d1e3564"></a>3.11.&nbsp;Memory Considerations
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			Continuous
+            			<a class="indexterm" name="ch03-mem1"></a>
+            			<a class="indexterm" name="ch03-mem2"></a>
+            			Integration servers use a lot of memory. This is the nature
+            			of the beast&#8212;builds will consume memory, and multiple
+            			builds being run
+            			in
+            			parallel will consume still more memory. So you should ensure that your
+            			build server has enough RAM
+            			to cope with however many builds you intend to
+            			run simultaneously.
+            		
+         </p>
+         <p>Jenkins naturally needs RAM to run, but if you need to support a
+            			large number of build processes, it is not
+            			enough just to give
+            			Jenkins a
+            			lot of memory. In fact Jenkins spans a new Java process each time it
+            			kicks
+            			off a build, so
+            			during a large build, the build process needs the
+            			memory,
+            			not Jenkins.
+            		
+         </p>
+         <p>
+            			You can define build-specific memory options for your Jenkins build
+            			jobs&#8212;we will see how to do this later on in the
+            			book. However if you
+            			have
+            			a lot of builds to maintain, you might want to define
+            			<a class="indexterm" name="I_indexterm3_d1e3582"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e3585"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e3588"></a>
+            			the
+            			<code class="literal">JAVA_OPTS</code>
+            			,
+            			<code class="literal">MAVEN_OPTS</code>
+            			and
+            			<code class="literal">ANT_OPTS</code>
+            			environment
+            			variables to be used as default values for your builds. The
+            			<code class="literal">JAVA_OPTS</code>
+            			options will apply for the main Jenkins
+            			process, whereas the other two options will be used when Jenkins kicks off
+            			new
+            			JVM processes for Maven and Ant build jobs respectively.
+            		
+         </p>
+         <p>
+            			Here is an example of how these variables might be configured on a
+            			Unix machine
+            			<a class="indexterm" name="I_indexterm3_d1e3607"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e3609"></a>
+            			in the
+            			<code class="filename">.profile</code>
+            			file:
+            		
+         </p><a name="I_programlisting3_d1e3615"></a><pre class="programlisting">export
+			JAVA_OPTS=-Djava.awt.headless=true -Xmx512m
+			-DJENKINS_HOME=/data/jenkins
+			export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=256m"
+			export ANT_OPTS="-Xmx512m -XX:MaxPermSize=256m"</pre></div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-jenkins-app-server.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-windows-service.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.10.&nbsp;Running Jenkins on an Application Server&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.12.&nbsp;Installing Jenkins as a Windows Service</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,172 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>8.8.&nbsp;Notification par IRC</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="prev" href="sect-notification-instant-messaging.html" title="8.7.&nbsp;Messagerie instantan&eacute;e">
+      <link rel="next" href="sect-notification-desktop.html" title="8.9.&nbsp;Notificateurs de bureau">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-instant-messaging.html">8.7.&nbsp;Messagerie instantan&eacute;e</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-desktop.html">8.9.&nbsp;Notificateurs de bureau</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-notification-irc"></a>8.8.&nbsp;Notification par IRC
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+                        <span class="emphasis"><em>R&eacute;dig&eacute; par Juven Xu</em></span>
+                    
+         </p>
+         <p>Internet Relay Chat (ou IRC) est une forme populaire de messagerie instantan&eacute;e,
+                        con&ccedil;ue principalement pour la communication de groupes par canaux. Par exemple,
+                        Jenkins a
+                        <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://jenkins-ci.org/content/chat" target="_top">un canal
+                               sur Freenode
+                           </a>
+                        de telle fa&ccedil;on que les utilisateurs et les d&eacute;veloppeurs peuvent &eacute;changer sur des sujets
+                        li&eacute;s &agrave; Jenkins. Vous verrez de nombreux utilisateurs poser des questions et la plupart du temps des
+                        utilisateurs
+                        plus exp&eacute;riment&eacute;s fournir des r&eacute;ponses rapidement.
+                    
+         </p>
+         <p>Comme avec la messagerie instantan&eacute;e Jabber, vous pouvez configurer
+                        Jenkins pour &#8220;pousser&#8221; des notifications via IRC. Quelques clients IRC tels que
+                        <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://xchat.org/" target="_top">xchat</a>
+                        supportent une configuration d'alerte
+                        de telle mani&egrave;re que lorsqu'un message arrive, il peut faire clignoter l'ic&ocirc;ne du panneau ou &eacute;mettre un
+                        bip sonore. Pour mettre en place le support IRC dans Jenkins, vous devez d'abord
+                        installer
+                        <a class="indexterm" name="I_indexterm8_d1e12201"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12206"></a>
+                        le
+                        <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org/display/JENKINS/IRC+Plugin" target="_top">plugin
+                               IRC
+                           </a>
+                        et le<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org/display/JENKINS/Instant+Messaging+Plugin" target="_top">plugin
+                               Instant Messaging</a>. Allez simplement dans le gestionnaire de plugins par d&eacute;faut, cochez
+                        les cases correspondantes et red&eacute;marrez ensuite Jenkins (voir <a href="sect-notification-irc.html#hudson-notification-irc-plugins-install" title="Figure&nbsp;8.14.&nbsp;Installation des plugins Jenkins IRC">Figure&nbsp;8.14, &#8220;Installation des plugins Jenkins IRC&#8221;</a>).
+                    
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="hudson-notification-irc-plugins-install"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject8_d1e12221"></a><img src="figs/web/jtdg_0814.png" alt="Installation des plugins Jenkins IRC"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;8.14.&nbsp;Installation des plugins Jenkins IRC</b></p>
+            </div><br class="figure-break"></div>
+         <p>Une fois cela fait, vous devez activer le plugin IRC, et le configurer
+                        pour int&eacute;grer votre propre environnement. Fondamentalement, cela consiste &agrave; fournir le
+                        nom d'h&ocirc;te et le port du serveur IRC que vous utilisez, un canal IRC
+                        d&eacute;di&eacute;, et un surnom pour le plugin IRC. Une bonne pratique consiste &agrave; mettre en place
+                        un canal d&eacute;di&eacute; pour les notifications provenant de l'IC. Ainsi, si les gens bavardent sur d'autres
+                        canaux, ils ne seront pas perturb&eacute;s. Vous pouvez &eacute;galement configurer des d&eacute;tails
+                        suppl&eacute;mentaires dans la section Avanc&eacute;. Tous ces &eacute;l&eacute;ments sont disponibles sur la
+                        page Configurer le syst&egrave;me (voir<a href="sect-notification-irc.html#hudson-notification-irc-advanced" title="Figure&nbsp;8.15.&nbsp;Configuration avanc&eacute;e des notifications par IRC">Figure&nbsp;8.15, &#8220;Configuration avanc&eacute;e des notifications par IRC&#8221;</a>).
+                    
+         </p>
+         <div class="figure"><a name="hudson-notification-irc-advanced"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12233"></a><img src="figs/web/jtdg_0815.png" alt="Configuration avanc&eacute;e des notifications par IRC"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.15.&nbsp;Configuration avanc&eacute;e des notifications par IRC</b></p>
+         </div><br class="figure-break"><p>En plus du nom d'h&ocirc;te, du port, du canal, et du surnom que nous avons
+                        mentionn&eacute;s pr&eacute;c&eacute;demment, vous pouvez &eacute;galement configurer le mot de passe du serveur IRC ou celui du
+                        NickServ si votre environnement les n&eacute;cessite. Les commandes doivent &ecirc;tre pr&eacute;fix&eacute;es essentiellement de
+                        la m&ecirc;me fa&ccedil;on que pour Jabber (voir <a href="sect-notification-instant-messaging.html" title="8.7.&nbsp;Messagerie instantan&eacute;e">Section&nbsp;8.7, &#8220;Messagerie instantan&eacute;e&#8221;</a>)
+                        si vous souhaitez interagir avec le serveur via des messages IRC.
+                        Enfin, vous voudrez peut-&ecirc;tre configurer le plugin IRC pour utiliser la commande
+                        <code class="literal">/notice</code>
+                        en lieu et place de la commande par d&eacute;faut
+                        <code class="literal">/msg</code>.
+                        <code class="literal">/notice</code>
+                        est identique &agrave;
+                        <code class="literal">/msg</code>
+                        except&eacute; que le message sera encadr&eacute; de
+                        tirets, ce qui &eacute;vitera une r&eacute;ponse de la plupart des robots.
+                    
+         </p>
+         <p>Une fois que la configuration globale est pr&ecirc;te, vous pouvez activer la notification par
+                        IRC pour chaque t&acirc;che de build et mettre en place une strat&eacute;gie de notification. Ouvrez
+                        la page de configuration de t&acirc;che de build, allez &agrave; la section Actions &agrave; la suite du build et
+                        cliquez sur l'option IRC Notification. Si vous souhaitez configurer une strat&eacute;gie de
+                        notification plut&ocirc;t que d'utiliser celle par d&eacute;faut, cliquez sur le bouton "Avanc&eacute;..."
+                        (voir<a href="sect-notification-irc.html#hudson-notification-irc-job" title="Figure&nbsp;8.16.&nbsp;Configuration avanc&eacute;e de notifications par IRC pour une t&acirc;che de build">Figure&nbsp;8.16, &#8220;Configuration avanc&eacute;e de notifications par IRC pour une t&acirc;che de build&#8221;</a>).
+                    
+         </p>
+         <div class="figure"><a name="hudson-notification-irc-job"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12261"></a><img src="figs/web/jtdg_0816.png" alt="Configuration avanc&eacute;e de notifications par IRC pour une t&acirc;che de build"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.16.&nbsp;Configuration avanc&eacute;e de notifications par IRC pour une t&acirc;che de build</b></p>
+         </div><br class="figure-break"><p>Les strat&eacute;gies de notification (quand et &agrave; qui envoyer des messages de notification)
+                        sont d&eacute;crites dans <a href="sect-notification-instant-messaging.html" title="8.7.&nbsp;Messagerie instantan&eacute;e">Section&nbsp;8.7, &#8220;Messagerie instantan&eacute;e&#8221;</a>. Le plugin Jabber
+                        ainsi que le plugin IRC d&eacute;pendent du plugin Instant Messaging. Ils partagent donc un
+                        certain nombre de caract&eacute;ristiques fondamentales communes. Certaines options sont
+                        toutefois sp&eacute;cifiques &agrave; l'extension IRC.
+                        Par exemple, vous pouvez d&eacute;finir un canal personnalis&eacute; si vous
+                        n'aimez pas la valeur globale par d&eacute;faut. De plus, pour un message de notification
+                        envoy&eacute; &agrave; un canal, vous pouvez choisir les informations &agrave; transmettre dans les messages
+                        de notification. Vos options ici sont le r&eacute;sum&eacute; du build, les changements effectu&eacute;s via le syst&egrave;me de
+                        gestion de version, et les tests &eacute;chou&eacute;s.
+                    
+         </p>
+         <p>Une fois que vous enregistrez la configuration, tout est pr&ecirc;t. Bas&eacute; sur
+                        ce que vous avez configur&eacute;, ce plugin va rejoindre les canaux IRC appropri&eacute;s
+                        et envoyer des messages de notification pour les t&acirc;ches de build.
+                    
+         </p>
+         <p>Par exemple, dans <a href="sect-notification-irc.html#hudson-notification-irc-xchat" title="Figure&nbsp;8.17.&nbsp;Messages de notification par IRC en action">Figure&nbsp;8.17, &#8220;Messages de notification par IRC en action&#8221;</a>,
+                        le plugin IRC rejoint le canal #ci-book sur freenode. Tout d'abord, l'utilisateur juven
+                        a committ&eacute; quelques changements avec le message "feature x added" et le plugin IRC
+                        notifie tous les connect&eacute;s au canal que le build a &eacute;t&eacute; un succ&egrave;s. Ensuite,
+                        juven committe un autre changement pour la fonctionnalit&eacute; y, mais cette fois le build a &eacute;chou&eacute;.
+                        John a remarqu&eacute; et corrig&eacute; l'erreur de build. Le plugin IRC d&eacute;clare maintenant
+                        "Yippie, build fixed!" Notez que certaines lignes de cet &eacute;cran sont
+                        soulign&eacute;es, c'est parce que je me suis connect&eacute; en tant qu'utilisateur "juven" et j'ai configur&eacute;
+                        mon client IRC XChat pour mettre en &eacute;vidence les messages contenant
+                        <a class="indexterm" name="I_indexterm8_d1e12277"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12279"></a>
+                        mon surnom.
+                    
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="hudson-notification-irc-xchat"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject8_d1e12285"></a><img src="figs/web/jtdg_0817.png" alt="Messages de notification par IRC en action"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;8.17.&nbsp;Messages de notification par IRC en action</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-instant-messaging.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-desktop.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">8.7.&nbsp;Messagerie instantan&eacute;e&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.9.&nbsp;Notificateurs de bureau</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

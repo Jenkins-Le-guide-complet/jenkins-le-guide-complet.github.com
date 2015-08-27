@@ -1,0 +1,140 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>1.2.&nbsp;Les fondamentaux de l'Int&eacute;gration Continue</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="intro.html" title="Chapter&nbsp;1.&nbsp;Introduction &agrave; Jenkins">
+      <link rel="prev" href="intro.html" title="Chapter&nbsp;1.&nbsp;Introduction &agrave; Jenkins">
+      <link rel="next" href="intro-sect-introducing-jenkins.html" title="1.3.&nbsp;Introduction &agrave; Jenkins (n&eacute; Hudson)">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="intro.html">Chapter&nbsp;1.&nbsp;Introduction &agrave; Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="intro-sect-introducing-jenkins.html">1.3.&nbsp;Introduction &agrave; Jenkins (n&eacute; Hudson)</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="intro-sect-intro"></a>1.2.&nbsp;Les fondamentaux de l'Int&eacute;gration Continue
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>A l'&eacute;poque des projets en V et des diagrammes de Gantt, avant l'introduction des 
+            pratiques de l'IC, une &eacute;quipe de d&eacute;veloppement d&eacute;pensait son temps et son &eacute;nergie 
+            sans compter durant la phase amenant &agrave; la livraison, appel&eacute;e Phase d'Int&eacute;gration. 
+            Durant cette phase, toutes les modifications apport&eacute;es au code par les d&eacute;veloppeurs ou de 
+            petites &eacute;quipes &eacute;taient rassembl&eacute;es puis aggr&eacute;g&eacute;es et  fusionn&eacute;es en un produit fonctionnel. 
+            Ce travail &eacute;tait dur, int&eacute;grant ainsi des mois de modifications qui entraient en conflit. 
+            Il &eacute;tait tr&egrave;s difficile d'anticiper les probl&egrave;mes qui allaient
+            surgir, et encore plus de les corriger car cela impliquait de reprendre du code qui 
+            avait &eacute;t&eacute; &eacute;crit des semaines, voire des mois auparavant. Ce douloureux processus, plein de
+                risques et de dangers, amenait souvent des retards significatifs de livraison, des
+                co&ucirc;ts suppl&eacute;mentaires et, au final, des clients m&eacute;contents. L'Int&eacute;gration Continue est n&eacute;e
+                comme une r&eacute;ponse &agrave; ces probl&egrave;mes.
+         </p>
+         <p>L'Int&eacute;gration Continue, dans sa forme la plus simple, se compose d'un outil
+                qui surveille les modifications de code dans votre gestionnaire de configuration.
+                D&egrave;s qu'un changement est d&eacute;tect&eacute;, cet outil va automatiquement compiler et tester
+                votre application. Si la moindre erreur arrive alors l'outil va imm&eacute;diatement avertir
+                les d&eacute;veloppeurs afin qu'ils puissent tout de suite corriger le probl&egrave;me.
+         </p>
+         <p>Mais l'Int&eacute;gration Continue est bien plus que cela. L'Int&eacute;gration Continue
+                peut aussi suivre la sant&eacute; de votre projet en surveillant la qualit&eacute; du code et
+                les m&eacute;triques de couverture et ainsi aider &agrave; maintenir la dette technique 
+                &agrave; un niveau bas et &agrave; abaisser les co&ucirc;ts de maintenance. Rendre visible publiquement
+                les m&eacute;triques de qualit&eacute; de code encourage les d&eacute;veloppeurs &agrave; &ecirc;tre fiers de la 
+                qualit&eacute; de leur code et &agrave; essayer de toujours l'am&eacute;liorer. Combin&eacute;e &agrave; une suite de tests
+                d'acceptance automatis&eacute;s, l'IC peut aussi se transformer en outil de communication en
+                affichant une image claire de l'&eacute;tat des d&eacute;veloppements en cours. Et elle peut simplifier
+                et acc&eacute;lerer la livraison en vous aidant &agrave; automatiser le processus de d&eacute;ploiement, vous
+                permettant de d&eacute;ployer la derni&egrave;re version de votre application soit automatiquement soit
+                d'un simple clic.
+         </p>
+         <p>Dans le fond, l'Int&eacute;gration Continue c'est r&eacute;duire les risques en fournissant 
+                des retours rapides. En premier lieu, de par sa conception, elle permet d'identifier et
+                de corriger les probl&egrave;mes d'int&eacute;gration et les regressions plus rapidement ce qui 
+                permet de livrer plus facilement et avec moins de bogues.
+                En donnant une meilleure visibilit&eacute; sur l'&eacute;tat du projet &agrave; tous les membres de l'&eacute;quipe,
+                techniques comme non-techniques, l'Int&eacute;gration Continue facilite la communication au sein de
+                l'&eacute;quipe et encourage la collaboration pour r&eacute;soudre les probl&egrave;mes ainsi que l'am&eacute;lioration du
+                processus. Et, en automatisant le processus de d&eacute;ploiement, l'Int&eacute;gration Continue vous permet de
+                mettre votre logiciel dans les mains des testeurs et des utilisateurs finaux plus rapidement,
+                avec plus de fiabilit&eacute; et avec moins d'efforts.
+         </p>
+         <p>Ce concept de d&eacute;ploiement automatis&eacute; est important. En effet, si vous poussez ce
+                concept de d&eacute;ploiement automatis&eacute; &agrave; sa conclusion logique, vous pourriez mettre en
+                production tout build qui passerait sans encombre les tests automatis&eacute;s n&eacute;cessaires.
+                Cette pratique de d&eacute;ployer en production tous les builds ayant r&eacute;ussi est appel&eacute;e 
+                commun&eacute;ment <a class="indexterm" name="I_indexterm1_d1e563"></a> <span class="emphasis"><em>D&eacute;ploiement <span class="keep-together">Continu</span></em></span>.
+         </p>
+         <p>Cependant, une approche pure du D&eacute;ploiement Continu n'est pas toujours souhaitable.
+                Par exemple, de nombreux utilisateurs n'appr&eacute;cieraient pas d'avoir une nouvelle version
+                disponible plusieurs fois par semaine et pr&eacute;f&eacute;reraient un cycle de livraison plus 
+                pr&eacute;visible (et transparent). Des consid&eacute;rations commerciales et marketing peuvent 
+                aussi entrer en compte pour d&eacute;terminer quand une nouvelle version doit &ecirc;tre d&eacute;ploy&eacute;e.
+         </p>
+         <p>La notion de <span class="emphasis"><em><a class="indexterm" name="I_indexterm1_d1e577"></a>Livraison Continue</em></span> est tr&egrave;s proche de cette id&eacute;e
+                de D&eacute;ploiement Continu en prenant en compte ces consid&eacute;rations. Lors d'une Livraison Continue tout
+                build qui a r&eacute;ussi &agrave; passer les tests automatis&eacute;s pertinents et les contr&ocirc;les qualit&eacute; 
+                peut <span class="emphasis"><em>virtuellement</em></span> &ecirc;tre d&eacute;ploy&eacute; en production au moyen d'un <span class="keep-together">processus</span> 
+                lanc&eacute; par un simple clic, et ainsi se retrouver dans les mains de l'utilisateur final en quelques minutes.
+                Cependant, ce processus n'est pas automatique : c'est au m&eacute;tier, plut&ocirc;t qu'&agrave; l'Informatique de 
+                d&eacute;cider quel est le moment opportun pour livrer les derni&egrave;res modifications.
+         </p>
+         <p>Ainsi les techniques d'Int&eacute;gration Continue, et plus particuli&egrave;rement 
+                le D&eacute;ploiement Continu et la Livraison Continue, permettent d'apporter la
+                valeur &agrave; l'utilisateur final plus rapidement. Combien de temps faut-il &agrave; votre
+                &eacute;quipe pour mettre une petite modification du code en production ? Dans ce temps
+                quelle est la part des probl&egrave;mes qui auraient pu &ecirc;tre corrig&eacute;s plus t&ocirc;t si vous
+                aviez su quelles modifications faisait Joe au bout du couloir ? Quelle part
+                est prise par le p&eacute;nible travail des &eacute;quipes de la qualit&eacute; pour tester 
+                manuellement ? Combien d'&eacute;tapes manuelles, dont les secrets ne sont connus 
+                que de quelques initi&eacute;s seulement, sont n&eacute;cessaires &agrave; un d&eacute;ploiement ? L'Int&eacute;gration
+                Continue n'est pas la solution miracle, elle permet de rationaliser certains de ces probl&egrave;mes.
+         </p>
+         <p>Mais l'Int&eacute;gration Continue est tout autant une mentalit&eacute; que des outils.
+                Pour tirer un maximum de profit de l'IC, une &eacute;quipe doit adopter un
+                comportement IC. Par exemple, vos projets doivent avoir un build fiable,
+                reproductible et automatis&eacute;, sans intervention humaine. La correction des builds 
+                en erreur devrait &ecirc;tre une priorit&eacute; absolue, et ne devrait pas &ecirc;tre oubli&eacute;e 
+                dans un coin. Le processus de d&eacute;ploiement devrait &ecirc;tre automatis&eacute;,
+                sans &eacute;tape manuelle. Et puisque la confiance que vous mettez dans 
+                votre serveur d'int&eacute;gration d&eacute;pend en grande partie de la qualit&eacute; de 
+                vos tests, l'&eacute;quipe doit mettre l'accent sur la qualit&eacute; des tests et 
+                des pratiques associ&eacute;es.
+         </p>
+         <p>Dans ce livre nous verrons comment mettre en &#339;uvre une solution
+                d'Int&eacute;gration Continue robuste et compl&egrave;te avec Jenkins<a class="indexterm" name="I_indexterm1_d1e596"></a> ou Hudson.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="intro.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="intro-sect-introducing-jenkins.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;1.&nbsp;Introduction &agrave; Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;1.3.&nbsp;Introduction &agrave; Jenkins (n&eacute; Hudson)</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,557 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>7.5.&nbsp;Autorisation &#8212; Qui peut faire quoi</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-security.html" title="Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins">
+      <link rel="prev" href="sect-security-realms.html" title="7.4.&nbsp;Domaines de s&eacute;curit&eacute; &#8212; Identifier les utilisateurs Jenkins">
+      <link rel="next" href="sect-security-auditing.html" title="7.6.&nbsp;Audit &#8212; Garder la trace des actions utilisateurs">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-security-realms.html">7.4.&nbsp;Domaines de s&eacute;curit&eacute; &#8212; Identifier les
+                         utilisateurs Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-security-auditing.html">7.6.&nbsp;Audit &#8212; Garder la trace des actions utilisateurs</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-authorization"></a>7.5.&nbsp;Autorisation &#8212; Qui peut faire quoi
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Une fois que vous avez d&eacute;fini comment identifier vos utilisateurs,
+            vous devez d&eacute;cider ce qu'ils sont autoris&eacute;s &agrave; faire. Jenkins supporte
+                diff&eacute;rentes strat&eacute;gies dans ce domaine, allant d'une simple approche o&ugrave; un
+                utilisateur connect&eacute; peut faire n'importe quoi &agrave; des strat&eacute;gies impliquant
+                des r&ocirc;les plus pr&eacute;cis et des authentifications par projet.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sec-matrix-security"></a>7.5.1.&nbsp;S&eacute;curit&eacute; bas&eacute;e sur une matrice
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Laisser<a class="indexterm" name="ch07-matrix1"></a><a class="indexterm" name="ch07-matrix2"></a><a class="indexterm" name="ch07-matrix3"></a><a class="indexterm" name="I_indexterm7_d1e10761"></a> les utilisateurs connect&eacute;s faire n'importe quoi est
+                     certainement flexible, et pourrait suffire pour une petite &eacute;quipe. Pour
+                     des &eacute;quipes plus importantes ou multiples, ou des cas o&ugrave; Jenkins est
+                     utilis&eacute; en dehors d'un environnement de d&eacute;veloppement, une approche plus
+                     sophistiqu&eacute;e est g&eacute;n&eacute;ralement requise.
+            </p>
+            <p>La s&eacute;curit&eacute; bas&eacute;e sur matrice est une approche plus &eacute;labor&eacute;e, o&ugrave;
+                     diff&eacute;rents utilisateurs se voient attribuer diff&eacute;rents droits, en
+                     utilisant une approche bas&eacute;e sur les r&ocirc;les.
+            </p>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e10959"></a>7.5.1.1.&nbsp;Mettre en place la s&eacute;curit&eacute; bas&eacute;e sur une matrice
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>La<a class="indexterm" name="I_indexterm7_d1e10774"></a><a class="indexterm" name="I_indexterm7_d1e10779"></a> premi&egrave;re &eacute;tape dans la configuration de la s&eacute;curit&eacute;
+                          bas&eacute;e sur une matrice dans Jenkins est de cr&eacute;er un administrateur.
+                          <span class="emphasis"><em>C'est une &eacute;tape essentielle, et elle doit &ecirc;tre effectu&eacute;e
+                                avant toutes les autres.</em></span> Votre administrateur peut &ecirc;tre un
+                          utilisateur existant, ou un cr&eacute;&eacute; sp&eacute;cialement dans ce but. Si vous
+                          voulez cr&eacute;er un utilisateur administrateur d&eacute;di&eacute;, cr&eacute;ez le simplement
+                          en vous enregistrant de la fa&ccedil;on habituelle (voir <a href="hudson-security-simple.html#fig-hudson-user-signup" title="Figure&nbsp;7.2.&nbsp;La page de connexion Jenkins">Figure&nbsp;7.2, &#8220;La page de connexion Jenkins&#8221;</a>). Il n'est pas n&eacute;cessaire qu'il
+                          soit associ&eacute; &agrave; un utilisateur SCM.
+               </p>
+               <p>Une fois que votre utilisateur administrateur est pr&ecirc;t, vous pouvez
+                          activer la s&eacute;curit&eacute; bas&eacute;e sur une matrice en s&eacute;lectionnant &#8220;S&eacute;curit&eacute;
+                          bas&eacute;e sur une matrice&#8221; dans la section Autorisations de la page de
+                          configuration principale. Jenkins affichera un tableau contenant les
+                          utilisateurs autoris&eacute;s, et des cases &agrave; cocher correspondant aux
+                          diff&eacute;rentes permissions que vous pouvez affecter &agrave; ces utilisateurs
+                          (voir <a href="sect-authorization.html#fig-hudson-matrix-anonymous" title="Figure&nbsp;7.16.&nbsp;S&eacute;curit&eacute; bas&eacute;e sur une matrice">Figure&nbsp;7.16, &#8220;S&eacute;curit&eacute; bas&eacute;e sur une matrice&#8221;</a>).
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-hudson-matrix-anonymous"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject7_d1e10799"></a><img src="figs/web/jtdg_0716.png" alt="S&eacute;curit&eacute; bas&eacute;e sur une matrice"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;7.16.&nbsp;S&eacute;curit&eacute; bas&eacute;e sur une matrice</b></p>
+                  </div><br class="figure-break"></div>
+               <p>L'utilisateur sp&eacute;cial &#8220;anonyme&#8221; est toujours pr&eacute;sent dans le
+                          tableau. Cet utilisateur repr&eacute;sente les utilisateurs non authentifi&eacute;s.
+                          Typiquement, vous ne donnez que des droits limit&eacute;s aux utilisateurs
+                          non authentifi&eacute;s, comme des acc&egrave;s en lecture seule, ou pas d'acc&egrave;s du
+                          tout (comme montr&eacute; dans <a href="sect-authorization.html#fig-hudson-matrix-anonymous" title="Figure&nbsp;7.16.&nbsp;S&eacute;curit&eacute; bas&eacute;e sur une matrice">Figure&nbsp;7.16, &#8220;S&eacute;curit&eacute; bas&eacute;e sur une matrice&#8221;</a>).
+               </p>
+               <p>La premi&egrave;re chose que vous devez savoir faire maintenant est de
+                          donner les droits d'administration &agrave; votre administrateur. Ajoutez cet
+                          utilisateur d'administration dans le champ &#8220;Utilisateur/groupe &agrave;
+                          ajouter&#8221; et cliquez sur Ajouter. Votre administrateur appara&icirc;tra alors
+                          dans la matrice de permissions. Maintenant assurez-vous d'accorder
+                          toutes les permissions &agrave; cet utilisateur (voir <a href="sect-authorization.html#fig-hudson-matrix-admin" title="Figure&nbsp;7.17.&nbsp;Configurer un administrateur">Figure&nbsp;7.17, &#8220;Configurer un administrateur&#8221;</a>), et sauvez votre configuration.
+                          Vous devriez &agrave; pr&eacute;sent &ecirc;tre capable de vous connecter avec votre
+                          compte utilisateur administrateur (si vous n'&ecirc;tes pas d&eacute;j&agrave; connect&eacute;
+                          avec ce compte) et continuer &agrave; configurer vos autres
+                          utilisateurs.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-hudson-matrix-admin"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject7_d1e10815"></a><img src="figs/web/jtdg_0717.png" alt="Configurer un administrateur"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;7.17.&nbsp;Configurer un administrateur</b></p>
+                  </div><br class="figure-break"></div>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e11010"></a>7.5.1.2.&nbsp;Configurer plus finement les permissions utilisateurs
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Une fois que vous avez configur&eacute; votre compte administrateur,
+                          vous pouvez ajouter d'autres utilisateurs ayant besoin d'acc&eacute;der &agrave;
+                          votre instance Jenkins. Ajoutez simplement les noms d'utilisateur et
+                          cochez les permissions que vous voulez leur accorder (voir <a href="sect-authorization.html#fig-hudson-matrix-users" title="Figure&nbsp;7.18.&nbsp;Configurer les autres utilisateurs">Figure&nbsp;7.18, &#8220;Configurer les autres utilisateurs&#8221;</a>). Si vous utilisez un serveur
+                          LDAP ou des utilisateurs ou groupes Unix comme sch&eacute;ma
+                          d'authentification sous-jacent (voir <a href="sect-security-realms.html#sec-security-ldap" title="7.4.2.&nbsp;Utiliser un annuaire LDAP">Section&nbsp;7.4.2, &#8220;Utiliser un annuaire LDAP&#8221;</a>), vous pouvez aussi configurer les
+                          permissions pour des groupes d'utilisateurs.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-hudson-matrix-users"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject7_d1e10832"></a><img src="figs/web/jtdg_0718.png" alt="Configurer les autres utilisateurs"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;7.18.&nbsp;Configurer les autres utilisateurs</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Vous pouvez accorder diff&eacute;rentes permissions, qui sont
+                          organis&eacute;es en plusieurs groupes : Global, Esclave, Job, Lancer, Voir
+                          et Gestion de version. La plupart des permissions sont assez
+                          &eacute;videntes, mais certaines n&eacute;cessitent un peu plus d'explication. Les
+                          permissions individuelles sont comme suit :
+               </p>
+               <div class="variablelist">
+                  <dl>
+                     <dt><span class="term"><span class="emphasis"><em>Global</em></span></span></dt>
+                     <dd>
+                        <p>Ce groupe couvre des permissions basiques sur l'ensemble
+                                         du syst&egrave;me :
+                        </p>
+                        <div class="variablelist">
+                           <dl>
+                              <dt><span class="term">Administrer</span></dt>
+                              <dd>
+                                 <p>Permet &agrave; un utilisateur de faire des modifications
+                                                        de configuration &agrave; l'ensemble du syst&egrave;me ou autres
+                                                        op&eacute;rations sensibles, par exemple dans les pages de
+                                                        configuration principales de Jenkins. Ceci devrait &ecirc;tre
+                                                        r&eacute;serv&eacute; &agrave; l'administrateur Jenkins.
+                                 </p>
+                              </dd>
+                              <dt><span class="term">Lire</span></dt>
+                              <dd>
+                                 <p>Cette permission fournit un acc&egrave;s en lecture seule &agrave;
+                                                        pratiquement toutes les pages de Jenkins. Si vous voulez
+                                                        que les utilisateurs anonymes puissent voir les t&acirc;ches
+                                                        librement, mais qu'ils ne puissent pas les modifier ou les
+                                                        d&eacute;marrer, donnez le droit Lire &agrave; l'utilisateur
+                                                        sp&eacute;cial &#8220;anonyme&#8221;. Sinon, enlevez simplement cette
+                                                        permission &agrave; l'utilisateur Anonyme. Et si vous voulez que
+                                                        tous les utilisateurs authentifi&eacute;s puissent voir les t&acirc;ches
+                                                        de build, ajoutez alors un utilisateur sp&eacute;cial
+                                                        &#8220;authenticated&#8221;, et donnez lui la permission
+                                                        Global/Lire.
+                                 </p>
+                              </dd>
+                           </dl>
+                        </div>
+                     </dd>
+                     <dt><span class="term"><span class="emphasis"><em>Esclave</em></span></span></dt>
+                     <dd>
+                        <p>Ce groupe couvre des permissions &agrave; propos de noeuds de
+                                         constructions, ou esclaves :
+                        </p>
+                        <div class="variablelist">
+                           <dl>
+                              <dt><span class="term">Configurer</span></dt>
+                              <dd>
+                                 <p>Cr&eacute;er ou configurer de nouveaux noeuds de
+                                                        construction.
+                                 </p>
+                              </dd>
+                              <dt><span class="term">Supprimer</span></dt>
+                              <dd>
+                                 <p>Supprimer des noeuds de construction.</p>
+                              </dd>
+                           </dl>
+                        </div>
+                     </dd>
+                     <dt><span class="term"><span class="emphasis"><em>Job</em></span></span></dt>
+                     <dd>
+                        <p>Ce group couvre des permissions li&eacute;es aux t&acirc;ches :</p>
+                        <div class="variablelist">
+                           <dl>
+                              <dt><span class="term">Cr&eacute;er</span></dt>
+                              <dd>
+                                 <p>Cr&eacute;er une nouvelle t&acirc;che de build.</p>
+                              </dd>
+                              <dt><span class="term">Supprimer</span></dt>
+                              <dd>
+                                 <p>Supprimer une t&acirc;che de build existante.</p>
+                              </dd>
+                              <dt><span class="term">Configurer</span></dt>
+                              <dd>
+                                 <p>Mettre &agrave; jour la configuration de t&acirc;ches de build
+                                                        existantes.
+                                 </p>
+                              </dd>
+                              <dt><span class="term">Lire</span></dt>
+                              <dd>
+                                 <p>Voir des t&acirc;ches de build.</p>
+                              </dd>
+                              <dt><span class="term">Build</span></dt>
+                              <dd>
+                                 <p>D&eacute;marrer une t&acirc;che de build.</p>
+                              </dd>
+                              <dt><span class="term">Espace de travail</span></dt>
+                              <dd>
+                                 <p>Voir et t&eacute;l&eacute;charger le contenu de l'espace de
+                                                        travail pour une t&acirc;che de build. Rappelez-vous,
+                                                        l'espace de travail contient le code source et les
+                                                        artefacts, donc si vous voulez prot&eacute;ger ces derniers d'un
+                                                        acc&egrave;s g&eacute;n&eacute;ral, vous devriez enlever cette
+                                                        permission.
+                                 </p>
+                              </dd>
+                              <dt><span class="term">Release</span></dt>
+                              <dd>
+                                 <p>D&eacute;marrer une release Maven pour un projet configur&eacute;
+                                                        avec le plugin M2Release.
+                                 </p>
+                              </dd>
+                           </dl>
+                        </div>
+                     </dd>
+                     <dt><span class="term"><span class="emphasis"><em>Lancer</em></span></span></dt>
+                     <dd>
+                        <p>Ce <a class="indexterm" name="I_indexterm7_d1e10940"></a>groupe couvre les droits relatifs &agrave; des builds
+                                         sp&eacute;cifiques de l'historique des builds :
+                        </p>
+                        <div class="variablelist">
+                           <dl>
+                              <dt><span class="term">Supprimer</span></dt>
+                              <dd>
+                                 <p>Supprimer un build de l'historique de build.</p>
+                              </dd>
+                              <dt><span class="term">Mettre &agrave; jour</span></dt>
+                              <dd>
+                                 <p>Mettre &agrave; jour la description et d'autres propri&eacute;t&eacute;s
+                                                        d'un build dans l'historique de build. Ceci peut &ecirc;tre
+                                                        utile si un utilisateur veut laisser une note sur la cause
+                                                        des &eacute;checs de build, par exemple.
+                                 </p>
+                              </dd>
+                           </dl>
+                        </div>
+                     </dd>
+                     <dt><span class="term"><span class="emphasis"><em>Voir</em></span></span></dt>
+                     <dd>
+                        <p>Ce groupe couvre des vues de gestion :</p>
+                        <div class="variablelist">
+                           <dl>
+                              <dt><span class="term">Cr&eacute;er</span></dt>
+                              <dd>
+                                 <p>Cr&eacute;er une nouvelle vue.</p>
+                              </dd>
+                              <dt><span class="term">Supprimer</span></dt>
+                              <dd>
+                                 <p>Supprimer une vue existante.</p>
+                              </dd>
+                              <dt><span class="term">Configurer</span></dt>
+                              <dd>
+                                 <p>Configurer une vue existante.</p>
+                              </dd>
+                           </dl>
+                        </div>
+                     </dd>
+                     <dt><span class="term">Gestion de version</span></dt>
+                     <dd>
+                        <p>Permissions relatives &agrave; votre syst&egrave;me de contr&ocirc;le de
+                                         version :
+                        </p>
+                        <div class="variablelist">
+                           <dl>
+                              <dt><span class="term">Tag</span></dt>
+                              <dd>
+                                 <p>Cr&eacute;er un nouveau tag dans le d&eacute;p&ocirc;t de code source
+                                                        pour un build donn&eacute;.
+                                 </p>
+                              </dd>
+                           </dl>
+                        </div>
+                     </dd>
+                     <dt><span class="term">Autres</span></dt>
+                     <dd>
+                        <p>Il peut y avoir d'autres permissions disponibles, en
+                                         fonction des plugins install&eacute;s. Une permission utile est
+                                         :
+                        </p>
+                        <div class="variablelist">
+                           <dl>
+                              <dt><span class="term">Promouvoir</span></dt>
+                              <dd>
+                                 <p>Si le plugin Promoted Builds est install&eacute;, cette
+                                                        permission permet aux utilisateurs de promouvoir
+                                                        manuellement un build.
+                                 </p>
+                              </dd>
+                           </dl>
+                        </div>
+                     </dd>
+                  </dl>
+               </div>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e11198"></a>7.5.1.3.&nbsp;A l'aide ! Je me suis verrouill&eacute; tout seul !
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Il pourrait arriver que, pendant ce processus, vous vous
+                          bloquiez tout seul l'acc&egrave;s &agrave; Jenkins. Ceci peut arriver si, par
+                          exemple, vous sauvez la configuration matricielle sans avoir
+                          correctement configur&eacute; votre administrateur. Si cela arrive, ne
+                          paniquez pas &#8212; il y a une correction simple, du moment que vous avez
+                          acc&egrave;s au r&eacute;pertoire racine de Jenkins. Ouvrez simplement le fichier
+                          <code class="filename">config.xml</code> &agrave; la racine du
+                          r&eacute;pertoire de Jenkins. Il contiendra quelque chose de ce genre
+                          :
+               </p><a name="I_programlisting7_d1e11019"></a><pre class="programlisting">&lt;hudson&gt;
+    &lt;version&gt;1.391&lt;/version&gt;
+    &lt;numExecutors&gt;2&lt;/numExecutors&gt;
+    &lt;mode&gt;NORMAL&lt;/mode&gt;
+    &lt;useSecurity&gt;true&lt;/useSecurity&gt;
+    ...</pre><p>La chose &agrave; rechercher est l'&eacute;lement
+                          <code class="code">&lt;useSecurity&gt;</code>. Pour restaurer votre acc&egrave;s &agrave;
+                          Jenkins, changez cette valeur &agrave; false, et red&eacute;marrez votre serveur.
+                          Vous pourrez alors &agrave; nouveau acc&eacute;der &agrave; Jenkins, et mettre en place
+                          votre configuration de s&eacute;curit&eacute;<a class="indexterm" name="I_indexterm7_d1e11026"></a><a class="indexterm" name="I_indexterm7_d1e11028"></a><a class="indexterm" name="I_indexterm7_d1e11030"></a> correctement.
+               </p>
+            </div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e11220"></a>7.5.2.&nbsp;S&eacute;curit&eacute; bas&eacute;e sur le projet
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>La s&eacute;curit&eacute; bas&eacute;e sur <a class="indexterm" name="ch07-proj1"></a><a class="indexterm" name="ch07-proj2"></a><a class="indexterm" name="ch07-proj3"></a>le projet vous permet d'utiliser le mod&egrave;le de s&eacute;curit&eacute;
+                     matricielle dont vous venons de discuter, et l'appliquer &agrave; des projets
+                     individuels. Non seulement vous pouvez assigner des r&ocirc;les globaux &agrave; vos
+                     utilisateurs, mais vous pouvez aussi configurer des droits plus
+                     sp&eacute;cifiques &agrave; certains projets en particulier.
+            </p>
+            <p>Pour activer la s&eacute;curit&eacute; de niveau projet, s&eacute;lectionnez &#8220;Strat&eacute;gie
+                     d'autorisation matricielle bas&eacute;e sur les projets&#8221; dans la section
+                     Autorisations de l'&eacute;cran de configuration principal (voir <a href="sect-authorization.html#fig-hudson-project-based-security" title="Figure&nbsp;7.19.&nbsp;S&eacute;curit&eacute; bas&eacute;e sur le projet">Figure&nbsp;7.19, &#8220;S&eacute;curit&eacute; bas&eacute;e sur le projet&#8221;</a>). Ici, vous pouvez
+                     configurer des droits par d&eacute;faut pour les utilisateurs et les groupes,
+                     comme nous l'avons vu dans la s&eacute;curit&eacute; bas&eacute;e sur une matrice (voir <a href="sect-authorization.html#sec-matrix-security" title="7.5.1.&nbsp;S&eacute;curit&eacute; bas&eacute;e sur une matrice">Section&nbsp;7.5.1, &#8220;S&eacute;curit&eacute; bas&eacute;e sur une matrice&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-project-based-security"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e11063"></a><img src="figs/web/jtdg_0719.png" alt="S&eacute;curit&eacute; bas&eacute;e sur le projet"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.19.&nbsp;S&eacute;curit&eacute; bas&eacute;e sur le projet</b></p>
+            </div><br class="figure-break"><p>Ce sont les permissions par d&eacute;faut &agrave; appliquer &agrave; tous les projets
+                     qui n'ont pas &eacute;t&eacute; sp&eacute;cifiquement configur&eacute;s. Toutefois, quand vous
+                     utilisez la s&eacute;curit&eacute; bas&eacute;e sur le projet, vous pouvez aussi positionner
+                     des permissions sp&eacute;cifiques au projet. Pour faire cela, s&eacute;lectionnez
+                     &#8220;Activer la s&eacute;curit&eacute; bas&eacute;e sur le projet&#8221; dans l'&eacute;cran de configuration
+                     du projet (voir <a href="sect-authorization.html#fig-hudson-security-project-anon" title="Figure&nbsp;7.20.&nbsp;Configurer la s&eacute;curit&eacute; bas&eacute;e sur le projet">Figure&nbsp;7.20, &#8220;Configurer la s&eacute;curit&eacute; bas&eacute;e sur le projet&#8221;</a>).
+                     Jenkins affichera un tableau de permissions sp&eacute;cifiques au projet. Vous
+                     pouvez configurer ces permissions pour diff&eacute;rents utilisateurs et
+                     groupes comme dans la page de configuration globales. Ces permissions
+                     seront ajout&eacute;es aux permissions globales pour produire un ensemble de
+                     permissions sp&eacute;cifiquement applicables &agrave; ce projet.
+            </p>
+            <div class="figure"><a name="fig-hudson-security-project-anon"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e11076"></a><img src="figs/web/jtdg_0720.png" alt="Configurer la s&eacute;curit&eacute; bas&eacute;e sur le projet"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.20.&nbsp;Configurer la s&eacute;curit&eacute; bas&eacute;e sur le projet</b></p>
+            </div><br class="figure-break"><p>Comprendre comment cela fonctionne est plus facile avec quelques
+                     exemples pratiques. Dans <a href="sect-authorization.html#fig-hudson-project-based-security" title="Figure&nbsp;7.19.&nbsp;S&eacute;curit&eacute; bas&eacute;e sur le projet">Figure&nbsp;7.19, &#8220;S&eacute;curit&eacute; bas&eacute;e sur le projet&#8221;</a>, par exemple, aucune
+                     permission n'a &eacute;t&eacute; donn&eacute;e &agrave; l'utilisateur anonyme. Donc, par d&eacute;faut,
+                     toutes les t&acirc;ches de build resteront invisibles jusqu'&agrave; ce que
+                     l'utilisateur se connecte. Toutefois, nous utilisons une s&eacute;curit&eacute; bas&eacute;e
+                     sur le projet, nous pouvons donc red&eacute;finir cela projet par projet. Dans
+                     <a href="sect-authorization.html#fig-hudson-security-project-anon" title="Figure&nbsp;7.20.&nbsp;Configurer la s&eacute;curit&eacute; bas&eacute;e sur le projet">Figure&nbsp;7.20, &#8220;Configurer la s&eacute;curit&eacute; bas&eacute;e sur le projet&#8221;</a>, par exemple, nous
+                     avons configur&eacute; le projet <span class="emphasis"><em>game-of-life</em></span> pour qu'il
+                     offre l'acc&egrave;s en lecture seule &agrave; l'utilisateur sp&eacute;cial &#8220;anonyme&#8221;.
+            </p>
+            <p>Quand vous aurez sauv&eacute; cette configuration, les utilisateurs non
+                     authentifi&eacute;s pourront voir le projet <span class="emphasis"><em>game-of-life</em></span>
+                     en mode lecture seule (voir <a href="sect-authorization.html#fig-hudson-security-readonly-project" title="Figure&nbsp;7.21.&nbsp;Voir un projet">Figure&nbsp;7.21, &#8220;Voir un projet&#8221;</a>). Le m&ecirc;me principe
+                     s'applique avec toutes les permissions sp&eacute;cifiques au projet.
+            </p>
+            <div class="figure"><a name="fig-hudson-security-readonly-project"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e11100"></a><img src="figs/web/jtdg_0721.png" alt="Voir un projet"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.21.&nbsp;Voir un projet</b></p>
+            </div><br class="figure-break"><p>Notez que les permissions sont cumulatives &#8212; &agrave; l'&eacute;criture de ces
+                     lignes, il n'y a pas de moyen d'enlever une permission globale pour un
+                     projet particulier. Par exemple, si l'utilisateur anonyme a l'acc&egrave;s en
+                     lecture seule au niveau global, vous ne pouvez pas lui enlever pour un
+                     projet individuel. Donc quand vous utilisez la s&eacute;curit&eacute; bas&eacute;e sur le
+                     projet, utilisez la matrice globale au syst&egrave;me pour d&eacute;finir des
+                     permissions par d&eacute;faut minimales &agrave; travers tous vos projets, et
+                     configurez les projets avec des autorisations additionnelles sp&eacute;cifiques
+                     au projet.
+            </p>
+            <p>Il y a plusieurs approches pour g&eacute;rer les permissions de projet,
+                     et elles d&eacute;pendent autant sur la culture organisationnelle que sur des
+                     consid&eacute;rations techniques. Une strat&eacute;gie courante est d'autoriser les
+                     membres de l'&eacute;quipe &agrave; avoir l'acc&egrave;s complet &agrave; leurs propres projets, et
+                     l'acc&egrave;s en lecture seule aux autres projets. <a class="indexterm" name="I_indexterm7_d1e11113"></a><a class="indexterm" name="I_indexterm7_d1e11118"></a>Le plugin Extended Read Permission est une extension utile
+                     &agrave; avoir dans ce sc&eacute;nario. Ce plugin vous permet d'offrir aux
+                     utilisateurs d'autres &eacute;quipes une vue en lecture seule de la
+                     configuration de votre projet, sans avoir &agrave; modifier quoi que ce soit
+                     (voir <a href="sect-authorization.html#fig-hudson-security-extended-read" title="Figure&nbsp;7.22.&nbsp;Configurer les permissions de droit de lecture &eacute;tendus">Figure&nbsp;7.22, &#8220;Configurer les permissions de droit de lecture &eacute;tendus&#8221;</a>). C'est un
+                     formidable moyen de partager des pratiques de configuration de build et
+                     des astuces avec d'autres &eacute;quipes sans les laisser trafiquer vos
+                     builds.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-security-extended-read"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e11130"></a><img src="figs/web/jtdg_0722.png" alt="Configurer les permissions de droit de lecture &eacute;tendus"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.22.&nbsp;Configurer les permissions de droit de lecture &eacute;tendus</b></p>
+               </div><br class="figure-break"></div>
+            <p>Il est int&eacute;ressant de noter que, aussi importantes ou multiples
+                     que soient les &eacute;quipes impliqu&eacute;es, la base de donn&eacute;es interne de Jenkins
+                     atteint ses limites assez rapidement, et cela vaut le coup d'envisager
+                     l'int&eacute;gration avec un service d'annuaire plus sp&eacute;cialis&eacute; comme un
+                     serveur LDAP, Active Directory ou Atlassian Crowd, ou alors un syst&egrave;me
+                     de permission plus sophistiqu&eacute; comme une s&eacute;curit&eacute; bas&eacute;e sur les r&ocirc;les,
+                     discut&eacute;e dans la section <a class="indexterm" name="I_indexterm7_d1e11137"></a><a class="indexterm" name="I_indexterm7_d1e11139"></a><a class="indexterm" name="I_indexterm7_d1e11141"></a>suivante.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e11324"></a>7.5.3.&nbsp;S&eacute;curit&eacute; bas&eacute;e sur les r&ocirc;les
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Quelques fois, <a class="indexterm" name="ch07-role1"></a><a class="indexterm" name="ch07-role2"></a><a class="indexterm" name="ch07-role3"></a>g&eacute;rer les permissions utilisateur individuellement peut
+                     s'av&eacute;rer r&eacute;barbatif, et vous pourriez ne pas vouloir vous int&eacute;grer avec
+                     un serveur LDAP pour configurer vos groupes avec. Une alternative plus
+                     r&eacute;cente est d'utiliser le plugin<a class="indexterm" name="I_indexterm7_d1e11165"></a><a class="indexterm" name="I_indexterm7_d1e11170"></a> Role Strategy, qui permet de d&eacute;finir des r&ocirc;les globaux ou
+                     de niveau projet, et les affecter aux utilisateurs.
+            </p>
+            <p>Vous installez le plugin de fa&ccedil;on habituelle, via le gestionnaire
+                     de plugin. Une fois install&eacute;, vous pouvez activer cette strat&eacute;gie
+                     d'autorisation sur la page de configuration principale (voir <a href="sect-authorization.html#fig-hudson-security-role-based" title="Figure&nbsp;7.23.&nbsp;Configurer la s&eacute;curit&eacute; bas&eacute;e sur les r&ocirc;les">Figure&nbsp;7.23, &#8220;Configurer la s&eacute;curit&eacute; bas&eacute;e sur les r&ocirc;les&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-security-role-based"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e11181"></a><img src="figs/web/jtdg_0723.png" alt="Configurer la s&eacute;curit&eacute; bas&eacute;e sur les r&ocirc;les"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.23.&nbsp;Configurer la s&eacute;curit&eacute; bas&eacute;e sur les r&ocirc;les</b></p>
+               </div><br class="figure-break"></div>
+            <p>Quand vous avez configur&eacute; cela, vous pouvez d&eacute;finir des r&ocirc;les
+                     regroupant des ensembles de permissions li&eacute;es les unes aux autres. Vous
+                     cr&eacute;ez et configurez vos r&ocirc;les, puis les assignez &agrave; vos utilisateurs,
+                     dans l'&eacute;cran de gestion de r&ocirc;les, auquel vous acc&eacute;dez dans l'&eacute;cran
+                     Administrer Jenkins (voir <a href="sect-authorization.html#fig-hudson-security-manage-roles-menu" title="Figure&nbsp;7.24.&nbsp;Le menu de configuration G&eacute;rer les r&ocirc;les">Figure&nbsp;7.24, &#8220;Le menu de configuration G&eacute;rer les r&ocirc;les&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-security-manage-roles-menu"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e11193"></a><img src="figs/web/jtdg_0724.png" alt="Le menu de configuration G&eacute;rer les r&ocirc;les"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.24.&nbsp;Le menu de configuration G&eacute;rer les r&ocirc;les</b></p>
+               </div><br class="figure-break"></div>
+            <p>Dans l'&eacute;cran G&eacute;rer les r&ocirc;les, vous pouvez mettre en place des
+                     permissions globales <a class="indexterm" name="I_indexterm7_d1e11200"></a>ou de niveau projet. Les permissions globales s'appliquent
+                     &agrave; tous les projets, et sont typiquement des permissions d'administration
+                     du syst&egrave;me ou d'acc&egrave;s g&eacute;n&eacute;ral (voir <a href="sect-authorization.html#fig-hudson-security-global-roles" title="Figure&nbsp;7.25.&nbsp;G&eacute;rer les r&ocirc;les globaux">Figure&nbsp;7.25, &#8220;G&eacute;rer les r&ocirc;les globaux&#8221;</a>). La mise en oeuvre de ces
+                     r&ocirc;les est intuitive et similaire &agrave; la configuration des permissions
+                     utilisateur dans les autres mod&egrave;les de securit&eacute; que nous avons
+                     vus.
+            </p>
+            <div class="figure"><a name="fig-hudson-security-global-roles"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e11209"></a><img src="figs/web/jtdg_0725.png" alt="G&eacute;rer les r&ocirc;les globaux"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.25.&nbsp;G&eacute;rer les r&ocirc;les globaux</b></p>
+            </div><br class="figure-break"><p>Les r&ocirc;les de projet sont l&eacute;g&egrave;rement plus compliqu&eacute;s. Un r&ocirc;le de
+                     projet regroupe un ensemble de permissions applicables &agrave; un ou plusieurs
+                     projets (a priori reli&eacute;s). Vous d&eacute;finissez les projets concern&eacute;s en
+                     utilisant une expression r&eacute;guli&egrave;re, cela aide &agrave; avoir un ensemble
+                     clair et coh&eacute;rernt de conventions de nommage dans vos noms de projets
+                     (voir <a href="sect-authorization.html#fig-hudson-security-project-roles" title="Figure&nbsp;7.26.&nbsp;G&eacute;rer les r&ocirc;les de projets">Figure&nbsp;7.26, &#8220;G&eacute;rer les r&ocirc;les de projets&#8221;</a>). Par
+                     exemple, vous pouvez vouloir cr&eacute;er des r&ocirc;les distinguant les
+                     d&eacute;veloppeurs avec des droits complets sur leurs propres projets
+                     d'utilisateur qui peuvent simplement d&eacute;clencher un build et voir le
+                     r&eacute;sultat. Ou vous pouvez cr&eacute;er des r&ocirc;les o&ugrave; les d&eacute;veloppeurs peuvent
+                     configurer certaines t&acirc;ches de build de d&eacute;ploiement automatis&eacute;, mais que
+                     seules les &eacute;quipes de production soient autoris&eacute;es &agrave; ex&eacute;cuter ces
+                     t&acirc;ches.
+            </p>
+            <div class="figure"><a name="fig-hudson-security-project-roles"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e11221"></a><img src="figs/web/jtdg_0726.png" alt="G&eacute;rer les r&ocirc;les de projets"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.26.&nbsp;G&eacute;rer les r&ocirc;les de projets</b></p>
+            </div><br class="figure-break"><p>Une fois ces r&ocirc;les d&eacute;finis, vous pouvez aller dans l'&eacute;cran
+                     Assigner les r&ocirc;les pour configurer les utilisateurs ou groupes avec ces
+                     r&ocirc;les (voir <a href="sect-authorization.html#fig-hudson-security-assign-roles" title="Figure&nbsp;7.27.&nbsp;Assigner des r&ocirc;les &agrave; des utilisateurs">Figure&nbsp;7.27, &#8220;Assigner des r&ocirc;les &agrave; des utilisateurs&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-security-assign-roles"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e11234"></a><img src="figs/web/jtdg_0727.png" alt="Assigner des r&ocirc;les &agrave; des utilisateurs"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.27.&nbsp;Assigner des r&ocirc;les &agrave; des utilisateurs</b></p>
+            </div><br class="figure-break"><p>La strat&eacute;gie bas&eacute;e sur les r&ocirc;les est relativement nouvelle dans
+                     Jenkins, mais c'est une excellente fa&ccedil;on de simplifier les t&acirc;ches de
+                     gestion des permissions dans de grosses organisations, multi-&eacute;quipes et
+                     <a class="indexterm" name="I_indexterm7_d1e11241"></a><a class="indexterm" name="I_indexterm7_d1e11243"></a><a class="indexterm" name="I_indexterm7_d1e11245"></a> multi-projets.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-security-realms.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-security-auditing.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">7.4.&nbsp;Domaines de s&eacute;curit&eacute; &#8212; Identifier les
+                      utilisateurs Jenkins&nbsp;
+               </td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;7.6.&nbsp;Audit &#8212; Garder la trace des actions utilisateurs</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

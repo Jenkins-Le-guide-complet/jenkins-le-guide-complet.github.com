@@ -1,0 +1,179 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="I_sect14_d1e4953.html" title="4.10.&nbsp;Conclusion">
+      <link rel="next" href="sect-build-jobs.html" title="5.2.&nbsp;T&acirc;ches de Build Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect14_d1e4953.html">4.10.&nbsp;Conclusion</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-jobs.html">5.2.&nbsp;T&acirc;ches de Build Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="chapter-build-jobs"></a>Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="chapter-build-jobs.html#sect-build-jobs-introduction">5.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="sect-build-jobs.html">5.2. T&acirc;ches de Build Jenkins</a></span></dt>
+               <dt><span class="sect1"><a href="sect-build-jobs-freestyle.html">5.3. Cr&eacute;er une t&acirc;che de build free-style</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-build-jobs-freestyle.html#sect-general-options">5.3.1. Options G&eacute;n&eacute;rales</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-jobs-freestyle.html#d0e5323">5.3.2. Options avanc&eacute;es du projet</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-subversion.html">5.4. Configurer la Gestion du Code Source</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-subversion.html#d0e5426">5.4.1. Travailler avec Subversion</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-subversion.html#git-plugin">5.4.2. Travailler avec Git</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect3"><a href="sect-subversion.html#installing-the-plugin">5.4.2.1. Installation du plugin</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-subversion.html#using-the-plugin">5.4.2.2. Utilisation du plugin</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-subversion.html#build-triggers">5.4.2.3. D&eacute;clencheurs de build</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-subversion.html#post-build-actions">5.4.2.4. Actions post-build</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-subversion.html#github-plugin">5.4.2.5. Plugin GitHub</a></span></dt>
+                        </dl>
+                     </dd>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-build-triggers.html">5.5. D&eacute;clencheurs de build</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-build-triggers.html#d0e6469">5.5.1. D&eacute;clencher une t&acirc;che de build lorsqu'une autre t&acirc;che de build
+                                    se termine</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-triggers.html#d0e6508">5.5.2. T&acirc;ches de build p&eacute;riodiques</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-triggers.html#d0e6588">5.5.3. Scruter le SCM</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-triggers.html#sect-build-trigger-remote">5.5.4. D&eacute;clencher des builds &agrave; distance</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-triggers.html#d0e6726">5.5.5. Construction manuelle de t&acirc;ches</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="I_sect15_d1e6584.html">5.6. Les &eacute;tapes de builds</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="I_sect15_d1e6584.html#d0e6767">5.6.1. Les &eacute;tapes de build Maven</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect15_d1e6584.html#d0e6892">5.6.2. Les &eacute;tapes de build Ant</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect15_d1e6584.html#d0e6942">5.6.3. Ex&eacute;cuter une commande Batch Shell ou Windows</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect15_d1e6584.html#sect-hudson-environment-variables">5.6.4. Utiliser les variables d&#8217;environnement Jenkins dans vos builds</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect15_d1e6584.html#d0e7336">5.6.5. Ex&eacute;cuter des scripts Groovy</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect15_d1e6584.html#d0e7420">5.6.6. Construire des projets dans d&#8217;autres langages</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="I_sect15_d1e7235.html">5.7. Les actions &agrave; la suite du build</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="I_sect15_d1e7235.html#d0e7447">5.7.1. Rapport sur les r&eacute;sultats de tests</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect15_d1e7235.html#d0e7498">5.7.2. Archiver les r&eacute;sultats de build</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect15_d1e7235.html#d0e7713">5.7.3. Notifications</a></span></dt>
+                     <dt><span class="sect2"><a href="I_sect15_d1e7235.html#d0e7767">5.7.4. Construire d&#8217;autres projets</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="I_sect15_d1e7582.html">5.8. D&eacute;marrer votre nouvelle t&acirc;che de build</a></span></dt>
+               <dt><span class="sect1"><a href="sect-build-jobs-maven.html">5.9. Travailler avec des t&acirc;ches de build Maven</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e7841">5.9.1. Construire d&egrave;s lors qu&#8217;une d&eacute;pendance SNAPSHOT est construite</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e7910">5.9.2. Configurer un build Maven</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e8029">5.9.3. Les actions &agrave; la suite du build</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-jobs-maven.html#sect-builds-deploy-enterprise-repository">5.9.4. D&eacute;ployer vers un gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e8192">5.9.5. D&eacute;ployer vers des gestionnaires de d&eacute;p&ocirc;t d&#8217;entreprise commerciales</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e8232">5.9.6. G&eacute;rer les modules</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e8255">5.9.7. Les &eacute;tapes de build suppl&eacute;mentaires dans votre t&acirc;che de build Maven</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="using-jenkins-with-other-languages.html">5.10. Utiliser Jenkins avec d&#8217;autres langages</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="using-jenkins-with-other-languages.html#d0e8295">5.10.1. Construire des projets avec Grails</a></span></dt>
+                     <dt><span class="sect2"><a href="using-jenkins-with-other-languages.html#d0e8361">5.10.2. Construire des projets avec Gradle</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect3"><a href="using-jenkins-with-other-languages.html#the-gradle-plugin-for-hudson">5.10.2.1. Le plugin Gradle de Jenkins</a></span></dt>
+                           <dt><span class="sect3"><a href="using-jenkins-with-other-languages.html#incremental-builds">5.10.2.2. Les builds incr&eacute;mentaux</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect2"><a href="using-jenkins-with-other-languages.html#d0e8472">5.10.3. Construire des projets avec Visual Studio MSBuild</a></span></dt>
+                     <dt><span class="sect2"><a href="using-jenkins-with-other-languages.html#d0e8557">5.10.4. Construire des projets avec NAnt</a></span></dt>
+                     <dt><span class="sect2"><a href="using-jenkins-with-other-languages.html#sect-ruby-builds">5.10.5. Construire des projets avec Ruby et Ruby on Rails</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-build-jobs-conclusion.html">5.11. Conclusion</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="sect-build-jobs-introduction"></a>5.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p><a class="indexterm" name="I_indexterm5_d1e4965"></a>Les t&acirc;ches de build sont les &eacute;l&eacute;ments de base d'un serveur
+                       d'Int&eacute;gration Continue.
+            </p>
+            <p>Une t&acirc;che de build est une mani&egrave;re de compiler, tester, empaqueter,
+                       d&eacute;ployer ou d'effectuer des actions sur votre projet. Les t&acirc;ches de build
+                       apparaissent sous plusieurs formes ; vous pouvez compiler et tester unitairement
+                       votre application, cr&eacute;er des rapports qualim&eacute;triques pour votre code source,
+                       g&eacute;n&eacute;rer de la documentation, empaqueter une application pour une livraison,
+                       la d&eacute;ployer en environnement de production, ex&eacute;cuter un test de fum&eacute;e automatis&eacute;
+                       ou n'importe quelles autres t&acirc;ches similaires.
+            </p>
+            <p>Un projet logiciel aura g&eacute;n&eacute;ralement plusieurs t&acirc;ches de build attach&eacute;es.
+                       Vous pourriez d&eacute;marrer avec une t&acirc;che de build d&eacute;di&eacute;e qui ex&eacute;cute tous les tests unitaires
+                       par exemple. Si ceux-ci se terminent avec succ&egrave;s, vous pourriez poursuivre
+                       avec une t&acirc;che de build ex&eacute;cutant des tests d'int&eacute;gration plus longs, faire tourner la
+                       qualim&eacute;trie sur le code ou g&eacute;n&eacute;rer la documentation technique avant d'<span class="keep-together">empaqueter</span> votre application
+                       web pour la d&eacute;ployer sur un serveur de test.
+            </p>
+            <p>Dans Jenkins, les t&acirc;ches de build sont simples &agrave; configurer.  Dans ce
+                       chapitre, nous verrons les diff&eacute;rents types de t&acirc;ches de build et la mani&egrave;re de les
+                       configurer. Dans les chapitres suivants, nous irons plus loin en regardant
+                       comment organiser plusieurs t&acirc;ches de build, comment configurer un s&eacute;quen&ccedil;age
+                       pour la promotion de builds et comment automatiser la proc&eacute;dure de
+                       d&eacute;ploiement. D&eacute;marrons pour l'instant avec la mani&egrave;re de configurer une
+                       t&acirc;che basique de build dans Jenkins.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect14_d1e4953.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-jobs.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">4.10.&nbsp;Conclusion&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;5.2.&nbsp;T&acirc;ches de Build Jenkins</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

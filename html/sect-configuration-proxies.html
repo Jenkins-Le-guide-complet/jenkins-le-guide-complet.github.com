@@ -1,0 +1,83 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>4.9.&nbsp;Configurer un Proxy</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-configuration.html" title="Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins">
+      <link rel="prev" href="sect-configuration-email.html" title="4.8.&nbsp;Configurer le serveur de messagerie &eacute;lectronique">
+      <link rel="next" href="I_sect14_d1e4953.html" title="4.10.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-email.html">4.8.&nbsp;Configurer le serveur de messagerie &eacute;lectronique</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect14_d1e4953.html">4.10.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-configuration-proxies"></a>4.9.&nbsp;Configurer un Proxy
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p><a class="indexterm" name="ch04-proxy1"></a><a class="indexterm" name="ch04-proxy2"></a>Dans la plupart des environnements d'entreprise, votre
+            serveur Jenkins sera situ&eacute; derri&egrave;re un pare-feu, et n'aura pas un acc&egrave;s
+            direct &agrave; Internet. Jenkins a besoin d'un acc&egrave;s Internet pour t&eacute;l&eacute;charger
+            les plugins et les mises &agrave; jour, et aussi pour installer les outils tels
+                que le JDK, Ant et Maven depuis des sites distants. Si vous avez besoin de
+                passer par un serveur proxy HTTP<a class="indexterm" name="I_indexterm4_d1e4922"></a> pour acc&eacute;der &agrave; Internet, vous pouvez configurer les d&eacute;tails
+                de connexion (le serveur et le port, et si n&eacute;cessaire le nom utilisateur
+                et le mot de passe) dans l'onglet Avanc&eacute; de l'&eacute;cran Gestionnaire de
+                plugins (voir <span class="keep-together"><a href="sect-configuration-proxies.html#fig-configuration-proxy" title="Figure&nbsp;4.12.&nbsp;Configurer Jenkins pour utiliser un proxy">Figure&nbsp;4.12, &#8220;Configurer Jenkins pour utiliser un proxy&#8221;</a></span>).
+         </p>
+         <p>Si votre proxy utilise le syst&egrave;me d'authentification Microsoft
+                <a class="indexterm" name="I_indexterm4_d1e4934"></a>NTLM, vous devrez alors fournir un nom de domaine en plus
+                d'un nom d'utilisateur. Vous pouvez placer les deux dans le champ Nom
+                d'utilisateur : entrez simplement le nom de domaine, suivi par anti-slash
+                (\), puis par le nom utilisateur, comme par exemple &#8220;MonDomain\Joe
+                Bloggs&#8221;.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-configuration-proxy"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject4_d1e4941"></a><img src="figs/web/jtdg_0412.png" alt="Configurer Jenkins pour utiliser un proxy"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;4.12.&nbsp;Configurer Jenkins pour utiliser un proxy</b></p>
+            </div><br class="figure-break"></div>
+         <p>Enfin, si vous mettez en place un acc&egrave;s Proxy sur votre serveur
+                Jenkins, rappelez-vous que tous les autres outils de ce serveur auront
+                besoin de conna&icirc;tre aussi l'existence de ce proxy. En particulier, cela
+                inclut des outils comme Subversion (si vous acc&eacute;dez &agrave; un d&eacute;p&ocirc;t externe)
+            	et Maven (si vous n'utilisez pas un <span class="emphasis"><em>Enterprise Repository
+                      <a class="indexterm" name="I_indexterm4_d1e4948"></a><a class="indexterm" name="I_indexterm4_d1e4950"></a>Manager</em></span>).
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-email.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect14_d1e4953.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">4.8.&nbsp;Configurer le serveur de messagerie &eacute;lectronique&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;4.10.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,356 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>5.9.&nbsp;Travailler avec des t&acirc;ches de build Maven</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-build-jobs.html" title="Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build">
+      <link rel="prev" href="I_sect15_d1e7582.html" title="5.8.&nbsp;D&eacute;marrer votre nouvelle t&acirc;che de build">
+      <link rel="next" href="using-jenkins-with-other-languages.html" title="5.10.&nbsp;Utiliser Jenkins avec d&#8217;autres langages">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect15_d1e7582.html">5.8.&nbsp;D&eacute;marrer votre nouvelle t&acirc;che de build</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="using-jenkins-with-other-languages.html">5.10.&nbsp;Utiliser Jenkins avec d&#8217;autres langages</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-build-jobs-maven"></a>5.9.&nbsp;Travailler avec des t&acirc;ches de build Maven
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Dans <a class="indexterm" name="ch05-mavenjob"></a>cette section, nous allons avoir un aper&ccedil;u de l&#8217;autre type de t&acirc;che de build commun&eacute;ment utilis&eacute; : les t&acirc;ches de build Maven
+            2/3.
+         </p>
+         <p>Les t&acirc;ches de build Maven sont sp&eacute;cifiquement adapt&eacute;es pour les builds Maven 2 et Maven 3. Cr&eacute;er une t&acirc;che de build Maven
+            n&eacute;cessite consid&eacute;rablement moins de travail que son &eacute;quivalent en t&acirc;che de build <span class="keep-together">Freestyle</span>. Les t&acirc;ches de build Maven supportent les fonctionnalit&eacute;s avanc&eacute;es li&eacute;es &agrave; Maven comme les builds incr&eacute;mentaux sur les projets
+            multi-modules et les builds d&eacute;clench&eacute;s par des changements sur des d&eacute;pendances en snapshot, et permettent une configuration
+            et des rapports plus simples.
+         </p>
+         <p>Cependant, il y a un hic : les t&acirc;ches de build Maven 2/3 sont moins flexibles que les t&acirc;ches de build Freestyle, et ne supportent
+            pas des &eacute;tapes de build multiples dans la m&ecirc;me t&acirc;che de build. Certains utilisateurs ont aussi signal&eacute;s que les gros projets
+            Maven tendent &agrave; &ecirc;tre plus lents et utilisent plus de m&eacute;moire lorsqu&#8217;ils sont configur&eacute;s avec des t&acirc;ches de build Maven au
+            lieu de leur &eacute;quivalent en Freestyle.
+         </p>
+         <p>Dans cette section, nous allons &eacute;tudier pour savoir comment configurer des builds Maven 2/3, quand les utiliser, ainsi que
+            leurs avantages et inconv&eacute;nients.
+         </p>
+         <p>Pour <a class="indexterm" name="I_indexterm5_d1e7613"></a>cr&eacute;er une nouvelle t&acirc;che de build, il suffit de choisir l&#8217;option &laquo; Construire un projet Maven 2/3 &raquo; dans la page Nouveau Job
+            (voir <a href="sect-build-jobs-maven.html#fig-hudson-build-job-new-mvn2" title="Figure&nbsp;5.37.&nbsp;Cr&eacute;er une nouvelle t&acirc;che de build Maven">Figure&nbsp;5.37, &#8220;Cr&eacute;er une nouvelle t&acirc;che de build Maven&#8221;</a>).
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-build-job-new-mvn2"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e7624"></a><img src="figs/web/jtdg_0547.png" alt="Cr&eacute;er une nouvelle t&acirc;che de build Maven"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.37.&nbsp;Cr&eacute;er une nouvelle t&acirc;che de build Maven</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e7841"></a>5.9.1.&nbsp;Construire d&egrave;s lors qu&#8217;une d&eacute;pendance SNAPSHOT est construite
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>A premi&egrave;re <a class="indexterm" name="ch05-mavtrigger1"></a><a class="indexterm" name="ch05-mavtrigger2"></a>vue, l&#8217;&eacute;cran de configuration d&#8217;une t&acirc;che de build Maven 2/3 est tr&egrave;s similaire &agrave; celle que nous avions vu pour les t&acirc;ches
+               de build dans la section pr&eacute;c&eacute;dente. La premi&egrave;re diff&eacute;rence que vous pouvez noter est dans la section D&eacute;clencheurs de build.
+               Dans cette section, une option suppl&eacute;mentaire est disponible &laquo; Lance un build &agrave; chaque fois qu'une d&eacute;pendance SNAPSHOT est
+               construite &raquo;. Si vous s&eacute;lectionnez cette option, Jenkins examinera votre fichier <code class="filename">pom.xml</code> (ou les fichiers)pour regarder si aucunes d&eacute;pendances SNAPSHOT sont en train d&#8217;&ecirc;tre construire par d&#8217;autres t&acirc;ches de build.
+               Si n&#8217;importe laquelle des t&acirc;ches de build met &agrave; jour une d&eacute;pendance SNAPSHOT que votre projet utilise, Jenkins construira
+               aussi votre projet.
+            </p>
+            <p>Typiquement dans Maven, les d&eacute;pendances SNAPSHOT sont utilis&eacute;es pour partager la toute derni&egrave;re version d&#8217;une librairie avec
+               d&#8217;autres projets de la m&ecirc;me &eacute;quipe. Comme elles sont par d&eacute;finition instables, ce n&#8217;est pas une pratique recommand&eacute;e de lier
+               des d&eacute;pendances SNAPSHOT avec d&#8217;autres &eacute;quipes ou depuis des sources externes.
+            </p>
+            <p>Par exemple, imaginiez que vous &ecirc;tes en train de travailler sur une nouvelle application web <span class="emphasis"><em>game-of-life</em></span>. Vous utilisez Maven pour votre projet, donc vous pouvez utiliser une t&acirc;che de build Maven dans Jenkins. Votre &eacute;quipe travaille
+               aussi sur une librairie r&eacute;utilisable appel&eacute;e <span class="emphasis"><em>cooltools</em></span>. Comme ces deux projets sont d&eacute;velopp&eacute;s par la m&ecirc;me &eacute;quipe, vous utilisez certaines des derni&egrave;res fonctionnalit&eacute;s de <span class="emphasis"><em>cooltools</em></span> dans l&#8217;application <span class="emphasis"><em>game-of-life</em></span>. vous avez une d&eacute;pendance SNAPSHOT dans la section <code class="code">&lt;dependencies&gt;</code> du fichier <code class="filename">pom.xml</code> de <span class="emphasis"><em>game-of-life</em></span> :
+            </p><a name="I_programlisting5_d1e7672"></a><pre class="programlisting">    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.acme.common&lt;/groupId&gt;
+            &lt;artifactId&gt;cooltools&lt;/artifactId&gt;
+            &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+        ...
+    &lt;/dependencies&gt;</pre><p>Dans votre serveur Jenkins, vous avez configur&eacute; des t&acirc;ches de build Maven &agrave; la fois pour l&#8217;application <span class="emphasis"><em>cooltools</em></span> et <span class="emphasis"><em>game-of-life</em></span>. Comme votre projet <span class="emphasis"><em>game-of-life</em></span> a besoin de la derni&egrave;re version SNAPSHOT de <span class="emphasis"><em>cooltools</em></span>, vous cochez l&#8217;option &laquo; Lance un build &agrave; chaque fois qu'une d&eacute;pendance SNAPSHOT est construite &raquo;. Comme cela, d&egrave;s lors que
+               le projet <span class="emphasis"><em>cooltools</em></span> est reconstruit, le projet <span class="emphasis"><em>game-of-life</em></span> sera aussi <a class="indexterm" name="I_indexterm5_d1e7695"></a><a class="indexterm" name="I_indexterm5_d1e7697"></a>automatiquement reconstruit.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e7910"></a>5.9.2.&nbsp;Configurer un build Maven
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>La <a class="indexterm" name="I_indexterm5_d1e7705"></a>prochaine section o&ugrave; vous noterez un changement est la section Build. Dans une t&acirc;che de build Maven, la section Build est
+               enti&egrave;rement d&eacute;vou&eacute; au lancement d&#8217;un seul goal Maven (voir la figure <a href="sect-build-jobs-maven.html#fig-hudson-build-job-maven2" title="Figure&nbsp;5.38.&nbsp;Sp&eacute;cifier les goals Maven">Figure&nbsp;5.38, &#8220;Sp&eacute;cifier les goals Maven&#8221;</a>). Dans cette section, vous sp&eacute;cifiez la version de Maven que vous voulez ex&eacute;cuter (rappelez-vous, en tant que job Maven,
+               cela ne fonctionnera qu&#8217;avec Maven), la position du fichier <code class="filename">pom.xml</code>, et le goal Maven (ou les goals) &agrave; invoquer. Vous pouvez aussi ajouter n&#8217;importe quelles options de ligne de commande que
+               vous voulez ici.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-job-maven2"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e7719"></a><img src="figs/web/jtdg_0548.png" alt="Sp&eacute;cifier les goals Maven"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.38.&nbsp;Sp&eacute;cifier les goals Maven</b></p>
+               </div><br class="figure-break"></div>
+            <p>Dans beaucoup de cas, c&#8217;est tout ce que vous aurez besoin de faire pour configurer une t&acirc;che de build Maven. Cependant, si
+               vous cliques sur le bouton &laquo; Avanc&eacute;&#8230; &raquo;, vous pouvez cocher certaines fonctionnalit&eacute;s avanc&eacute;es (<a href="sect-build-jobs-maven.html#fig-hudson-build-job-maven2-advanced" title="Figure&nbsp;5.39.&nbsp;Les t&acirc;ches de build Maven &#8212; les options avanc&eacute;es">Figure&nbsp;5.39, &#8220;Les t&acirc;ches de build Maven &#8212; les options avanc&eacute;es&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-build-job-maven2-advanced"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e7731"></a><img src="figs/web/jtdg_0549.png" alt="Les t&acirc;ches de build Maven &#8212; les options avanc&eacute;es"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.39.&nbsp;Les t&acirc;ches de build Maven &#8212; les options avanc&eacute;es</b></p>
+            </div><br class="figure-break"><p>L&#8217;option de build incr&eacute;mental<a class="indexterm" name="I_indexterm5_d1e7738"></a> est tr&egrave;s pratique pour les grands builds multi modules Maven. Si vous cochez cette option, lorsqu&#8217;un changement est effectu&eacute;
+               sur l&#8217;un des modules du projet, Jenkins reconstruira uniquement ce module et les modules qui utilisent le module modifi&eacute;.
+               Il fait cette magie en utilisant certaines nouvelles fonctionnalit&eacute;s introduites par Maven 2.1 (donc cela ne fonctionnera
+               pas si vous utilisez Maven 2.0.x). Jenkins d&eacute;tecte quels modules a &eacute;t&eacute; modifi&eacute;s, et utilise l&#8217;option <code class="literal">-pl</code> (<code class="literal">--project-list</code>) pour construire uniquement les modules mis &agrave; jour, et l&#8217;option <code class="literal">-amd</code> (<code class="literal">--also-make-dependents</code>) pour construire aussi les modules qui utilises les modules mis &agrave; jour. Si rien n&#8217;a &eacute;t&eacute; modifi&eacute; dans le code source, tous
+               les modules sont construits.
+            </p>
+            <p>Par d&eacute;fault, Jenkins<a class="indexterm" name="I_indexterm5_d1e7758"></a><a class="indexterm" name="I_indexterm5_d1e7763"></a><a class="indexterm" name="I_indexterm5_d1e7768"></a> archivera tous les artefacts g&eacute;n&eacute;r&eacute;s par une t&acirc;che de build Maven. Cela peut &ecirc;tre utile &agrave; certains moments, mais cela peut
+               aussi &ecirc;tre tr&egrave;s co&ucirc;teux en place sur le disque. Si vous souhaitez d&eacute;sactiver cette option, il suffit de cocher l&#8217;option &laquo;
+               D&eacute;sactive l&#8217;archivage automatique des artefacts &raquo;. Alternativement, vous pouvez toujours limiter les artefacts stock&eacute;s en
+               utilisant l&#8217;option &laquo; Supprimer les anciens builds&raquo; tout en haut de la page de configuration.
+            </p>
+            <p>L&#8217;option &laquo; Construire les modules en parall&egrave;le &raquo;<a class="indexterm" name="I_indexterm5_d1e7778"></a> informe Jenkins qu&#8217;il peut d&eacute;marrer chaque module individuellement en parall&egrave;le comme un build s&eacute;par&eacute;. En th&eacute;orie, cela pourrait
+               rendre un peu plus rapide les constructions. En pratique, cela fonctionnera r&eacute;ellement si vos modules sont totalement ind&eacute;pendants
+               (si vous n&#8217;utilisez pas d&#8217;agr&eacute;gation), ce qui est rarement le cas. Si vous pensez que construire vos modules en parall&egrave;le
+               peut r&eacute;ellement acc&eacute;l&eacute;rer votre projet multi module, vous pouvez avoir envie d&#8217;utiliser un build freestyle avec Maven 3 et
+               sa nouvelle fonctionnalit&eacute; de construction parall&egrave;le.
+            </p>
+            <p>Une autre <a class="indexterm" name="I_indexterm5_d1e7786"></a>option utile est &laquo; Utiliser une repository Maven priv&eacute; &raquo;. Normalement, lorsque Jenkins d&eacute;marre Maven, il se comportera exactement
+               de la m&ecirc;me mani&egrave;re que Maven en ligne de commande : il stockera les artefacts et retrouvera les artefacts depuis le d&eacute;p&ocirc;t
+               Maven local (dans <code class="filename">~/.m2/repository</code> si vous ne l&#8217;avez pas configur&eacute; dans le fichier <code class="filename">settings.xml</code>). Ceci est efficient en terme d&#8217;espace disque, mais pas souvent id&eacute;al pour des constructions en IC. En effet, si plusieurs
+               t&acirc;ches de build sont en construction avec les m&ecirc;mes artefacts en SNAPSHOT, les constructions peuvent finir par se g&ecirc;ner les
+               unes avec les autres.
+            </p>
+            <p>Lorsque cette option est s&eacute;lectionn&eacute;e, Jenkins demande &agrave; Maven d&#8217;utiliser <code class="filename">$WORKSPACE/.repository</code>comme d&eacute;p&ocirc;t local Maven. Cela signifie que chaque job aura son propre d&eacute;p&ocirc;t Maven isol&eacute; pour lui tout seul. Cela r&egrave;gle les
+               probl&egrave;mes ci-dessus, au d&eacute;triment de la consommation d'espace disque suppl&eacute;mentaire.
+            </p>
+            <p>Avec cette option, Maven utilisera un d&eacute;p&ocirc;t Maven d&eacute;di&eacute; pour cette t&acirc;che de build, situ&eacute; dans le r&eacute;pertoire <code class="filename">$WORKSPACE/.repository </code>. Ceci prend plous d&#8217;espace disque, mais garantie une meilleur isolation pour nos t&acirc;ches de build.
+            </p>
+            <p>Une autre approche pour ce probl&egrave;me est de red&eacute;finir l&#8217;emplacement par d&eacute;faut du d&eacute;p&ocirc;t en utilisant la propri&eacute;t&eacute; <code class="literal">maven.repo.local</code>, comme montr&eacute; ici :
+            </p><a name="I_programlisting5_d1e7814"></a><pre class="programlisting">$ <strong class="userinput"><code>mvn install -Dmaven.repo.local=~/.m2/staging-repository</code></strong></pre><p>Cette approche &agrave; l&#8217;avantage d&#8217;&ecirc;tre capable de partager un d&eacute;p&ocirc;t entre certaines t&acirc;ches de builds, ce qui est utile si vous
+               souhaitez faire une s&eacute;rie de builds li&eacute;s. Cela fonctionnera aussi avec des t&acirc;ches Freestyle.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e8029"></a>5.9.3.&nbsp;Les actions &agrave; la suite du build
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Les <a class="indexterm" name="I_indexterm5_d1e7825"></a>actions &agrave; la suite du build dans une t&acirc;che de build Maven est consid&eacute;rablement simple &agrave; configurer compar&eacute; &agrave; une t&acirc;che Freestyle.
+               C&#8217;est simplement parce que, puisque c&#8217;est un build Maven, Jenkins sait o&ugrave; chercher un certain nombre de sortie du build. Les
+               artefacts, rapports de test, Javadoc, en ainsi de suite, sont tous g&eacute;n&eacute;r&eacute;s dans les r&eacute;pertoires standards, ce qui signifie
+               que <span class="emphasis"><em>vous</em></span> n&#8217;avez pas besoin de pr&eacute;ciser &agrave; Jenkins o&ugrave; trouver ces &eacute;l&eacute;ments. Donc Jenkins trouvera, et effectuera automatiquement des
+               rapports sur des r&eacute;sultats de test JUnit, par exemple. Plus loin dans ce livre, nous verrons comment les projets Maven simplifient
+               aussi la configuration de beaucoup d&#8217;outils de mesure de qualit&eacute; de code et de rapports.
+            </p>
+            <p>Beaucoup des autres actions &agrave; la suite du build sont similaires &agrave; ceux que nous avons <span class="keep-together">vus</span> dans une t&acirc;che de build Freestyle.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-builds-deploy-enterprise-repository"></a>5.9.4.&nbsp;D&eacute;ployer vers un gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une <a class="indexterm" name="ch05-erm1"></a><a class="indexterm" name="ch05-erm2"></a><a class="indexterm" name="ch05-erm3"></a><a class="indexterm" name="ch05-erm4"></a>option suppl&eacute;mentaire qui apparait dans les t&acirc;ches de build Maven est la capacit&eacute; de d&eacute;ployer vos artefacts vers un d&eacute;p&ocirc;t
+               Maven (voir la figure <a href="sect-build-jobs-maven.html#fig-hudson-maven2-deploy" title="Figure&nbsp;5.40.&nbsp;D&eacute;ployer des artefacts vers un d&eacute;p&ocirc;t Maven">Figure&nbsp;5.40, &#8220;D&eacute;ployer des artefacts vers un d&eacute;p&ocirc;t Maven&#8221;</a>). Un gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise est un serveur qui agit &agrave; la fois comme un proxy/cache pour des artefacts publics
+               de Maven, et comme un serveur de stockage centralis&eacute; pour vos propres artefacts internes. Des gestionnaires de d&eacute;p&ocirc;t d&#8217;entreprise
+               open source comme Nexus (de Sonatype) et Artifactory (de JFrog) fournissent des fonctionnalit&eacute;s de maintenance et d&#8217;administration
+               puissantes qui permettent de configurer et maintenir vos d&eacute;p&ocirc;ts Maven tr&egrave;s simplement. Ces deux produits ont des versions
+               commerciales, avec des fonctionnalit&eacute;s additionnelles  visant &agrave; construire des infrastructures plus sophistiqu&eacute;es ou haut
+               de gamme.
+            </p>
+            <p>L&#8217;avantage d&#8217;avoir Jenkins qui d&eacute;ploie vos artefacts (&agrave; l&#8217;oppos&eacute; de simplement faire <code class="literal">mvn deploy</code>) est que, si vous avez un build Maven multi module, les artefacts seront d&eacute;ploy&eacute;s uniquement lorsque le build entier a fini
+               avec succ&egrave;s. Par exemple, supposons que vous ayez un projet Maven multi module avec cinq modules. Si vous lancez <code class="literal">mvn deploy</code>, et que le build &eacute;choue apr&egrave;s trois modules, les deux premiers modules vont avoir &eacute;t&eacute; d&eacute;ploy&eacute;s vers votre d&eacute;p&ocirc;t, mais pas
+               les trois premiers, qui laissent votre d&eacute;p&ocirc;t dans un &eacute;tat instable. Faire en sorte que Jenkins faire le d&eacute;ploiement assure
+               que les artefacts sont d&eacute;ploy&eacute;s comme un groupe une fois que le build a termin&eacute; avec succ&egrave;s.
+            </p>
+            <div class="figure"><a name="fig-hudson-maven2-deploy"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e7878"></a><img src="figs/web/jtdg_0550.png" alt="D&eacute;ployer des artefacts vers un d&eacute;p&ocirc;t Maven"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.40.&nbsp;D&eacute;ployer des artefacts vers un d&eacute;p&ocirc;t Maven</b></p>
+            </div><br class="figure-break"><p>Pour faire cela,  il suffit de cocher l&#8217;option &laquo; D&eacute;ployer les artefacts dans le repository Maven &raquo; dans les actions &agrave; la suite
+               du build. Vous aurez besoin de sp&eacute;cifier l&#8217;URL du d&eacute;p&ocirc;t sur lequel vous voulez d&eacute;ployer. Il faut que cela soit l&#8217;URL compl&egrave;te
+               vers le d&eacute;p&ocirc;t (ex : <span class="emphasis"><em>http://nexus.acme.com/nexus/content/repositories/snapshots</em></span>, et pas juste <span class="emphasis"><em>http://nexus.acme.com/nexus</em></span>)
+            </p>
+            <p>La plupart des d&eacute;p&ocirc;ts ont besoin de vous authentifier avant de vous laisser d&eacute;ployer des artefacts. La mani&egrave;re standard de
+               Maven pour faire cela est de placer <code class="literal">&lt;server&gt;</code> dans votre fichier <code class="filename">settings.xml</code> local, comme montr&eacute; ici :
+            </p><a name="I_programlisting5_d1e7899"></a><pre class="programlisting">&lt;settings...&gt;
+  &lt;servers&gt;
+    &lt;server&gt;
+      &lt;id&gt;nexus-snapshots&lt;/id&gt;
+      &lt;username&gt;scott&lt;/username&gt;
+      &lt;password&gt;tiger&lt;/password&gt;
+    &lt;/server&gt;
+    &lt;server&gt;
+      &lt;id&gt;nexus-releases&lt;/id&gt;
+      &lt;username&gt;scott&lt;/username&gt;
+      &lt;password&gt;tiger&lt;/password&gt;
+    &lt;/server&gt;
+  &lt;/servers&gt;
+&lt;/settings&gt;</pre><p>Pour les personnes qui souhaitent plus de s&eacute;curit&eacute;, vous pouvez aussi encrypter ces mots de passe si besoin est.</p>
+            <p>Ensuite, entrez l&#8217;identifiant correspondant dans le champ Identifiant du repository de Jenkins. Jenkins sera alors capable
+               de retrouver le bon nom d&#8217;utilisateur et mot de passe, et de d&eacute;ployer vos artefacts. Une fois que le build sera termin&eacute;, vos
+               artefacts devraient &ecirc;tre disponibles sur votre d&eacute;p&ocirc;t d&#8217;entreprise Maven (voir la figure <a href="sect-build-jobs-maven.html#fig-nexus-artifact-deployed" title="Figure&nbsp;5.41.&nbsp;Apr&egrave;s d&eacute;ploiement, l&#8217;artefact devrait &ecirc;tre disponible sur votre gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise">Figure&nbsp;5.41, &#8220;Apr&egrave;s d&eacute;ploiement, l&#8217;artefact devrait &ecirc;tre disponible sur votre gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-nexus-artifact-deployed"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e7910"></a><img src="figs/web/jtdg_0551.png" alt="Apr&egrave;s d&eacute;ploiement, l&#8217;artefact devrait &ecirc;tre disponible sur votre gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.41.&nbsp;Apr&egrave;s d&eacute;ploiement, l&#8217;artefact devrait &ecirc;tre disponible sur votre gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise</b></p>
+            </div><br class="figure-break"><p>En utilisant cette option, vous n&#8217;avez pas toujours besoin de d&eacute;ployer tout de suite &#8212; vous pouvez toujours revenir en arri&egrave;re
+               et red&eacute;ployer des artefacts d&#8217;une version pr&eacute;c&eacute;dente. Il suffit de cliquer sur le menu &laquo; Red&eacute;ployer les artefacts &raquo; &agrave; gauche
+               et sp&eacute;cifier l&#8217;URL du d&eacute;p&ocirc;t sur lequel vous voulez red&eacute;ployer votre artefact (voir la figure <a href="sect-build-jobs-maven.html#fig-hudson-redeploy-artifact" title="Figure&nbsp;5.42.&nbsp;Red&eacute;ployer un artefact">Figure&nbsp;5.42, &#8220;Red&eacute;ployer un artefact&#8221;</a>). Comme dans l&#8217;exemple pr&eacute;c&eacute;dent, le bouton Avanc&eacute; vous permet de sp&eacute;cifier l&#8217;identifiant pour le tag <code class="literal">&lt;server&gt;</code>dans votre fichier <code class="filename">settings.xml</code> local. Comme vous pourrez voir plus loin dans ce livre, vous pour aussi utiliser ce d&eacute;ploiement dans le cadre d&#8217;un processus
+               de promotion de buid en configurant un d&eacute;ploiement automatique vers un d&eacute;p&ocirc;t diff&eacute;rent lorsque certaines m&eacute;triques de qualit&eacute;
+               sont satisfaites, par exemple.
+            </p>
+            <div class="figure"><a name="fig-hudson-redeploy-artifact"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e7929"></a><img src="figs/web/jtdg_0552.png" alt="Red&eacute;ployer un artefact"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.42.&nbsp;Red&eacute;ployer un artefact</b></p>
+            </div><br class="figure-break"><p>Cette approche fonctionnera bien pour n&#8217;importe quel gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise. Cependant, si vous utilisez <a class="indexterm" name="I_indexterm5_d1e7936"></a><a class="indexterm" name="I_indexterm5_d1e7941"></a>Artifactory, vous pourriez pr&eacute;f&eacute;rer installer le <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jenkins-ci.org/display/JENKINS/Artifactory+Plugin" target="_top">plugin Artifactory</a> de Jenkins, qui fournit une int&eacute;gration bidirectionnelle vers le gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise Artifactory. Il fonctionne
+               en envoyant des informations suppl&eacute;mentaires au serveur Artifactory durant le d&eacute;ploiement, permettant au serveur d&#8217;avoir un
+               lien vers le build qui a g&eacute;n&eacute;r&eacute; un artefact donn&eacute;. Une fois que vous avez install&eacute; le plugin, vous pouvez l&#8217;activer dans votre
+               t&acirc;che de build Maven en cochant l&#8217;option &laquo; Deploy artifacts to Artifactory &raquo; dans les actions &agrave; la suite du build. Ensuite
+               vous choisissez sur quel d&eacute;p&ocirc;t votre projet doit d&eacute;ployer dans une liste de d&eacute;p&ocirc;t sur le serveur, avec le nom d&#8217;utilisateur
+               et le mot de passe requis pour faire le d&eacute;ploiement (voir la figure <a href="sect-build-jobs-maven.html#fig-maven2-artifactory" title="Figure&nbsp;5.43.&nbsp;D&eacute;ployer vers Artifactory depuis Jenkins">Figure&nbsp;5.43, &#8220;D&eacute;ployer vers Artifactory depuis Jenkins&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-maven2-artifactory"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e7955"></a><img src="figs/web/jtdg_0553.png" alt="D&eacute;ployer vers Artifactory depuis Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.43.&nbsp;D&eacute;ployer vers Artifactory depuis Jenkins</b></p>
+               </div><br class="figure-break"></div>
+            <p>Votre t&acirc;che de build d&eacute;ploiera automatiquement vers Artifactory. En suppl&eacute;ment, un lien vers l&#8217;artefact sur le serveur sera
+               maintenant affich&eacute; sur la page d&#8217;accueil de la t&acirc;che de build et la page de r&eacute;sultat des builds (voir la figure <a href="sect-build-jobs-maven.html#fig-maven2-artifactory-link" title="Figure&nbsp;5.44.&nbsp;Jenkins affiche un lien vers le d&eacute;p&ocirc;t Artifactory correspondant">Figure&nbsp;5.44, &#8220;Jenkins affiche un lien vers le d&eacute;p&ocirc;t Artifactory correspondant&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-maven2-artifactory-link"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e7967"></a><img src="figs/web/jtdg_0554.png" alt="Jenkins affiche un lien vers le d&eacute;p&ocirc;t Artifactory correspondant"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.44.&nbsp;Jenkins affiche un lien vers le d&eacute;p&ocirc;t Artifactory correspondant</b></p>
+               </div><br class="figure-break"></div>
+            <p>Ce lien vous emm&egrave;ne sur une page sur le serveur Artifactory contenant  les artefacts d&eacute;ploy&eacute;s (voir la figure <a href="sect-build-jobs-maven.html#fig-artifactory-artifact" title="Figure&nbsp;5.45.&nbsp;Voir l&#8217;artefact d&eacute;ploy&eacute; sur Artifactory">Figure&nbsp;5.45, &#8220;Voir l&#8217;artefact d&eacute;ploy&eacute; sur Artifactory&#8221;</a>). Depuis cette page, il y a aussi un lien pour vous ramener vers la page du build qui a construit cet artefact.
+            </p>
+            <div class="figure"><a name="fig-artifactory-artifact"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e7979"></a><img src="figs/web/jtdg_0555.png" alt="Voir l&#8217;artefact d&eacute;ploy&eacute; sur Artifactory"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.45.&nbsp;Voir l&#8217;artefact d&eacute;ploy&eacute; sur Artifactory</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e8192"></a>5.9.5.&nbsp;D&eacute;ployer vers des gestionnaires de d&eacute;p&ocirc;t d&#8217;entreprise commerciales
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Un gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise  est une partie essentielle de n&#8217;importe quelle infrastructure de d&eacute;veloppement de logiciel
+               bas&eacute; sur Maven. Ils jouent aussi un r&ocirc;le cl&eacute; pour les projets non bas&eacute;s sur Maven utilisant des outils tels que Ivy ou Gradle,
+               chacun d&#8217;eux &eacute;tant li&eacute;s aux d&eacute;p&ocirc;ts standards de Maven.
+            </p>
+            <p>Chacun des principaux gestionnaires de d&eacute;p&ocirc;t d&#8217;entreprise, <a class="indexterm" name="I_indexterm5_d1e7992"></a><a class="indexterm" name="I_indexterm5_d1e7997"></a>Nexus and Artifactory, propose des versions professionnelles qui fournissent des fonctionnalit&eacute;s suppl&eacute;mentaires avec Jenkins.
+               Plus loin dans ce livre,  nous discuterons comment vous pouvez utiliser des fonctionnalit&eacute;s avanc&eacute;es comme la gestion de release
+               et de staging de Nexus Pro pour impl&eacute;menter des strat&eacute;gies sophistiqu&eacute;es de promotion de build. Sur l&#8217;aspect d&eacute;ploiement,
+               l&#8217;&eacute;dition commerciale d&#8217;Artifactory (Artifactory Pro Power Pack) &eacute;tend l&#8217;int&eacute;gration bidirectionnelle que nous avons vu plus
+               t&ocirc;t. Lorsque vous voyez un artefact sur le navigateur du d&eacute;p&ocirc;t, un onglet &#8216;Builds&#8217; affiche les d&eacute;tails sur le build <span class="keep-together">Jenkins</span> Jenkins qui a cr&eacute;&eacute; l&#8217;artefact, et un lien vers la page du build sur Jenkins (voir la figure <a href="sect-build-jobs-maven.html#fig-artifactory-pro-artifact" title="Figure&nbsp;5.46.&nbsp;Voir les artefacts d&eacute;ploy&eacute;s et le build Jenkins correspondant dans Artifactory">Figure&nbsp;5.46, &#8220;Voir les artefacts d&eacute;ploy&eacute;s et le build Jenkins correspondant dans Artifactory&#8221;</a>). Artifactory assure &eacute;galement le suivi des d&eacute;pendances qui ont &eacute;t&eacute; utilis&eacute;es dans le build Jenkins, et vous alertera si
+               vous essayez de les supprimer depuis<a class="indexterm" name="I_indexterm5_d1e8008"></a><a class="indexterm" name="I_indexterm5_d1e8010"></a><a class="indexterm" name="I_indexterm5_d1e8012"></a><a class="indexterm" name="I_indexterm5_d1e8015"></a> le d&eacute;p&ocirc;t.
+            </p>
+            <div class="figure"><a name="fig-artifactory-pro-artifact"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e8021"></a><img src="figs/web/jtdg_0556.png" alt="Voir les artefacts d&eacute;ploy&eacute;s et le build Jenkins correspondant dans Artifactory"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.46.&nbsp;Voir les artefacts d&eacute;ploy&eacute;s et le build Jenkins correspondant dans Artifactory</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e8232"></a>5.9.6.&nbsp;G&eacute;rer les modules
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Lorsque <a class="indexterm" name="I_indexterm5_d1e8031"></a>vous utilisez Maven, il est habituel de d&eacute;couper le projet en plusieurs modules. Les t&acirc;ches de build Maven ont un connaissance
+               intrins&egrave;que des projets multi modules, et ajoute un &eacute;l&eacute;ment Modules au menu qui vous permet d&#8217;afficher la structure du projet
+               d&#8217;un coup d&#8217;&#339;il (voir la figure <a href="sect-build-jobs-maven.html#fig-maven2-modules" title="Figure&nbsp;5.47.&nbsp;G&eacute;rer les modules dans une t&acirc;che de build Maven">Figure&nbsp;5.47, &#8220;G&eacute;rer les modules dans une t&acirc;che de build Maven&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-maven2-modules"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e8042"></a><img src="figs/web/jtdg_0557.png" alt="G&eacute;rer les modules dans une t&acirc;che de build Maven"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.47.&nbsp;G&eacute;rer les modules dans une t&acirc;che de build Maven</b></p>
+            </div><br class="figure-break"><p>Cliquer sur l&#8217;un des modules vous permettra d&#8217;afficher la page de build pour ce module. A partir de la, vous pouvez voir les
+               r&eacute;sultats d&eacute;taill&eacute;s des builds pour chaque module, d&eacute;clencher un build pour un module isol&eacute;, et si n&eacute;cessaire, affiner la
+               configuration d&#8217;un module, surchargeant ainsi la configuration global du projet.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e8255"></a>5.9.7.&nbsp;Les &eacute;tapes de build suppl&eacute;mentaires dans votre t&acirc;che de build Maven
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Par <a class="indexterm" name="I_indexterm5_d1e8054"></a>Par d&eacute;faut, une t&acirc;che de build Maven ne permet qu&#8217;un seul goal Maven. Il y a des fois ou c&#8217;est assez limitatif, et vous voudriez
+               ajouter des &eacute;tapes suppl&eacute;mentaires avant ou apr&egrave;s la build principal. Vous pouvez faire ceci avec le plugin <a class="indexterm" name="I_indexterm5_d1e8060"></a><a class="indexterm" name="I_indexterm5_d1e8065"></a> M2 Extra Steps de Jenkins. Ce plugin vous permet d&#8217;ajouter des &eacute;tapes de builds normales avant et apr&egrave;s le goal Maven principal,
+               vous donnant la flexibilit&eacute; d&#8217;une t&acirc;che de build Freestyle tout en gardant l&#8217;avantage de la configuration d&#8217;une t&acirc;che de build
+               Maven.
+            </p>
+            <p>Installez le plugin et allez dans la section Environnements de Build de votre t&acirc;che de build. Cochez l&#8217;option &laquo; Configure
+               M2 Extra Build Steps &raquo;. Vous devriez pouvoir maintenant ajouter des &eacute;tapes de build qui seront ajout&eacute;es avant et/ou apr&egrave;s
+               que votre goal Maven principal <a class="indexterm" name="I_indexterm5_d1e8071"></a> soit ex&eacute;cut&eacute; (voir la figure <a href="sect-build-jobs-maven.html#fig-m2-extra-steps" title="Figure&nbsp;5.48.&nbsp;Configurer des &eacute;tapes de build Maven suppl&eacute;mentaires">Figure&nbsp;5.48, &#8220;Configurer des &eacute;tapes de build Maven suppl&eacute;mentaires&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-m2-extra-steps"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e8079"></a><img src="figs/web/jtdg_0558.png" alt="Configurer des &eacute;tapes de build Maven suppl&eacute;mentaires"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.48.&nbsp;Configurer des &eacute;tapes de build Maven suppl&eacute;mentaires</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect15_d1e7582.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="using-jenkins-with-other-languages.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">5.8.&nbsp;D&eacute;marrer votre nouvelle t&acirc;che de build&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;5.10.&nbsp;Utiliser Jenkins avec d&#8217;autres langages</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

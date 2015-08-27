@@ -1,0 +1,160 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>9.8.&nbsp;Int&eacute;gration avec Sonar</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-code-quality.html" title="Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code">
+      <link rel="prev" href="sect-code-quality-open-tasks.html" title="9.7.&nbsp;Les rapports sur les t&acirc;ches ouvertes">
+      <link rel="next" href="sect-code-quality-conclusion.html" title="9.9.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-open-tasks.html">9.7.&nbsp;Les rapports sur les t&acirc;ches ouvertes</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-conclusion.html">9.9.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-code-quality-sonar"></a>9.8.&nbsp;Int&eacute;gration avec Sonar
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.sonarsource.org" target="_top">Sonar</a><a class="indexterm" name="ch09-sonar1"></a><a class="indexterm" name="ch09-sonar2"></a> est un outil qui centralise toute une gamme de mesures de
+                qualit&eacute; de code en un seul site web (voir <a href="sect-code-quality-sonar.html#fig-hudson-sonar" title="Figure&nbsp;9.18.&nbsp;Rapport de qualit&eacute; de code par Sonar.">Figure&nbsp;9.18, &#8220;Rapport de qualit&eacute; de code par Sonar.&#8221;</a>). Il utilise un certain nombre de plugins
+            Maven (Checkstyle, PMD, FindBugs, Cobertura ou Clover, et d&#8217;autres) pour
+            analyser des projets Maven et g&eacute;n&eacute;rer un ensemble complet de
+            rapports sur la qualit&eacute; du code. Les rapports Sonar sur la couverture du
+            code, le respect des r&egrave;gles, et la documentation, mais aussi sur des
+            mesures de plus haut niveau comme la complexit&eacute;, la maintenabilit&eacute; et m&ecirc;me
+            la dette technique. Vous pouvez utiliser des plugins pour &eacute;tendre ses
+            fonctionnalit&eacute;s et ajouter le support pour d&#8217;autres langages (comme le
+            support de CodeNarc pour du code source Groovy). Les r&egrave;gles utilis&eacute;es par
+                divers outils sont g&eacute;r&eacute;es et configur&eacute;es de mani&egrave;re centralis&eacute;e sur le
+                site web de Sonar, et les projets Maven en cours d&#8217;analyse ne n&eacute;cessitent
+                aucune configuration particuli&egrave;re. Cela fait de Sonar l'outil
+                parfait pour travailler sur des projets Maven o&ugrave; vous avez un contr&ocirc;le
+                limit&eacute; sur les fichiers POM.
+         </p>
+         <div class="figure"><a name="fig-hudson-sonar"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13785"></a><img src="figs/web/jtdg_0918.png" alt="Rapport de qualit&eacute; de code par Sonar."></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.18.&nbsp;Rapport de qualit&eacute; de code par Sonar.</b></p>
+         </div><br class="figure-break"><p>Dans l&#8217;une des utilisations les plus courantes de Sonar, Sonar
+                ex&eacute;cute automatiquement un ensemble de plugins Maven li&eacute;s &agrave; la qualit&eacute; de code
+                sur votre projet Maven, et stocke les r&eacute;sultats dans une base de
+                donn&eacute;es relationnelle. Le serveur Sonar, que vous ex&eacute;cutez s&eacute;par&eacute;ment,
+                analyse alors les r&eacute;sultats et les affiche comme indiqu&eacute; dans
+                <a href="sect-code-quality-sonar.html#fig-hudson-sonar" title="Figure&nbsp;9.18.&nbsp;Rapport de qualit&eacute; de code par Sonar.">Figure&nbsp;9.18, &#8220;Rapport de qualit&eacute; de code par Sonar.&#8221;</a>.
+         </p>
+         <p>Jenkins s&#8217;int&egrave;gre bien avec Sonar. Le plugin Sonar de Jenkins vous
+                laisse d&eacute;finir les instances Sonar pour tous vos projets, et active
+                ensuite Sonar pour des builds particuliers. Vous pouvez ex&eacute;cuter votre
+                serveur Sonar sur une machine diff&eacute;rente de votre instance Jenkins, ou sur
+                la m&ecirc;me. La seule contrainte est que l&#8217;instance Jenkins doit avoir un
+                acc&egrave;s JDBC &agrave; la base de donn&eacute;es de Sonar, puisqu&#8217;il injecte des mesures de
+                qualit&eacute; de code directement dans la base de donn&eacute;es, sans passer par le
+                site web de Sonar (voir <a href="sect-code-quality-sonar.html#fig-hudson-sonar-architecture" title="Figure&nbsp;9.19.&nbsp;Jenkins et Sonar">Figure&nbsp;9.19, &#8220;Jenkins et Sonar&#8221;</a>).
+         </p>
+         <div class="figure"><a name="fig-hudson-sonar-architecture"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13801"></a><img src="figs/web/jtdg_0919.png" alt="Jenkins et Sonar"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.19.&nbsp;Jenkins et Sonar</b></p>
+         </div><br class="figure-break"><p>Sonar a aussi une amorce Ant (avec une amorce Gradle en cours de
+                d&eacute;veloppement au moment de la r&eacute;daction de ce livre) pour les utilisateurs
+                non-Maven.
+         </p>
+         <p>Vous installez le plugin comme d&#8217;habitude, via le gestionnaire de
+                plugin. Une fois install&eacute;, vous configurez le plugin Sonar de Jenkins dans
+                l&#8217;&eacute;cran Configurer le syst&egrave;me, dans la section Sonar. Il s&#8217;agit de d&eacute;finir
+                vos instances Sonar &#8211; vous pouvez configurer autant d&#8217;instances que vous
+                avez besoin. La configuration par d&eacute;faut suppose que vous ex&eacute;cutez une
+                instance locale de Sonar avec la base de donn&eacute;es embarqu&eacute;e par d&eacute;faut.
+                Ceci est utile &agrave; des fins de test, mais n&#8217;est pas tr&egrave;s &eacute;volutif. Pour un
+                environnement de production, vous ex&eacute;cuterez alors Sonar sur une vraie base
+                de donn&eacute;es comme MySQL ou Postgres, et vous aurez besoin de
+                configurer la connexion JDBC sur la base de donn&eacute;es de production de Sonar
+                dans Jenkins. Vous pouvez faire ceci en cliquant le bouton Avanc&eacute; et en
+                remplissant les champs appropri&eacute;s (voir <a href="sect-code-quality-sonar.html#fig-hudson-sonar-config" title="Figure&nbsp;9.20.&nbsp;Configurer Sonar dans Jenkins">Figure&nbsp;9.20, &#8220;Configurer Sonar dans Jenkins&#8221;</a>).
+         </p>
+         <div class="figure"><a name="fig-hudson-sonar-config"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13815"></a><img src="figs/web/jtdg_0920.png" alt="Configurer Sonar dans Jenkins"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.20.&nbsp;Configurer Sonar dans Jenkins</b></p>
+         </div><br class="figure-break"><p>L&#8217;autre chose que vous devez configurer est le moment o&ugrave; le build de Sonar
+                d&eacute;butera dans une t&acirc;che de build o&ugrave; Sonar est activ&eacute;. Vous configurez
+                g&eacute;n&eacute;ralement Sonar pour qu'il s'ex&eacute;cute avec l&#8217;une des longues t&acirc;ches de build
+                Jenkins, comme le build de mesure de qualit&eacute; de code. Ce n&#8217;est pas tr&egrave;s
+                utile d'ex&eacute;cuter le build Sonar plus d&#8217;une fois par jour, puisque Sonar
+                stocke les mesures sur des tranches de 24 heures. La configuration par
+                d&eacute;faut ex&eacute;cutera le build de Sonar, dans une t&acirc;che de build o&ugrave; Sonar est activ&eacute;,
+                chaque fois qu&#8217;une t&acirc;che est d&eacute;clench&eacute;e par un build p&eacute;riodiquement
+                planifi&eacute; ou par un build manuel.
+         </p>
+         <p>Pour activer Sonar dans votre t&acirc;che de build, avec des options de
+                configuration &agrave; l&#8217;&eacute;chelle du syst&egrave;me, il suffit de cocher l&#8217;option Sonar
+                dans Actions &agrave; la suite du build (voir <a href="sect-code-quality-sonar.html#fig-hudson-sonar-config-job" title="Figure&nbsp;9.21.&nbsp;Configurer Sonar dans une t&acirc;che de build">Figure&nbsp;9.21, &#8220;Configurer Sonar dans une t&acirc;che de build&#8221;</a>). Sonar s'ex&eacute;cutera &agrave; chaque fois
+                que votre build est lanc&eacute; par l&#8217;un des m&eacute;canismes de d&eacute;clenchements
+                d&eacute;finis ci-dessus.
+         </p>
+         <div class="figure"><a name="fig-hudson-sonar-config-job"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13830"></a><img src="figs/web/jtdg_0921.png" alt="Configurer Sonar dans une t&acirc;che de build"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.21.&nbsp;Configurer Sonar dans une t&acirc;che de build</b></p>
+         </div><br class="figure-break"><p>Vous configurez g&eacute;n&eacute;ralement Sonar pour qu'il s'ex&eacute;cute sur une base
+                r&eacute;guli&egrave;re, par exemple tous les soirs ou une fois par semaine. Vous
+                pouvez donc activer Sonar sur votre t&acirc;che de build de test
+                unitaire/d&#8217;int&eacute;gration normal, simplement en ajoutant un ordonnanceur
+                (voir <a href="sect-code-quality-sonar.html#fig-hudson-sonar-build-schedule" title="Figure&nbsp;9.22.&nbsp;Planifier les builds Sonar">Figure&nbsp;9.22, &#8220;Planifier les builds Sonar&#8221;</a>). Cela &eacute;vite les
+                d&eacute;tails de configuration en double entre les t&acirc;ches. Ou, si vous avez d&eacute;j&agrave;
+                une t&acirc;che de build ordonnanc&eacute;e qui d&eacute;marre avec une fr&eacute;quence appropri&eacute;e
+                (comme un build d&eacute;di&eacute; aux mesures de qualit&eacute; de code), vous pouvez activer
+                Sonar sur cette t&acirc;che de build.
+         </p>
+         <div class="figure"><a name="fig-hudson-sonar-build-schedule"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13842"></a><img src="figs/web/jtdg_0922.png" alt="Planifier les builds Sonar"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.22.&nbsp;Planifier les builds Sonar</b></p>
+         </div><br class="figure-break"><p>Si vous cliquez sur le bouton Avanc&eacute;, vous pouvez sp&eacute;cifier d&#8217;autres
+                options plus sophistiqu&eacute;es, comme lancer votre build Sonar sur une branche
+                s&eacute;par&eacute;e, passer des options de ligne de commande Maven suppl&eacute;mentaires
+                (comme de la m&eacute;moire suppl&eacute;mentaire), ou red&eacute;finir la configuration par
+                d&eacute;faut des d&eacute;clencheurs.
+         </p>
+         <p>Par d&eacute;faut, Sonar s'ex&eacute;cutera m&ecirc;me si le build normal &eacute;choue. C&#8217;est
+                g&eacute;n&eacute;ralement ce que l&#8217;on souhaite, puisque Sonar devrait enregistrer les
+                builds et les tests d&eacute;faillants aussi bien que les r&eacute;sultats r&eacute;ussis.
+                Cependant, si c&#8217;est n&eacute;cessaire, vous pouvez aussi d&eacute;sactiver cette option dans
+                les options<a class="indexterm" name="I_indexterm9_d1e13855"></a><a class="indexterm" name="I_indexterm9_d1e13857"></a> avanc&eacute;es.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-open-tasks.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-conclusion.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">9.7.&nbsp;Les rapports sur les t&acirc;ches ouvertes&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;9.9.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

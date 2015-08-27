@@ -1,0 +1,127 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="I_sect110_d1e16005.html" title="10.8.&nbsp;Conclusion">
+      <link rel="next" href="sect-distributed-build-architecture.html" title="11.2.&nbsp;L'Architecture de build distribu&eacute;e de Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect110_d1e16005.html">10.8.&nbsp;Conclusion</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-distributed-build-architecture.html">11.2.&nbsp;L'Architecture de build distribu&eacute;e de Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="chapter-distributed-builds"></a>Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="chapter-distributed-builds.html#sect-distributed-builds-introduction">11.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="sect-distributed-build-architecture.html">11.2. L'Architecture de build distribu&eacute;e de Jenkins</a></span></dt>
+               <dt><span class="sect1"><a href="sect-master-slave-strategies.html">11.3. Strat&eacute;gies Ma&icirc;tre/Esclave dans Jenkins</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-master-slave-strategies.html#d0e16347">11.3.1. Le ma&icirc;tre d&eacute;marre l'agent esclave en utilisant SSH</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-master-slave-strategies.html#d0e16475">11.3.2. D&eacute;marrer l'agent esclave manuellement via Java Web Start</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-master-slave-strategies.html#d0e16589">11.3.3. Installer un esclave Jenkins en tant que service Windows</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-master-slave-strategies.html#d0e16634">11.3.4. D&eacute;marrer le noeud esclave en mode Headless</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-master-slave-strategies.html#d0e16669">11.3.5. D&eacute;marrer un esclave Windows en tant que service distant</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-build-job-ties.html">11.4. Associer une t&acirc;che de build avec un esclave ou un groupe
+                            d'esclaves</a></span></dt>
+               <dt><span class="sect1"><a href="node-monitoring.html">11.5. Surveillance des noeuds</a></span></dt>
+               <dt><span class="sect1"><a href="I_sect111_d1e16634.html">11.6. Cloud computing</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="I_sect111_d1e16634.html#d0e16864">11.6.1. Utiliser Amazon EC2</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect3"><a href="I_sect111_d1e16634.html#d0e16879">11.6.1.1. Mettre en place votre ferme de build Amazon EC2</a></span></dt>
+                           <dt><span class="sect3"><a href="I_sect111_d1e16634.html#d0e16914">11.6.1.2. Utiliser des instances EC2 comme partie de votre ferme de
+                                            build</a></span></dt>
+                           <dt><span class="sect3"><a href="I_sect111_d1e16634.html#d0e16931">11.6.1.3. Utiliser des instances dynamiques</a></span></dt>
+                        </dl>
+                     </dd>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-distributed-builds-Using-the-Cloudbees.html">11.7. Utiliser le service CloudBees DEV@cloud</a></span></dt>
+               <dt><span class="sect1"><a href="sect-distributed-builds-conclusion.html">11.8. Conclusion</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="sect-distributed-builds-introduction"></a>11.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p><a class="indexterm" name="ch11-dist1"></a><a class="indexterm" name="ch11-dist2"></a><a class="indexterm" name="I_indexterm11_d1e16025"></a>L'une des fonctionnalit&eacute;s les plus puissantes de Jenkins est
+                   sans aucun doute sa capacit&eacute; &agrave; r&eacute;partir les t&acirc;ches de build sur un grand
+                   nombre de machines. Il est assez simple de configurer une ferme de serveurs
+                   de build, soit pour r&eacute;partir la charge sur de multiples machines, soit pour
+                   ex&eacute;cuter des t&acirc;ches de build dans diff&eacute;rents environnements. C'est une
+                   strat&eacute;gie tr&egrave;s efficace qui peut potentiellement accro&icirc;tre de fa&ccedil;on consid&eacute;rable
+                   la capacit&eacute; de votre infrastructure d'IC.
+            </p>
+            <p>Les builds distribu&eacute;s sont g&eacute;n&eacute;ralement utilis&eacute;s soit pour absorber
+                   une charge additionnelle, par exemple pour absorber les pics d'activit&eacute; dans
+                   les builds en ajoutant dynamiquement des machines suppl&eacute;mentaires selon les
+                   besoins, soit pour ex&eacute;cuter des t&acirc;ches de build sp&eacute;cialis&eacute;es sur des
+                   syst&egrave;mes d'exploitation ou des environnements sp&eacute;cifiques. Par exemple, vous
+                   pourriez avoir besoin d'ex&eacute;cuter une t&acirc;che de build sp&eacute;ciale sur une machine
+                   ou un syst&egrave;me d'exploitation particulier. Si vous avez besoin d'ex&eacute;cuter des
+                   tests web en utilisant Internet Explorer, vous devrez utiliser une machine
+                   Windows. Ou alors une de vos t&acirc;ches de build pourrait &ecirc;tre particuli&egrave;rement
+                   consommatrice en ressources, et n&eacute;cessite d'&ecirc;tre ex&eacute;cut&eacute;e sur une machine
+                   d&eacute;di&eacute;e afin de ne pas p&eacute;naliser d'autres t&acirc;ches de build.
+            </p>
+            <p>La demande pour des serveurs de build peut aussi fluctuer dans le
+                   temps. Si vous travaillez avec des cycles de <span class="emphasis"><em>release</em></span> de produit, vous pouvez
+                   avoir besoin de beaucoup plus de t&acirc;ches de build en fin de cycle, par
+                   exemple, lorsque des tests fonctionnels ou de r&eacute;gression plus complets
+                   deviennent plus fr&eacute;quents.
+            </p>
+            <p>Dans ce chapitre, nous verrons comment configurer et g&eacute;rer une
+                   ferme de serveurs de build en utilisant Jenkins.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect110_d1e16005.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-distributed-build-architecture.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">10.8.&nbsp;Conclusion&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;11.2.&nbsp;L'Architecture de build distribu&eacute;e de Jenkins</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

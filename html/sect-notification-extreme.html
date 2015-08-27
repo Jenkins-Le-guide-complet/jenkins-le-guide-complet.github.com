@@ -1,0 +1,110 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>8.14.&nbsp;Appareils de retour extr&egrave;mes</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="prev" href="sect-notification-noise.html" title="8.13.&nbsp;Faire du bruit">
+      <link rel="next" href="sect-notification-conclusion.html" title="8.15.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-noise.html">8.13.&nbsp;Faire du bruit</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-conclusion.html">8.15.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-notification-extreme"></a>8.14.&nbsp;Appareils de retour extr&egrave;mes
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>De nombreux outils de notification et strat&eacute;gies plus imaginatives existent. Il
+            y a de la place pour l'improvisation si vous &ecirc;tes pr&ecirc;t &agrave; improviser
+            un peu avec l'&eacute;lectronique. Cela inclut des appareils tels que les orbes d'ambiance,
+                        les lampes de lave, les feux de circulation, ou d'autres appareils USB plus exotiques.
+                        Le radar de build (voir <a href="sect-build-radiator.html" title="8.6.&nbsp;Radars de build">Section&nbsp;8.6, &#8220;Radars de build&#8221;</a>) tombe aussi
+                        dans cette cat&eacute;gorie si on le projette sur un &eacute;cran assez grand.
+                    
+         </p>
+         <p>Un
+                        <a class="indexterm" name="I_indexterm8_d1e12643"></a>
+                        appareil qui s'int&egrave;gre tr&egrave;s bien avec avec Jenkins est le
+                        Nabaztag. Le Nabaztag (voir <a href="sect-notification-extreme.html#fig-hudson-nabaztag" title="Figure&nbsp;8.31.&nbsp;Un Nabaztag">Figure&nbsp;8.31, &#8220;Un Nabaztag&#8221;</a>) est un
+                        lapin robot WiFi tr&egrave;s populaire qui peut faire clignoter des lumi&egrave;res color&eacute;es, jouer
+                        de la musique, ou m&ecirc;me de parler. Un des avantages du Nabaztag, c'est qu'&eacute;tant donn&eacute; qu'il
+                        fonctionne en Wifi, il n'est pas contraint &agrave; &ecirc;tre situ&eacute; &agrave; proximit&eacute; du serveur de build
+                        et fonctionnera m&ecirc;me si votre instance Jenkins est dans une salle de serveurs ou sur une
+                        machine virtuelle. En ce qui concerne les appareils de retour extr&ecirc;mes, ces petits
+                        compagnons sont difficiles &agrave; battre.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-nabaztag"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12654"></a><img src="figs/web/jtdg_0830.png" alt="Un Nabaztag"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.31.&nbsp;Un Nabaztag</b></p>
+         </div><br class="figure-break"><p>Et
+                        <a class="indexterm" name="I_indexterm8_d1e12661"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12664"></a>
+                        encore mieux, il existe un plugin Jenkins pour le
+                        Nabaztag. Une fois que vous avez install&eacute; le plugin Nabaztag et red&eacute;marr&eacute;
+                        Jenkins, il est facile &agrave; configurer. Sur la page de configuration principale de Jenkins, rendez-vous
+                        &agrave; la section Param&egrave;tres globaux de Nabaztag et entrez le num&eacute;ro de s&eacute;rie et
+                        jeton secret pour votre lapin &eacute;lectronique (voir <a href="sect-notification-extreme.html#fig-hudson-nabaztag-config" title="Figure&nbsp;8.32.&nbsp;Configurer votre Nabaztag">Figure&nbsp;8.32, &#8220;Configurer votre Nabaztag&#8221;</a>).
+                        Vous pouvez &eacute;galement fournir des
+                        r&eacute;glages par d&eacute;faut sur &#8203;&#8203;la fa&ccedil;on dont votre lapin de build devrait r&eacute;agir aux changements dans
+                        l'&eacute;tat de build (doit-il signaler sur les d&eacute;parts ou succ&egrave;s de build, par
+                        exemple), quelle voix utiliser, et quel message dire quand un
+                        build &eacute;choue, r&eacute;ussit, est fix&eacute;, ou &eacute;choue &agrave; nouveau. Puis, pour activer
+                        les notifications Nabaztag pour une t&acirc;che de build particuli&egrave;re, vous devez cocher
+                        l'option de publication Nabaztag dans la configuration de votre t&acirc;che de build.
+                        <span class="keep-together">Selon</span>
+                        votre environnement par exemple,
+                        vous voulez ou non que tous vos builds envoient des notifications &agrave; votre
+                        Nabaztag.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-nabaztag-config"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12678"></a><img src="figs/web/jtdg_0831.png" alt="Configurer votre Nabaztag"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.32.&nbsp;Configurer votre Nabaztag</b></p>
+         </div><br class="figure-break"><p>&Agrave; l'exception notable du radar de build, nombre de ces
+                        dispositifs ont des limitations semblables aux plugins Jenkins Speaks et Jenkins Sounds
+                        (voir <a href="sect-notification-noise.html" title="8.13.&nbsp;Faire du bruit">Section&nbsp;8.13, &#8220;Faire du bruit&#8221;</a>) - ils sont mieux
+                        adapt&eacute;s pour les petites &eacute;quipes, co-localis&eacute;es, qui travaillant sur un nombre limit&eacute; de
+                        projets. N&eacute;anmoins, quand ils fonctionnent, ils peuvent &ecirc;tre un compl&eacute;ment utile &agrave;
+                        votre strat&eacute;gie de notification g&eacute;n&eacute;rale.
+                    
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-noise.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-conclusion.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">8.13.&nbsp;Faire du bruit&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.15.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

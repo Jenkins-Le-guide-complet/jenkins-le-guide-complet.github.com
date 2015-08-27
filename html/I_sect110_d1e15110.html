@@ -1,0 +1,246 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>10.6.&nbsp;Coordonner vos builds</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-advanced-builds.html" title="Chapter&nbsp;10.&nbsp;Builds avanc&eacute;s">
+      <link rel="prev" href="I_sect110_d1e14808.html" title="10.5.&nbsp;G&eacute;n&eacute;rer vos t&acirc;ches de build Maven automatiquement">
+      <link rel="next" href="sect-build-pipelines.html" title="10.7.&nbsp;Pipelines de build et promotions">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect110_d1e14808.html">10.5.&nbsp;G&eacute;n&eacute;rer vos t&acirc;ches de build Maven automatiquement</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-pipelines.html">10.7.&nbsp;Pipelines de build et promotions</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="I_sect110_d1e15110"></a>10.6.&nbsp;Coordonner vos
+                         builds
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>D&eacute;clencher des t&acirc;ches avals est assez facile. Toutefois, quand on
+            met en place des configurations de t&acirc;ches de build plus importantes et
+            plus compliqu&eacute;es, on aimerait parfois &ecirc;tre capable de lancer des
+            ex&eacute;cutions simultan&eacute;es, ou &eacute;ventuellement attendre la fin de certaines
+                t&acirc;ches de build afin de continuer. Dans cette section, nous allons
+                regarder les techniques et les plugins qui peuvent nous aider &agrave; faire
+                cela.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e15343"></a>10.6.1.&nbsp;Les builds parall&egrave;les dans Jenkins
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Jenkins<a class="indexterm" name="ch10-parallel"></a> poss&egrave;de un support int&eacute;gr&eacute; pour les build parall&egrave;les &#8212;
+                     quand une t&acirc;che d&eacute;marre, Jenkins va lui assigner le premier noeud de
+                     build disponible. Vous pouvez donc avoir potentiellement autant de
+                     builds parall&egrave;les en ex&eacute;cution que vous avez de noeuds
+                     disponibles.
+            </p>
+            <p>Si vous avez besoin d'ex&eacute;cuter une l&eacute;g&egrave;re variations de la m&ecirc;me
+                     t&acirc;che de build en parall&egrave;le, les t&acirc;ches de build multiconfiguration
+                     (voir <a href="sect-multi-configuration-build-jobs.html" title="10.4.&nbsp;T&acirc;ches de build multiconfiguration">Section&nbsp;10.4, &#8220;T&acirc;ches de build multiconfiguration&#8221;</a>) sont une
+                     excellente option. Ceci peut s'av&eacute;rer tr&egrave;s pratique comme moyen
+                     d'acc&eacute;ler votre processus de build. Une application typique des
+                     t&acirc;ches de build multiconfiguration dans ce contexte est d'ex&eacute;cuter des
+                     tests d'int&eacute;gration en parall&egrave;le. Vous pourriez d&eacute;finir des profils
+                     Maven par exemple, ou configurer votre build pour utiliser des
+                     param&egrave;tres de ligne de commande pour d&eacute;cider quels tests ex&eacute;cuter. Une
+                     fois que vous avez configur&eacute; vos scripts de build de cette fa&ccedil;on, il est
+                     ais&eacute; de configurer une t&acirc;che de build multiconfiguration pour
+                     ex&eacute;cuter un sous ensemble de vos tests d'int&eacute;gration en
+                     parall&egrave;le.
+            </p>
+            <p>Vous pouvez aussi faire que Jenkins d&eacute;clenche plusieurs t&acirc;ches
+                     avals en parall&egrave;le, en les listant simplement dans le champ "Construire
+                     d'autres projets" (voir <a href="I_sect110_d1e15110.html#fig-hudson-build-other-projects" title="Figure&nbsp;10.30.&nbsp;D&eacute;clencher plusieurs autres builds apr&egrave;s une t&acirc;che de build">Figure&nbsp;10.30, &#8220;D&eacute;clencher plusieurs autres builds apr&egrave;s une t&acirc;che de
+                          build&#8221;</a>). Les t&acirc;ches de build
+                     suivantes seront ex&eacute;cut&eacute;es en parall&egrave;le autant que possible. Toutefois,
+                     comme nous le verrons plus loin, cela peut ne pas toujours &ecirc;tre
+                     exactement ce dont vous avez besoin.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-build-other-projects"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject10_d1e15137"></a><img src="figs/web/jtdg_1030.png" alt="D&eacute;clencher plusieurs autres builds apr&egrave;s une t&acirc;che de build"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;10.30.&nbsp;D&eacute;clencher plusieurs autres builds apr&egrave;s une t&acirc;che de
+                                build</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e15370"></a>10.6.2.&nbsp;Graphes de d&eacute;pendance
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Avant<a class="indexterm" name="I_indexterm10_d1e15147"></a><a class="indexterm" name="I_indexterm10_d1e15152"></a><a class="indexterm" name="I_indexterm10_d1e15155"></a> d'&eacute;tudier les points les plus fins des buils parall&egrave;les,
+                     il est utile de pouvoir visualiser les relations entre vos t&acirc;ches de
+                     build. Le plugin Dependency Graph View analyse vos t&acirc;ches de build et
+                     affiche un graphe d&eacute;crivant les connexions amont et aval entre vos
+                     t&acirc;ches. Ce plugin utilise <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.graphviz.org" target="_top">graphviz</a>, que vous aurez besoin
+                     d'installer sur votre serveur si vous ne l'avez pas d&eacute;j&agrave;.
+            </p>
+            <p>Ce plugin ajoute une ic&ocirc;ne Graphe de d&eacute;pendance dans le menu
+                     principal, qui affiche un graphe montrant les relations entre toutes les
+                     t&acirc;ches de build dans votre projet (au niveau tableau de bord), ou toutes
+                     les t&acirc;ches de build li&eacute;es &agrave; la t&acirc;che de build courante (quand vous &ecirc;tes
+                     &agrave; l'int&eacute;rieur d'un projet particulier [voir <a href="I_sect110_d1e15110.html#fig-hudson-dependency-graph" title="Figure&nbsp;10.31.&nbsp;Un graphe de d&eacute;pendance de t&acirc;che de build">Figure&nbsp;10.31, &#8220;Un graphe de d&eacute;pendance de t&acirc;che de build&#8221;</a>]). De plus, si vous cliquez sur
+                     une t&acirc;che de build dans le graphe, Jenkins vous emm&egrave;nera directement
+                     vers la page projet de cette t&acirc;che de build.
+            </p>
+            <div class="figure"><a name="fig-hudson-dependency-graph"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15171"></a><img src="figs/web/jtdg_1031.png" alt="Un graphe de d&eacute;pendance de t&acirc;che de build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.31.&nbsp;Un graphe de d&eacute;pendance de t&acirc;che de build</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e15404"></a>10.6.3.&nbsp;Jonctions
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Lors <a class="indexterm" name="ch10-join1"></a><a class="indexterm" name="ch10-join2"></a>de la configuration de pipelines de builds plus
+                     compliqu&eacute;s, vous rencontrerez fr&eacute;quemment des situations o&ugrave; une t&acirc;che de
+                     build ne peut d&eacute;marrer tant qu'un certain nombre d'autres t&acirc;ches de
+                     build ne sont pas termin&eacute;es, mais que ces t&acirc;ches amont ne n&eacute;cessitent
+                     pas d'&ecirc;tre ex&eacute;cut&eacute;es s&eacute;quentiellement. Par exemple, dans <a href="I_sect110_d1e15110.html#fig-hudson-dependency-graph" title="Figure&nbsp;10.31.&nbsp;Un graphe de d&eacute;pendance de t&acirc;che de build">Figure&nbsp;10.31, &#8220;Un graphe de d&eacute;pendance de t&acirc;che de build&#8221;</a>, imaginez que la t&acirc;che de build
+                     <span><strong class="command">phoenix-deploy-to-uat</strong></span> ait en fait
+                     besoin que trois t&acirc;ches r&eacute;ussissent avant qu'elle puisse &ecirc;tre ex&eacute;cut&eacute;e :
+                     <span><strong class="command">phoenix-compatibility-tests</strong></span>, <span><strong class="command">phoenix-load-tests</strong></span>, et <span><strong class="command">phoenix-performance-tests</strong></span>.
+            </p>
+            <p>On peut configurer cela en utilisant le plugin Joins, que vous
+                     devez installer de la fa&ccedil;on habituelle via le centre de mise &agrave; jour. Une
+                     fois qu'il est install&eacute;, vous configurez une jonction dans la t&acirc;che de
+                     build qui initie le processus de jonction (ici, ce serait <span><strong class="command">phoenix-web-tests</strong></span>). Dans notre exemple, nous
+                     devons modifier la t&acirc;che de build <span><strong class="command">phoenix-web-tests</strong></span> afin qu'elle d&eacute;clenche en
+                     premier <span><strong class="command">phoenix-compatibility-tests</strong></span>,
+                     <span><strong class="command">phoenix-load-tests</strong></span>, et <span><strong class="command">phoenix-performance-tests</strong></span>, et ensuite, si ces
+                     trois r&eacute;ussissent, la t&acirc;che de build <span><strong class="command">phoenix-deploy-to-uat</strong></span>.
+            </p>
+            <p>Nous le faisons en configurant simplement le champ d&eacute;clencheur de
+                     jonction avec le nom de la t&acirc;che de build <span><strong class="command">phoenix-deploy-to-uat</strong></span> (voir <a href="I_sect110_d1e15110.html#fig-hudson-build-join" title="Figure&nbsp;10.32.&nbsp;Configurer une jonction dans la t&acirc;che de build phoenix-web-tests">Figure&nbsp;10.32, &#8220;Configurer une jonction dans la t&acirc;che de build
+                          phoenix-web-tests&#8221;</a>). Le champ &#8220;Construire d'autres
+                     projets&#8221; n'est pas modifi&eacute;, et liste encore les t&acirc;ches de build &agrave;
+                     d&eacute;clencher imm&eacute;diatement apr&egrave;s la t&acirc;che courante. Le champ d&eacute;clencheur de
+                     jonction contient les t&acirc;ches de build &agrave; lancer une fois que toutes les
+                     t&acirc;ches avals imm&eacute;diates se sont termin&eacute;es.
+            </p>
+            <div class="figure"><a name="fig-hudson-build-join"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15236"></a><img src="figs/web/jtdg_1032.png" alt="Configurer une jonction dans la t&acirc;che de build phoenix-web-tests"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.32.&nbsp;Configurer une jonction dans la t&acirc;che de build
+                             phoenix-web-tests</b></p>
+            </div><br class="figure-break"><p>R&eacute;sultat, vous n'avez plus besoin du d&eacute;clencheur de build original
+                     pour la t&acirc;che de build final, puisque c'est &agrave; pr&eacute;sent redondant.
+            </p>
+            <p>Ce nouveau d&eacute;roulement appara&icirc;t bien dans les graphes de
+                     d&eacute;pendance<a class="indexterm" name="I_indexterm10_d1e15245"></a><a class="indexterm" name="I_indexterm10_d1e15247"></a> illustr&eacute;s dans <a href="I_sect110_d1e15110.html#fig-build-dependency-graph-join" title="Figure&nbsp;10.33.&nbsp;Un graphe de d&eacute;pendance de t&acirc;che de build plus compliqu&eacute;">Figure&nbsp;10.33, &#8220;Un graphe de d&eacute;pendance de t&acirc;che de build plus
+                          compliqu&eacute;&#8221;</a>.
+            </p>
+            <div class="figure"><a name="fig-build-dependency-graph-join"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15255"></a><img src="figs/web/jtdg_1033.png" alt="Un graphe de d&eacute;pendance de t&acirc;che de build plus compliqu&eacute;"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.33.&nbsp;Un graphe de d&eacute;pendance de t&acirc;che de build plus
+                             compliqu&eacute;</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e15487"></a>10.6.4.&nbsp;Plugin Locks and Latches
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Dans d'autres <a class="indexterm" name="ch10-locks1"></a><a class="indexterm" name="ch10-locks2"></a>situations, vous pourriez &ecirc;tre capable de lancer une s&eacute;rie
+                     de builds en parall&egrave;le jusqu'&agrave; un certain point, mais certaines t&acirc;ches
+                     de build pourraient ne pas pouvoir &ecirc;tre lanc&eacute;es en parall&egrave;le parce
+                     qu'elles acc&egrave;dent &agrave; des ressources en concurrence. Bien s&ucirc;r, des t&acirc;ches de
+                     build bien con&ccedil;ues devraient s'efforcer d'&ecirc;tre aussi ind&eacute;pendantes que
+                     possible, mais cela peut parfois &ecirc;tre difficile. Par exemple,
+                     diff&eacute;rentes t&acirc;ches de build peuvent acc&eacute;der &agrave; la m&ecirc;me base de donn&eacute;es de
+                     test, ou &agrave; des fichiers sur le disque dur, et faire cela simultan&eacute;ment
+                     pourrait potentiellement compromettre le r&eacute;sultat des tests. Une t&acirc;che
+                     de build de performance pourrait avoir besoin d'un acc&egrave;s exclusif au
+                     serveur de test, afin d'avoir des r&eacute;sultats coh&eacute;rents &agrave; chaque
+                     fois.
+            </p>
+            <p>Le<a class="indexterm" name="I_indexterm10_d1e15277"></a><a class="indexterm" name="I_indexterm10_d1e15282"></a> plugin Locks and Latches vous permet d'une certaine fa&ccedil;on
+                     de contourner ce probl&egrave;me. Ce plugin permet de configuration des
+                     &#8220;verrous&#8221; (ndt: locks) pour certaines ressources, de fa&ccedil;on similaire aux
+                     verrous en programmation multithread&eacute;e. Supposez, par exemple, dans les
+                     t&acirc;ches de build d&eacute;peintes dans <a href="I_sect110_d1e15110.html#fig-build-dependency-graph-join" title="Figure&nbsp;10.33.&nbsp;Un graphe de d&eacute;pendance de t&acirc;che de build plus compliqu&eacute;">Figure&nbsp;10.33, &#8220;Un graphe de d&eacute;pendance de t&acirc;che de build plus
+                          compliqu&eacute;&#8221;</a>, que les tests de charge et
+                     les tests de performance soient ex&eacute;cut&eacute;s sur un serveur d&eacute;di&eacute;, mais
+                     qu'une seule t&acirc;che de build puisse &ecirc;tre ex&eacute;cut&eacute;e &agrave; la fois sur ce
+                     serveur. Imaginez de plus que les tests de performance pour les autres
+                     projets soient aussi ex&eacute;cut&eacute;s sur ce serveur.
+            </p>
+            <p>Pour &eacute;viter la contention sur le serveur de performance, vous
+                     pourriez utiliser le plugin Locks and Latches pour mettre en place un
+                     acc&egrave;s par r&eacute;servation de "verrou" &agrave; ce serveur pour une t&acirc;che &agrave; un
+                     instant donn&eacute;. Premi&egrave;rement, dans la page de configuration du syst&egrave;me,
+                     vous devez ajouter un nouveau verrou dans la section Verrous (voir <a href="I_sect110_d1e15110.html#fig-jenkins-build-lock" title="Figure&nbsp;10.34.&nbsp;Ajouter un nouveau verrou">Figure&nbsp;10.34, &#8220;Ajouter un nouveau verrou&#8221;</a>). Ce verrou sera ensuite disponible
+                     &agrave; toutes les t&acirc;ches de build sur le serveur.
+            </p>
+            <div class="figure"><a name="fig-jenkins-build-lock"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15295"></a><img src="figs/web/jtdg_1034.png" alt="Ajouter un nouveau verrou"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.34.&nbsp;Ajouter un nouveau verrou</b></p>
+            </div><br class="figure-break"><p>Ensuite, vous devez configurer chaque t&acirc;che de build qui utilisera
+                     la ressource en contention. Dans la section Environnement de build, vous
+                     trouverez un champ Verrous. Cochez la case et s&eacute;lectionnez le verrous
+                     que vous venez juste de cr&eacute;er (voir <a href="I_sect110_d1e15110.html#fig-jenkins-build-locks" title="Figure&nbsp;10.35.&nbsp;Configurer une t&acirc;che de build pour utiliser un verrou">Figure&nbsp;10.35, &#8220;Configurer une t&acirc;che de build pour utiliser un verrou&#8221;</a>). Une fois que avez fait cela pour
+                     chacune des t&acirc;ches de build qui ont besoin d'acc&eacute;der &agrave; la ressource en
+                     question, seule une des t&acirc;ches de build pourra s'ex&eacute;cuter &agrave; un
+                     instant<a class="indexterm" name="I_indexterm10_d1e15304"></a><a class="indexterm" name="I_indexterm10_d1e15306"></a><a class="indexterm" name="I_indexterm10_d1e15308"></a> donn&eacute;.
+            </p>
+            <div class="figure"><a name="fig-jenkins-build-locks"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject10_d1e15314"></a><img src="figs/web/jtdg_1035.png" alt="Configurer une t&acirc;che de build pour utiliser un verrou"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;10.35.&nbsp;Configurer une t&acirc;che de build pour utiliser un verrou</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect110_d1e14808.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-pipelines.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">10.5.&nbsp;G&eacute;n&eacute;rer vos t&acirc;ches de build Maven automatiquement&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;10.7.&nbsp;Pipelines de build et promotions</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

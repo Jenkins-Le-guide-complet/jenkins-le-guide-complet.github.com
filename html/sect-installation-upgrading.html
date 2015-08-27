@@ -1,0 +1,149 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.15.&nbsp;Upgrading Your Jenkins Installation</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="sect-jenkins-backing-up-data.html" title="3.14.&nbsp;Backing Up Your Jenkins Data">
+      <link rel="next" href="sect-installation-conclusion.html" title="3.16.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-jenkins-backing-up-data.html">3.14.&nbsp;Backing Up Your Jenkins Data</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-installation-conclusion.html">3.16.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-installation-upgrading"></a>3.15.&nbsp;Upgrading Your Jenkins Installation
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			<a class="indexterm" name="ch03-up1"></a>
+            			<a class="indexterm" name="ch03-up2"></a>
+            			<a class="indexterm" name="ch03-up3"></a>
+            			Upgrading Jenkins is easy&#8212;you simply replace your local copy
+            			of the
+            			<code class="filename">jenkins.war</code>
+            			file and restart
+            			Jenkins. However you should make sure there are no builds running when you
+            			restart your server. Since
+            			your build environment configuration
+            			details,
+            			plugins, and build history are stored in the Jenkins home directory,
+            			upgrading your Jenkins executable will have no impact on your
+            			installation. You can always check what version of
+            			Jenkins you are
+            			currently running by referring to the version number in the bottom
+            			right
+            			corner of every screen.
+            		
+         </p>
+         <p>
+            			If you
+            			<a class="indexterm" name="I_indexterm3_d1e4052"></a>
+            			have installed Jenkins using one of the Linux packages,
+            			Jenkins can be upgraded using the same process as the other
+            			system
+            			packages on the server.
+            		
+         </p>
+         <p>
+            			If you are
+            			<a class="indexterm" name="I_indexterm3_d1e4060"></a>
+            			running Jenkins as a stand-alone instance, you can also
+            			upgrade your Jenkins installation directly from the web
+            			interface, in the
+            			Manage Jenkins section. Jenkins will indicate if a more recent
+            			version is
+            			available, and give you the
+            			option to either download it manually or
+            			upgrade automatically (see
+            			<a href="sect-installation-upgrading.html#fig-hudson-upgrade" title="Figure&nbsp;3.10.&nbsp;Upgrading Jenkins from the web interface">Figure&nbsp;3.10, &#8220;Upgrading Jenkins from the web interface&#8221;</a>
+            			).
+            		
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-upgrade"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject3_d1e4071"></a><img src="figs/web/jtdg_0310.png" alt="Upgrading Jenkins from the web interface"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;3.10.&nbsp;Upgrading Jenkins from the web interface</b></p>
+            </div><br class="figure-break"></div>
+         <p>
+            			Once Jenkins has downloaded the upgrade, you can also tell it to
+            			restart when no jobs are running. This is probably
+            			the most
+            			convenient way
+            			to upgrade Jenkins, although it will not work in all environments. In
+            			particular, you need to be
+            			running Jenkins as a stand-alone
+            			application,
+            			and the user running Jenkins needs to have read-write access to the
+            			<code class="filename">jenkins.war</code>
+            			file.
+            		
+         </p>
+         <p>
+            			If you
+            			<a class="indexterm" name="I_indexterm3_d1e4083"></a>
+            			are running Jenkins on an application server such as Tomcat
+            			or JBoss, you might need to do a bit more tidying up when
+            			you upgrade
+            			your
+            			Jenkins instance. Tomcat, for example, places compiled JSP pages in the
+            			<code class="filename">CATALINA_BASE/work</code>
+            			directory. When
+            			you upgrade your Jenkins version, these files need to be removed to
+            			prevent the possibility of any
+            			stale pages being served.
+            		
+         </p>
+         <p>
+            			Any
+            			<a class="indexterm" name="I_indexterm3_d1e4094"></a>
+            			plugins you have installed will be unaffected by your
+            			Jenkins upgrades. However, plugins can also be upgraded,
+            			independently of
+            			the main Jenkins executable. You upgrade your plugins directly in the
+            			Jenkins web application, using
+            			the Jenkins Plugin Manager. We discuss
+            			plugins in more detail further
+            			<a class="indexterm" name="I_indexterm3_d1e4100"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e4102"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e4104"></a>
+            			on in this book.
+            		
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-jenkins-backing-up-data.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-installation-conclusion.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.14.&nbsp;Backing Up Your Jenkins Data&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.16.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

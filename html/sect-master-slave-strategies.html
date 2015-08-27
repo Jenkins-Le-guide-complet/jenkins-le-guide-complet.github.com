@@ -1,0 +1,494 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>11.3.&nbsp;Strat&eacute;gies Ma&icirc;tre/Esclave dans Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-distributed-builds.html" title="Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s">
+      <link rel="prev" href="sect-distributed-build-architecture.html" title="11.2.&nbsp;L'Architecture de build distribu&eacute;e de Jenkins">
+      <link rel="next" href="sect-build-job-ties.html" title="11.4.&nbsp;Associer une t&acirc;che de build avec un esclave ou un groupe d'esclaves">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-distributed-build-architecture.html">11.2.&nbsp;L'Architecture de build distribu&eacute;e de Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-job-ties.html">11.4.&nbsp;Associer une t&acirc;che de build avec un esclave ou un groupe
+                         d'esclaves</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-master-slave-strategies"></a>11.3.&nbsp;Strat&eacute;gies Ma&icirc;tre/Esclave dans Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Il existe diff&eacute;rentes fa&ccedil;ons de configurer une ferme de build
+            distribu&eacute;e avec Jenkins, en fonction de votre syst&egrave;me d'exploitation et de
+                votre architecture r&eacute;seau. Dans tous les cas, le fait qu'une t&acirc;che de build
+                s'ex&eacute;cute sur un esclave, et comment cet esclave s'ex&eacute;cute, est transparent
+                pour l'utilisateur final : les r&eacute;sultats du build et les artefacts finiront
+                toujours sur le serveur ma&icirc;tre.
+         </p>
+         <p>Cr&eacute;er un nouveau<a class="indexterm" name="I_indexterm11_d1e16084"></a><a class="indexterm" name="I_indexterm11_d1e16091"></a> noeud esclave Jenkins est un processus simple. Premi&egrave;rement,
+                rendez vous dans l'&eacute;cran Administrer Jenkins et cliquez sur G&eacute;rer les
+                noeuds. Cet &eacute;cran affiche la liste des agents esclaves (aussi connus en tant
+                que &#8220;Noeuds&#8221; en termes plus politiquement corrects), comme montr&eacute; dans <a href="sect-master-slave-strategies.html#fig-jenkins-manage-nodes" title="Figure&nbsp;11.1.&nbsp;G&eacute;rer les noeuds esclaves">Figure&nbsp;11.1, &#8220;G&eacute;rer les noeuds esclaves&#8221;</a>. A partir de l&agrave;, vous pouvez configurer
+                de nouveaux noeuds en cliquant sur Nouveau noeud. Vous pouvez
+                aussi configurer quelques-uns des param&egrave;tres li&eacute;s &agrave; votre installation de
+                build distribu&eacute;e (see <a href="node-monitoring.html" title="11.5.&nbsp;Surveillance des noeuds">Section&nbsp;11.5, &#8220;Surveillance des noeuds&#8221;</a>).
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-jenkins-manage-nodes"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject11_d1e16106"></a><img src="figs/web/jtdg_1101.png" alt="G&eacute;rer les noeuds esclaves"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;11.1.&nbsp;G&eacute;rer les noeuds esclaves</b></p>
+            </div><br class="figure-break"></div>
+         <p>Il y a plusieurs strat&eacute;gies diff&eacute;rentes lorsqu'il s'agit de g&eacute;rer les
+                noeuds esclaves Jenkins, en fonction de vos syst&egrave;mes d'exploitation cibles
+                et d'autres consid&eacute;rations architecturales. Ces strat&eacute;gies affectent la
+                fa&ccedil;on dont vous configurez vos noeuds esclaves, nous devons donc les
+                consid&eacute;rer s&eacute;par&eacute;ment. Dans les sections suivantes, nous regarderons les
+                fa&ccedil;ons les plus fr&eacute;quemment utilis&eacute;es pour installer et configurer des
+                esclaves Jenkins :
+         </p>
+         <div class="itemizedlist">
+            <ul type="disc">
+               <li>
+                  <p>Le ma&icirc;tre d&eacute;marre l'agent esclave via SSH</p>
+               </li>
+               <li>
+                  <p>D&eacute;marrage manuel de l'agent esclave en utilisant Java Web
+                             Start
+                  </p>
+               </li>
+               <li>
+                  <p>Installation de l'agent esclave en tant que service Windows</p>
+               </li>
+               <li>
+                  <p>D&eacute;marrage de l'agent esclave directement depuis la ligne de
+                             commande sur la machine esclave
+                  </p>
+               </li>
+            </ul>
+         </div>
+         <p>Chacune de ces strat&eacute;gies poss&egrave;de ses utilisations, ses avantages et
+                ses inconv&eacute;nients. Regardons chacune d'entre elles.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e16347"></a>11.3.1.&nbsp;Le ma&icirc;tre d&eacute;marre l'agent esclave en utilisant SSH
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Si vous <a class="indexterm" name="ch11-start"></a><a class="indexterm" name="ch11-ssh"></a><a class="indexterm" name="ch11-ssh2"></a>travaillez dans un environnement Unix, la fa&ccedil;on la plus
+                     pratique de d&eacute;marrer un esclave Jenkins est sans aucun doute d'utiliser
+                     SSH. Jenkins poss&egrave;de son propre client SSH int&eacute;gr&eacute;, et presque tous les
+                     environnements Unix supportent SSH (habituellement <code class="literal">sshd</code>) de base.
+            </p>
+            <p>Pour cr&eacute;er un esclave de type Unix, cliquez sur le bouton Nouveau
+                     noeud comme nous l'avons mentionn&eacute; ci-dessus. Cela vous demande d'entrer
+                     le nom de votre esclave, et son type (voir <a href="sect-master-slave-strategies.html#fig-jenkins-new-slave" title="Figure&nbsp;11.2.&nbsp;Cr&eacute;er un nouveau noeud esclave">Figure&nbsp;11.2, &#8220;Cr&eacute;er un nouveau noeud esclave&#8221;</a>). Au moment de l'&eacute;criture de ces lignes,
+                     seuls les &#8220;esclaves passifs&#8221; sont support&eacute;s en standard; ces esclaves
+                     r&eacute;pondent simplement aux requ&ecirc;tes de build en provenance du noeud ma&icirc;tre.
+                     C'est la fa&ccedil;on la plus commune de mettre en place une architecture de
+                     build distribu&eacute;e, et c'est la seule option disponible dans une
+                     installation par d&eacute;faut.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-new-slave"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject11_d1e16161"></a><img src="figs/web/jtdg_1102.png" alt="Cr&eacute;er un nouveau noeud esclave"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;11.2.&nbsp;Cr&eacute;er un nouveau noeud esclave</b></p>
+               </div><br class="figure-break"></div>
+            <p>Dans cet &eacute;cran, vous devez simplement fournir un nom pour votre
+                     esclave. Lorsque vous cliquez sur OK, Jenkins vous permet de fournir plus
+                     de d&eacute;tails sur vos machines esclaves (voir <a href="sect-master-slave-strategies.html#fig-jenkins-slave-ssh" title="Figure&nbsp;11.3.&nbsp;Cr&eacute;er un noeud esclave Unix">Figure&nbsp;11.3, &#8220;Cr&eacute;er un noeud esclave Unix&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-jenkins-slave-ssh"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject11_d1e16173"></a><img src="figs/web/jtdg_1103.png" alt="Cr&eacute;er un noeud esclave Unix"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;11.3.&nbsp;Cr&eacute;er un noeud esclave Unix</b></p>
+            </div><br class="figure-break"><p>Ce nom est simplement un moyen unique pour identifier votre machine
+                     esclave. Ce peut &ecirc;tre n'importe quoi, mais il pourrait &ecirc;tre utile que ce
+                     nom vous rappelle la machine physique sur laquelle cela fonctionne. Il est
+                     aussi utile que ce nom soit compatible avec le syst&egrave;me de fichiers et un
+                     format URL. Les espaces sont autoris&eacute;s, mais cela vous facilitera la vie
+                     de les &eacute;viter. Ainsi, &#8220;Slave-1&#8221; est meilleur que &#8220;Slave 1&#8221;.
+            </p>
+            <p>La description est aussi purement destin&eacute;e &agrave; la lecture humaine, et
+                     peut &ecirc;tre utilis&eacute;e pour indiquer pourquoi utiliser cet esclave plut&ocirc;t
+                     qu'un autre.
+            </p>
+            <p>Comme sur l'&eacute;cran principal de configuration Jenkins, le nombre
+                     d'ex&eacute;cuteurs vous permet de d&eacute;finir le nombre de t&acirc;ches de build
+                     concurrentes que ce noeud peut ex&eacute;cuter.
+            </p>
+            <p>Tout noeud esclave Jenkins n&eacute;cessite aussi un emplacement qu'il
+                     puisse utiliser comme racine, ou, plus pr&eacute;cis&eacute;ment un r&eacute;pertoire d&eacute;di&eacute; sur
+                     la machine esclave que l'agent esclave puisse utiliser pour ex&eacute;cuter des
+                     t&acirc;ches de build. Vous d&eacute;finissez ce r&eacute;pertoire dans le champ racine du
+                     disque distant. Vous devez fournir un chemin local, sp&eacute;cifique &agrave; l'OS, tel
+                     que <code class="filename">/var/jenkins</code> pour une machine
+                     Unix ou <code class="filename">C:\jenkins</code> sur Windows. Rien
+                     d'essentiel n'est stock&eacute; dans ce r&eacute;pertoire &#8212; tout ce qui est important
+                     est renvoy&eacute; &agrave; la machine ma&icirc;tre une fois que le build est effectu&eacute;. Vous
+                     n'avez donc g&eacute;n&eacute;ralement pas besoin de vous inqui&eacute;ter de sauvegarder ces
+                     r&eacute;pertoires comme c'est le cas avec ceux du ma&icirc;tre.
+            </p>
+            <p>Les libell&eacute;s sont un concept particuli&egrave;rement utile quand votre
+                     architecture distribu&eacute;e commence &agrave; grossir. Vous d&eacute;finissez des libell&eacute;s,
+                     des tags, pour chaque noeud de build, et configurez ensuite une t&acirc;che de
+                     build afin qu'elle s'ex&eacute;cute avec un libell&eacute; particulier. Les libell&eacute;s
+                     peuvent avoir trait au syst&egrave;me d'exploitation (unix, windows, macosx,
+                     etc.), aux environnements (staging, recette, d&eacute;veloppement, etc.) ou
+                     n'importe quel crit&egrave;re que vous trouveriez utile. Par exemple, vous pouvez
+                     configurer vos tests automatis&eacute;s WebDriver/Selenium pour qu'ils
+                     s'ex&eacute;cutent avec Internet Explorer, mais seulement sur des noeuds esclaves
+                     avec le libell&eacute; &#8220;windows&#8221;.
+            </p>
+            <p>Le champ <span class="emphasis"><em>Utilisation</em></span> vous permet de configurer
+                     l'intensit&eacute; avec laquelle Jenkins utilisera cet esclave. Vous avez le
+                     choix parmi trois options : utiliser cet esclave autant que possible,
+                     r&eacute;server pour les t&acirc;ches de build d&eacute;di&eacute;es, ou le mettre en ligne quand
+                     c'est n&eacute;cessaire.
+            </p>
+            <p>La premi&egrave;re option &#8220;Utiliser cet esclave autant que possible&#8221;,
+                     indique &agrave; Jenkins d'utiliser librement cet esclave d&egrave;s qu'il devient
+                     disponible, pour toute t&acirc;che qu'il peut ex&eacute;cuter. C'est de loin l'option
+                     la plus utilis&eacute;e, et g&eacute;n&eacute;ralement celle que vous voulez.
+            </p>
+            <p>Quelques fois, cependant, la seconde option peut s'av&eacute;rer utile.
+                     Dans la configuration du projet, vous pouvez lier une t&acirc;che de build &agrave; un
+                     noeud sp&eacute;cifique &#8212; c'est utile quand une t&acirc;che particuli&egrave;re, comme un
+                     d&eacute;ploiement automatis&eacute; ou une suite de tests de performance, n&eacute;cessite
+                     d'&ecirc;tre ex&eacute;cut&eacute;e sur une machine sp&eacute;cifique. Dans ce cas, l'option
+                     &#8220;R&eacute;server cette machine pour les t&acirc;ches associ&eacute;es uniquement&#8221; peut avoir
+                     du sens. Vous pouvez aller encore plus loin en positionnant le nombre
+                     maximum d'Ex&eacute;cuteurs &agrave; 1. Dans ce cas, non seulement cet esclave sera
+                     r&eacute;serv&eacute; pour un type particulier de t&acirc;che, mais il sera uniquement capable
+                     d'ex&eacute;cuter une seule de ces t&acirc;ches de build &agrave; tout instant. C'est une
+                     configuration tr&egrave;s utile pour les tests de performance ou de charge, o&ugrave;
+                     vous avez besoin de r&eacute;server la machine pour qu'elle ex&eacute;cute ses tests
+                     sans interf&eacute;rence.
+            </p>
+            <p>La troisi&egrave;me option est &#8220;Mettre cet esclave en ligne lors de demande
+                     et hors-ligne sinon&#8221; (voir <a href="sect-master-slave-strategies.html#fig-jenkins-slave-idle" title="Figure&nbsp;11.4.&nbsp;Mettre un esclave hors-ligne lorsqu'il est inactif">Figure&nbsp;11.4, &#8220;Mettre un esclave hors-ligne lorsqu'il est inactif&#8221;</a>).
+                     Comme le nom l'indique, cette option indique &agrave; Jenkins de mettre cet
+                     esclave en ligne lorsque la demande est &eacute;lev&eacute;e et de le mettre hors-ligne
+                     lorsque la demande faiblit. Ceci permet de garder quelques esclaves de build
+                     pour les p&eacute;riodes d'utilisation importante, sans avoir &agrave; maintenir dessus un
+                     agent esclave fonctionnant en permanence. Quand vous choisissez
+                     cette option, vous devez aussi fournir quelques d&eacute;tails suppl&eacute;mentaires.
+                     Le &#8220;D&eacute;lai de la demande&#8221; indique combien de minutes les t&acirc;ches doivent
+                     avoir attendu dans la file d'attente avant que cet esclave ne soit mis en
+                     ligne. Le champ D&eacute;lai d'inactivit&eacute; indique combien de temps l'esclave doit
+                     avoir &eacute;t&eacute; inactif avant que Jenkins ne le mette hors-ligne.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-slave-idle"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject11_d1e16208"></a><img src="figs/web/jtdg_1104.png" alt="Mettre un esclave hors-ligne lorsqu'il est inactif"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;11.4.&nbsp;Mettre un esclave hors-ligne lorsqu'il est inactif</b></p>
+               </div><br class="figure-break"></div>
+            <p>La m&eacute;thode de lancement d&eacute;cide de comment Jenkins lancera le noeud,
+                     comme nous l'avons mentionn&eacute; pr&eacute;c&eacute;demment. Pour la configuration dont nous
+                     parlons ici, vous choisiriez &#8220;Lancer les agents esclaves sur machines Unix
+                     via SSH&#8221;. Le bouton Avanc&eacute; vous permet d'entrer des d&eacute;tails additionnels
+                     dont Jenkins a besoin pour se connecter &agrave; la machine esclave Unix : un nom
+                     d'h&ocirc;te, un login et mot de passe et un num&eacute;ro de port. Vous pouvez aussi
+                     fournir un chemin vers un fichier de cl&eacute; priv&eacute;e SSH sur la machine ma&icirc;tre
+                     (e.g., <code class="literal">id_dsa</code> ou <code class="literal">id_rsa</code>) &agrave; utiliser pour une authentification
+                     &#8220;sans mot de passe&#8221; par cl&eacute;s Publique/Priv&eacute;e.
+            </p>
+            <p>Vous pouvez aussi configurer quand Jenkins d&eacute;marre ou arr&ecirc;te
+                     l'esclave. Par d&eacute;faut, Jenkins gardera simplement l'esclave en
+                     fonctionnement et l'utilisera chaque fois qu'il en aura besoin (option
+                     &#8220;Garder cet esclave en ligne autant que possible&#8221;). Si Jenkins remarque
+                     que l'esclave est d&eacute;connect&eacute; (par exemple &agrave; cause d'un red&eacute;marrage
+                     serveur), il essaiera de le red&eacute;marrer s'il le peut. Sinon, Jenkins peut
+                     &ecirc;tre plus conservateur avec vos ressources syst&egrave;mes, et mettre l'esclave
+                     hors-ligne lorsqu'il n'en a pas besoin. Pour faire cela, choisissez
+                     simplement l'option &#8220;Mettre cet esclave en ligne si n&eacute;cessaire et
+                     hors-ligne en cas d'inactivit&eacute;&#8221;. C'est utile si vous avez r&eacute;guli&egrave;rement
+                     des pics et accalmies de l'activit&eacute; de build, car un esclave peut &ecirc;tre mis
+                     hors-ligne pour conserver les ressources syst&egrave;mes pour d'autres t&acirc;ches, et
+                     remis en ligne lorsque c'est n&eacute;cessaire.
+            </p>
+            <p>Jenkins a aussi besoin de savoir o&ugrave; il peut trouver les outils de
+                     build dont il a besoin pour vos t&acirc;ches de build sur les machines esclaves.
+                     Ceci inclut aussi bien les JDKs que les outils de build comme Maven, Ant,
+                     et Gradle. Si vous avez configur&eacute; vos outils de build pour &ecirc;tre
+                     automatiquement install&eacute;s, vous n'aurez g&eacute;n&eacute;rallement pas de configuration
+                     suppl&eacute;mentaire &agrave; effectuer pour vos machines esclaves; Jenkins
+                     t&eacute;l&eacute;chargera et installera les outils au besoin. D'un autre c&ocirc;t&eacute;, si vos
+                     outils de build sont install&eacute;s localement sur la machine esclave, vous
+                     aurez besoin d'indiquer &agrave; Jenkins o&ugrave; il peut les trouver. Ceci se fait en
+                     cochant la case Emplacement des outils, et en fournissant les chemins
+                     locaux pour chaque outil n&eacute;cessaire &agrave; vos t&acirc;ches de build (voir <a href="sect-master-slave-strategies.html#fig-jenkins-slave-node-tools" title="Figure&nbsp;11.5.&nbsp;Configurer l'emplacement des outils">Figure&nbsp;11.5, &#8220;Configurer l'emplacement des outils&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-slave-node-tools"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject11_d1e16230"></a><img src="figs/web/jtdg_1105.png" alt="Configurer l'emplacement des outils"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;11.5.&nbsp;Configurer l'emplacement des outils</b></p>
+               </div><br class="figure-break"></div>
+            <p>Vous pouvez aussi sp&eacute;cifier des variables d'environnement. Celles-ci
+                     seront pass&eacute;es &agrave; vos t&acirc;ches de build, et ce peut &ecirc;tre un moyen de
+                     permettre &agrave; vos t&acirc;ches de se comporter diff&eacute;remment en fonction de
+                     l'endroit o&ugrave; elles s'ex&eacute;cutent.
+            </p>
+            <p>Une fois que vous avez fait cela, votre nouveau noeud esclave
+                     appara&icirc;tra dans la liste des ordinateurs sur la page des Noeuds Jenkins
+                     <a class="indexterm" name="I_indexterm11_d1e16239"></a><a class="indexterm" name="I_indexterm11_d1e16241"></a> (voir <a href="sect-master-slave-strategies.html#fig-jenkins-slave-nodes" title="Figure&nbsp;11.6.&nbsp;Votre nouveau noeud esclave en action">Figure&nbsp;11.6, &#8220;Votre nouveau noeud esclave en action&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-jenkins-slave-nodes"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject11_d1e16250"></a><img src="figs/web/jtdg_1106.png" alt="Votre nouveau noeud esclave en action"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;11.6.&nbsp;Votre nouveau noeud esclave en action</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e16475"></a>11.3.2.&nbsp;D&eacute;marrer l'agent esclave manuellement via Java Web Start
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une autre <a class="indexterm" name="ch11-jws1"></a><a class="indexterm" name="ch11-jws2"></a>option est de d&eacute;marrer l'agent esclave depuis la machine
+                     esclave elle-m&ecirc;me en utilisant Java Web Start (JNLP). Cette approche est
+                     utile si le serveur ne peut pas se connecter &agrave; l'esclave, par exemple si
+                     la machine esclave s'ex&eacute;cute de l'autre c&ocirc;t&eacute; d'un firewall. Cela
+                     fonctionne quel que soit le syst&egrave;me d'exploitation de votre esclave,
+                     toutefois c'est l'option la plus souvent utilis&eacute;e pour les esclaves Windows. Cela
+                     pr&eacute;sente quelques inconv&eacute;nients majeurs : le noeud esclave ne peut pas
+                     &ecirc;tre d&eacute;marr&eacute;, ou red&eacute;marr&eacute;, automatiquement par Jenkins. Ainsi, si
+                     l'esclave tombe, l'instance ma&icirc;tre ne peut pas le red&eacute;marrer.
+            </p>
+            <p>Quand vous faites cela sur une machine Windows, vous devez d&eacute;marrer
+                     l'esclave Jenkins manuellement au moins une fois. Ceci implique d'ouvrir
+                     un navigateur sur la machine, ouvrir la page du noeud esclave sur le
+                     ma&icirc;tre Jenkins et de lancer l'esclave en utilisant l'ic&ocirc;ne JNLP bien
+                     visible. Une fois que vous avez lanc&eacute; l'esclave, vous pouvez l'installer
+                     comme un service Windows.
+            </p>
+            <p>Il y a aussi des moments o&ugrave; vous avez besoin de faire cela depuis la
+                     ligne de commande, dans un environnement Unix. Vous pourriez avoir besoin
+                     de &ccedil;a &agrave; cause d'un firewall ou d'autres probl&egrave;mes r&eacute;seau, ou parce que SSH
+                     n'est pas disponible dans votre environnement.
+            </p>
+            <p>D&eacute;taillons &agrave; pr&eacute;sent les deux processus.</p>
+            <p>La premi&egrave;re chose que vous devez faire dans tous les cas est de
+                     cr&eacute;er un nouvel esclave. Comme pour tout noeud esclave, vous faites cela
+                     en cliquant sur l'entr&eacute;e Nouveau noeud dans l'&eacute;cran Noeuds. Lors de la
+                     saisie des d&eacute;tails concernant votre noeud esclave, assurez-vous de choisir
+                     &#8220;Lancer les agents esclave via JNLP&#8221; dans le champ M&eacute;thode de lancement
+                     (voir <a href="sect-master-slave-strategies.html#fig-jenkins-jnlp-slave" title="Figure&nbsp;11.7.&nbsp;Cr&eacute;er un noeud esclave pour JNLP">Figure&nbsp;11.7, &#8220;Cr&eacute;er un noeud esclave pour JNLP&#8221;</a>). Rappelez-vous aussi que
+                     c'est un noeud esclave Windows, la racine du syst&egrave;me de fichiers distant
+                     doit &ecirc;tre un chemin Windows (comme <code class="filename">C:\jenkins-slave</code>). Ce r&eacute;pertoire n'a pas &agrave;
+                     exister : Jenkins le cr&eacute;era automatiquement s'il manque.
+            </p>
+            <div class="figure"><a name="fig-jenkins-jnlp-slave"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject11_d1e16289"></a><img src="figs/web/jtdg_1107.png" alt="Cr&eacute;er un noeud esclave pour JNLP"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;11.7.&nbsp;Cr&eacute;er un noeud esclave pour JNLP</b></p>
+            </div><br class="figure-break"><p>Une fois que vous avez sauv&eacute; cette configuration, connectez-vous,
+               	  ensuite, sur la machine esclave et ouvrez l'&eacute;cran du noeud esclave
+                     dans un navigateur, comme montr&eacute; sur <a href="sect-master-slave-strategies.html#fig-jenkins-launch-jnlp" title="Figure&nbsp;11.8.&nbsp;Lancer un esclave via Java Web Start">Figure&nbsp;11.8, &#8220;Lancer un esclave via Java Web Start&#8221;</a>. Vous verrez un large bouton orange
+                     Lancer &#8212; si vous cliquez sur ce bouton, vous devriez &ecirc;tre capable de
+                     lancer un agent esclave directement depuis votre navigateur.
+            </p>
+            <div class="figure"><a name="fig-jenkins-launch-jnlp"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject11_d1e16301"></a><img src="figs/web/jtdg_1108.png" alt="Lancer un esclave via Java Web Start"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;11.8.&nbsp;Lancer un esclave via Java Web Start</b></p>
+            </div><br class="figure-break"><p>Si tout va bien, ceci ouvrira une petite fen&ecirc;tre indiquant que votre
+                     esclave est &agrave; pr&eacute;sent en fonctionnement (voir <a href="sect-master-slave-strategies.html#fig-jenkins-slave-agent" title="Figure&nbsp;11.9.&nbsp;L'agent esclave Jenkins en action">Figure&nbsp;11.9, &#8220;L'agent esclave Jenkins en action&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-jenkins-slave-agent"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject11_d1e16313"></a><img src="figs/web/jtdg_1109.png" alt="L'agent esclave Jenkins en action"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;11.9.&nbsp;L'agent esclave Jenkins en action</b></p>
+            </div><br class="figure-break"><p>Les navigateurs sont inconstants, toutefois, et Java Web Start n'est
+                     pas toujours simple &agrave; utiliser. Cette approche fonctionne habituellement
+                     avec Firefox, bien que vous deviez auparavant avoir install&eacute; le JRE Java
+                     pour que Firefox comprenne Java. Utiliser JNLP avec Internet Explorer
+                     requiert un ensemble (non n&eacute;gligeable) de bricolages pour associer les
+                     fichiers <code class="filename">*.jnlp</code> avec l'ex&eacute;cutable
+                     Java Web Start, un fichier appel&eacute; <span><strong class="command">javaws</strong></span>, que vous trouverez dans le r&eacute;pertoire
+                     <code class="filename">bin</code> de Java. Il est en fait
+                     probablement plus simple de le lancer depuis la ligne de commande comme
+                     discut&eacute; ci-dessous.
+            </p>
+            <p>Une approche plus fiable, quoique bas-niveau, est de d&eacute;marrer
+                     l'esclave depuis la ligne de commande. Pour faire &ccedil;a, invoquez simplemet
+                     l'ex&eacute;cutable <span><strong class="command">javaws</strong></span> depuis une fen&ecirc;tre
+                     de commande comme suit :
+            </p><pre class="screen">C:&gt; javaws http://build.myorg.com/jenkins/computer/windows-slave-1/slave-agent.jnlp</pre><p>La commande exacte que vous devez ex&eacute;cuter, notamment avec l'URL
+                     correcte, est id&eacute;alement affich&eacute;e dans la fen&ecirc;tre du noeud esclave Jenkins
+                     juste en dessous du bouton de lancement JNLP (voir <a href="sect-master-slave-strategies.html#fig-jenkins-launch-jnlp" title="Figure&nbsp;11.8.&nbsp;Lancer un esclave via Java Web Start">Figure&nbsp;11.8, &#8220;Lancer un esclave via Java Web Start&#8221;</a>).
+            </p>
+            <p>Si la s&eacute;curit&eacute; est activ&eacute;e sur votre serveur Jenkins, Jenkins
+                     communiquera avec l'esclave sur un port sp&eacute;cifique non standard. Si pour
+                     une raison quelconque ce port est inaccessible, le noeud esclave &eacute;chouera
+                     au lancement et affichera un message d'erreur similaire &agrave; celui montr&eacute;
+                     dans <a href="sect-master-slave-strategies.html#fig-jenkins-slave-unable-to-connect" title="Figure&nbsp;11.10.&nbsp;L'esclave Jenkins &eacute;chouant &agrave; la connexion au ma&icirc;tre">Figure&nbsp;11.10, &#8220;L'esclave Jenkins &eacute;chouant &agrave; la connexion au ma&icirc;tre&#8221;</a>.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-slave-unable-to-connect"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject11_d1e16348"></a><img src="figs/web/jtdg_1110.png" alt="L'esclave Jenkins &eacute;chouant &agrave; la connexion au ma&icirc;tre"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;11.10.&nbsp;L'esclave Jenkins &eacute;chouant &agrave; la connexion au ma&icirc;tre</b></p>
+               </div><br class="figure-break"></div>
+            <p>Ceci est habituellement le signe qu'un firewall bloque un port. Par
+                     d&eacute;faut, Jenkins choisit al&eacute;atoirement un port pour la communication TCP avec
+                     ses esclaves. Cependant si vous devez avoir un port sp&eacute;cifique que votre
+                     firewall autorise, vous pouvez forcer Jenkins &agrave; utiliser un port fixe dans
+                     l'&eacute;cran de configuration syst&egrave;me en s&eacute;lectionnant l'option Fixe dans &#8220;Port
+                     TCP pour les agents esclaves JNLP&#8221;, comme <a class="indexterm" name="I_indexterm11_d1e16355"></a><a class="indexterm" name="I_indexterm11_d1e16357"></a>montr&eacute; dans <a href="sect-master-slave-strategies.html#fig-jenkins-tcp-ports" title="Figure&nbsp;11.11.&nbsp;Configurer le port de l'esclave Jenkins">Figure&nbsp;11.11, &#8220;Configurer le port de l'esclave Jenkins&#8221;</a>.
+            </p>
+            <div class="figure"><a name="fig-jenkins-tcp-ports"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject11_d1e16365"></a><img src="figs/web/jtdg_1111.png" alt="Configurer le port de l'esclave Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;11.11.&nbsp;Configurer le port de l'esclave Jenkins</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e16589"></a>11.3.3.&nbsp;Installer un esclave Jenkins en tant que service Windows
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une fois <a class="indexterm" name="ch11-win1"></a><a class="indexterm" name="ch11-win2"></a>que vous avez d&eacute;marr&eacute; votre esclave sur votre machine
+                     Windows, vous pouvez vous &eacute;pargner la peine d'avoir &agrave; le red&eacute;marrer
+                     manuellement chaque fois que votre machine red&eacute;marre en l'installant comme
+                     un service Windows. Pour faire cela, s&eacute;lectionnez l'option de menu &#8220;Installer
+                     comme Service Windows&#8221; dans le menu Fichier de la fen&ecirc;tre de l'agent
+                     esclave (voir <a href="sect-master-slave-strategies.html#fig-jenkins-install-slave-service" title="Figure&nbsp;11.12.&nbsp;Installer l'esclave Jenkins en tant que service Windows">Figure&nbsp;11.12, &#8220;Installer l'esclave Jenkins en tant que service Windows&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-install-slave-service"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject11_d1e16393"></a><img src="figs/web/jtdg_1112.png" alt="Installer l'esclave Jenkins en tant que service Windows"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;11.12.&nbsp;Installer l'esclave Jenkins en tant que service Windows</b></p>
+               </div><br class="figure-break"></div>
+            <p>Une fois que c'est fait, votre noeud esclave Jenkins d&eacute;marrera
+                     automatiquement chaque fois que la machine d&eacute;marre, et peut &ecirc;tre
+                     administr&eacute; comme n'importe quel autre service Windows<a class="indexterm" name="I_indexterm11_d1e16400"></a><a class="indexterm" name="I_indexterm11_d1e16402"></a> (voir <a href="sect-master-slave-strategies.html#fig-jenkins-slave-service-installed" title="Figure&nbsp;11.13.&nbsp;G&eacute;rer le service Windows Jenkins">Figure&nbsp;11.13, &#8220;G&eacute;rer le service Windows Jenkins&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-slave-service-installed"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject11_d1e16410"></a><img src="figs/web/jtdg_1113.png" alt="G&eacute;rer le service Windows Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;11.13.&nbsp;G&eacute;rer le service Windows Jenkins</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e16634"></a>11.3.4.&nbsp;D&eacute;marrer le noeud esclave en mode Headless
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Vous <a class="indexterm" name="I_indexterm11_d1e16420"></a><a class="indexterm" name="I_indexterm11_d1e16427"></a>pouvez aussi d&eacute;marrer un agent esclave en mode headless,
+                     directement depuis la ligne de commande. C'est utile si vous n'avez pas
+                     d'interface utilisateur disponible, par exemple si vous d&eacute;marrez un noeud
+                     esclave JNLP sur une machine Unix. Si vous travaillez avec des machines
+                     Unix, il est g&eacute;n&eacute;ralement plus facile et plus flexible d'utiliser
+                     simplement une connexion SSH, mais il y a parfois des contraintes de
+                     r&eacute;seau ou d'architecture qui vous emp&ecirc;chent d'utiliser SSH. Dans ce genre
+                     de cas, il est encore possible d'ex&eacute;cuter un noeud esclave depuis la ligne
+                     de commande.
+            </p>
+            <p>Pour d&eacute;marrer le noeud esclave de cette fa&ccedil;on, vous devez utiliser
+                     le fichier <code class="filename">slave.jar</code> de Jenkins. Vous
+                     pouvez le trouver dans <code class="filename">JENKINS_HOME/war/WEB-INF/slave.jar</code>. Une fois ce
+                     fichier localis&eacute; et copi&eacute; sur la machine esclave Windows, vous pouvez
+                     l'ex&eacute;cuter comme suit :
+            </p><pre class="screen">java -jar slave.jar \
+ -jnlpUrl http://build.myorg.com/jenkins/computer/windows-slave-1/slave-agent.jnlp</pre><p>Et si votre serveur Jenkins n&eacute;cessite une authentification, passez
+                     simplement l'option <code class="literal">-auth
+                        username:password</code> :
+            </p><pre class="screen">java -jar slave.jar \
+ -jnlpUrl http://build.myorg.com/jenkins/computer/windows-slave-1/slave-agent.jnlp
+ -auth scott:tiger</pre><p>Une fois que vous avez d&eacute;marr&eacute; l'agent esclave, assurez de
+                     l'installer en tant que service Windows, comme indiqu&eacute; dans la section
+                     pr&eacute;c&eacute;dente.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e16669"></a>11.3.5.&nbsp;D&eacute;marrer un esclave Windows en tant que service distant
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Jenkins <a class="indexterm" name="I_indexterm11_d1e16456"></a><a class="indexterm" name="I_indexterm11_d1e16463"></a><a class="indexterm" name="I_indexterm11_d1e16466"></a>peut aussi g&eacute;rer un esclave Windows distant comme un service
+                     Windows, en utilisant le service Windows Management Instrumentation
+                     (WMI)<a class="indexterm" name="I_indexterm11_d1e16472"></a> qui est install&eacute; par d&eacute;faut sur Windows 2000 ou sup&eacute;rieur (voir
+                     <a href="sect-master-slave-strategies.html#fig-jenkins-slave-service" title="Figure&nbsp;11.14.&nbsp;Permettre &agrave; Jenkins de contr&ocirc;ler un esclave Windows comme un service Windows">Figure&nbsp;11.14, &#8220;Permettre &agrave; Jenkins de contr&ocirc;ler un esclave Windows comme un
+                          service Windows&#8221;</a>). Quand vous choisissez cette
+                     option, vous avez seulement besoin de fournir un nom d'utilisateur et un
+                     mot de passe Windows. Le nom du noeud doit &ecirc;tre le nom de machine de la
+                     machine esclave.
+            </p>
+            <p>Ceci est certainement pratique, parce que cela ne requiert pas de se
+                     connecter &agrave; la machine Windows pour la configurer. Toutefois, cette
+                     m&eacute;thode poss&egrave;de quelques limitations &#8212; en particulier, vous ne pouvez pas
+                     ex&eacute;cuter d'applications n&eacute;cessitant une interface graphique, vous ne
+                     pouvez donc pas mettre en place un esclave de cette fa&ccedil;on pour faire du
+                     test Web, par exemple. En pratique, cela peut se r&eacute;v&eacute;ler un peu compliqu&eacute;
+                     &agrave; param&eacute;trer, parce que vous pourriez avoir besoin de configurer le
+                     firewall Windows pour ouvrir les ports et services appropri&eacute;s. Si vous
+                     rencontrez des probl&egrave;mes, assurez-vous que votre configuration r&eacute;seau
+                     autorise les connexions TCP aux ports 135, 139, et 445, ainsi que les
+                     connexions UDP aux ports 137 et 138 (voir <a xmlns:xlink="http://www.w3.org/1999/xlink" href="https://wiki.jenkins-ci.org/display/JENKINS/Windows+slaves+fail+to+start+via+DCOM" target="_top">https://wiki.jenkins-ci.org/display/JENKINS/Windows+slaves+fail+to+start+via+DCOM</a>
+                     pour plus de d&eacute;tails).
+            </p>
+            <div class="figure"><a name="fig-jenkins-slave-service"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject11_d1e16499"></a><img src="figs/web/jtdg_1114.png" alt="Permettre &agrave; Jenkins de contr&ocirc;ler un esclave Windows comme un service Windows"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;11.14.&nbsp;Permettre &agrave; Jenkins de contr&ocirc;ler un esclave Windows comme un
+                             service Windows</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-distributed-build-architecture.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-build-job-ties.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">11.2.&nbsp;L'Architecture de build distribu&eacute;e de Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;11.4.&nbsp;Associer une t&acirc;che de build avec un esclave ou un groupe
+                      d'esclaves
+               </td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,217 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.3.&nbsp;Pr&eacute;paration d'un serveur de build pour Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="chapter-installing-downloading.html" title="3.2.&nbsp;T&eacute;l&eacute;charger et installer Jenkins">
+      <link rel="next" href="sec-hudson-home-directory.html" title="3.4.&nbsp;Le r&eacute;pertoire de travail de Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-installing-downloading.html">3.2.&nbsp;T&eacute;l&eacute;charger et installer Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sec-hudson-home-directory.html">3.4.&nbsp;Le r&eacute;pertoire de travail de Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="chapter-installing-build-server"></a>3.3.&nbsp;Pr&eacute;paration d'un serveur de build pour Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			L'installation
+            			<a class="indexterm" name="ch03-build2"></a>
+            			<a class="indexterm" name="ch03-build3"></a>
+            			de Jenkins sur votre machine locale de d&eacute;veloppement est une chose, mais
+            			l'installation de 
+            			<span class="keep-together">Jenkins</span>
+            			sur un bon serveur de build 
+            			m&eacute;rite un peu plus de pr&eacute;voyance et de planification.
+            		
+         </p>
+         <p>
+            			Avant
+            			<a class="indexterm" name="I_indexterm3_d1e2718"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2723"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2726"></a>
+            			de commencer votre installation, la premi&egrave;re chose dont vous aurez besoin
+            			est un serveur de build. Pour fonctionner correctement, Jenkins a besoin &agrave; la fois d'un
+            			processeur puissant et de
+            			m&eacute;moire. Jenkins, pour sa part, est une application web Java relativement modeste.
+            			Cependant, pour la majorit&eacute; des
+            			configurations, au moins une partie des builds sera ex&eacute;cut&eacute;e
+            			sur le serveur de build principal. Les builds ont tendance &agrave; &ecirc;tre &agrave; la fois gourmand en m&eacute;moire
+            			et
+            			en temps processeur, et Jenkins peut &ecirc;tre configur&eacute; pour ex&eacute;cuter
+            			plusieurs builds en parall&egrave;le. Selon le
+            			nombre de t&acirc;ches de build que vous
+            			g&eacute;rez, Jenkins aura aussi besoin de m&eacute;moire d&eacute;di&eacute;e pour son propre usage
+            			interne. La quantit&eacute; de
+            			m&eacute;moire n&eacute;cessaire d&eacute;pendra en grande partie de la nature de
+            			vos builds, mais la m&eacute;moire n'est pas cher ces temps-ci (du moins pour
+            			des environnements
+            			non h&eacute;berg&eacute;s), et il vaut mieux ne pas &ecirc;tre avare.
+            		
+         </p>
+         <p>
+            			Un serveur de
+            			<a class="indexterm" name="I_indexterm3_d1e2734"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2739"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2742"></a>
+            			build a aussi besoin d'un CPU puissant. En r&egrave;gle g&eacute;n&eacute;rale, vous
+            			aurez besoin d'un processeur par build parall&egrave;le, m&ecirc;me si, dans
+            			la practique, vous pouvez
+            			capitaliser sur les d&eacute;lais d'E/S pour faire un peu mieux que cela. Il est &eacute;galement
+            			dans
+            			votre int&eacute;r&ecirc;t de d&eacute;dier
+            			votre serveur de build, autant que possible, &agrave;
+            			la t&acirc;che de gestion des builds continus. En particulier, vous devriez
+            			&eacute;viter
+            			les applications
+            			gourmandes en m&eacute;moire ou en CPU tels que les serveurs de test, les applications
+            			<span class="keep-together">d'enterprise</span>
+            			fortement utilis&eacute;es, les base de donn&eacute;es 
+            			d'entreprise tel que Oracle, les serveurs de messagerie d'entreprise, et
+            			<span class="keep-together">ainsi de suite</span>
+            			.
+            		
+         </p>
+         <p>
+            			Une option
+            			<a class="indexterm" name="I_indexterm3_d1e2754"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2759"></a>
+            			vraiment pratique, disponible dans de nombreuses organisations aujourd'hui, est
+            			d'utliser une machine virtuelle. De cette fa&ccedil;on, vous pouvez choisir la
+            			quantit&eacute; de m&eacute;moire et
+            			le nombre de processeurs que vous jugez appropri&eacute;s pour votre installation
+            			initiale,
+            			et d'ajouter facilement de la
+            			m&eacute;moire et des processeurs plus tard si n&eacute;cessaire. Cependant,
+            			si vous utilisez une machine virtuelle, assurez-vous qu'elle dispose de suffisamment
+            			de m&eacute;moire pour
+            			supporter le nombre maximal de builds en parall&egrave;le auquel vous vous attendez &agrave; &ecirc;tre ex&eacute;cut&eacute;.
+            			L'utilisation de la m&eacute;moire d'un serveur d'int&eacute;gration
+            			continue peut-&ecirc;tre vue comme des dents de scie
+            			&#8212; Jenkins cr&eacute;era, au besoin, des JVMs suppl&eacute;mentaires pour ses
+            			t&acirc;ches de
+            			build,
+            			et celles-ci ont besoin de m&eacute;moire.
+            		
+         </p>
+         <p>
+            			Une autre
+            			<a class="indexterm" name="I_indexterm3_d1e2765"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2770"></a>
+            			approche utile est de configurer plusieurs machines de build.
+            			Jenkins rend facile la mise en place d'&#8220;esclaves&#8221; sur d'autres machines
+            			qui peuvent
+            			&ecirc;tre utilis&eacute;es pour ex&eacute;cuter des t&acirc;ches de build additionnelles. Les esclaves restent inactifs jusqu'&agrave;
+            			ce
+            			qu'une nouvelle t&acirc;che de build soit demand&eacute;e &#8212; puis l'installation
+            			principale de Jenkins envoie
+            			la t&acirc;che de build &agrave; un esclave et rend compte des r&eacute;sultats. C'est une
+            			excellente fa&ccedil;on
+            			d'absorber
+            			les pointes soudaines de l'activit&eacute; de build, par exemple juste avant une
+            			livraison
+            			majeure de votre principal produit. C'est aussi une strat&eacute;gie
+            			utile si certains
+            			gros builds ont tendance &agrave; &#8220;accaparer&#8221; le serveur de build principal &#8212; il suffit de les mettre
+            			sur
+            			leur propre
+            			agent de build ! Nous verrons comment faire cela en d&eacute;tail
+            			plus loin dans ce livre.
+            		
+         </p>
+         <p>
+            			<a class="indexterm" name="I_indexterm3_d1e2775"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2780"></a>
+            			Si vous installez Jenkins sur un serveur de build Linux ou
+            			Unix, cela peut-&ecirc;tre une bonne id&eacute;e de cr&eacute;er un utilisateur sp&eacute;cial (et
+            			un groupe utilisateur) pour
+            			Jenkins. Cela rend plus facile de surveiller d'un coup d'oeil les ressources
+            			syst&egrave;me
+            			utilis&eacute;es par les builds de Jenkins,
+            			et ainsi r&eacute;soudre les builds qui posent probl&egrave;me
+            			en conditions r&eacute;elles. Les paquets d'installation des binaires natifs d&eacute;crits
+            			ci-dessous
+            			font cela pour vous. Si vous n'avez pas utilis&eacute; l'un d'entre eux, vous pouvez
+            			cr&eacute;er
+            			un utilisateur Jenkins d&eacute;di&eacute; depuis la ligne de commande comme montr&eacute;
+            			ici:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>sudo groupadd build</code></strong>
+			$
+			<strong class="userinput"><code>sudo useradd --create-home --shell
+				/bin/bash --groups build jenkins</code></strong>
+		</pre><p>
+            			Les d&eacute;tails exacts peuvent varier en fonction de votre environnement. Par
+            			exemple, vous pr&eacute;f&eacute;rerez peut-&ecirc;tre utiliser une console d'administration
+            			graphique
+            			au lieu 
+            			de la ligne de commande, ou, sur un serveur Linux bas&eacute; sur une Debian (comme
+            			Ubuntu),
+            			vous pouvez utiliser
+            			des commandes plus conviviales comme :
+            			<code class="literal">adduser</code>
+            			et
+            			<code class="literal">addgroup</code>
+            			.
+            		
+         </p>
+         <p>
+            			Dans la majorit&eacute; des environnements, vous devrez configurer correctement Java pour
+            			cet utilisateur. Par exemple, vous pouvez le faire en
+            			d&eacute;finissant les variables
+            			<code class="literal">JAVA_HOME</code>
+            			et
+            			<code class="literal">PATH</code>
+            			dans le fichier
+            			<code class="filename">.bashrc</code>
+            			, comme montr&eacute; ici:
+            		
+         </p><a name="I_programlisting3_d1e2812"></a><pre class="programlisting">export
+			JAVA_HOME=/usr/local/java/jdk1.6.0
+			export PATH=$JAVA_HOME/bin:$PATH</pre><p>
+            			Vous devriez maintenant &ecirc;tre en mesure d'utiliser cet utilisateur pour ex&eacute;cuter Jenkins dans un
+            			environnement
+            			<a class="indexterm" name="I_indexterm3_d1e2817"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e2819"></a>
+            			isol&eacute;.
+            		
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-installing-downloading.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sec-hudson-home-directory.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.2.&nbsp;T&eacute;l&eacute;charger et installer Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.4.&nbsp;Le r&eacute;pertoire de travail de Jenkins</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

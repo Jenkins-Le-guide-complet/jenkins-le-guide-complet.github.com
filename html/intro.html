@@ -1,0 +1,98 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;1.&nbsp;Introduction &agrave; Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="I_sect1_d1e514.html" title="12.&nbsp;Remerciements">
+      <link rel="next" href="intro-sect-intro.html" title="1.2.&nbsp;Les fondamentaux de l'Int&eacute;gration Continue">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect1_d1e514.html">12.&nbsp;Remerciements</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="intro-sect-intro.html">1.2.&nbsp;Les fondamentaux de l'Int&eacute;gration Continue</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="intro"></a>Chapter&nbsp;1.&nbsp;Introduction &agrave; Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="intro.html#I_sect11_d1e536">1.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="intro-sect-intro.html">1.2. Les fondamentaux de l'Int&eacute;gration Continue</a></span></dt>
+               <dt><span class="sect1"><a href="intro-sect-introducing-jenkins.html">1.3. Introduction &agrave; Jenkins (n&eacute; Hudson)</a></span></dt>
+               <dt><span class="sect1"><a href="intro-sect-history.html">1.4. De Hudson &agrave; Jenkins &#8212; Un rapide historique</a></span></dt>
+               <dt><span class="sect1"><a href="intro-sect-jenkins-or-hudson.html">1.5. Dois-je utiliser Jenkins ou Hudson?</a></span></dt>
+               <dt><span class="sect1"><a href="intro-sect-your-organization.html">1.6. Mettre en place l'Int&eacute;gration Continue au sein de votre organisation</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e886">1.6.1. Phase 1 &#8212; Pas de serveur de build</a></span></dt>
+                     <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e895">1.6.2. Phase 2 &#8212; Builds quotidiens</a></span></dt>
+                     <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e909">1.6.3. Phase 3 &#8212; Builds quotidiens et tests automatis&eacute;s basiques</a></span></dt>
+                     <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e920">1.6.4. Phase 4 &#8212; Arriv&eacute;e des m&eacute;triques</a></span></dt>
+                     <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e947">1.6.5. Phase 5 &#8212; Prendre les tests au s&eacute;rieux</a></span></dt>
+                     <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e961">1.6.6. Phase 6 &#8212; Tests d'acceptance automatis&eacute;s et un <span class="keep-together">d&eacute;ploiement</span> plus automatis&eacute;</a></span></dt>
+                     <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e991">1.6.7. Phase 7&#8212; D&eacute;ploiement Continu</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="I_sect11_d1e919.html">1.7. Et maintenant ?</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="I_sect11_d1e536"></a>1.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p>L'Int&eacute;gration Continue, aussi connue sous le terme <a class="indexterm" name="ch01-ci"></a><a class="indexterm" name="I_indexterm1_d1e544"></a>IC, est l'un des piliers du d&eacute;veloppement logiciel moderne. En fait,
+                   elle est un v&eacute;ritable tournant &#8212; quand l'Int&eacute;gration Continue est mise en place dans 
+                   une organisation, elle change radicalement la mani&egrave;re dont les &eacute;quipes 
+                   pensent le processus de d&eacute;veloppement. Elle est capable de permettre et
+                   d'induire toute une s&eacute;rie d'am&eacute;liorations et de transformations, depuis 
+                   le build r&eacute;gulier automatis&eacute; jusqu'&agrave; la livraison continue en production. Une
+                   bonne infrastructure d'IC peut fluidifier le processus de d&eacute;veloppement jusqu'au
+                   d&eacute;ploiement, aide &agrave; d&eacute;tecter et corriger les bogues plus rapidement, fournit
+                   un &eacute;cran de contr&ocirc;le tr&egrave;s utile aux d&eacute;veloppeurs mais aussi aux non-d&eacute;veloppeurs, et
+                   pouss&eacute;e &agrave; l'extr&ecirc;me, elle permet aux &eacute;quipes de fournir plus de valeur m&eacute;tier aux utilisateurs finaux.
+                   Toute &eacute;quipe de d&eacute;veloppement professionnelle, quelque soit sa taille, devrait mettre en 
+                   &#339;uvre l'IC.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect1_d1e514.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="intro-sect-intro.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">12.&nbsp;Remerciements&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;1.2.&nbsp;Les fondamentaux de l'Int&eacute;gration Continue</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

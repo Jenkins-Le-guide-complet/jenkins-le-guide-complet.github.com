@@ -1,0 +1,269 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>8.3.&nbsp;Notification par email avanc&eacute;e</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="prev" href="sect-notification-email.html" title="8.2.&nbsp;Notification par email">
+      <link rel="next" href="sect-notification-claiming.html" title="8.4.&nbsp;Revendiquer des builds">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-email.html">8.2.&nbsp;Notification par email</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-claiming.html">8.4.&nbsp;Revendiquer des builds</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-notification-advanced-email"></a>8.3.&nbsp;Notification par email avanc&eacute;e
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Par d&eacute;faut, la notification par email Jenkins est un outil plut&ocirc;t brut.
+            Les messages de notification sont toujours envoy&eacute;s au m&ecirc;me groupe de
+            personnes. Vous ne pouvez pas envoyer des messages &agrave; diff&eacute;rentes personnes en fonction de ce
+            qui a mal tourn&eacute;. De la m&ecirc;me fa&ccedil;on, vous ne pouvez pas mettre en &#339;uvre des politiques d'escalade.
+            Par exemple, il pourrait &ecirc;tre utile d'&ecirc;tre en mesure de notifier les d&eacute;veloppeurs qui ont committ&eacute;
+                 les modifications la premi&egrave;re fois qu'un build &eacute;choue, et envoyer un message diff&eacute;rent au
+                        chef d'&eacute;quipe ou &agrave; l'&eacute;quipe enti&egrave;re si le build &eacute;choue une seconde fois
+                    
+         </p>
+         <p>Le
+                        <a class="indexterm" name="ch08-ext1"></a>
+                        <a class="indexterm" name="ch08-ext2"></a>
+                        plugin Email-ext vous permet de d&eacute;finir une strat&eacute;gie de
+                        notification par email plus fine. Ce plugin ajoute une case Editable Email Notification
+                        (voir<a href="sect-notification-advanced-email.html#fig-hudson-email-ext-configuration" title="Figure&nbsp;8.2.&nbsp;Configurer les notifications par email avanc&eacute;es">Figure&nbsp;8.2, &#8220;Configurer les notifications par email avanc&eacute;es&#8221;</a>), qui remplace efficacement la notification par
+                        email standard de Jenkins. Ainsi, vous pouvez d&eacute;finir une liste de destinataires par d&eacute;faut et affiner le
+                        contenu du
+                        message &eacute;lectronique. Vous pouvez aussi d&eacute;finir une strat&eacute;gie de notification plus pr&eacute;cise avec des
+                        messages diff&eacute;rents pour des listes de destinataires diff&eacute;rents suivant les &eacute;v&egrave;nements. Notez qu'une
+                        fois que vous avez install&eacute; et configur&eacute; ce plugin pour votre t&acirc;che de build, vous pouvez d&eacute;sactiver la
+                        configuration normale de notification par email.
+                    
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-email-ext-configuration"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject8_d1e11539"></a><img src="figs/web/jtdg_0802.png" alt="Configurer les notifications par email avanc&eacute;es"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;8.2.&nbsp;Configurer les notifications par email avanc&eacute;es</b></p>
+            </div><br class="figure-break"></div>
+         <p>Ce plugin a deux fonctionnalit&eacute;s li&eacute;es mais distinctes. Tout d'abord,
+                        il vous permet de personnaliser le message de notification par email. Vous pouvez choisir parmi
+                        un grand nombre de mots cl&eacute;s pr&eacute;d&eacute;finis pour cr&eacute;er vos propres titres et corps de messages
+                        personnalis&eacute;s. Vous incluez un mot cl&eacute; dans votre mod&egrave;le de message en utilisant la
+                        notation habutuelle dollar (e.g.,
+                        <code class="literal">${BUILD_NUMBER}</code>
+                        ou
+                        <code class="literal">$BUILD_NUMBER)</code>. Certains mots cl&eacute;s acceptent des param&egrave;tres
+                        que vous pouvez sp&eacute;cifier en utilisant le format
+                        <code class="literal">name=value</code>
+                        (ex :
+                        <code class="literal">${BUILD_LOG, maxLines=100}</code>
+                        ou<code class="literal">${ENV,
+                   var="PATH"}</code>). Les mots cl&eacute;s les plus utiles sont:
+                    
+         </p>
+         <div class="variablelist">
+            <dl>
+               <dt><span class="term">
+                                         <code class="literal">${DEFAULT_SUBJECT}</code>
+                                     </span></dt>
+               <dd>
+                  <p>Le sujet par d&eacute;faut configur&eacute; dans la page de configuration Jenkins</p>
+               </dd>
+               <dt><span class="term">
+                                         <code class="literal">${DEFAULT_CONTENT}</code>
+                                     </span></dt>
+               <dd>
+                  <p>Le corps du message par d&eacute;faut configur&eacute; dans la page de configuration Jenkins</p>
+               </dd>
+               <dt><span class="term">
+                                         <code class="literal">${PROJECT_NAME}</code>
+                                     </span></dt>
+               <dd>
+                  <p>Le nom du projet</p>
+               </dd>
+               <dt><span class="term">
+                                         <code class="literal">${BUILD_NUMBER}</code>
+                                     </span></dt>
+               <dd>
+                  <p>Le num&eacute;ro de build courant</p>
+               </dd>
+               <dt><span class="term">
+                                         <code class="literal">${BUILD_STATUS}</code>
+                                     </span></dt>
+               <dd>
+                  <p>Le statut du build courant (&eacute;chec, succ&egrave;s, etc.)</p>
+               </dd>
+               <dt><span class="term">
+                                         <code class="literal">${CAUSE}</code>
+                                     </span></dt>
+               <dd>
+                  <p>La cause du build</p>
+               </dd>
+               <dt><span class="term">
+                                         <code class="literal">${BUILD_URL}</code>
+                                     </span></dt>
+               <dd>
+                  <p>Un lien vers la page correspondante du build sur Jenkins</p>
+               </dd>
+               <dt><span class="term">
+                                         <code class="literal">${FAILED_TESTS}</code>
+                                     </span></dt>
+               <dd>
+                  <p>Information sur les tests unitaires &eacute;chou&eacute;s, si certains ont
+                                             &eacute;chou&eacute;s
+                                         
+                  </p>
+               </dd>
+               <dt><span class="term">
+                                         <code class="literal">${CHANGES}</code>
+                                     </span></dt>
+               <dd>
+                  <p>Changements effectu&eacute;s depuis le dernier build</p>
+               </dd>
+               <dt><span class="term">
+                                         <code class="literal">${CHANGES_SINCE_LAST_SUCCESS}</code>
+                                     </span></dt>
+               <dd>
+                  <p>Tous les changements effectu&eacute;s depuis le dernier build avec succ&egrave;s</p>
+               </dd>
+            </dl>
+         </div>
+         <p>Pour obtenir la liste compl&egrave;te des mots cl&eacute;s disponibles ainsi que leurs options pour
+                        ceux qui acceptent des param&egrave;tres, cliquez sur l'ic&ocirc;ne d'aide en face de
+                        Contexte Token Reference.
+                    
+         </p>
+         <p>Le bouton Avanc&eacute; vous permet de d&eacute;finir une strat&eacute;gie de notification
+                        plus sophistiqu&eacute;e bas&eacute;e sur le concept de d&eacute;clencheurs (voir<a href="sect-notification-advanced-email.html#fig-email-notification-triggers" title="Figure&nbsp;8.3.&nbsp;Configurer les d&eacute;clencheurs de notification par email">Figure&nbsp;8.3, &#8220;Configurer les d&eacute;clencheurs de notification par email&#8221;</a>).
+                        Les d&eacute;clencheurs
+                        <a class="indexterm" name="I_indexterm8_d1e11638"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11645"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11652"></a>
+                        d&eacute;terminent quand les notifications par email
+                        doivent &ecirc;tre envoy&eacute;es.
+                        Les d&eacute;clencheurs support&eacute;s sont les suivants :
+                    
+         </p>
+         <div class="variablelist">
+            <dl>
+               <dt><span class="term">Failure</span></dt>
+               <dd>
+                  <p>Chaque fois qu'un build &eacute;choue.</p>
+               </dd>
+               <dt><span class="term">Still Failing</span></dt>
+               <dd>
+                  <p>Pour tous les builds qui restent en &eacute;chec par la suite.</p>
+               </dd>
+               <dt><span class="term">Unstable</span></dt>
+               <dd>
+                  <p>Chaque fois qu'un build est instable.</p>
+               </dd>
+               <dt><span class="term">Still Unstable</span></dt>
+               <dd>
+                  <p>Pour tous les builds qui restent instables par la suite.</p>
+               </dd>
+               <dt><span class="term">Success</span></dt>
+               <dd>
+                  <p>Pour chaque build en succ&egrave;s.</p>
+               </dd>
+               <dt><span class="term">Fixed</span></dt>
+               <dd>
+                  <p>Quand un build passe d'&eacute;chec ou instable &agrave;
+                                             succ&egrave;s.
+                                         
+                  </p>
+               </dd>
+               <dt><span class="term">Before Build</span></dt>
+               <dd>
+                  <p>Avant chaque d&eacute;but de build.</p>
+               </dd>
+            </dl>
+         </div>
+         <div class="figure"><a name="fig-email-notification-triggers"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e11704"></a><img src="figs/web/jtdg_0803.png" alt="Configurer les d&eacute;clencheurs de notification par email"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.3.&nbsp;Configurer les d&eacute;clencheurs de notification par email</b></p>
+         </div><br class="figure-break"><p>Vous pouvez configurer autant (ou aussi peu) de d&eacute;clencheurs que vous le souhaitez. La
+                        liste des destinataires et le mod&egrave;le de message peuvent &ecirc;tre personnalis&eacute;s pour chaque
+                        d&eacute;clencheur, par exemple en utilisant les d&eacute;clencheurs Still Failing et
+                        Still Unstable, vous pouvez mettre en place une strat&eacute;gie de notification qui n'avertit que
+                        le d&eacute;veloppeur qui a committ&eacute; des changements la premi&egrave;re fois qu'une t&acirc;che de build &eacute;choue,
+                        mais continue par informer le chef d'&eacute;quipe si elle &eacute;choue une seconde fois. Vous pouvez
+                        choisir d'envoyer le message uniquement &agrave; des d&eacute;veloppeurs qui ont committ&eacute; lors
+                        du build (&laquo;&nbsp;Send to committers&nbsp;&raquo;), ou d'inclure &eacute;galement tous ceux qui ont
+                        committ&eacute; depuis le dernier build avec succ&egrave;s. Cela assure que
+                        tous ceux qui peuvent &ecirc;tre impliqu&eacute;s dans l'&eacute;chec du build seront
+                        notifi&eacute;s de fa&ccedil;on<span class="keep-together">appropri&eacute;e</span>.
+                    
+         </p>
+         <p>Vous pouvez &eacute;galement personnaliser le contenu du message en cliquant sur
+                        l'option More Configuration (comme indiqu&eacute; pour le d&eacute;clencheur Still Failing dans
+                        <a href="sect-notification-advanced-email.html#fig-email-notification-triggers" title="Figure&nbsp;8.3.&nbsp;Configurer les d&eacute;clencheurs de notification par email">Figure&nbsp;8.3, &#8220;Configurer les d&eacute;clencheurs de notification par email&#8221;</a>). De cette fa&ccedil;on, vous pouvez personnaliser
+                        des messages diff&eacute;rents qui seront envoy&eacute;s dans des cas distincts.
+                    
+         </p>
+         <p>Les d&eacute;clencheurs interagissent intelligemment entre eux. Donc, si vous configurez &agrave; la fois le
+                        d&eacute;clencheur Failing et le d&eacute;clencheur Still Failing, seul le d&eacute;clencheur Still Failing
+                        sera activ&eacute; lors du second &eacute;chec de build.
+                    
+         </p>
+         <p>Un exemple d'un tel message personnalis&eacute; est illustr&eacute; dans
+                        <a href="sect-notification-advanced-email.html#fig-hudson-email-notification-message" title="Figure&nbsp;8.4.&nbsp;Message de notification personnalis&eacute;">Figure&nbsp;8.4, &#8220;Message de notification personnalis&eacute;&#8221;</a>.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-email-notification-message"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e11728"></a><img src="figs/web/jtdg_0804.png" alt="Message de notification personnalis&eacute;"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.4.&nbsp;Message de notification personnalis&eacute;</b></p>
+         </div><br class="figure-break"><p>Toutefois, l'email n'est pas une strat&eacute;gie de notification sans d&eacute;faut.
+                        Certains d&eacute;veloppeurs ferment par moment leurs clients de messagerie afin
+                        d'&eacute;viter d'&ecirc;tre interrompu. Dans les grandes organisations, le nombre d'emails
+                        qui arrivent chaque jour peut &ecirc;tre consid&eacute;rable et les notifications d'&eacute;chec de
+                        de build peuvent &ecirc;tre cach&eacute;es parmi une foule d'autres messages moins importants.
+                        Les &eacute;checs de build peuvent donc ne pas toujours avoir l'attention prioritaire qu'ils
+                        n&eacute;cessitent dans un environnement d'int&eacute;gration continue finement r&eacute;gl&eacute;. Dans les sections
+                        suivantes, nous nous pencherons sur certaines strat&eacute;gies de notification autres qui peuvent
+                        &ecirc;tre utilis&eacute;es pour augmenter la sensibilisation des &eacute;quipes sur les builds &eacute;chou&eacute;s et encourager
+                        les d&eacute;veloppeurs &agrave; les corriger
+                        <a class="indexterm" name="I_indexterm8_d1e11735"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11737"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11739"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e11741"></a>
+                        plus rapidement.
+                    
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-email.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-claiming.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">8.2.&nbsp;Notification par email&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.4.&nbsp;Revendiquer des builds</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

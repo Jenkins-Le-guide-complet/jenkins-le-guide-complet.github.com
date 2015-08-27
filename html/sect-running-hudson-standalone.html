@@ -1,0 +1,343 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.8.&nbsp;Ex&eacute;cuter Jenkins comme une application autonome</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="sect-install-jenkins-suse.html" title="3.7.&nbsp;Installer Jenkins sur SUSE ou OpenSUSE">
+      <link rel="next" href="sect-jenkins-apache.html" title="3.9.&nbsp;Running Jenkins Behind an Apache Server">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-install-jenkins-suse.html">3.7.&nbsp;Installer Jenkins sur SUSE ou OpenSUSE</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-jenkins-apache.html">3.9.&nbsp;Running Jenkins Behind an Apache Server</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-running-hudson-standalone"></a>3.8.&nbsp;Ex&eacute;cuter Jenkins comme une application autonome
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			Vous
+            			<a class="indexterm" name="ch03-stand"></a>
+            			<a class="indexterm" name="ch03-stand2"></a>
+            			pouvez ex&eacute;cuter le serveur Jenkins d'une des deux mani&egrave;res suivantes : soit comme une
+            			application autonome, soit deploy&eacute; comme une application web
+            			standard
+            			sur un
+            			conteneur de servlets Java ou un serveur d'application comme Tomcat, JBoss, ou
+            			GlassFish. Les deux approches
+            			ont leurs avantages et leurs inconv&eacute;nients, nous allons donc examiner les
+            			deux
+            			ici.
+            		
+         </p>
+         <p>
+            			Jenkins
+            			<a class="indexterm" name="I_indexterm3_d1e3251"></a>
+            			est fourni sous la forme d'un fichier WAR que vous pouvez ex&eacute;cuter directement en utilisant
+            			un conteneur de servlet int&eacute;gr&eacute;. Jenkins utilise le
+            			moteur de servlet l&eacute;ger Winstone
+            			pour vous permettre d'ex&eacute;cuter le serveur directement, sans
+            			avoir &agrave; configurer un serveur web
+            			par vous-m&ecirc;me. C'est probablement la
+            			meilleure
+            			fa&ccedil;on de commencer, vous permettant d'&ecirc;tre op&eacute;rationnel avec Jenkins en
+            			quelques minutes. C'est aussi une option tr&egrave;s flexible, offrant
+            			quelques
+            			fonctionnalit&eacute;s suppl&eacute;mentaires non-accessibles si vous d&eacute;ployez
+            			Jenkins sur un serveur
+            			d'application classique. En particulier, si vous ex&eacute;cutez Jenkins en tant que
+            			serveur autonome, vous
+            			serez en mesure d'installer et mettre &agrave; jour les <span class="emphasis"><em>plugins</em></span>
+            			&agrave;
+            			la vol&eacute;e, et de red&eacute;marrer Jenkins directement depuis les &eacute;crans 
+            			d'administration.
+            		
+         </p>
+         <p>Pour ex&eacute;cuter Jenkins en utilisant le conteneur de servlet int&eacute;gr&eacute;, allez &agrave;
+            			la
+            			ligne de commande et entrez la commande suivante :
+            		
+         </p><pre class="screen">C:\Program
+			Files\Jenkins&gt;
+			<strong class="userinput"><code>java -jar jenkins.war</code></strong>
+			[Winstone 2011/07/01 20:54:53] - Beginning extraction from war file
+			[Winstone 2011/07/01 20:55:07] - No webapp classes folder found -
+			C:\Users\john\
+			.jenkins\war\WEB-INF\classes
+			jenkins home directory: C:\Users\john\.jenkins
+			...
+			INFO: Took 35 ms to load
+			...
+			[Winstone 2011/07/01 20:55:08] - HTTP Listener started: port=8080
+			[Winstone 2011/07/01 20:55:08] - Winstone Servlet Engine v0.9.10 running:
+			controlPort=disabled
+			[Winstone 2011/07/01 20:55:08] - AJP13 Listener started: port=8009
+		</pre><p>Dans un environnement Linux, la proc&eacute;ure est similaire. Notez comment mous
+            			d&eacute;marrons
+            			le serveur Jenkins &agrave; partir du compte utilisateur
+            			&#8220;jenkins&#8221; que nous avons cr&eacute;&eacute;
+            			plus t&ocirc;t :
+            		
+         </p><pre class="screen">john@lambton:~$ sudo su - jenkins
+			jenkins@lambton:~$ java -jar /usr/local/jeknins/jenkins.war
+			[Winstone 2011/07/16 02:11:24] - Beginning extraction from war file
+			[Winstone 2011/07/16 02:11:27] - No webapp classes folder found -
+			/home/jenkins/
+			.jenkins/war/WEB-INF/classes
+			jenkins home directory: /home/jenkins/.jenkins
+			...
+			[Winstone 2011/07/16 02:11:31] - HTTP Listener started: port=8080
+			[Winstone 2011/07/16 02:11:31] - AJP13 Listener started: port=8009
+			[Winstone 2011/07/16 02:11:31] - Winstone Servlet Engine v0.9.10 running:
+			controlPort=disabled</pre><p>
+            			Cela d&eacute;marrera le moteur de servlet int&eacute;gr&eacute; dans la fen&ecirc;tre de la console.
+            			L'application Web Jenkins sera maintenant disponible
+            			sur le port 8080. Lorsque
+            			vous
+            			ex&eacute;cutez Jenkins en utilisant le serveur int&eacute;gr&eacute;, il n'y a pas de contexte d'application
+            			Web, donc vous acc&egrave;dez &agrave; Jenkins
+            			directement en utilisant l'URL du serveur (e.g.,
+            			<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://localhost:8080" target="_top">http://localhost:8080</a>
+            			).
+            		
+         </p>
+         <p>Pour arr&ecirc;ter Jenkins, pressez simplement Ctrl-C.</p>
+         <p>
+            			Par d&eacute;faut, Jenkins s'ex&eacute;cutera sur le port 8080. Si cela ne convient pas
+            			&agrave; votre environnement, vous pouvez sp&eacute;cifier le port
+            			manuellement, en utilisant l'option
+            			<code class="literal">--httpPort</code>
+            			:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>java -jar jenkins.war --httpPort=8081</code></strong>
+		</pre><p>
+            			Dans une architecture r&eacute;elle, Jenkins peut ne pas &ecirc;tre la seule
+            			application Web &agrave; s'ex&eacute;cuter sur votre serveur de <span class="emphasis"><em>build</em></span>. Selon
+            			la capacit&eacute;
+            			de
+            			votre serveur, Jenkins peut avoir &agrave; cohabiter avec d'autres applications Web ou
+            			des gestionnaires de d&eacute;p&ocirc;ts Maven, par
+            			exemple. Si vous ex&eacute;cutez Jenkins
+            			aux
+            			c&ocirc;t&eacute;s d'un autre serveur d'application, tels que Tomcat, Jetty ou GlassFish, vous
+            			aurez aussi besoin de remplacer le port ajp13, en utilisant l'option
+            			<code class="literal">--ajp13Port</code>
+            			:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>java -jar jenkins.war --httpPort=8081
+				--ajp13Port=8010</code></strong>
+		</pre><p>Quelques autres options utiles sont :</p>
+         <div class="variablelist">
+            <dl>
+               <dt><span class="term">
+                     					<code class="literal">--prefix</code>
+                     				</span></dt>
+               <dd>
+                  <p>
+                     						Cet option vous permet de d&eacute;finir un chemin de contexte pour votre serveur
+                     						Jenkins. Par d&eacute;faut Jenkins s'ex&eacute;cutera sur le port 8080
+                     						sans
+                     						chemin de
+                     						contexte (
+                     						<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://localhost:8080" target="_top">http://localhost:8080</a>
+                     						). Toutefois, si vous
+                     						utilisez cette option, vous pouvez forcer Jenkins &agrave; utiliser n'importe quel chemin de contexte
+                     						qui vous pla&icirc;t, par exemple:
+                     					
+                  </p><pre class="screen">
+						$
+						<strong class="userinput"><code>java -jar jenkins.war
+							--prefix=jenkins</code></strong>
+					</pre><p>
+                     						Dans ce cas, Jenkins sera accessible depuis
+                     						<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://localhost:8080/jenkins" target="_top">http://localhost:8080/jenkins</a>
+                     						.
+                     					
+                  </p>
+                  <p>Cette option est souvent utilis&eacute;e lors de l'int&eacute;gration d'une instance
+                     						autonome de Jenkins avec Apache.
+                     					
+                  </p>
+               </dd>
+               <dt><span class="term">
+                     					<code class="literal">--daemon</code>
+                     				</span></dt>
+               <dd>
+                  <p>Si vous ex&eacute;cutez Jenkins sur une machine Unix, vous pouvez utiliser
+                     						cette
+                     						option pour d&eacute;marrer Jenkins comme une t&acirc;che de fond,
+                     						s'ex&eacute;cutant comme un d&eacute;mon
+                     						unix.
+                     					
+                  </p>
+               </dd>
+               <dt><span class="term">
+                     					<code class="literal">--logfile</code>
+                     				</span></dt>
+               <dd>
+                  <p>Par d&eacute;faut, Jenkins &eacute;crit son fichier de journalisation dans le r&eacute;pertoire
+                     						courant. Cependant, sur un serveur, vous avez souvent besoin
+                     						d'&eacute;crire vos fichier de journalisation
+                     						dans un r&eacute;pertoire pr&eacute;d&eacute;termin&eacute;. Vous pouvez utiliser cette option pour
+                     						rediriger vos messages vers un autre
+                     						fichier :
+                     					
+                  </p><pre class="screen">
+						$
+						<strong class="userinput"><code>java -jar jenkins.war
+							--logfile=/var/log/jenkins.log</code></strong>
+					</pre></dd>
+            </dl>
+         </div>
+         <p>Stopping Jenkins using Ctrl-C is a little brutal, of course&#8212;in
+            			practice, you would set up a script to start and
+            			stop your server
+            			automatically.
+            		
+         </p>
+         <p>
+            			If you are running Jenkins using the embedded Winstone application
+            			server, you can also restart and shutdown Jenkins
+            			elegantly by
+            			calling the
+            			Winstone server directly. To do this, you need to specify the
+            			<code class="literal">controlPort</code>
+            			option when you start Jenkins, as shown
+            			here:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>java -jar jenkins.war
+				--controlPort=8001</code></strong>
+		</pre><p>A slightly more complete example in a Unix environment might
+            			look
+            			like this:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>nohup java -jar jenkins.war
+				--controlPort=8001 &gt; /var/log/jenkins.log 2&gt;&amp;1 &amp;</code></strong>
+		</pre><p>
+            			The key here is the
+            			<code class="literal">controlPort</code>
+            			option. This
+            			option gives you the means of stopping or restarting Jenkins directly via
+            			the Winstone tools. The only
+            			problem is that you need a matching
+            			version
+            			of the Winstone JAR file. Fortunately, one comes bundled with your
+            			Jenkins
+            			installation, so you don&#8217;t have to look far.
+            		
+         </p>
+         <p>To restart the server, you can run the following command:</p><pre class="screen">
+			$
+			<strong class="userinput"><code>java -cp $JENKINS_HOME/war/winstone.jar
+				winstone.tools.WinstoneControl reload: \</code></strong>
+			<strong class="userinput"><code>--host=localhost --port=8001</code></strong>
+		</pre><p>And to shut it down completely, you can use the following:</p><pre class="screen">
+			$
+			<strong class="userinput"><code>java -cp $JENKINS_HOME/war/winstone.jar
+				winstone.tools.WinstoneControl shutdown \</code></strong>
+			<strong class="userinput"><code>--host=localhost --port=8001</code></strong>
+		</pre><p>Another way to shut down Jenkins cleanly is to invoke the
+            			special
+            			&#8220;/exit&#8221; URL, as shown here:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>wget http://localhost:8080/exit</code></strong>
+		</pre><p>On a real server, you would typically have set up security, so
+            			that
+            			only a system administrator could access this
+            			URL. In this case, you will
+            			need to provide a username and a password:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>wget --user=admin --password=secret
+				http://localhost:8080/exit</code></strong>
+		</pre><p>Note that you can actually do this from a different server, not
+            			just
+            			the local machine:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>wget --user=admin --password=secret
+				http://buildserver.acme.com:8080/exit</code></strong>
+		</pre><p>
+            			Note that while both these methods will shut down Jenkins relatively
+            			cleanly (more so than killing the process
+            			directly, for example),
+            			they
+            			will interrupt any builds in progress. So it is recommended practice to
+            			prepare the
+            			shutdown cleanly by using the Prepare for Shutdown button
+            			on
+            			the Manage Jenkins screen (see
+            			<a href="sect-configuration-manage-hudson.html" title="4.2.&nbsp;Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer Jenkins">Section&nbsp;4.2, &#8220;Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer
+                   Jenkins&#8221;</a>
+            			).
+            		
+         </p>
+         <p>
+            			Running Jenkins as a stand-alone application may not be to
+            			everyone&#8217;s taste. For a production server, you might want
+            			to take
+            			advantage of the more sophisticated monitoring and administration features
+            			of a full blown Java application
+            			server such as JBoss, GlassFish, or
+            			WebSphere Application Server. And system administrators may be wary
+            			of the
+            			relatively little-known Winstone server, or may simply prefer Jenkins to
+            			fit into a known pattern of Java web
+            			application development. If this is
+            			the case, you may prefer to, or be obliged to, deploy Jenkins as a
+            			standard Java
+            			web application. We look at this option in the
+            			following
+            			<a class="indexterm" name="I_indexterm3_d1e3400"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e3402"></a>
+            			section.
+            		
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-install-jenkins-suse.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-jenkins-apache.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.7.&nbsp;Installer Jenkins sur SUSE ou OpenSUSE&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.9.&nbsp;Running Jenkins Behind an Apache Server</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

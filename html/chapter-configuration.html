@@ -1,0 +1,114 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="sect-installation-conclusion.html" title="3.16.&nbsp;Conclusion">
+      <link rel="next" href="sect-configuration-manage-hudson.html" title="4.2.&nbsp;Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-installation-conclusion.html">3.16.&nbsp;Conclusion</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-manage-hudson.html">4.2.&nbsp;Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer
+                         Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="chapter-configuration"></a>Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="chapter-configuration.html#sect-configuration-introduction">4.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="sect-configuration-manage-hudson.html">4.2. Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer
+                            Jenkins</a></span></dt>
+               <dt><span class="sect1"><a href="sect-configuration-system.html">4.3. Configurer l'environnement syst&egrave;me</a></span></dt>
+               <dt><span class="sect1"><a href="sect-configuration-global.html">4.4. Configurer les propri&eacute;t&eacute;s globales</a></span></dt>
+               <dt><span class="sect1"><a href="sect-configuration-jdks.html">4.5. Configurer vos JDKs</a></span></dt>
+               <dt><span class="sect1"><a href="sect-configuration-build-tools.html">4.6. Configurer vos outils de build</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-configuration-build-tools.html#d0e4776">4.6.1. Maven</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-configuration-build-tools.html#hudson-config-ant">4.6.2. Ant</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-configuration-build-tools.html#d0e4914">4.6.3. Langage de scripts Shell</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-configuration-scm.html">4.7. Configurer vos outils de gestion de version</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-configuration-scm.html#d0e4978">4.7.1. Configurer Subversion</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-configuration-scm.html#d0e4993">4.7.2. Configurer CVS</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-configuration-email.html">4.8. Configurer le serveur de messagerie &eacute;lectronique</a></span></dt>
+               <dt><span class="sect1"><a href="sect-configuration-proxies.html">4.9. Configurer un Proxy</a></span></dt>
+               <dt><span class="sect1"><a href="I_sect14_d1e4953.html">4.10. Conclusion</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="sect-configuration-introduction"></a>4.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p><a class="indexterm" name="ch04-config"></a><a class="indexterm" name="I_indexterm4_d1e4122"></a>Avant de commencer &agrave; cr&eacute;er vos t&acirc;ches de build dans
+                   Jenkins, vous devez faire un peu de configuration pour vous assurer que
+                   votre serveur Jenkins fonctionnera sans probl&egrave;me dans votre environnement
+                   sp&eacute;cifique. Jenkins est hautement configurable, et bien que la plupart des
+                   options soient fournies avec des valeurs raisonnables par d&eacute;faut, ou que
+                   l'outil soit capable de trouver les bons outils de build dans le
+                   PATH ou dans les variables d'environnement, c'est toujours une bonne id&eacute;e
+                   de savoir exactement ce que votre serveur de build fait.
+            </p>
+            <p>Jenkins est globalement tr&egrave;s simple &agrave; configurer. Les &eacute;crans
+                   d'administration sont intuitifs, et l'aide contextuelle (les ic&ocirc;nes en
+                   forme de point d'interrogation bleu &agrave; c&ocirc;t&eacute; de chaque champ) est d&eacute;taill&eacute;e
+                   et pr&eacute;cise. Dans ce chapitre, nous allons voir comment configurer votre
+                   serveur basique en d&eacute;tail. Nous verrons notamment comment configurer
+                   Jenkins pour qu'il utilise diff&eacute;rentes versions de Java, d'outils de
+                   build comme Ant ou Maven, et d'outils de gestion de version comme
+                   CVS et Subversion. Plus loin dans le livre, nous regarderons aussi des
+                   configurations de serveur plus avanc&eacute;es, comme l'utilisation d'autres
+                   syst&egrave;mes de gestion de version ou d'outils de notifications.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-installation-conclusion.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-manage-hudson.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.16.&nbsp;Conclusion&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;4.2.&nbsp;Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer
+                      Jenkins
+               </td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

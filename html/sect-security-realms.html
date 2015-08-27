@@ -1,0 +1,516 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>7.4.&nbsp;Domaines de s&eacute;curit&eacute; &#8212; Identifier les utilisateurs Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-security.html" title="Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins">
+      <link rel="prev" href="hudson-security-simple.html" title="7.3.&nbsp;S&eacute;curit&eacute; simple dans Jenkins">
+      <link rel="next" href="sect-authorization.html" title="7.5.&nbsp;Autorisation &#8212; Qui peut faire quoi">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="hudson-security-simple.html">7.3.&nbsp;S&eacute;curit&eacute; simple dans Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-authorization.html">7.5.&nbsp;Autorisation &#8212; Qui peut faire quoi</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-security-realms"></a>7.4.&nbsp;Domaines de s&eacute;curit&eacute; &#8212; Identifier les
+                         utilisateurs Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Jenkins vous permet d'identifier et de g&eacute;rer les utilisateurs de
+                plusieurs fa&ccedil;ons, depuis une simple base de donn&eacute;es int&eacute;gr&eacute;e pour les
+                petites &eacute;quipes jusqu'&agrave; l'int&eacute;gration avec des annuaires d'entreprise,
+                avec de nombreuses autres options entre les deux.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="hudson-users-internal"></a>7.4.1.&nbsp;Utiliser la base de donn&eacute;es int&eacute;gr&eacute;e &agrave; Jenkins
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Le <a class="indexterm" name="ch07-internal"></a><a class="indexterm" name="ch07-internal2"></a><a class="indexterm" name="ch07-internal3"></a>moyen le plus simple pour g&eacute;rer des comptes utilisateurs
+                     dans Jenkins est d'utiliser la base de donn&eacute;es interne de Jenkins. C'est
+                     une bonne option si vous voulez garder les choses simples, car peu de
+                     configuration est n&eacute;cessaire. Les utilisateurs qui ont besoin de se
+                     connecter au serveur Jenkins peuvent s'enregistrer et cr&eacute;er un compte
+                     par eux-m&ecirc;mes, et, en fonction du mod&egrave;le de s&eacute;curit&eacute; choisi, un
+                     <a class="indexterm" name="I_indexterm7_d1e10195"></a><a class="indexterm" name="I_indexterm7_d1e10200"></a>administrateur peut ensuite d&eacute;cider ce que ces
+                     utilisateurs sont autoris&eacute;s &agrave; faire.
+            </p>
+            <p>Jenkins ajoute automatiquement tout utilisateur de gestionnaire de
+                     sources &agrave; cette base de donn&eacute;es d&egrave;s qu'un changement est effectu&eacute; dans
+                     le code source surveill&eacute; par Jenkins. Ces noms d'utilisateurs sont
+                     utilis&eacute;s principalement pour enregistrer le responsable de chaque t&acirc;che
+                     de build. Vous pouvez voir la liste des utilisateurs actuellement connus
+                     en cliquant sur l'entr&eacute;e de menu Personnes (voir <a href="sect-security-realms.html#fig-hudson-user-list" title="Figure&nbsp;7.3.&nbsp;La liste des utilisateurs connus de Jenkins">Figure&nbsp;7.3, &#8220;La liste des utilisateurs connus de Jenkins&#8221;</a>). Ici, vous pouvez visualiser les
+                     utilisateurs que Jenkins conna&icirc;t actuellement, et aussi voir le dernier
+                     projet dans lequel ils ont committ&eacute;. Notez que cette liste contient la
+                     liste de tous les utilisateurs &agrave; avoir jamais committ&eacute; dans les projets
+                     que Jenkins surveille &#8212; ils pourraient ne pas &ecirc;tre (et en g&eacute;n&eacute;ral ne
+                     sont pas) tous des utilisateurs actifs de Jenkins capables de se connecter
+                     sur le serveur Jenkins.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-user-list"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e10215"></a><img src="figs/web/jtdg_0703.png" alt="La liste des utilisateurs connus de Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.3.&nbsp;La liste des utilisateurs connus de Jenkins</b></p>
+               </div><br class="figure-break"></div>
+            <p>Si vous cliquez sur un utilisateur de cette liste, Jenkins vous
+                     emm&egrave;ne sur une page affichant diff&eacute;rentes informations &agrave; propos de cet
+                     utilisateur, incluant son nom complet et les t&acirc;ches de build auxquelles
+                     il a contribu&eacute; (voir <a href="sect-security-realms.html#fig-hudson-user-builds" title="Figure&nbsp;7.4.&nbsp;Afficher les builds auxquels un utilisateur participe">Figure&nbsp;7.4, &#8220;Afficher les builds auxquels un utilisateur participe&#8221;</a>). De l&agrave;,
+                     vous pouvez aussi modifier ou compl&eacute;ter les d&eacute;tails &agrave; propos de cet
+                     utilisateur, comme son mot de passe ou son adresse email.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-user-builds"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e10227"></a><img src="figs/web/jtdg_0704.png" alt="Afficher les builds auxquels un utilisateur participe"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.4.&nbsp;Afficher les builds auxquels un utilisateur participe</b></p>
+               </div><br class="figure-break"></div>
+            <p>Un utilisateur apparaissant sur cette liste ne peut pas
+                     n&eacute;cessairement se connecter &agrave; Jenkins. Pour pouvoir se connecter,
+                     l'utilisateur doit avoir un mot de passe configur&eacute;. Il y a
+                     essentiellement deux fa&ccedil;ons de faire cela. Si <a class="indexterm" name="I_indexterm7_d1e10234"></a>vous avez configur&eacute; l'option "Autoriser les utilisateurs &agrave;
+                     s'enregistrer", les utilisateurs peuvent simplement se connecter avec
+                     leur nom d'utilisateur SCM et fournir leur adresse email et leur mot de
+                     passe (voir <a href="hudson-security-simple.html" title="7.3.&nbsp;S&eacute;curit&eacute; simple dans Jenkins">Section&nbsp;7.3, &#8220;S&eacute;curit&eacute; simple dans Jenkins&#8221;</a>). Autrement, vous
+                     pouvez activer un utilisateur en cliquant sur l'option de menu
+                     Configurer dans l'&eacute;cran de d&eacute;tails utilisateur, et fournir une adresse
+                     email et un mot de passe vous-m&ecirc;me (voir <a href="sect-security-realms.html#fig-hudson-edit-user" title="Figure&nbsp;7.5.&nbsp;Cr&eacute;er un nouveau compte utilisateur en s'enregistrant">Figure&nbsp;7.5, &#8220;Cr&eacute;er un nouveau compte utilisateur en s'enregistrant&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-edit-user"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e10249"></a><img src="figs/web/jtdg_0705.png" alt="Cr&eacute;er un nouveau compte utilisateur en s'enregistrant"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.5.&nbsp;Cr&eacute;er un nouveau compte utilisateur en s'enregistrant</b></p>
+               </div><br class="figure-break"></div>
+            <p>Il est <a class="indexterm" name="I_indexterm7_d1e10256"></a><a class="indexterm" name="I_indexterm7_d1e10261"></a>utile de noter que, si vos adresses email sont
+                     synchronis&eacute;es avec vos noms d'utilisateurs de contr&ocirc;le de version (par
+                     exemple, si vous travaillez chez acme.com, et que l'utilisateur &#8220;joe&#8221;
+                     dans votre syst&egrave;me de contr&ocirc;le de version a une adresse email
+                     <span class="emphasis"><em>joe@acme.com</em></span>), vous pouvez faire que Jenkins d&eacute;rive
+                     l'adresse email de l'utilisateur en ajoutant un suffixe que vous
+                     configurez dans la section Notification Email (voir <a href="sect-security-realms.html#fig-security-email-config" title="Figure&nbsp;7.6.&nbsp;Synchroniser les adresses email">Figure&nbsp;7.6, &#8220;Synchroniser les adresses email&#8221;</a>). Si vous avez effectu&eacute; ce type
+                     de configuration, vous n'avez pas besoin de sp&eacute;cifier l'adresse email
+                     pour les nouveaux utilisateurs &agrave; moins qu'elle ne respecte pas cette
+                     convention.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-security-email-config"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e10273"></a><img src="figs/web/jtdg_0706.png" alt="Synchroniser les adresses email"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.6.&nbsp;Synchroniser les adresses email</b></p>
+               </div><br class="figure-break"></div>
+            <p>Une autre fa&ccedil;on de g&eacute;rer les utilisateurs courants actifs (ceux
+                     qui peuvent vraiment se connecter &agrave; Jenkins) s'effectue via le lien
+                     G&eacute;rer les utilisateurs sur la page de configuration principale de
+                     Jenkins (voir <a href="sect-security-realms.html#fig-hudson-manage-users" title="Figure&nbsp;7.7.&nbsp;Vous pouvez aussi g&eacute;rer les utilisateurs Jenkins depuis la page de configuration Jenkins">Figure&nbsp;7.7, &#8220;Vous pouvez aussi g&eacute;rer les utilisateurs Jenkins depuis la page
+                          de configuration Jenkins&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-manage-users"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e10286"></a><img src="figs/web/jtdg_0707.png" alt="Vous pouvez aussi g&eacute;rer les utilisateurs Jenkins depuis la page de configuration Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.7.&nbsp;Vous pouvez aussi g&eacute;rer les utilisateurs Jenkins depuis la page
+                                de configuration Jenkins</b></p>
+               </div><br class="figure-break"></div>
+            <p>D'ici, vous pouvez voir et &eacute;diter les utilisateurs qui peuvent se
+                     connecter &agrave; Jenkins (voir <a href="sect-security-realms.html#fig-hudson-user-database" title="Figure&nbsp;7.8.&nbsp;La base de donn&eacute;es des utilisateurs de Jenkins">Figure&nbsp;7.8, &#8220;La base de donn&eacute;es des utilisateurs de Jenkins&#8221;</a>).
+                     Cela inclut &agrave; la fois les utilisateurs qui se sont enregistr&eacute;s
+                     manuellement (si cette option a &eacute;t&eacute; activ&eacute;e) et les utilisateurs SCM que
+                     vous avez activ&eacute;s en leur configurant un mot de passe. Vous pouvez aussi
+                     &eacute;diter des informations utilisateur (par exemple, modifier leur adresse
+                     email ou r&eacute;initialiser leur mot de passe), ou m&ecirc;me les supprimer de la
+                     liste des utilisateurs actifs. Proc&eacute;der ainsi ne les enl&egrave;vera pas de la
+                     liste globale des utilisateurs (leurs noms appara&icirc;tront toujours dans
+                     l'historique de build, par exemple), mais ils ne seront plus capables de
+                     se connecter au serveur Jenkins.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-user-database"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e10298"></a><img src="figs/web/jtdg_0708.png" alt="La base de donn&eacute;es des utilisateurs de Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.8.&nbsp;La base de donn&eacute;es des utilisateurs de Jenkins</b></p>
+               </div><br class="figure-break"></div>
+            <p>La base de donn&eacute;es interne de Jenkins est suffisante pour de
+                     nombreuses &eacute;quipes et organisations. Toutefois, pour des organisations
+                     plus importantes, cela peut devenir fastidieux et r&eacute;p&eacute;titif de g&eacute;rer un
+                     grand nombre d'utilisateurs &agrave; la main. Et plus particuli&egrave;rement encore
+                     si cette information existe d&eacute;j&agrave; quelque part. Dans les sections
+                     suivantes, nous regarderons comment brancher Jenkins avec d'autres
+                     syst&egrave;mes de gestion utilisateurs, comme des annuaires LDAP ou des
+                     utilisateurs et groupes <a class="indexterm" name="I_indexterm7_d1e10305"></a><a class="indexterm" name="I_indexterm7_d1e10307"></a><a class="indexterm" name="I_indexterm7_d1e10309"></a>Unix.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sec-security-ldap"></a>7.4.2.&nbsp;Utiliser un annuaire LDAP
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Plusieurs <a class="indexterm" name="ch07-ldap1"></a><a class="indexterm" name="ch07-ldap2"></a>organisations utilisent des annuaires LDAP pour stocker
+                     des comptes et mots de passe &agrave; travers diff&eacute;rentes applications. Jenkins
+                     s'int&egrave;gre bien avec LDAP, sans n&eacute;cessiter de plugin sp&eacute;cial. Il peut
+                     authentifier les utilisateurs en utilisant l'annuaire LDAP, v&eacute;rifier
+                     l'appartenance &agrave; un groupe, et r&eacute;cup&eacute;rer les adresses email des
+                     utilisateurs authentifi&eacute;s.
+            </p>
+            <p>Pour int&eacute;grer Jenkins &agrave; votre annuaire LDAP, s&eacute;lectionnez
+                     simplement &#8220;LDAP&#8221; dans la section Domaine de s&eacute;curit&eacute;, et remplissez les
+                     d&eacute;tails concernant votre serveur LDAP (voir <a href="sect-security-realms.html#fig-hudson-security-ldap" title="Figure&nbsp;7.9.&nbsp;Configurer LDAP dans Jenkins">Figure&nbsp;7.9, &#8220;Configurer LDAP dans Jenkins&#8221;</a>). Le champ le plus important est
+                     le serveur de l'annuaire. Si vous utilisez un port non standard, vous
+                     devrez aussi l'indiquer (par exemple, <code class="filename">ldap.acme.org:1389</code>). Si vous utilisez LDAPS,
+                     vous devrez aussi le sp&eacute;cifier (par exemple, <code class="filename">ldaps://ldap.acme.org</code>)
+            </p>
+            <p>Si votre serveur autorise la <span class="emphasis"><em>connexion</em></span> anonyme,
+                     cela vous suffira probablement pour d&eacute;marrer. Sinon, vous pouvez
+                     utiliser les options avanc&eacute;es pour param&eacute;trer plus finement votre
+                     configuration.
+            </p>
+            <p>La plupart des champs Avanc&eacute;s peuvent sans probl&egrave;me &ecirc;tre laiss&eacute;s
+                     vides &agrave; moins que vous n'ayez une bonne raison de les changer. Si votre
+                     annuaire est extr&ecirc;mement volumineux, vous devriez sp&eacute;cifiez une valeur
+                     de DN racine (e.g., <code class="literal">dc=acme, dc=com</code>)
+                     et/ou une base de recherche utilisateur et groupe (e.g., <code class="literal">ou=people</code>) pour r&eacute;duire la port&eacute;e des requ&ecirc;tes
+                     utilisateur. Ceci n'est habituellement pas n&eacute;cessaire &agrave; moins que vous
+                     ne remarquiez des probl&egrave;mes de performance. Ou, si votre serveur
+                     n'autorise pas les connexions anonymes, vous devrez fournir un DN et un mot
+                     de passe de gestionnaire, afin que Jenkins puisse se connecter au
+                     serveur pour ex&eacute;cuter ses requ&ecirc;tes.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-security-ldap"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e10351"></a><img src="figs/web/jtdg_0709.png" alt="Configurer LDAP dans Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.9.&nbsp;Configurer LDAP dans Jenkins</b></p>
+               </div><br class="figure-break"></div>
+            <p>Une fois que vous avez configur&eacute; votre serveur LDAP comme domaine
+                     de s&eacute;curit&eacute;, vous pouvez configurer votre mod&egrave;le de s&eacute;curit&eacute; comme
+                     d&eacute;crit pr&eacute;c&eacute;demment. Quand les utilisateurs se connecteront &agrave; Jenkins,
+                     ils seront authentifi&eacute;s sur l'annuaire LDAP.
+            </p>
+            <p>Vous <a class="indexterm" name="I_indexterm7_d1e10360"></a>pouvez aussi utiliser des groupes LDAP, bien que la
+                     configuration ne soit pas imm&eacute;diatement &eacute;vidente. Supposons que vous
+                     ayez d&eacute;fini un group appel&eacute; JenkinsAdmin dans votre annuaire LDAP, avec
+                     un DN <code class="code">cn=JenkinsAdmin, ou-Groups, dc=acme, dc=com</code>. Pour
+                     r&eacute;f&eacute;rencer ce groupe dans Jenkins, vous devez prendre le nom commun (cn)
+                     en majuscules, et le pr&eacute;fixer avec <code class="literal">ROLE_</code>. Ainsi <code class="code">cn=JenkinsAdmin</code>
+                     devient <code class="code">ROLE_JENKINSADMIN</code>. Vous pouvez voir un exemple de
+                     groupes LDAP<a class="indexterm" name="I_indexterm7_d1e10379"></a><a class="indexterm" name="I_indexterm7_d1e10381"></a> utilis&eacute;s de cette fa&ccedil;on dans <a href="sect-security-realms.html#fig-hudson-security-ldap-groups" title="Figure&nbsp;7.10.&nbsp;Utiliser des groupes LDAP dans Jenkins">Figure&nbsp;7.10, &#8220;Utiliser des groupes LDAP dans Jenkins&#8221;</a>.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-security-ldap-groups"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e10389"></a><img src="figs/web/jtdg_0710.png" alt="Utiliser des groupes LDAP dans Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.10.&nbsp;Utiliser des groupes LDAP dans Jenkins</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e10590"></a>7.4.3.&nbsp;Utiliser Microsoft Active Directory
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Microsoft Active Directory<a class="indexterm" name="ch07-ad1"></a><a class="indexterm" name="ch07-ad2"></a><a class="indexterm" name="ch07-atlas3"></a> est un logiciel d'annuaire largement utilis&eacute; dans les
+                     architectures Microsoft. Bien qu'Active Directory fournisse un service
+                     LDAP, il peut &ecirc;tre compliqu&eacute; &agrave; configurer, et il est plus simple de
+                     demander &agrave; Jenkins de parler directement au serveur Active Directory.
+                     Heureusement, il y a un plugin pour &ccedil;a.
+            </p>
+            <p>Le plugin Active Directory de Jenkins vous permet <a class="indexterm" name="I_indexterm7_d1e10415"></a> de configurer Jenkins pour authentifier les utilisateurs
+                     via un serveur Microsoft Active Directory. Vous pouvez &agrave; la fois
+                     authentifier les utilisateurs, et r&eacute;cup&eacute;rer leurs groupes pour la
+                     matrice d'autorisations g&eacute;n&eacute;rale ou par projet. Notez que, &agrave; l'inverse
+                     d'une int&eacute;gration LDAP conventionnelle (voir <a href="sect-security-realms.html#sec-security-ldap" title="7.4.2.&nbsp;Utiliser un annuaire LDAP">Section&nbsp;7.4.2, &#8220;Utiliser un annuaire LDAP&#8221;</a>), il n'est pas n&eacute;cessaire de pr&eacute;fixer les
+                     groupes avec <code class="literal">ROLE_</code> &#8212; vous pouvez
+                     utiliser l'annuaire des groupes Active Directory <a class="indexterm" name="I_indexterm7_d1e10426"></a>(comme &#8220;Administrateur de Domaine&#8221;).
+            </p>
+            <p>Pour configurer le plugin, vous devez fournir le nom de domaine
+                     complet de votre serveur Active Directory. Si vous avez plus d'un
+                     domaine, vous pouvez fournir une liste s&eacute;par&eacute;e par des virgules. Si vous
+                     fournissez le nom de la for&ecirc;t (par exemple &#8220;acme.com&#8221; au lieu de
+                     &#8220;europe.acme.com&#8221;), alors la recherche sera faite &agrave; partir du catalogue
+                     global. Notez que si vous faites cela sans sp&eacute;cifier le <span class="emphasis"><em>bind
+                           DN</em></span> (voir ci-dessous), l'utilisateur devra se connecter en
+                     tant que &#8220;europe\joe&#8221; ou &#8220;joe@europe&#8221;.
+            </p>
+            <p>Les options avanc&eacute;es vous permettent de sp&eacute;cifier un nom de site
+                     (pour am&eacute;liorer les performances en restreignant les contr&ocirc;leurs de
+                     domaine que Jenkins requ&ecirc;te), et un DN de liaison et un mot de passe, ce
+                     qui peut &ecirc;tre pratique si vous vous connectez &agrave; une for&ecirc;t multidomaines.
+                     Vous devez fournir des valeurs de DN de liaison et de mot de passe
+                     valides, que Jenkins puisse utiliser pour se connecter &agrave; votre serveur
+                     afin qu'il &eacute;tablisse l'identit&eacute; compl&egrave;te de l'utilisateur en cours
+                     d'authentification. De cette fa&ccedil;on, l'utilisateur peut taper simplement
+                     &#8220;jack&#8221; ou &#8220;jill&#8221;, et faire que le syst&egrave;me retrouve automatiquement
+                     qu'ils sont <span class="emphasis"><em>jack@europe.acme.com</em></span> ou
+                     <span class="emphasis"><em>jack@asia.acme.com</em></span>. Vous devez fournir le nom
+                     principal complet avec le nom de domaine, tel que
+                     <span class="emphasis"><em>admin@europe.acme.com</em></span>, ou un nom distinctif de
+                     style LDAP, tel que <code class="literal">CN=Administrator,OU=europe,DC=acme,DC=com</code>.
+            </p>
+            <p>Une autre bonne chose &agrave; propos de ce plugin est qu'il fonctionne &agrave;
+                     la fois dans un environnement Windows et un environnement Unix. Donc si
+                     Jenkins fonctionne sur un serveur Unix, il pourra quand m&ecirc;me effectuer
+                     les authentifications via un service Microsoft Active Directory d'une
+                     autre machine.
+            </p>
+            <p>Plus pr&eacute;cis&eacute;ment, si Jenkins s'ex&eacute;cute sur une machine Windows et
+                     que vous ne sp&eacute;cifiez pas de domaine, cette machine doit &ecirc;tre un membre
+                     du domaine aupr&egrave;s duquel vous souhaitez vous authentifier. Jenkins
+                     utilisera ADSI pour retrouver tous les d&eacute;tails, aucune configuration
+                     additionnelle n'est donc n&eacute;cessaire.
+            </p>
+            <p>Sur une machine non Windows (ou si vous sp&eacute;cifiez un ou plusieurs
+                     domaines), vous devez dire &agrave; Jenkins le nom du domaine Active Directory
+                     aupr&egrave;s duquel s'authentifier. Jenkins utilise alors les enregistrements
+                     DNS SRV et le service LDAP d'Active Directory pour authentifier les
+                     utilisateurs.
+            </p>
+            <p>Jenkins peut d&eacute;terminer les <a class="indexterm" name="I_indexterm7_d1e10462"></a>groupes Active Directory auxquels l'utilisateur
+                     appartient. Vous pouvez donc les utiliser dans votre strat&eacute;gie
+                     d'autorisations. Par exemple, vous pouvez utiliser ces groupes dans la
+                     s&eacute;curit&eacute; bas&eacute;e sur une matrice, ou autoriser les "Administrateurs de
+                     domaine" &agrave; administrer <a class="indexterm" name="I_indexterm7_d1e10468"></a><a class="indexterm" name="I_indexterm7_d1e10470"></a>Jenkins.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e10666"></a>7.4.4.&nbsp;Utiliser les utilisateurs et les groupes Unix
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Si <a class="indexterm" name="I_indexterm7_d1e10478"></a><a class="indexterm" name="I_indexterm7_d1e10483"></a><a class="indexterm" name="I_indexterm7_d1e10490"></a>vous ex&eacute;cutez Jenkins sur une machine Unix, vous pouvez
+                     aussi demander &agrave; Jenkins d'utiliser les comptes utilisateur et groupes
+                     d&eacute;finis sur cette machine. Dans ce cas, les utilisateurs se connecteront
+                     &agrave; Jenkins en utilisant leurs comptes et mots de passe Unix. On utilise
+                     alors le syst&egrave;me Pluggable Authentication Modules (PAM), et cela
+                     fonctionne aussi bien avec NIS.
+            </p>
+            <p>Dans sa forme la plus basique, c'est un peu r&eacute;barbatif, parce que
+                     cela n&eacute;cessite de cr&eacute;er et de configurer des comptes utilisateurs pour
+                     chaque nouvel utilisateur Jenkins. Ce n'est v&eacute;ritablement utile que si
+                     ces comptes n&eacute;cessitent d'&ecirc;tre mis en place pour d'autres
+                     besoins.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e10691"></a>7.4.5.&nbsp;D&eacute;l&eacute;guer au conteneur de Servlet
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une autre <a class="indexterm" name="I_indexterm7_d1e10503"></a><a class="indexterm" name="I_indexterm7_d1e10508"></a>fa&ccedil;on d'identifier les utilisateurs Jenkins est de laisser
+                     le conteneur de Servlet le faire pour vous. Cette approche est utile si
+                     vous ex&eacute;cutez Jenkins dans un conteneur de Servlet comme <a class="indexterm" name="I_indexterm7_d1e10516"></a>Tomcat ou <a class="indexterm" name="I_indexterm7_d1e10520"></a>GlassFish, et que vous avez d&eacute;j&agrave; un moyen &eacute;tabli pour
+                     int&eacute;grer le conteneur de Servlet avec votre annuaire utilisateur.
+                     Tomcat, par exemple, vous permet d'authentifier les utilisateurs par
+                     rapport &agrave; une base de donn&eacute;es relationnelle (en utilisant du JDBC direct
+                     ou une DataSource), JNDI, JAAS, ou fichier de configuration XML. Vous
+                     pouvez aussi utiliser les r&ocirc;les d&eacute;finis dans l'annuaire utilisateur du
+                     conteneur de Servlet afin de les utiliser pour les strat&eacute;gies
+                     d'autorisation par matrice ou bas&eacute;e sur le projet.
+            </p>
+            <p>Dans Jenkins, c'est facile &agrave; configurer &#8212; s&eacute;lectionnez simplement
+                     cette option dans la section Domaine de s&eacute;curit&eacute; (voir <a href="sect-security-realms.html#fig-hudson-security-container" title="Figure&nbsp;7.11.&nbsp;S&eacute;lectionner le domaine de s&eacute;curit&eacute;">Figure&nbsp;7.11, &#8220;S&eacute;lectionner le domaine de s&eacute;curit&eacute;&#8221;</a>). Une fois que vous avez fait
+                     cela, Jenkins laissera le serveur s'occuper de tout.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-security-container"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject7_d1e10534"></a><img src="figs/web/jtdg_0711.png" alt="S&eacute;lectionner le domaine de s&eacute;curit&eacute;"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;7.11.&nbsp;S&eacute;lectionner le domaine de s&eacute;curit&eacute;</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e10729"></a>7.4.6.&nbsp;Utiliser Atlassian Crowd
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Si <a class="indexterm" name="ch07-atlas1"></a><a class="indexterm" name="ch07-atlas2"></a><a class="indexterm" name="I_indexterm7_d1e10554"></a>votre organisation utilise les produits Atlassian comme
+                     JIRA et Confluence, vous pouvez aussi utiliser Crowd. Crowd est une
+                     application commerciale de gestion d'identit&eacute; et de
+                     <span class="emphasis"><em>Single-Sign On</em></span> (SSO) d'Atlassian qui vous permet de
+                     g&eacute;rer des comptes utilisateur unique &agrave; travers diff&eacute;rents produits. Vous
+                     g&eacute;rez une base de donn&eacute;es interne d'utilisateurs, de groupes et de
+                     r&ocirc;les, et vous vous int&eacute;grez avec des annuaires externes comme des
+                     annuaires LDAP ou des magasins utilisateur sp&eacute;cifiques.
+            </p>
+            <p>En utilisant le plugin Jenkins Crowd, vous <a class="indexterm" name="I_indexterm7_d1e10560"></a> pouvez utiliser Atlassian Crowd comme source de vos
+                     utilisateurs et groupes Jenkins. Avant de commencer, vous devez
+                     configurer une nouvelle application dans Crowd (voir <a href="sect-security-realms.html#fig-hudson-security-cloud-app" title="Figure&nbsp;7.12.&nbsp;Utiliser Atlassian Crowd comme domaine de s&eacute;curit&eacute; Jenkins">Figure&nbsp;7.12, &#8220;Utiliser Atlassian Crowd comme domaine de s&eacute;curit&eacute;
+                          Jenkins&#8221;</a>). Configurez simplement une
+                     nouvelle Application G&eacute;n&eacute;rique appel&eacute;e &#8220;jenkins&#8221; (ou quelque chose du
+                     m&ecirc;me genre), et avancez d'onglet en onglet. Dans l'onglet Connexions,
+                     vous devez fournir l'adresse IP de votre serveur Jenkins. Ensuite, vous
+                     devez indiquer l'annuaire Crowd que vous utiliserez pour r&eacute;cup&eacute;rer les
+                     comptes utilisateurs Jenkins et informations de groupes. Enfin, vous
+                     devrez dire &agrave; Crowd quels utilisateurs de ces annuaires peuvent se
+                     connecter &agrave; Jenkins. Une option est d'autoriser tous les utilisateurs &agrave;
+                     s'authentifier, et laisser Jenkins g&eacute;rer les d&eacute;tails. Sinon, vous pouvez
+                     lister les groupes utilisateur Crowd autoris&eacute;s &agrave; se connecter &agrave;
+                     Jenkins.
+            </p>
+            <div class="figure"><a name="fig-hudson-security-cloud-app"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e10571"></a><img src="figs/web/jtdg_0712.png" alt="Utiliser Atlassian Crowd comme domaine de s&eacute;curit&eacute; Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.12.&nbsp;Utiliser Atlassian Crowd comme domaine de s&eacute;curit&eacute;
+                             Jenkins</b></p>
+            </div><br class="figure-break"><p>Une fois que vous avez configur&eacute; cela, vous devez installer le
+                     plugin Jenkins Crowd, comme vous le faites habituellement via le
+                     gestionnaire de plugin de Jenkins. Une fois install&eacute; le plugin et
+                     Jenkins redemarr&eacute;, vous pouvez d&eacute;finir Crowd comme domaine de s&eacute;curit&eacute;
+                     dans l'&eacute;cran de configuration principal de Jenkins (voir <a href="sect-security-realms.html#fig-hudson-security-crowd" title="Figure&nbsp;7.13.&nbsp;Utiliser Atlassian Crowd comme domaine de s&eacute;curit&eacute; Jenkins">Figure&nbsp;7.13, &#8220;Utiliser Atlassian Crowd comme domaine de s&eacute;curit&eacute;
+                          Jenkins&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-security-crowd"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e10583"></a><img src="figs/web/jtdg_0713.png" alt="Utiliser Atlassian Crowd comme domaine de s&eacute;curit&eacute; Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.13.&nbsp;Utiliser Atlassian Crowd comme domaine de s&eacute;curit&eacute;
+                             Jenkins</b></p>
+            </div><br class="figure-break"><p>Avec ce plugin install&eacute; et configur&eacute;, vous pouvez utiliser les
+                     utilisateurs et les <a class="indexterm" name="I_indexterm7_d1e10590"></a>groupes de Crowd pour toutes les strat&eacute;gies d'autorisation
+                     que nous avons pr&eacute;sent&eacute;es pr&eacute;c&eacute;demment dans ce chapitre. Par exemple,
+                     dans <a href="sect-security-realms.html#fig-hudson-security-crowd-groups-matrix" title="Figure&nbsp;7.14.&nbsp;Utiliser les groupes Atlassian Crowd dans Jenkins">Figure&nbsp;7.14, &#8220;Utiliser les groupes Atlassian Crowd dans
+                          Jenkins&#8221;</a>, nous
+                     utilisons des groupes utilisateurs d&eacute;finis dans Crowd pour configurer
+                     une s&eacute;curit&eacute; bas&eacute;e sur la matrice dans l'&eacute;cran principal de <a class="indexterm" name="I_indexterm7_d1e10598"></a><a class="indexterm" name="I_indexterm7_d1e10600"></a>configuration.
+            </p>
+            <div class="figure"><a name="fig-hudson-security-crowd-groups-matrix"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e10606"></a><img src="figs/web/jtdg_0714.png" alt="Utiliser les groupes Atlassian Crowd dans Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.14.&nbsp;Utiliser les groupes Atlassian Crowd dans
+                             Jenkins</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e10804"></a>7.4.7.&nbsp;S'int&eacute;grer avec d'autres syst&egrave;mes
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>En <a class="indexterm" name="I_indexterm7_d1e10616"></a><a class="indexterm" name="I_indexterm7_d1e10623"></a><a class="indexterm" name="I_indexterm7_d1e10630"></a><a class="indexterm" name="I_indexterm7_d1e10633"></a><a class="indexterm" name="I_indexterm7_d1e10636"></a><a class="indexterm" name="I_indexterm7_d1e10641"></a><a class="indexterm" name="I_indexterm7_d1e10646"></a>plus des strat&eacute;gies d'authentification discut&eacute;es ici, il y
+                     a un certain nombre d'autres plugins permettant &agrave; Jenkins d'effectuer
+                     l'authentification via d'autres syst&egrave;mes. Au moment de l'&eacute;criture de ces
+                     lignes, ceci inclut <span class="emphasis"><em>Central Authentication Service</em></span>
+                     (CAS) &#8212; un outil open source de single sign-on &#8212; et le serveur Collabnet
+                     <span class="emphasis"><em>Source Forge Enterprise Edition</em></span> (SFEE).
+            </p>
+            <p>Si <a class="indexterm" name="ch07-cust"></a><a class="indexterm" name="ch07-cust2"></a><a class="indexterm" name="ch07-cust3"></a><a class="indexterm" name="ch07-cust4"></a>aucun plugin n'est disponible, vous pouvez aussi &eacute;crire
+                     votre propre script d'authentification. Pour faire cela, vous devez
+                     installer le plugin Script Security Realm. Une fois que vous avez
+                     install&eacute; le script et red&eacute;marr&eacute; Jenkins, vous pouvez &eacute;crire deux scripts
+                     dans votre langage de scripting favori. Un script authentifie
+                     l'utilisateur, tandis que l'autre d&eacute;termine les groupes d'un utilisateur
+                     donn&eacute; (voir <a href="sect-security-realms.html#fig-hudson-security-scripts" title="Figure&nbsp;7.15.&nbsp;Utiliser des scripts personnalis&eacute;s pour g&eacute;rer l'authentification">Figure&nbsp;7.15, &#8220;Utiliser des scripts personnalis&eacute;s pour g&eacute;rer
+                          l'authentification&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-security-scripts"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject7_d1e10680"></a><img src="figs/web/jtdg_0715.png" alt="Utiliser des scripts personnalis&eacute;s pour g&eacute;rer l'authentification"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;7.15.&nbsp;Utiliser des scripts personnalis&eacute;s pour g&eacute;rer
+                             l'authentification</b></p>
+            </div><br class="figure-break"><p>Avant d'invoquer le script d'authentification, Jenkins positionne
+                     deux <a class="indexterm" name="I_indexterm7_d1e10687"></a><a class="indexterm" name="I_indexterm7_d1e10690"></a><span>variables d'environnement</span> : <code class="literal">U</code>, contenant le nom d'utilisateur, et <code class="literal">P</code>, contenant le mot de passe. Ce script
+                     utilise ces variables d'environnement pour authentifier le nom
+                     d'utilisateur et le mot de passe sp&eacute;cifi&eacute;, en retournant 0 en cas de
+                     r&eacute;ussite, et une autre valeur sinon. Si l'authentification &eacute;choue, la
+                     sortie du processus sera renvoy&eacute;e dans le message d'erreur affich&eacute; &agrave;
+                     l'utilisateur. Voici un simple script <a class="indexterm" name="ch07-authgroovy"></a>script d'authentification Groovy :
+            </p><a name="I_programlisting7_d1e10712"></a><pre class="programlisting">def env = System.getenv()
+def username = env['U']
+def password = env['P']
+
+println "Authenticating user $username"
+
+if (authenticate(username, password)) {
+    System.exit 0
+} else {
+    System.exit 1
+}
+
+def authenticate(def username, def password) {
+    def userIsAuthenticated = true
+    // Authentication logic goes here
+    return userIsAuthenticated
+}</pre><p>Ce script est suffisant si tout ce que vous avez &agrave; faire est de
+                     g&eacute;rer une authentification basique sans groupes. Si vous voulez utiliser
+                     des groupes de votre source d'authentification personnalis&eacute;e dans vos
+                     autorisations matricielles ou projet (voir <a href="sect-authorization.html" title="7.5.&nbsp;Autorisation &#8212; Qui peut faire quoi">Section&nbsp;7.5, &#8220;Autorisation &#8212; Qui peut faire quoi&#8221;</a>), vous pouvez &eacute;crire un second script,
+                     qui d&eacute;termine les groupes pour un utilisateur donn&eacute;. Ce script utilise
+                     la variable d'environnement U pour d&eacute;terminer quel utilisateur essaie de
+                     se connecter, et affiche une liste de groupe s&eacute;par&eacute;e par des virgules
+                     pour cet utilisateur sur la sortie standard. Si vous n'aimez pas les
+                     virgules, vous pouvez red&eacute;finir le caract&egrave;re de s&eacute;paration dans la
+                     configuration. Voici un simple script Groovy pour faire cela :
+            </p><a name="I_programlisting7_d1e10721"></a><pre class="programlisting">def env = System.getenv()
+def username = env['U'] 
+
+println findGroupsFor(username)
+
+System.exit 0
+
+def findGroupsFor(def username) {
+    return "admin,game-of-life-developer"
+}</pre><p>Ces deux scripts doivent renvoyer 0 lorsqu'ils sont appel&eacute;s pour
+                     qu'un utilisateur soit<a class="indexterm" name="I_indexterm7_d1e10727"></a><a class="indexterm" name="I_indexterm7_d1e10729"></a><a class="indexterm" name="I_indexterm7_d1e10731"></a><a class="indexterm" name="I_indexterm7_d1e10733"></a> authentifi&eacute;.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="hudson-security-simple.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-authorization.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">7.3.&nbsp;S&eacute;curit&eacute; simple dans Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;7.5.&nbsp;Autorisation &#8212; Qui peut faire quoi</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

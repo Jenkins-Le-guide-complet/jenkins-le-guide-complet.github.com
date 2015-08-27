@@ -1,0 +1,105 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>8.12.&nbsp;Notifications via SMS</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="prev" href="sect-notification-mobile.html" title="8.11.&nbsp;Notifications vers mobiles">
+      <link rel="next" href="sect-notification-noise.html" title="8.13.&nbsp;Faire du bruit">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-mobile.html">8.11.&nbsp;Notifications vers mobiles</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-noise.html">8.13.&nbsp;Faire du bruit</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-notification-sms"></a>8.12.&nbsp;Notifications via SMS
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Ces
+                        <a class="indexterm" name="ch08-sms1"></a>
+                        <a class="indexterm" name="ch08-sms2"></a>
+            temps-ci, le SMS est un autre canal de communication universel qui
+            a l'avantage suppl&eacute;mentaire d'atteindre les personnes m&ecirc;me quand elles ne sont pas au
+            bureau. Pour un ing&eacute;nieur de build, ce peut &ecirc;tre un excellent moyen de surveiller des builds
+                        critiques, m&ecirc;me si les d&eacute;veloppeurs ou chefs d'&eacute;quipe sont loin de leur
+                        bureau.
+                    
+         </p>
+         <p>
+                        <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://en.wikipedia.org/wiki/SMS_gateway" target="_top">Les passerelles
+                               SMS
+                           </a>
+                        sont des services qui permettent
+                        <span class="keep-together">d'envoyer</span>
+                        des notifications SMS via des adresses emails formatt&eacute;es sp&eacute;cialement (par exemple,
+                        <span class="emphasis"><em>123456789@mysmsgateway.com</em></span>
+                        pourrait envoyer un message SMS
+                        &agrave; 123456789). Beaucoup de vendeurs mobiles offrent ce service, tout comme beaucoup de
+                        prestataires de services tiers. Il n'y a aucune prise en charge int&eacute;gr&eacute;e pour les passerelles
+                        SMS dans Jenkins, mais la fonctionnalit&eacute; de base de ces passerelles rend
+                        l'int&eacute;gration relativement simple : il vous suffit d'ajouter les adresses emails sp&eacute;ciales &agrave;
+                        la liste de notification normale. Sinon, en utilisant la configuration email
+                        avanc&eacute;e, vous pouvez configurer une r&egrave;gle distincte contenant uniquement les adresses
+                        email SMS (voir <a href="sect-notification-sms.html#fig-hudson-sms-notification-config" title="Figure&nbsp;8.26.&nbsp;Envoyer des notifictions SMS via une passerelle SMS">Figure&nbsp;8.26, &#8220;Envoyer des notifictions SMS via une passerelle SMS&#8221;</a>). Proc&eacute;der ainsi rend
+                        plus facile d'affiner le contenu du message pour adh&eacute;rer au format des messages
+                        SMS.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-sms-notification-config"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12508"></a><img src="figs/web/jtdg_0825.png" alt="Envoyer des notifictions SMS via une passerelle SMS"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.26.&nbsp;Envoyer des notifictions SMS via une passerelle SMS</b></p>
+         </div><br class="figure-break"><p>Une fois que vous avez fait cela, vos utilisateurs recevront une notification rapide
+                        des r&eacute;sultats de build sous forme de messages SMS (voir <a href="sect-notification-sms.html#fig-hudson-sms-notification" title="Figure&nbsp;8.27.&nbsp;Recevoir des notifications via SMS">Figure&nbsp;8.27, &#8220;Recevoir des notifications via SMS&#8221;</a>). Le
+                        principal inconv&eacute;nient de cette
+                        approche est sans doute que ce n'est pas gratuit, et n&eacute;cessite l'utilisation d'un
+                        service commercial tiers. Cela dit, c'est vraiment la seule
+                        technique de notification capable d'atteindre les d&eacute;veloppeurs quand ils sont hors de port&eacute;e
+                        d'Internet ou qu'ils n'ont pas de smartphone activ&eacute;. En effet, cette
+                        technique est populaire parmi les administrateurs syst&egrave;me, et peut &ecirc;tre tr&egrave;s utile
+                        pour certaines t&acirc;ches de
+                        <a class="indexterm" name="I_indexterm8_d1e12517"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12519"></a>
+                        build.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-sms-notification"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12525"></a><img src="figs/web/jtdg_0826.png" alt="Recevoir des notifications via SMS"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.27.&nbsp;Recevoir des notifications via SMS</b></p>
+         </div><br class="figure-break"></div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-mobile.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-noise.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">8.11.&nbsp;Notifications vers mobiles&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.13.&nbsp;Faire du bruit</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

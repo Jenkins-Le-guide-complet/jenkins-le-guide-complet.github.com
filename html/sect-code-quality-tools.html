@@ -1,0 +1,573 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>9.3.&nbsp;Les outils d&#8217;analyse de qualit&eacute; du code populaires pour Java et Groovy</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-code-quality.html" title="Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code">
+      <link rel="prev" href="sect-code-quality-build-process.html" title="9.2.&nbsp;La qualit&eacute; du code dans votre processus de build">
+      <link rel="next" href="sect-violations.html" title="9.4.&nbsp;Rapports de probl&egrave;mes de qualit&eacute; de code avec le plugin Violations">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-build-process.html">9.2.&nbsp;La qualit&eacute; du code dans votre processus de build</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-violations.html">9.4.&nbsp;Rapports de probl&egrave;mes de qualit&eacute; de code avec le plugin
+                         Violations</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-code-quality-tools"></a>9.3.&nbsp;Les outils d&#8217;analyse de qualit&eacute; du code populaires pour Java et
+                         Groovy
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Il y a beaucoup d&#8217;outils open source qui peuvent aider &agrave; identifier
+                les mauvaises pratiques de codage.
+         </p>
+         <p>Dans<a class="indexterm" name="I_indexterm9_d1e12803"></a> le monde Java, trois outils d&#8217;analyses statiques ont
+            r&eacute;sist&eacute; &agrave; l&#8217;&eacute;preuve du temps, et sont largement utilis&eacute;s de mani&egrave;re tr&egrave;s
+            compl&eacute;mentaire. Checkstyle excelle dans la v&eacute;rification des conventions et
+            normes de codage, les pratiques de codage, ainsi que d&#8217;autres mesures
+            telles que la complexit&eacute; du code. PMD est un outil d&#8217;analyse statique
+                similaire &agrave; Checkstyle, plus focalis&eacute; sur les pratiques de codage et de
+                conception. Et FindBugs est un outil innovant, issu des travaux de recherche
+                de Bill Pugh et de son &eacute;quipe de l&#8217;universit&eacute; du Maryland, qui
+                se focalise sur l&#8217;identification du code dangereux et bogu&eacute;. Et si vous
+                &ecirc;tre en train de travailler avec Groovy ou Grails, vous pouvez utiliser
+                CodeNarc, qui v&eacute;rifie la norme et les pratiques de codage de
+                Groovy.
+         </p>
+         <p>Tous ces outils peuvent &ecirc;tre facilement int&eacute;gr&eacute;s dans votre
+                processus de build. Dans les sections suivantes, nous verrons comment
+                configurer ces outils pour g&eacute;n&eacute;rer des rapports XML que Jenkins peut
+                ensuite utiliser dans ses propres rapports.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e13083"></a>9.3.1.&nbsp;Checkstyle
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://checkstyle.sourceforge.net" target="_top">Checkstyle</a>
+                     est<a class="indexterm" name="ch09-check1"></a><a class="indexterm" name="ch09-check2"></a> un outil d&#8217;analyse statique pour Java. A l&#8217;origine con&ccedil;u
+                     pour faire respecter un ensemble de normes de codage hautement
+                     configurable, Checkstyle permet aussi maintenant de v&eacute;rifier les
+                     mauvaises pratiques de codage, ainsi que le code trop complexe ou
+                     dupliqu&eacute;. Checkstyle est un outil polyvalent et flexible qui devrait
+                     avoir sa place dans n&#8217;importe quelle strat&eacute;gie d&#8217;analyse de code bas&eacute;
+                     sur Java.
+            </p>
+            <p>Checkstyle supporte un tr&egrave;s grand nombre de r&egrave;gles, incluant celles
+                     li&eacute;es aux normes de nommage, annotations, commentaires javadoc, taille
+                     de m&eacute;thode et de classe, mesures de complexit&eacute; de code, mauvaises
+                     pratiques de codage, et beaucoup d&#8217;autres.
+            </p>
+            <p>Le code dupliqu&eacute; est un autre probl&egrave;me important de la qualit&eacute; de
+                     code &#8212; le code dupliqu&eacute; ou quasi-dupliqu&eacute; est plus difficile &agrave; maintenir
+                     et &agrave; d&eacute;boguer. Checkstyle fournit un certain soutien pour la d&eacute;tection
+                     de code dupliqu&eacute;, mais des outils plus sp&eacute;cialis&eacute;s comme CPD font un
+                     meilleur travail dans ce domaine.
+            </p>
+            <p>Une des choses int&eacute;ressante au sujet de Checkstyle est la facilit&eacute;
+                     avec laquelle on peut le configurer. Vous pouvez commencer avec les normes de codage de
+                     Sun et les adapter selon vos besoins, ou d&eacute;marrer de z&eacute;ro. En utilisant
+                     <a class="indexterm" name="I_indexterm9_d1e12836"></a>le plugin Eclipse (ou m&ecirc;me directement en XML), vous
+                     pouvez choisir parmi plusieurs centaines de r&egrave;gles, et affiner les
+                     options des r&egrave;gles que vous choisissez (voir <a href="sect-code-quality-tools.html#fig-hudson-quality-checkstyle" title="Figure&nbsp;9.1.&nbsp;C&#8217;est facile de configurer les r&egrave;gles Checkstyle avec Eclipse">Figure&nbsp;9.1, &#8220;C&#8217;est facile de configurer les r&egrave;gles Checkstyle avec
+                          Eclipse&#8221;</a>). C&#8217;est important, car les
+                     organisations, les &eacute;quipes ou m&ecirc;me les projets ont des attentes et des
+                     pr&eacute;f&eacute;rences diff&eacute;rentes au regard des normes de codage, et c&#8217;est mieux
+                     d&#8217;avoir un ensemble de r&egrave;gles pr&eacute;cises qui peuvent &ecirc;tre adopt&eacute;es, plut&ocirc;t
+                     qu'un large &eacute;ventail de r&egrave;gles qui seront ignor&eacute;es. C&#8217;est encore plus
+                     important lorsque de grandes bases de code existant sont impliqu&eacute;es &#8212;
+                     dans ces cas, il est souvent pr&eacute;f&eacute;rable de commencer avec un ensemble
+                     plus limit&eacute; de r&egrave;gles que d&#8217;&ecirc;tre submerg&eacute; par un grand nombre de
+                     probl&egrave;mes de formatage relativement mineurs.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-quality-checkstyle"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject9_d1e12847"></a><img src="figs/web/jtdg_0901.png" alt="C&#8217;est facile de configurer les r&egrave;gles Checkstyle avec Eclipse"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;9.1.&nbsp;C&#8217;est facile de configurer les r&egrave;gles Checkstyle avec
+                                Eclipse</b></p>
+               </div><br class="figure-break"></div>
+            <p>Configurer Checkstyle dans votre build est g&eacute;n&eacute;ralement simple. Si
+                     <a class="indexterm" name="I_indexterm9_d1e12854"></a>vous utilisez Ant, vous avez besoin de t&eacute;l&eacute;charger le
+                     fichier JAR de Checkstyle depuis le site web et de le rendre disponible
+                     &agrave; Ant. Vous pourriez le placer dans votre r&eacute;pertoire <code class="filename">lib</code> de Ant, mais cela signifierait de devoir
+                     personnaliser l&#8217;installation de Ant sur votre serveur de build (et tout
+                     les n&#339;uds esclaves), ce n&#8217;est donc pas une solution tr&egrave;s portable. Une
+                     meilleure approche serait de placer le fichier JAR de Checkstyle dans
+                     l&#8217;un des r&eacute;pertoires de votre projet, ou d&#8217;utiliser Ivy ou la librairie
+                     Maven Ant Task pour d&eacute;clarer une d&eacute;pendance &agrave; Checkstyle. Si vous choisissez
+                     de garder le fichier JAR de Checkstyle dans les r&eacute;pertoires du projet,
+                     vous pourrez d&eacute;clarer la t&acirc;che Checkstyle comme indiqu&eacute; ici :
+            </p><a name="I_programlisting9_d1e12868"></a><pre class="programlisting">          &lt;taskdef resource="checkstyletask.properties"
+               classpath="lib/checkstyle-5.3-all.jar"/&gt;</pre><p>Ensuite, pour g&eacute;n&eacute;rer les rapports Checkstyle dans le format XML
+                     exploitable par Jenkins, vous pourrez proc&eacute;der comme suit :
+            </p><a name="I_programlisting9_d1e12872"></a><pre class="programlisting">&lt;target name="checkstyle"&gt;
+  &lt;checkstyle config="src/main/config/company-checks.xml"&gt;
+    &lt;fileset dir="src/main/java" includes="**/*.java"/&gt; 
+    &lt;formatter type="plain"/&gt; 
+    &lt;formatter type="xml"/&gt;
+  &lt;/checkstyle&gt;
+&lt;/target&gt;</pre><p>Maintenant, invoquez juste cette t&acirc;che (cf., <code class="literal">ant checkstyle</code>) afin de g&eacute;n&eacute;rer les rapports
+                     Checkstyle.
+            </p>
+            <p>Dans <a class="indexterm" name="I_indexterm9_d1e12882"></a>Maven 2, vous pouvez ajouter quelque chose comme la
+                     section <code class="code">&lt;reporting&gt;</code> qui suit :
+            </p><a name="I_programlisting9_d1e12893"></a><pre class="programlisting">&lt;reporting&gt;
+  &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.4&lt;/version&gt;
+        &lt;configuration&gt;
+          &lt;configLocation&gt;
+            src/main/config/company-checks.xml
+          &lt;/configLocation&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/reporting&gt;</pre><p>Pour un projet Maven 3, vous avez besoin d&#8217;ajouter un plugin sur
+                     l&#8217;&eacute;l&eacute;ment <code class="code">&lt;reportPlugins&gt;</code> de la section
+                     <code class="code">&lt;configuration&gt;</code> du <span class="emphasis"><em>maven-site-plugin
+                           </em></span>:
+            </p><a name="I_programlisting9_d1e12906"></a><pre class="programlisting">&lt;project&gt;
+  &lt;properties&gt;
+    &lt;sonar.url&gt;http://buildserver.acme.org:9000&lt;/sonar.url&gt;
+  &lt;/properties&gt;
+  &lt;build&gt;
+    ...
+     &lt;plugins&gt;
+       ...
+       &lt;plugin&gt;
+        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+        &lt;artifactId&gt;maven-site-plugin&lt;/artifactId&gt;
+        &lt;version&gt;3.0-beta-2&lt;/version&gt;
+        &lt;configuration&gt;
+         &lt;reportPlugins&gt;
+          &lt;plugin&gt;
+           &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+           &lt;artifactId&gt;maven-checkstyle-plugin&lt;/artifactId&gt;
+           &lt;version&gt;2.4&lt;/version&gt;
+           &lt;configuration&gt;
+            &lt;configLocation&gt;
+              ${sonar.url}/rules_configuration/export/java/My_Rules/checkstyle.xml
+            &lt;/configLocation&gt;
+           &lt;/configuration&gt;
+          &lt;/plugin&gt;
+         &lt;/reportPlugins&gt;
+        &lt;/configuration&gt;
+       &lt;/plugin&gt;
+      &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</pre><p>Maintenant, l&#8217;ex&eacute;cution de <code class="literal">mvn
+                        checkstyle:checkstyle</code> ou <code class="literal">mvn
+                        site</code> analysera votre code source et g&eacute;n&egrave;rera des rapports XML
+                     que Jenkins peut utiliser.
+            </p>
+            <p>A noter que dans le dernier exemple, nous utilisons un ensemble de
+                     r&egrave;gles de Checkstyle que nous avons transf&eacute;r&eacute; sur un serveur Sonar
+                     (d&eacute;finie par la propri&eacute;t&eacute; <code class="literal">${sonar.url}</code>). Cette strat&eacute;gie rend facile
+                     l&#8217;utilisation du m&ecirc;me ensemble des r&egrave;gles Checkstyle pour Eclipse,
+                     Maven, Jenkins, et Sonar.
+            </p>
+            <p>Les <a class="indexterm" name="I_indexterm9_d1e12923"></a> versions r&eacute;centes de Gradle offrent aussi une certaine
+                     prise en charge int&eacute;gr&eacute;e de Checkstyle. Vous pouvez le configurer pour vos
+                     builds comme il suit :
+            </p><a name="I_programlisting9_d1e12931"></a><pre class="programlisting">apply plugin: 'code-quality'</pre><p>Cela utilisera par d&eacute;faut l&#8217;ensemble de r&egrave;gles de Checkstyle d&eacute;finies 
+               	  dans <code class="filename">config/checkstyle/checkstyle.xml</code>.
+                     Vous pouvez red&eacute;finir cela avec la propri&eacute;t&eacute;
+                     <code class="code">checkstyleConfigFileName</code> : au moment de l&#8217;&eacute;criture de ce
+                     livre, n&eacute;anmoins, il n'est pas possible de t&eacute;l&eacute;charger le plugin de qualit&eacute; de
+                     code pour Gradle afin d'obtenir les r&egrave;gles Checkstyle depuis une URL.
+            </p>
+            <p>Vous pouvez g&eacute;n&eacute;rer les rapports Checkstyle ici <a class="indexterm" name="I_indexterm9_d1e12943"></a><a class="indexterm" name="I_indexterm9_d1e12945"></a>en ex&eacute;cutant <code class="literal">gradle
+                        checkstyleMain</code> or <code class="literal">gradle
+                        check</code>.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e13219"></a>9.3.2.&nbsp;PMD/CPD
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://pmd.sourceforge.net" target="_top">PMD</a> est <a class="indexterm" name="ch09-pmd1"></a><a class="indexterm" name="ch09-pmd2"></a> un autre outil populaire d&#8217;analyse statique. Il se
+                     focalise sur les probl&egrave;mes potentiels de codage comme le code non
+                     utilis&eacute; ou sous-optimis&eacute;, la taille et la complexit&eacute; du code, et les
+                     bonnes pratiques de codage. Certaines r&egrave;gles typiques int&egrave;grent &laquo; Empty
+                     If Statement &raquo;, &laquo; Broken Null Check &raquo;, &laquo; Avoid Deeply Nested If
+                     Statements, &laquo; Switch Statements Should Have Default&raquo;, et &laquo; Logger Is Not
+                     Static Final &raquo;. Il y a une bonne quantit&eacute; de ressemblances avec
+                     certaines r&egrave;gles de Checkstyle, bien que PMD ait quelques r&egrave;gles plus
+                     techniques, et d&#8217;autres plus sp&eacute;cialis&eacute;es tels que les r&egrave;gles relatives
+                     &agrave; JSF et Android.
+            </p>
+            <p>PMD <a class="indexterm" name="ch09-cpd1"></a><a class="indexterm" name="ch09-cpd2"></a>est aussi livr&eacute; avec CPD, un d&eacute;tecteur open source robuste de
+                     code dupliqu&eacute; ou quasi-dupliqu&eacute;.
+            </p>
+            <p>PMD est un peu moins flexible que Checkstyle, bien que vous puissiez
+                     choisir les r&egrave;gles que vous voulez utiliser dans <a class="indexterm" name="I_indexterm9_d1e12984"></a> Eclipse, et les exporter ensuite dans un fichier XML (voir
+                     <a href="sect-code-quality-tools.html#fig-hudson-quality-pmd" title="Figure&nbsp;9.2.&nbsp;Configurer les r&egrave;gles PMD dans Eclipse">Figure&nbsp;9.2, &#8220;Configurer les r&egrave;gles PMD dans Eclipse&#8221;</a>). Vous pouvez alors importer
+                     ces r&egrave;gles dans les autres projets Eclipse, dans Sonar, ou les utiliser
+                     dans vos builds Ant ou Maven.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-quality-pmd"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject9_d1e12995"></a><img src="figs/web/jtdg_0902.png" alt="Configurer les r&egrave;gles PMD dans Eclipse"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;9.2.&nbsp;Configurer les r&egrave;gles PMD dans Eclipse</b></p>
+               </div><br class="figure-break"></div>
+            <p>PMD <a class="indexterm" name="I_indexterm9_d1e13002"></a>est livr&eacute; avec une t&acirc;che Ant que vous pouvez utiliser pour
+                     g&eacute;n&eacute;rer les rapports PMD et CPD. Tout d&#8217;abord, toutefois, vous devez
+                     d&eacute;finir ces t&acirc;ches, comme le montre l&#8217;exemple suivant :
+            </p><a name="I_programlisting9_d1e13010"></a><pre class="programlisting">&lt;path id="pmd.classpath"&gt;
+    &lt;pathelement location="org.apache.maven.model.Build@1460c81d"/&gt;
+    &lt;fileset dir="lib/pmd"&gt;
+        &lt;include name="*.jar"/&gt;
+    &lt;/fileset&gt;
+&lt;/path&gt;
+
+&lt;taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" 
+         classpathref="pmd.classpath"/&gt;
+
+ &lt;taskdef name="cpd" classname="net.sourceforge.pmd.cpd.CPDTask" 
+          classpathref="pmd.classpath"/&gt;</pre><p>Ensuite, vous pouvez g&eacute;n&eacute;rer le rapport PMD XML en invoquant la
+                     t&acirc;che PMD comme illustr&eacute; ici :
+            </p><a name="I_programlisting9_d1e13015"></a><pre class="programlisting">&lt;target name="pmd"&gt;
+ &lt;taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" 
+          classpathref="pmd.classpath"/&gt;
+
+ &lt;pmd rulesetfiles="basic" shortFilenames="true"&gt;
+  &lt;formatter type="xml" toFile="target/pmd.xml" /&gt;
+  &lt;fileset dir="src/main/java" includes="**/*.java"/&gt; 
+ &lt;/pmd&gt;
+&lt;/target&gt;</pre><p>Et, pour g&eacute;n&eacute;rer le rapport CPD XML, vous pouvez faire quelque chose
+                     comme &ccedil;a :
+            </p><a name="I_programlisting9_d1e13020"></a><pre class="programlisting">&lt;target name="cpd"&gt;
+  &lt;cpd minimumTokenCount="100" format="xml" outputFile="/target/cpd.xml"&gt;
+    &lt;fileset dir="src/main/java" includes="**/*.java"/&gt; 
+  &lt;/cpd&gt;
+&lt;/target&gt;</pre><p>Vous pouvez placer l&#8217;ensemble de ces r&egrave;gles XML dans le classpath
+                     de votre projet (par exemple, dans <code class="code">src/main/resources</code> pour
+                     un projet Maven), ou dans un module s&eacute;par&eacute; (si vous voulez partager la
+                     configuration entre les projets). Un exemple sur la fa&ccedil;on de configurer
+                     Maven 2 pour g&eacute;n&eacute;rer des rapports PMD et CPD en utilisant un ensemble de
+                     r&egrave;gles XML export&eacute; est indiqu&eacute; ici :
+            </p><a name="I_programlisting9_d1e13027"></a><pre class="programlisting">&lt;reporting&gt;
+  &lt;plugins&gt;
+    &lt;plugin&gt;
+      &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+      &lt;artifactId&gt;maven-pmd-plugin&lt;/artifactId&gt;
+      &lt;version&gt;2.5&lt;/version&gt;
+      &lt;configuration&gt;
+        &lt;!-- PMD options --&gt;
+        &lt;targetJdk&gt;1.6&lt;/targetJdk&gt;
+        &lt;aggregate&gt;true&lt;/aggregate&gt;
+        &lt;format&gt;xml&lt;/format&gt;
+        &lt;rulesets&gt;
+          &lt;ruleset&gt;/pmd-rules.xml&lt;/ruleset&gt;
+        &lt;/rulesets&gt;
+
+        &lt;!-- CPD options --&gt;
+        &lt;minimumTokens&gt;20&lt;/minimumTokens&gt;
+        &lt;ignoreIdentifiers&gt;true&lt;/ignoreIdentifiers&gt;
+      &lt;/configuration&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/reporting&gt;</pre><p>Si <a class="indexterm" name="I_indexterm9_d1e13031"></a> vous utilisez Maven 3, vous devez placer la d&eacute;finition du
+                     plugin dans la section de configuration
+                     <code class="code">&lt;maven-site-plugin&gt;</code>. Cet exemple montre aussi comment
+                     utiliser un ensemble de r&egrave;gles dans une autre d&eacute;pendance (dans ce cas,
+                     le fichier <code class="filename">pmd-rules.jar</code>):
+            </p><a name="I_programlisting9_d1e13045"></a><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;build&gt;
+    ...
+     &lt;plugins&gt;
+       ...
+       &lt;plugin&gt;
+          &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+          &lt;artifactId&gt;maven-site-plugin&lt;/artifactId&gt;
+          &lt;version&gt;3.0-beta-2&lt;/version&gt;
+          &lt;configuration&gt;
+            &lt;reportPlugins&gt;
+              &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-pmd-plugin&lt;/artifactId&gt;
+                &lt;version&gt;2.5&lt;/version&gt;
+                &lt;configuration&gt;
+                  &lt;!-- PMD options --&gt;
+                  &lt;targetJdk&gt;1.6&lt;/targetJdk&gt;
+                  &lt;aggregate&gt;true&lt;/aggregate&gt;
+                  &lt;format&gt;xml&lt;/format&gt;
+                  &lt;rulesets&gt;
+                    &lt;ruleset&gt;/pmd-rules.xml&lt;/ruleset&gt;
+                  &lt;/rulesets&gt;
+
+                  &lt;!-- CPD options --&gt;
+                  &lt;minimumTokens&gt;50&lt;/minimumTokens&gt;
+                  &lt;ignoreIdentifiers&gt;true&lt;/ignoreIdentifiers&gt;
+                &lt;/configuration&gt;
+              &lt;/plugin&gt;
+            &lt;/reportPlugins&gt;
+          &lt;/configuration&gt;
+          &lt;dependencies&gt;
+            &lt;dependency&gt;
+              &lt;groupId&gt;com.wakaleo.code-quality&lt;/groupId&gt;
+              &lt;artifactId&gt;pmd-rules&lt;/artifactId&gt;
+              &lt;version&gt;1.0.1&lt;/version&gt;
+            &lt;/dependency&gt;
+          &lt;/dependencies&gt;
+        &lt;/plugin&gt;
+      &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</pre><p>Maintenant, vous pouvez ex&eacute;cuter soit <code class="literal">mvn
+                        site</code> soit <code class="literal">mvn pmd:pmd pmd:cpd</code>
+                     pour g&eacute;n&eacute;rer les rapports PMD et CPD.
+            </p>
+            <p>Malheureusement, il n&#8217;existe actuellement aucune prise en charge de
+                     Gradle pour PMD ou CPD, vous devez donc vous contenter d'appeler directement le
+                     plugin PMD pour Ant, comme montr&eacute; ici :
+            </p><a name="I_programlisting9_d1e13057"></a><pre class="programlisting">configurations {
+    pmdConf
+}
+
+dependencies {
+    pmdConf 'pmd:pmd:4.2.5'
+}
+
+task pmd &lt;&lt; {
+    println 'Running PMD static code analysis'
+    ant {
+        taskdef(name:'pmd', classname:'net.sourceforge.pmd.ant.PMDTask', 
+                classpath: configurations.pmdConf.asPath)
+
+        taskdef(name:'cpd', classname:'net.sourceforge.pmd.cpd.CPDTask', 
+                        classpath: configurations.pmdConf.asPath)
+
+        pmd(shortFilenames:'true', failonruleviolation:'false', 
+            rulesetfiles:'conf/pmd-rules.xml') {
+            formatter(type:'xml', toFile:'build/pmd.xml')
+            fileset(dir: "src/main/java") {
+                include(name: '**/*.java')
+            }
+            fileset(dir: "src/test/java") {
+                include(name: '**/*.java')
+            }
+        }
+
+        cpd(minimumTokenCount:'50', format: 'xml',
+            ignoreIdentifiers: 'true',
+            outputFile:'build/cpd.xml') {
+            fileset(dir: "src/main/java") {
+                include(name: '**/*.java')
+            }
+            fileset(dir: "src/test/java") {
+                include(name: '**/*.java')
+            }        
+        }
+    }
+}</pre><p>Cette configuration utilisera la r&egrave;gle PMD configur&eacute; dans le
+                     r&eacute;pertoire <code class="filename">src/config</code>, et g&eacute;n&egrave;rera
+                     un rapport PMD XML appel&eacute; <code class="filename">pmd.xml</code>
+                     dans le r&eacute;pertoire <code class="filename">build</code>. Il
+                     lancera aussi CPD et g&eacute;n&eacute;rera un rapport CPD XML <a class="indexterm" name="I_indexterm9_d1e13070"></a><a class="indexterm" name="I_indexterm9_d1e13072"></a><a class="indexterm" name="I_indexterm9_d1e13074"></a><a class="indexterm" name="I_indexterm9_d1e13076"></a>appel&eacute; <code class="filename">cpd.xml</code> dans
+                     le r&eacute;pertoire <code class="filename">build</code>.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e13349"></a>9.3.3.&nbsp;FindBugs
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>FindBugs<a class="indexterm" name="ch09-find1"></a><a class="indexterm" name="ch09-find2"></a>est un puissant outil d&#8217;analyse de code qui v&eacute;rifie le byte
+                     code de votre application afin de trouver des bogues potentiels, des probl&egrave;mes
+                     de performances, ou des mauvaises habitudes de codage. FindBugs est le
+                     r&eacute;sultat d&#8217;une recherche  men&eacute;e par Bill Pugh &agrave; l&#8217;universit&eacute; du Maryland,
+               	  et qui &eacute;tudie les mod&egrave;les de byte code venant de bogues dans de
+                     r&eacute;els grands projets, comme les JDKs, Eclipse, ou le code source
+                     d&#8217;applications Google. FindBugs peut d&eacute;tecter des probl&egrave;mes assez
+                     importants tels que des exceptions de pointeurs nuls, des boucles
+                     infinies, et un acc&egrave;s non intentionnel de l&#8217;&eacute;tat interne d&#8217;un objet.
+                     Contrairement &agrave; beaucoup d&#8217;autres outils d&#8217;analyse statique, FindBugs
+                     tend &agrave; trouver un plus petit nombre de probl&egrave;mes, mais de ces probl&egrave;mes,
+                     une grande partie sera importante.
+            </p>
+            <p>FIndBugs est moins configurable que les autres outils que nous
+                     avons vu, mais en pratique vous n&#8217;avez g&eacute;n&eacute;ralement pas besoin d&#8217;affiner
+                     autant les r&egrave;gles qu'avec les autres outils dont nous avons discut&eacute;. Vous
+                     pouvez lister les r&egrave;gles individuelles que vous voulez appliquer, mais
+                     vous ne pouvez pas configurer un fichier XML partag&eacute; entre vos builds
+                     Maven et votre IDE, par exemple.
+            </p>
+            <p>FindBugs <a class="indexterm" name="I_indexterm9_d1e13107"></a>est livr&eacute;e empaquet&eacute; avec une t&acirc;che Ant. Vous pouvez
+                     d&eacute;finir la t&acirc;che FindBugs dans Ant comme montr&eacute; en dessous. FindBugs a
+                     besoin de r&eacute;f&eacute;rencer le r&eacute;pertoire home de FindBugs, qui est o&ugrave; la
+                     distribution binaire a &eacute;t&eacute; d&eacute;compress&eacute;e. Pour rendre le build plus
+                     portable, nous stockons l&#8217;installation de FIndBugs dans la structure
+                     de r&eacute;pertoire de notre projet, dans le r&eacute;pertoire <code class="filename">tools/findbugs</code> :
+            </p><a name="I_programlisting9_d1e13118"></a><pre class="programlisting">&lt;property name="findbugs.home" value="tools/findbugs" /&gt;
+
+&lt;taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" &gt; 
+  &lt;classpath&gt;
+    &lt;fileset dir="${findbugs.home}/lib" includes="**/*.jar"/&gt;
+  &lt;/classpath&gt;
+&lt;/taskdef&gt;</pre><p>Ensuite, pour ex&eacute;cuter FindBugs, vous pourrez configurer une cible
+                     &#8216;findbugs&#8217; comme montr&eacute; dans l&#8217;exemple suivant. A noter que FindBugs
+                     s'ex&eacute;cute sur le byte code de votre application, et non sur le code source, donc
+                     vous devez compiler votre code source en premier
+                     :
+            </p><a name="I_programlisting9_d1e13122"></a><pre class="programlisting">&lt;target name="findbugs" depends="compile"&gt; 
+  &lt;findbugs home="${findbugs.home}" output="xml" outputFile="target/findbugs.xml"&gt;
+    &lt;class location="${classes.dir}" /&gt; 
+    &lt;auxClasspath refId="dependency.classpath" /&gt; 
+    &lt;sourcePath path="src/main/java" /&gt;
+  &lt;/findbugs&gt;
+&lt;/target&gt;</pre><p>Si <a class="indexterm" name="I_indexterm9_d1e13126"></a>vous utilisez Maven 2, vous n&#8217;avez pas besoin de garder
+                     une copie locale de l&#8217;installation de FindBugs. Vous avez juste besoin de
+                     configurer FindBugs dans la section reporting comme montr&eacute; ici :
+            </p><a name="I_programlisting9_d1e13134"></a><pre class="programlisting">&lt;reporting&gt;
+  &lt;plugins&gt;
+    &lt;plugin&gt;
+      &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+      &lt;artifactId&gt;findbugs-maven-plugin&lt;/artifactId&gt;
+      &lt;version&gt;2.3.1&lt;/version&gt;
+      &lt;configuration&gt;
+        &lt;effort&gt;Max&lt;/effort&gt;
+        &lt;xmlOutput&gt;true&lt;/xmlOutput&gt;
+      &lt;/configuration&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/reporting&gt;</pre><p>Ou pour un projet Maven 3 :</p><a name="I_programlisting9_d1e13138"></a><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;build&gt;
+    ...
+     &lt;plugins&gt;
+       ...
+       &lt;plugin&gt;
+          &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+          &lt;artifactId&gt;maven-site-plugin&lt;/artifactId&gt;
+          &lt;version&gt;3.0-beta-2&lt;/version&gt;
+          &lt;configuration&gt;
+            &lt;reportPlugins&gt;
+                &lt;plugin&gt;
+                  &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+                  &lt;artifactId&gt;findbugs-maven-plugin&lt;/artifactId&gt;
+                  &lt;version&gt;2.3.1&lt;/version&gt;
+                  &lt;configuration&gt;
+                    &lt;effort&gt;Max&lt;/effort&gt;
+                    &lt;xmlOutput&gt;true&lt;/xmlOutput&gt;
+                  &lt;/configuration&gt;
+                &lt;/plugin&gt;
+            &lt;/reportPlugins&gt;
+          &lt;/configuration&gt;
+        &lt;/plugin&gt;
+      &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</pre><p>Dans les deux cas, vous pouvez g&eacute;n&eacute;rer vos rapports XML en
+                     lan&ccedil;ant soit <code class="literal">mvn site</code> soit <code class="literal">mvn findbugs:findbugs</code>. Les rapports XML seront
+                     plac&eacute;s dans le r&eacute;pertoire <code class="filename">target</code>.
+            </p>
+            <p>Au moment de la r&eacute;daction, il n&#8217;y a pas de prise en charge de
+                     FindBugs dans Gradle, donc vous devez invoquer le plugin Ant de
+                     FindBugs<a class="indexterm" name="I_indexterm9_d1e13154"></a><a class="indexterm" name="I_indexterm9_d1e13156"></a>.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e13418"></a>9.3.4.&nbsp;CodeNarc
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>CodeNarc<a class="indexterm" name="ch09-narc1"></a><a class="indexterm" name="ch09-narc2"></a><a class="indexterm" name="ch09-narc3"></a> est un outil d&#8217;analyse statique de code Groovy, similaire &agrave; PMD
+                     pour Java. Il v&eacute;rifie le code source Groovy afin de trouver des d&eacute;fauts potentiels,
+                     des mauvais styles et pratiques de codage, du code trop complexe, et
+                     ainsi de suite. Des r&egrave;gles typiques incluent &laquo; Constant If Expression &raquo;,
+                     &laquo; Empty Else Block &raquo;, &laquo; GString As Map Key &raquo;, et &laquo; Grails Stateless
+                     Service &raquo;.
+            </p>
+            <p>Pour <a class="indexterm" name="I_indexterm9_d1e13180"></a><a class="indexterm" name="I_indexterm9_d1e13187"></a>des projets bas&eacute;s sur Maven ou Ant, le plus simple est d'utiliser 
+               		le plugin Ant de CodeNarc (un plugin Maven est en cours de 
+                     d&eacute;veloppement au moment de l'&eacute;criture du livre). Une configuration typique de
+                     Ant pour l&#8217;utiliser avec Jenkins ressemblerait &agrave; ceci :
+            </p><a name="I_programlisting9_d1e13195"></a><pre class="programlisting">&lt;taskdef name="codenarc" classname="org.codenarc.ant.CodeNarcTask"/&gt;
+&lt;target name="runCodeNarc"&gt;
+    &lt;codenarc ruleSetFiles="rulesets/basic.xml,rulesets/imports.xml"
+              maxPriority1Violations="0"&gt;
+
+        &lt;report type="xml"&gt;
+            &lt;option name="outputFile" value="reports/CodeNarc.xml" /&gt;
+        &lt;/report&gt;
+
+        &lt;fileset dir="src"&gt;
+            &lt;include name="**/*.groovy"/&gt;
+        &lt;/fileset&gt;
+    &lt;/codenarc&gt;
+&lt;/target&gt;</pre><p>Vous <a class="indexterm" name="I_indexterm9_d1e13199"></a>pouvez int&eacute;grer CodeNarc dans un projet Grails simplement
+                     en installant le plugin CodeNarc :
+            </p><a name="I_programlisting9_d1e13205"></a><pre class="programlisting">$ grails install-plugin codenarc</pre><p>Cela configurera CodeNarc pour analyser les fichiers Groovy dans
+                     le code de votre application Grails, aussi bien que dans les
+                     r&eacute;pertoires<code class="filename"> src/groovy</code> et <code class="filename">test</code>.
+            </p>
+            <p>Gradle<a class="indexterm" name="I_indexterm9_d1e13217"></a> 0.8 fournit aussi une prise en charge de CodeNarc dans le
+                     plugin de qualit&eacute; de code, que vous pouvez le configurer dans vos builds
+                     comme montr&eacute; ici :
+            </p><a name="I_programlisting9_d1e13225"></a><pre class="programlisting">apply plugin: 'code-quality'</pre><p>Cela utilisera par d&eacute;faut le fichier de configuration de CodeNarc suivant
+                     <code class="filename">config/codenarc/codenarc.xml</code>.
+                     Vous pouvez red&eacute;finir cela avec la propri&eacute;t&eacute;
+                     <code class="code">codeNarcConfigFileName</code>.
+            </p>
+            <p>Vous pouvez g&eacute;n&eacute;rer les rapports CodeNarc en ex&eacute;cutant <code class="literal">gradle codenarcMain</code> ou, plus <a class="indexterm" name="I_indexterm9_d1e13240"></a><a class="indexterm" name="I_indexterm9_d1e13242"></a><a class="indexterm" name="I_indexterm9_d1e13244"></a>simplement, <code class="literal">gradle
+                        check</code>.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-build-process.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-violations.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">9.2.&nbsp;La qualit&eacute; du code dans votre processus de build&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;9.4.&nbsp;Rapports de probl&egrave;mes de qualit&eacute; de code avec le plugin
+                      Violations
+               </td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

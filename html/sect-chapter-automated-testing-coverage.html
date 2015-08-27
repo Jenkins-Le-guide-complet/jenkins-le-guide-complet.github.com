@@ -1,0 +1,715 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>6.6.&nbsp;Couverture de code</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-automated-testing.html" title="Chapter&nbsp;6.&nbsp;Tests automatis&eacute;s">
+      <link rel="prev" href="sect-chapter-automated-testing-ignoring.html" title="6.5.&nbsp;Ignorer des tests">
+      <link rel="next" href="sect-chapter-automated-testing-acceptance.html" title="6.7.&nbsp;Tests d'acceptation automatis&eacute;s">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-ignoring.html">6.5.&nbsp;Ignorer des tests</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-acceptance.html">6.7.&nbsp;Tests d'acceptation automatis&eacute;s</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-chapter-automated-testing-coverage"></a>6.6.&nbsp;Couverture de code
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Une autre <a class="indexterm" name="ch06-coverage"></a>m&eacute;trique tr&egrave;s utile li&eacute;e aux tests est la couverture de code.
+            La couverture de code donne une indication sur les parties de votre
+            application qui ont &eacute;t&eacute; ex&eacute;cut&eacute;es pendant les tests. Alors que ce n'est pas
+            en soit une indication suffisante sur la qualit&eacute; du test (il est facile
+            d'ex&eacute;cuter une application enti&egrave;re sans r&eacute;ellement tester quoique ce soit,
+                et les m&eacute;triques de couverture de code ne fournissent pas une indication de
+                la qualit&eacute; ou de l'exactitude de vos tests), c'est une bonne indication du
+                code qui <span class="emphasis"><em>n'a pas</em></span> &eacute;t&eacute; test&eacute;. Et, si votre &eacute;quipe est en
+                train d'adopter des pratiques de test rigoureuses telles que
+                Test-Driven-Development, la couverture de code peut &ecirc;tre un bon indicateur
+                sur la fa&ccedil;on dont ces pratiques ont &eacute;t&eacute; mises en place.
+         </p>
+         <p>L'analyse de la couverture de code<a class="indexterm" name="I_indexterm6_d1e9060"></a> est un traitement consommateur en CPU et m&eacute;moire, et va
+                ralentir votre t&acirc;che de build de fa&ccedil;on significative. Pour cette raison,
+                vous allez g&eacute;n&eacute;ralement ex&eacute;cuter les m&eacute;triques de couverture de code dans
+                une t&acirc;che de build Jenkins s&eacute;par&eacute;e, ex&eacute;cut&eacute;e apr&egrave;s que vos tests unitaires
+                et d'int&eacute;gration aient <span class="keep-together">r&eacute;ussi</span>.
+         </p>
+         <p>Il y a<a class="indexterm" name="I_indexterm6_d1e9071"></a> de nombreux outils de couverture de code disponibles, et
+                plusieurs sont support&eacute;s dans Jenkins, tous via des plugins d&eacute;di&eacute;s. Les
+                d&eacute;veloppeurs Java peuvent choisir entre Cobertura et Emma, deux outils
+                populaires de couverture de code open source, ou Clover, un puissant outil
+                commercial de couverture de code d'Atlassian. Pour les projets .NET, vous
+                pouvez utiliser NCover.
+         </p>
+         <p>Le fonctionnement et la configuration de tous ces outils sont
+                semblables. Dans cette section, nous allons examiner Cobertura.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e9283"></a>6.6.1.&nbsp;Mesurer la couverture de code avec Cobertura
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://cobertura.sourceforge.net" target="_top">Cobertura</a><a class="indexterm" name="ch06-cobertura1"></a><a class="indexterm" name="ch06-cobertura2"></a> est un outil de couverture de code open source pour Java et
+                     Groovy qui est simple d'utilisation et s'int&egrave;gre parfaitement &agrave; la fois
+                     dans Maven et Jenkins.
+            </p>
+            <p>Comme tous les plugins Jenkins de m&eacute;triques de qualit&eacute; de code,
+                       <sup>[<a name="d0e9300" href="#ftn.d0e9300">3</a>]</sup> le plugin Cobertura pour Jenkins ne va pas lancer les tests
+                     de couverture de code pour vous. C'est &agrave; vous de g&eacute;n&eacute;rer les informations
+                     de couverture de code dans le cadre de votre processus de build
+                     automatis&eacute;. Jenkins, d'autre part, fournit un excellent travail de
+                     <span class="emphasis"><em>rapport</em></span> sur les m&eacute;triques de couverture de code,
+                     notamment le suivi de la couverture de code dans le temps, et fournissant
+                     une couverture de code agr&eacute;g&eacute;e sur plusieurs modules applicatifs.
+            </p>
+            <p>La couverture de code peut &ecirc;tre une affaire complexe, et il est
+                     utile de comprendre le traitement que Cobertura effectue, surtout quand
+                     vous devez le mettre en place dans des outils de scripting de plus bas
+                     niveau comme Ant. L'analyse de la couverture de code fonctionne en trois
+                     &eacute;tapes. D'abord, il modifie (ou &#8220;instrumente&#8221;) les classes de votre
+                     application, afin qu'elles conservent le nombre de fois que chaque ligne
+                     de code a &eacute;t&eacute; ex&eacute;cut&eacute;e.<sup>[<a name="d0e9309" href="#ftn.d0e9309">4</a>]</sup>Il stocke ces informations dans un fichier sp&eacute;cial (Cobertura
+                     utilise un fichier nomm&eacute; <code class="filename">cobertura.ser</code>).
+            </p>
+            <p>Quand le code de l'application a &eacute;t&eacute; instrument&eacute;, vous ex&eacute;cutez vos
+                     tests avec le code instrument&eacute;. A la fin des tests, Cobertura aura g&eacute;n&eacute;r&eacute;
+                     un fichier de donn&eacute;es indiquant pour chaque ligne le nombre de fois
+                     qu'elle a &eacute;t&eacute; ex&eacute;cut&eacute;e au cours des tests.
+            </p>
+            <p>Une fois que ce fichier a &eacute;t&eacute; g&eacute;n&eacute;r&eacute;, Cobertura peut utiliser cette
+                     donn&eacute;e pour g&eacute;n&eacute;rer un rapport dans un format plus lisible, comme XML ou
+                     HTML.
+            </p>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e9320"></a>6.6.1.1.&nbsp;Int&eacute;grer Cobertura avec Maven
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Produire<a class="indexterm" name="ch06-maven1"></a><a class="indexterm" name="ch06-maven2"></a> des m&eacute;triques de couverture de code avec Cobertura dans
+                          Maven est relativement simple. Si vous &ecirc;tes int&eacute;ress&eacute;s par la g&eacute;n&eacute;ration
+                          des donn&eacute;es de couverture de code, il vous suffit de rajouter le
+                          <span><strong class="command">cobertura-maven-plugin</strong></span> &agrave; la section
+                          build de votre fichier <code class="filename">pom.xml</code>:
+               </p><a name="I_programlisting6_d1e9138"></a><pre class="programlisting"> &lt;project&gt;
+   ...
+   &lt;build&gt;
+      &lt;plugins&gt;
+         &lt;plugin&gt;
+            &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+             &lt;artifactId&gt;cobertura-maven-plugin&lt;/artifactId&gt;
+             &lt;version&gt;2.5.1&lt;/version&gt;
+             &lt;configuration&gt;
+             &lt;formats&gt;
+                &lt;format&gt;html&lt;/format&gt;
+                &lt;format&gt;xml&lt;/format&gt;
+             &lt;/formats&gt;
+           &lt;/configuration&gt;
+         &lt;/plugin&gt;
+         ...
+      &lt;/plugins&gt;
+   &lt;build&gt;
+   ...
+&lt;/project&gt;</pre><p>Cela va g&eacute;n&eacute;rer les m&eacute;triques de couverture de code quand vous
+                          lancerez le plugin Cobertura <span class="keep-together">directement</span> :
+               </p><pre class="screen">$ <strong class="userinput"><code>mvn cobertura:cobertura</code></strong></pre><p>Les donn&eacute;es de couverture de code seront g&eacute;n&eacute;r&eacute;es dans le
+                          r&eacute;pertoire <code class="filename">target/site/cobertura</code>,
+                          dans un fichier nomm&eacute; <code class="filename">coverage.xml</code>.
+               </p>
+               <p>Cependant, cette approche va instrumenter vos classes et produire
+                          les donn&eacute;es de couverture de code pour chaque build, ce qui est
+                          inefficace. Une meilleure approche est de placer cette configuration
+                          dans un profil sp&eacute;cifique, comme montr&eacute; ici :
+               </p><a name="I_programlisting6_d1e9159"></a><pre class="programlisting"> &lt;project&gt;
+   ...
+   &lt;profiles&gt;
+    &lt;profile&gt;
+      &lt;id&gt;metrics&lt;/id&gt;
+      &lt;build&gt;
+        &lt;plugins&gt;
+          &lt;plugin&gt;
+            &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+            &lt;artifactId&gt;cobertura-maven-plugin&lt;/artifactId&gt;
+            &lt;version&gt;2.5.1&lt;/version&gt;
+            &lt;configuration&gt;
+              &lt;formats&gt;
+                &lt;format&gt;html&lt;/format&gt;
+                &lt;format&gt;xml&lt;/format&gt;
+              &lt;/formats&gt;
+            &lt;/configuration&gt;
+          &lt;/plugin&gt;
+        &lt;/plugins&gt;
+      &lt;/build&gt;
+    &lt;/profile&gt;
+    ...
+  &lt;/profiles&gt;
+&lt;/project&gt;</pre><p>Dans ce cas, vous lancerez le plugin Cobertura en utilisant le
+                          profil metrics pour g&eacute;n&eacute;rer les donn&eacute;es de couverture de code :
+               </p><pre class="screen">$ <strong class="userinput"><code>mvn cobertura:cobertura -Pmetrics</code></strong></pre><p>Une autre approche consiste &agrave; inclure les rapports de couverture
+                          de code dans vos rapports Maven. Cette approche est beaucoup plus lente
+                          et plus consommatrice en m&eacute;moire que de g&eacute;n&eacute;rer simplement les donn&eacute;es
+                          de couverture de code, mais cela peut avoir du sens si vous g&eacute;n&eacute;rez
+                          aussi d'autres m&eacute;triques de qualit&eacute; de code et leurs rapports en m&ecirc;me
+                          temps. Si vous voulez le faire avec Maven 2, vous devez aussi inclure le
+                          plugin Maven Cobertura plugin dans la section reporting, comme montr&eacute;
+                          ici :
+               </p><a name="I_programlisting6_d1e9170"></a><pre class="programlisting"> &lt;project&gt;
+   ...
+  &lt;reporting&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+        &lt;artifactId&gt;cobertura-maven-plugin&lt;/artifactId&gt;
+        &lt;version&gt;2.5.1&lt;/version&gt;
+        &lt;configuration&gt;
+          &lt;formats&gt;
+            &lt;format&gt;html&lt;/format&gt;
+            &lt;format&gt;xml&lt;/format&gt;
+          &lt;/formats&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/reporting&gt;
+&lt;/project&gt;</pre><p>A pr&eacute;sent, les donn&eacute;es de couverture de code seront g&eacute;n&eacute;r&eacute;es quand
+                          vous g&eacute;n&eacute;rerez le site Maven pour ce projet :
+               </p><pre class="screen">$ <strong class="userinput"><code>mvn site</code></strong></pre><p>Si votre projet Maven contient des modules (comme il est de
+                          pratique courante pour des gros projets Maven), vous devez mettre en
+                          place la configuration Cobertura dans le <span class="keep-together">fichier </span><code class="filename">pom.xml</code> parent. Les m&eacute;triques de couverture
+                          de code et le rapport seront g&eacute;n&eacute;r&eacute;s s&eacute;par&eacute;ment pour chaque module. Si
+                          vous utilisez l'option de configuration <code class="literal">aggregate</code>, le plugin Maven Cobertura g&eacute;n&egrave;rera
+                          aussi un rapport de plus haut niveau combinant les donn&eacute;es de couverture
+                          de code de tous les modules. Cependant, que vous utilisiez cette option
+                          ou non, le plugin Jenkins Cobertura va lire les donn&eacute;es de couverture de
+                          code de plusieurs fichiers et les combiner dans un seul rapport
+                          aggr&eacute;g&eacute;.
+               </p>
+               <p>Au moment de la r&eacute;daction, il y a une limitation avec le plugin
+                          Maven Cobertura &#8212; la couverture de code sera uniquement enregistr&eacute;e pour
+                          les tests ex&eacute;cut&eacute;s pendant la phase <span><strong class="command">test</strong></span>, et pas les tests ex&eacute;cut&eacute;s pendant la
+                          phase <span><strong class="command">integration-test</strong></span>. Cela peut
+                          &ecirc;tre un probl&egrave;me si vous utilisez cette phase pour lancer des tests
+                          d'int&eacute;gration ou des tests web qui n&eacute;cessitent une application
+                          compl&egrave;tement packag&eacute;e et d&eacute;ploy&eacute;e &#8212; dans ce cas, la couverture de code
+                          des tests qui sont uniquement ex&eacute;cut&eacute;s pendant la phase integration-test
+                          ne sera pas compt&eacute;e dans les m&eacute;triques de couverture de code<a class="indexterm" name="I_indexterm6_d1e9197"></a><a class="indexterm" name="I_indexterm6_d1e9199"></a> Cobertura.
+               </p>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e9404"></a>6.6.1.2.&nbsp;Int&eacute;grer Cobertura avec Ant
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Int&eacute;grer <a class="indexterm" name="ch06-ant1"></a><a class="indexterm" name="ch06-ant2"></a>Cobertura dans votre build Ant est un peu plus compliqu&eacute;
+                          que de le faire avec Maven. Cependant, cela vous permet d'avoir un
+                          contr&ocirc;le plus fin sur les classes qui sont instrument&eacute;es, et quand la
+                          couverture de code est mesur&eacute;e.
+               </p>
+               <p>Cobertura est livr&eacute; avec une t&acirc;che Ant que vous pouvez utiliser
+                          pour int&eacute;grer Cobertura dans vos builds Ant. You devez t&eacute;l&eacute;charger la
+                          derni&egrave;re distribution Cobertura, et la d&eacute;compresser quelque part sur
+                          votre disque dur. Afin que votre build soit plus portable, et donc plus
+                          facile &agrave; d&eacute;ployer dans Jenkins, c'est une bonne id&eacute;e de placer la
+                          distribution Cobertura que vous utilisez dans votre r&eacute;pertoire projet,
+                          et de la sauvegarder dans votre syst&egrave;me de gestion de version. Ainsi,
+                          c'est le moyen le plus facile pour garantir que le build utilisera la
+                          m&ecirc;me version de Cobertura quelle que soit la fa&ccedil;on dont il est
+                          ex&eacute;cut&eacute;.
+               </p>
+               <p>En supposant que vous avez t&eacute;l&eacute;charg&eacute; la derni&egrave;re installation de
+                          Cobertura et que vous l'avez plac&eacute;e &agrave; l'int&eacute;rieur de votre projet dans
+                          un r&eacute;pertoire nomm&eacute; <code class="filename">tools</code>, vous
+                          pourriez faire quelque chose comme ceci :
+               </p><a name="I_programlisting6_d1e9225"></a><pre class="programlisting">&lt;property name="cobertura.dir" value="/jenkins-guide-complet/hudsonbook-content-fr/tools/cobertura" /&gt;<a name="co-ch04-cobertura-dir"></a><img src="../images/callouts/1.png" alt="1" border="0">
+
+&lt;path id="cobertura.classpath"&gt;<a name="co-ch04-cobertura-path"></a><img src="../images/callouts/2.png" alt="2" border="0">
+    &lt;fileset dir="${cobertura.dir}"&gt;
+        &lt;include name="cobertura.jar" /&gt;<a name="co-ch04-cobertura-jar"></a><img src="../images/callouts/3.png" alt="3" border="0">
+        &lt;include name="lib/**/*.jar" /&gt;<a name="co-ch04-cobertura-libs"></a><img src="../images/callouts/4.png" alt="4" border="0">
+    &lt;/fileset&gt;
+&lt;/path&gt;
+
+&lt;taskdef classpathref="cobertura.classpath" resource="tasks.properties" /&gt;</pre><div class="calloutlist">
+                  <table border="0" summary="Callout list">
+                     <tr>
+                        <td width="5%" valign="top" align="left"><a href="#co-ch04-cobertura-dir"><img src="../images/callouts/1.png" alt="1" border="0"></a> 
+                        </td>
+                        <td valign="top" align="left">
+                           <p>Indique &agrave; Ant o&ugrave; se trouve l'installation de Cobertura.</p>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td width="5%" valign="top" align="left"><a href="#co-ch04-cobertura-path"><img src="../images/callouts/2.png" alt="2" border="0"></a> 
+                        </td>
+                        <td valign="top" align="left">
+                           <p>Nous devons mettre en place un classpath que Cobertura
+                                          utilisera pour s'ex&eacute;cuter.
+                           </p>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td width="5%" valign="top" align="left"><a href="#co-ch04-cobertura-jar"><img src="../images/callouts/3.png" alt="3" border="0"></a> 
+                        </td>
+                        <td valign="top" align="left">
+                           <p>Le chemin contient l'application Cobertura elle-m&ecirc;me.</p>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td width="5%" valign="top" align="left"><a href="#co-ch04-cobertura-libs"><img src="../images/callouts/4.png" alt="4" border="0"></a> 
+                        </td>
+                        <td valign="top" align="left">
+                           <p>Et toutes ses d&eacute;pendances.</p>
+                        </td>
+                     </tr>
+                  </table>
+               </div>
+               <p>Ensuite, vous devez instrumenter les classes de l'application.
+                          Vous devez faire attention de placer ces classes instrument&eacute;es dans un
+                          r&eacute;pertoire diff&eacute;rent, de telle mani&egrave;re qu'elles ne seront pas d&eacute;ploy&eacute;es
+                          en production par accident :
+               </p><a name="I_programlisting6_d1e9250"></a><pre class="programlisting">&lt;target name="instrument" depends="init,compile"&gt;<a name="co-ch04-cobertura-instrumentation"></a><img src="../images/callouts/1.png" alt="1" border="0">
+    &lt;delete file="cobertura.ser"/&gt;<a name="co-ch04-cobertura-delete"></a><img src="../images/callouts/2.png" alt="2" border="0">
+    &lt;delete dir="${instrumented.dir}" /&gt;<a name="co-ch04-cobertura-delete-instrumented"></a><img src="../images/callouts/3.png" alt="3" border="0">
+    &lt;cobertura-instrument todir="${instrumented.dir}"&gt;<a name="co-ch04-cobertura-instrument"></a><img src="../images/callouts/4.png" alt="4" border="0">
+        &lt;fileset dir="${classes.dir}"&gt;
+            &lt;include name="**/*.class" /&gt;
+            &lt;exclude name="**/*Test.class" /&gt;
+        &lt;/fileset&gt;
+    &lt;/cobertura-instrument&gt;
+&lt;/target&gt;</pre><div class="calloutlist">
+                  <table border="0" summary="Callout list">
+                     <tr>
+                        <td width="5%" valign="top" align="left"><a href="#co-ch04-cobertura-instrumentation"><img src="../images/callouts/1.png" alt="1" border="0"></a> 
+                        </td>
+                        <td valign="top" align="left">
+                           <p>Nous ne pouvons instrumenter les classes de l'application
+                                          qu'une fois qu'elles ont &eacute;t&eacute; compil&eacute;es.
+                           </p>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td width="5%" valign="top" align="left"><a href="#co-ch04-cobertura-delete"><img src="../images/callouts/2.png" alt="2" border="0"></a> 
+                        </td>
+                        <td valign="top" align="left">
+                           <p>D&eacute;truit toutes les donn&eacute;es de couverture de code g&eacute;n&eacute;r&eacute;es par
+                                          les builds pr&eacute;c&eacute;dents.
+                           </p>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td width="5%" valign="top" align="left"><a href="#co-ch04-cobertura-delete-instrumented"><img src="../images/callouts/3.png" alt="3" border="0"></a> 
+                        </td>
+                        <td valign="top" align="left">
+                           <p>D&eacute;truit toutes les classes pr&eacute;c&eacute;demment instrument&eacute;es.</p>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td width="5%" valign="top" align="left"><a href="#co-ch04-cobertura-instrument"><img src="../images/callouts/4.png" alt="4" border="0"></a> 
+                        </td>
+                        <td valign="top" align="left">
+                           <p>Instrumente les classes de l'application (mais pas les classes
+                                          des tests) et les place dans le r&eacute;pertoire <span class="keep-together"><code class="filename">${instrumented.dir}</code></span> .
+                           </p>
+                        </td>
+                     </tr>
+                  </table>
+               </div>
+               <p>A ce stade, le r&eacute;pertoire <code class="filename">${instrumented.dir}</code> contient une version
+                          instrument&eacute;e de nos classes applicatives. Maintenant, tout ce que nous
+                          devons faire pour g&eacute;n&eacute;rer des donn&eacute;es utiles de couverture de code est
+                          d'ex&eacute;cuter nos tests unitaires avec les classes de ce r&eacute;pertoire
+                          :
+               </p><a name="I_programlisting6_d1e9282"></a><pre class="programlisting">&lt;target name="test-coverage" depends="instrument"&gt;
+    &lt;junit fork="yes" dir="/jenkins-guide-complet/hudsonbook-content-fr"&gt;<a name="co-ch04-cobertura-junit"></a><img src="../images/callouts/1.png" alt="1" border="0">
+        &lt;classpath location="${instrumented.dir}" /&gt;
+        &lt;classpath location="${classes.dir}" /&gt;
+        &lt;classpath refid="cobertura.classpath" /&gt;<a name="co-ch04-cobertura-classpath"></a><img src="../images/callouts/2.png" alt="2" border="0">
+
+        &lt;formatter type="xml" /&gt;
+        &lt;test name="${testcase}" todir="${reports.xml.dir}" if="testcase" /&gt;
+        &lt;batchtest todir="${reports.xml.dir}" unless="testcase"&gt;
+            &lt;fileset dir="${src.dir}"&gt;
+                &lt;include name="**/*Test.java" /&gt;
+            &lt;/fileset&gt;
+        &lt;/batchtest&gt;
+    &lt;/junit&gt;
+&lt;/target&gt;</pre><div class="calloutlist">
+                  <table border="0" summary="Callout list">
+                     <tr>
+                        <td width="5%" valign="top" align="left"><a href="#co-ch04-cobertura-junit"><img src="../images/callouts/1.png" alt="1" border="0"></a> 
+                        </td>
+                        <td valign="top" align="left">
+                           <p>Ex&eacute;cute les tests JUnit avec les classes instrument&eacute;es.</p>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td width="5%" valign="top" align="left"><a href="#co-ch04-cobertura-classpath"><img src="../images/callouts/2.png" alt="2" border="0"></a> 
+                        </td>
+                        <td valign="top" align="left">
+                           <p>Les classes instrument&eacute;es utilisent les classes de Cobertura,
+                                          donc les biblioth&egrave;ques Cobertura doivent aussi se trouver dans le
+                                          classpath.
+                           </p>
+                        </td>
+                     </tr>
+                  </table>
+               </div>
+               <p>Cela va produire les donn&eacute;es brutes de couverture de code dont
+                          nous avons besoin pour produire les rapports XML de couverture que
+                          Jenkins peut utiliser. Pour produire ces rapports, nous devons lancer
+                          une autre t&acirc;che, comme montr&eacute; ici :
+               </p><a name="I_programlisting6_d1e9298"></a><pre class="programlisting">&lt;target name="coverage-report" depends="test-coverage"&gt;
+    &lt;cobertura-report srcdir="${src.dir}" destdir="${coverage.xml.dir}" 
+                      format="xml" /&gt;
+&lt;/target&gt;</pre><p>Enfin, n'oubliez pas de faire le m&eacute;nage une fois que tout est fini
+                          : la cible <span><strong class="command">clean</strong></span> ne doit pas d&eacute;truire
+                          uniquement les classes g&eacute;n&eacute;r&eacute;es, mais aussi les classes g&eacute;n&eacute;r&eacute;es
+                          instrument&eacute;es, les donn&eacute;es de couverture de code Cobertura, et les
+                          rapports Cobertura :
+               </p><a name="I_programlisting6_d1e9305"></a><pre class="programlisting">&lt;target name="clean" 
+        description="Remove all files created by the build/test process."&gt;
+    &lt;delete dir="${classes.dir}" /&gt;
+    &lt;delete dir="${instrumented.dir}" /&gt;
+    &lt;delete dir="${reports.dir}" /&gt;
+    &lt;delete file="cobertura.log" /&gt;
+    &lt;delete file="cobertura.ser" /&gt;
+&lt;/target&gt;</pre><p>Une fois cela fait, vous &ecirc;tes pr&ecirc;t &agrave; int&eacute;grer vos <a class="indexterm" name="I_indexterm6_d1e9309"></a><a class="indexterm" name="I_indexterm6_d1e9311"></a>rapports de couverture de code dans Jenkins.
+               </p>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e9515"></a>6.6.1.3.&nbsp;Installer le plugin de couverture de code Cobertura
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Une fois que <a class="indexterm" name="I_indexterm6_d1e9319"></a><a class="indexterm" name="I_indexterm6_d1e9322"></a>les donn&eacute;es de couverture de code sont g&eacute;n&eacute;r&eacute;es dans le
+                          cadre de votre processus de build, vous pouvez configurer Jenkins pour
+                          les afficher. Ceci implique l'installation du plugin Jenkins Cobertura.
+                          Nous avons d&eacute;crit ce processus dans <a href="sect-first-steps-metrics.html" title="2.8.&nbsp;Adding Code Coverage and Other Metrics">Section&nbsp;2.8, &#8220;Adding Code Coverage and Other Metrics&#8221;</a><span class="keep-together">,
+                             mais</span> nous allons le d&eacute;crire &agrave; nouveau pour rafra&icirc;chir votre
+                          m&eacute;moire. Allez sur l'&eacute;cran Administrer Jenkins, et cliquez sur Gestion
+                          des plugins. Cela va vous amener &agrave; l'&eacute;cran du gestionnaire des plugins.
+                          Si Cobertura n'a pas &eacute;t&eacute; install&eacute;, vous trouverez le plugin Cobertura
+                          dans l'onglet Disponibles, dans la section Build Reports (voir <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-cobertura-plugin" title="Figure&nbsp;6.11.&nbsp;Installer le plugin Cobertura">Figure&nbsp;6.11, &#8220;Installer le plugin Cobertura&#8221;</a>). Pour l'installer, cochez
+                          simplement la case et appuyez sur Entr&eacute;e (ou faites d&eacute;filer jusqu'au bas
+                          de l'&eacute;cran et cliquez sur le bouton &#8220;Installer&#8221;). Jenkins va t&eacute;l&eacute;charger
+                          et installer le plugin pour vous. Une fois que le t&eacute;l&eacute;chargement est
+                          fini, vous devez red&eacute;marrer votre serveur Jenkins.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-hudson-cobertura-plugin"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject6_d1e9337"></a><img src="figs/web/jtdg_0611.png" alt="Installer le plugin Cobertura"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;6.11.&nbsp;Installer le plugin Cobertura</b></p>
+                  </div><br class="figure-break"></div>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e9543"></a>6.6.1.4.&nbsp;Les rapports de couverture de code dans votre build
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Une fois que <a class="indexterm" name="ch06-job2"></a>vous avez install&eacute; le plugin, vous pouvez mettre en place
+                          les rapports de couverture de code dans vos t&acirc;ches de build. Puisque la
+                          couverture de code peut &ecirc;tre lente et consommatrice en m&eacute;moire, vous
+                          devrez g&eacute;n&eacute;ralement cr&eacute;er une t&acirc;che de build s&eacute;par&eacute;e pour cela et les
+                          autres m&eacute;triques de qualit&eacute; de code, qui sera ex&eacute;cut&eacute;e apr&egrave;s les tests
+                          unitaires et d'int&eacute;gration. Pour de gros projets, vous pouvez m&ecirc;me le
+                          mettre en place via un build qui s'ex&eacute;cute sur une base quotidienne. En
+                          effet, le retour sur les m&eacute;triques de couverture de code et autres n'est
+                          g&eacute;n&eacute;ralement pas aussi critique que le retour sur les r&eacute;sultats de test,
+                          et cela va lib&eacute;rer des ex&eacute;cuteurs de build pour des t&acirc;ches de build qui
+                          peuvent b&eacute;n&eacute;ficier de retour rapide.
+               </p>
+               <p>Comme nous le mentionnions pr&eacute;c&eacute;demment, Jenkins ne fait pas
+                          d'analyse de couverture par lui-m&ecirc;me &#8212; vous devez configurer votre build
+                          pour produire le fichier Cobertura <code class="filename">coverage.xml</code> (ou fichiers) avant que vous
+                          puissiez g&eacute;n&eacute;rer de jolis graphes ou rapports, g&eacute;n&eacute;ralement en utilisant
+                          une des techniques dont nous avons discut&eacute; pr&eacute;c&eacute;demment (voir <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-coverage-build-config" title="Figure&nbsp;6.12.&nbsp;Votre build de couverture de code doit produire les donn&eacute;es de couverture de code">Figure&nbsp;6.12, &#8220;Votre build de couverture de code doit produire les donn&eacute;es de
+                               couverture de code&#8221;</a>).
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-hudson-coverage-build-config"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject6_d1e9363"></a><img src="figs/web/jtdg_0612.png" alt="Votre build de couverture de code doit produire les donn&eacute;es de couverture de code"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;6.12.&nbsp;Votre build de couverture de code doit produire les donn&eacute;es de
+                                     couverture de code</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Une fois que vous avez configur&eacute; votre build pour produire des
+                          donn&eacute;es de couverture de code, vous pouvez configurer Cobertura dans la
+                          section &#8220;Actions &agrave; la suite du build&#8221; de votre t&acirc;che de build. Si vous
+                          cochez la case &#8220;Publish Cobertura Coverage Report&#8221;, vous devriez voir
+                          quelque chose comme <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-coverage-config" title="Figure&nbsp;6.13.&nbsp;Configurer les m&eacute;triques de couverture de code dans Jenkins">Figure&nbsp;6.13, &#8220;Configurer les m&eacute;triques de couverture de code dans
+                               Jenkins&#8221;</a>.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-hudson-coverage-config"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject6_d1e9375"></a><img src="figs/web/jtdg_0613.png" alt="Configurer les m&eacute;triques de couverture de code dans Jenkins"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;6.13.&nbsp;Configurer les m&eacute;triques de couverture de code dans
+                                     Jenkins</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Le premier et plus important champ ici est le chemin des donn&eacute;es
+                          XML Cobertura que nous avons g&eacute;n&eacute;r&eacute;es. Votre projet peut contenir un
+                          seul fichier <code class="filename">coverage.xml</code>, ou
+                          plusieurs. Si vous avez un projet Maven multi-modules, par exemple, le
+                          plugin Maven Cobertura va g&eacute;n&eacute;rer un fichier <code class="filename">coverage.xml</code> distinct pour chaque
+                          module.
+               </p>
+               <p>Le chemin accepte des caract&egrave;res g&eacute;n&eacute;riques du style Ant, et il
+                          est donc facile d'inclure les donn&eacute;es de couverture de code &agrave; partir de
+                          plusieurs fichiers. Pour tout projet Maven, un chemin tel que <code class="filename">**/target/site/cobertura/coverage.xml</code> inclura
+                          toutes les m&eacute;triques de couverture de code de tous les modules dans le
+                          projet.
+               </p>
+               <p>Il y a en fait plusieurs types de couverture de code, et il est
+                          parfois utile de les distinguer. La plus intuitive est la couverture de
+                          lignes, qui compte le nombre de fois qu'une ligne donn&eacute;e est ex&eacute;cut&eacute;e
+                          pendant les tests automatis&eacute;s. &#8220;Conditional Coverage&#8221; (aussi appel&eacute;
+                          &#8220;Branch Coverage&#8221;) prend en compte si les expressions bool&eacute;ennes dans
+                          les instructions <code class="literal">if</code> et semblables
+                          sont test&eacute;es d'une mani&egrave;re qui v&eacute;rifie tous les r&eacute;sultats possibles
+                          d'une expression conditionnelle. Par exemple, &eacute;tant donn&eacute; le fragment de
+                          code suivant:
+               </p><a name="I_programlisting6_d1e9398"></a><pre class="programlisting">if (price &gt; 10000) {
+  managerApprovalRequired = true;
+}</pre><p>Pour obtenir une couverture de code compl&egrave;te pour ce code, vous
+                          devez l'ex&eacute;cuter deux fois : une fois avec une valeur sup&eacute;rieure &agrave;
+                          10,000, une autre avec une valeur inf&eacute;rieure ou &eacute;gale &agrave; 10,000.
+               </p>
+               <p>D'autres m&eacute;triques de couverture de code plus basiques incluent
+                          les m&eacute;thodes (combien de m&eacute;thodes dans l'application ont &eacute;t&eacute; ex&eacute;cut&eacute;es
+                          par les tests), classes et packages.
+               </p>
+               <p>Jenkins vous permet de d&eacute;finir lesquelles de ces m&eacute;triques vous
+                          voulez suivre. Par d&eacute;faut, le plugin Cobertura enregistre les
+                          couvertures conditionnelles, lignes, et m&eacute;thodes, ce qui est
+                          g&eacute;n&eacute;ralement suffisant. Cependant, il est facile de rajouter d'autres
+                          m&eacute;triques de couverture de code si vous pensez que ce peut &ecirc;tre utile
+                          pour votre &eacute;quipe.
+               </p>
+               <p>Le traitement par Jenkins des m&eacute;triques de couverture de code
+                          n'est pas uniquement un affichage passif &#8212; Jenkins vous permet de
+                          d&eacute;finir comment ces m&eacute;triques affectent le r&eacute;sultat du build. Vous
+                          pouvez d&eacute;finir des valeurs de palier pour les m&eacute;triques de couverture de
+                          code qui affectent &agrave; la fois le r&eacute;sultat du build et le rapport m&eacute;t&eacute;o
+                          sur le tableau de bord Jenkins (voir <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-testing-coverage-stabiliy" title="Figure&nbsp;6.14.&nbsp;Les r&eacute;sultats des tests de couverture de code contribuent &agrave; l'&eacute;tat du projet sur le tableau de bord">Figure&nbsp;6.14, &#8220;Les r&eacute;sultats des tests de couverture de code contribuent &agrave;
+                               l'&eacute;tat du projet sur le tableau de bord&#8221;</a>). Chaque m&eacute;trique de
+                          couverture de code que vous suivez poss&egrave;de trois valeurs de
+                          palier.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-hudson-testing-coverage-stabiliy"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject6_d1e9414"></a><img src="figs/web/jtdg_0614.png" alt="Les r&eacute;sultats des tests de couverture de code contribuent &agrave; l'&eacute;tat du projet sur le tableau de bord"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;6.14.&nbsp;Les r&eacute;sultats des tests de couverture de code contribuent &agrave;
+                                     l'&eacute;tat du projet sur le tableau de bord</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Le premier (celui avec une ic&ocirc;ne ensoleill&eacute;e) est la valeur
+                          minimale que le build doit atteindre pour avoir une ic&ocirc;ne ensoleill&eacute;e.
+                          La seconde indique la valeur en dessous de laquelle le build aura une
+                          ic&ocirc;ne orageuse. Jenkins va extrapoler les valeurs interm&eacute;diaires entre
+                          ces deux-ci pour d'autres ic&ocirc;nes m&eacute;t&eacute;o plus nuanc&eacute;es.
+               </p>
+               <p>Le<a class="indexterm" name="I_indexterm6_d1e9423"></a><a class="indexterm" name="I_indexterm6_d1e9430"></a> dernier palier est simplement la valeur en dessous de
+                          laquelle un build sera marqu&eacute; comme &#8220;instable&#8221; &#8212; avec une balle jaune.
+                          Bien que n'&eacute;tant pas aussi mauvais qu'une balle rouge (pour un build
+                          cass&eacute;), une balle jaune entrainera un message de notification et
+                          appara&icirc;tra comme mauvais sur le <span class="keep-together">tableau de
+                             bord</span>.
+               </p>
+               <p>Cette fonctionnalit&eacute; n'est pas un simple d&eacute;tail esth&eacute;tique &#8212; elle
+                          fournit un moyen pr&eacute;cieux de fixer des objectifs de qualit&eacute; de code pour
+                          vos projets. Bien qu'elle ne puisse pas &ecirc;tre interpr&eacute;t&eacute;e seule, une
+                          mauvaise couverture de code n'est g&eacute;n&eacute;ralement pas un bon signe pour un
+                          projet. Donc si vous prenez la couverture de code au s&eacute;rieux, utilisez
+                          ces valeurs de palier pour fournir un retour direct quand les choses ne
+                          sont pas &agrave; la<a class="indexterm" name="I_indexterm6_d1e9441"></a> hauteur.
+               </p>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e9644"></a>6.6.1.5.&nbsp;Interpr&eacute;ter les m&eacute;triques de couverture de code
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Jenkins<a class="indexterm" name="ch06-coreport1"></a><a class="indexterm" name="ch06-coreport2"></a> affiche vos rapports de couverture de code sur la page
+                          d'accueil de la t&acirc;che de build. La premi&egrave;re fois qu'il est ex&eacute;cut&eacute;, il
+                          produit un simple graphique &agrave; barres (voir <a href="sect-first-steps-metrics.html#fig-hudson-initial-coverage-report" title="Figure&nbsp;2.30.&nbsp;Jenkins displays code coverage metrics on the build home page">Figure&nbsp;2.30, &#8220;Jenkins displays code coverage metrics on the build home
+                           page&#8221;</a>). A partir du second
+                          build, un graphique est affich&eacute;, indiquant les diff&eacute;rents types de
+                          couverture que vous suivez dans le temps (voir <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-code-coverage-graph-over-time" title="Figure&nbsp;6.15.&nbsp;Configurer les m&eacute;triques de couverture de code dans Jenkins">Figure&nbsp;6.15, &#8220;Configurer les m&eacute;triques de couverture de code dans
+                               Jenkins&#8221;</a>). Dans les deux
+                          cas, le graphique affichera aussi les m&eacute;triques de couverture de code
+                          pour le dernier build.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-hudson-code-coverage-graph-over-time"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject6_d1e9469"></a><img src="figs/web/jtdg_0615.png" alt="Configurer les m&eacute;triques de couverture de code dans Jenkins"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;6.15.&nbsp;Configurer les m&eacute;triques de couverture de code dans
+                                     Jenkins</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Jenkins offre une grande valeur ajout&eacute;e en vous permettant de
+                          descendre dans les m&eacute;triques de couverture de code, affichant les
+                          erreurs de couverture de code pour les packages, classes &agrave; l'int&eacute;rieur
+                          d'un package, et les lignes de code &agrave; l'int&eacute;rieur d'une classe (voir
+                          <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-code-coverage-package" title="Figure&nbsp;6.16.&nbsp;Afficher les m&eacute;triques de couverture de code">Figure&nbsp;6.16, &#8220;Afficher les m&eacute;triques de couverture de code&#8221;</a>). Quel que soit le
+                          niveau de d&eacute;tail que vous regardiez, Jenkins affichera un graphe en haut
+                          de la page montrant la tendance de couverture dans le temps. Plus bas,
+                          vous trouverez la r&eacute;partition par package ou classe.
+               </p>
+               <div class="figure"><a name="fig-hudson-code-coverage-package"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject6_d1e9481"></a><img src="figs/web/jtdg_0616.png" alt="Afficher les m&eacute;triques de couverture de code"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;6.16.&nbsp;Afficher les m&eacute;triques de couverture de code</b></p>
+               </div><br class="figure-break"><p>Lorsque vous arrivez au niveau de d&eacute;tail de la classe, Jenkins
+                          affiche aussi le code source de la classe, avec les lignes color&eacute;es en
+                          fonction de leur niveau de couverture. Les lignes qui ont &eacute;t&eacute;
+                          compl&egrave;tement ex&eacute;cut&eacute;es pendant les tests sont en vert, et les lignes qui
+                          n'ont jamais &eacute;t&eacute; ex&eacute;cut&eacute;es sont marqu&eacute;es en rouge. Un nombre dans la
+                          marge indique le nombre de fois que la ligne en question a &eacute;t&eacute; ex&eacute;cut&eacute;e.
+                          Enfin, un ombrage jaune dans la marge est utilis&eacute;e pour indiqu&eacute;e une
+                          couverture conditionnelle insuffisante (par exemple, une instruction
+                          <code class="literal">if</code> qui a seulement &eacute;t&eacute; test&eacute; avec
+                          <a class="indexterm" name="I_indexterm6_d1e9491"></a><a class="indexterm" name="I_indexterm6_d1e9493"></a><a class="indexterm" name="I_indexterm6_d1e9495"></a><a class="indexterm" name="I_indexterm6_d1e9497"></a>un <span class="keep-together">r&eacute;sultat</span>).
+               </p>
+            </div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-clover"></a>6.6.2.&nbsp;Mesurer la couverture de code avec Clover
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Clover<a class="indexterm" name="ch06-clover1"></a><a class="indexterm" name="ch06-clover2"></a> est un excellent outil de couverture de code commercial
+                     d'<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.atlassian.com/software/clover" target="_top">Atlassian</a>.
+                     Clover fonctionne parfaitement pour des projets Ant, Maven, ou m&ecirc;me
+                     Grails. La configuration et l'utilisation de Clover est bien document&eacute;e
+                     sur le site web d'Atlassian, donc nous ne regarderons pas ces aspects en
+                     d&eacute;tail. Cependant, en guise d'exemple, voici une configuration Maven
+                     typique de Clover pour une utilisation avec Jenkins :
+            </p><a name="I_programlisting6_d1e9520"></a><pre class="programlisting">      &lt;build&gt;
+        ...
+        &lt;plugins&gt;
+          ...
+          &lt;plugin&gt;
+            &lt;groupId&gt;com.atlassian.maven.plugins&lt;/groupId&gt;
+            &lt;artifactId&gt;maven-clover2-plugin&lt;/artifactId&gt;
+            &lt;version&gt;3.0.4&lt;/version&gt;
+            &lt;configuration&gt;
+              &lt;includesTestSourceRoots&gt;false&lt;/includesTestSourceRoots&gt;
+              &lt;generateXml&gt;true&lt;/generateXml&gt;
+            &lt;/configuration&gt;
+          &lt;/plugin&gt;
+        &lt;/plugins&gt;
+      &lt;/build&gt;
+      ...</pre><p>Cela va g&eacute;n&eacute;rer &agrave; la fois des rapports de couverture de code HTML et
+                     XML, y compris les donn&eacute;es agr&eacute;g&eacute;es si le projet Maven contient plusieurs
+                     modules.
+            </p>
+            <p>Pour <a class="indexterm" name="I_indexterm6_d1e9526"></a><a class="indexterm" name="I_indexterm6_d1e9529"></a>int&eacute;grer Clover dans Jenkins, vous devez installer le plugin
+                     Jenkins Clover selon la mani&egrave;re habituelle en utilisant l'&eacute;cran du
+                     gestionnaire de plugins. Une fois que vous avez red&eacute;marr&eacute; Jenkins, vous
+                     pourrez int&eacute;grer les donn&eacute;es de couverture de code Clover dans vos
+                     builds.
+            </p>
+            <p>Ex&eacute;cuter Clover sur votre projet est un projet en plusieurs &eacute;tapes :
+                     vous instrumentez votre code applicatif, ex&eacute;cutez les tests, agr&eacute;gez les
+                     donn&eacute;es de test (pour les projets Maven &agrave; plusieurs modules) et g&eacute;n&eacute;rez
+                     les rapports HTML et XML. Puisque cela peut &ecirc;tre une operation assez
+                     lente, vous allez g&eacute;n&eacute;ralement l'ex&eacute;cuter dans une t&acirc;che de build s&eacute;par&eacute;e,
+                     et pas avec vos test classiques. Vous pouvez le faire comme suit :
+            </p><pre class="screen">$ clover2:setup test clover2:aggregate clover2:clover</pre><p>Ensuite, vous devez mettre en place les rapports Clover dans
+                     Jenkins. Cochez la case Publish Clover <span class="keep-together">Coverage</span> Report pour l'activer. La
+                     configuration est similaire &agrave; celle de <span class="keep-together">Cobertura &#8212; </span>vous devez fournir le chemin du
+                     r&eacute;pertoire du rapport HTML Clover, et du fichier rapport XML, et vous
+                     pouvez aussi d&eacute;finir des valeurs de palier pour les ic&ocirc;nes m&eacute;teo
+                     ensoleill&eacute;es et orageuses, et pour les builds instables (voir <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-clover-config" title="Figure&nbsp;6.17.&nbsp;Configurer les rapports Clover dans Jenkins">Figure&nbsp;6.17, &#8220;Configurer les rapports Clover dans Jenkins&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-clover-config"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject6_d1e9552"></a><img src="figs/web/jtdg_0617.png" alt="Configurer les rapports Clover dans Jenkins"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;6.17.&nbsp;Configurer les rapports Clover dans Jenkins</b></p>
+               </div><br class="figure-break"></div>
+            <p>Une fois que <a class="indexterm" name="I_indexterm6_d1e9559"></a>vous l'aurez fait, Jenkins affichera le niveau actuel de
+                     couverture de code, ainsi qu'un graphe de la couverture de code dans le
+                     temps, sur la page d'accueil de votre t&acirc;che de build de votre <a class="indexterm" name="I_indexterm6_d1e9567"></a><a class="indexterm" name="I_indexterm6_d1e9569"></a><a class="indexterm" name="I_indexterm6_d1e9571"></a>projet (voir <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-clover-report" title="Figure&nbsp;6.18.&nbsp;Tendance de couverture de code Clover">Figure&nbsp;6.18, &#8220;Tendance de couverture de code Clover&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-hudson-clover-report"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject6_d1e9579"></a><img src="figs/web/jtdg_0618.png" alt="Tendance de couverture de code Clover"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;6.18.&nbsp;Tendance de couverture de code Clover</b></p>
+            </div><br class="figure-break"></div>
+         <div class="footnotes"><br><hr width="100" align="left">
+            <div class="footnote">
+               <p><sup>[<a name="ftn.d0e9300" href="#d0e9300">3</a>] </sup>&Agrave; l'exception notable de Sonar, que nous allons examiner plus
+                            tard dans le livre.
+               </p>
+            </div>
+            <div class="footnote">
+               <p><sup>[<a name="ftn.d0e9309" href="#d0e9309">4</a>] </sup>C'est en fait une l&eacute;g&egrave;re simplification ; en fait, Cobertura
+                            stocke aussi d'autres informations, telles que le nombre de fois que
+                            chaque r&eacute;sultat possible d'un test bool&eacute;en a &eacute;t&eacute; ex&eacute;cut&eacute;. Cependant,
+                            cela ne modifie pas l'approche g&eacute;n&eacute;rale.
+               </p>
+            </div>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-ignoring.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-acceptance.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">6.5.&nbsp;Ignorer des tests&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;6.7.&nbsp;Tests d'acceptation automatis&eacute;s</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

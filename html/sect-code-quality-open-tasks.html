@@ -1,0 +1,99 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>9.7.&nbsp;Les rapports sur les t&acirc;ches ouvertes</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-code-quality.html" title="Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code">
+      <link rel="prev" href="sect-code-quality-complexity.html" title="9.6.&nbsp;Les rapports sur la complexit&eacute; du code">
+      <link rel="next" href="sect-code-quality-sonar.html" title="9.8.&nbsp;Int&eacute;gration avec Sonar">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-complexity.html">9.6.&nbsp;Les rapports sur la complexit&eacute; du code</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-sonar.html">9.8.&nbsp;Int&eacute;gration avec Sonar</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-code-quality-open-tasks"></a>9.7.&nbsp;Les rapports sur les t&acirc;ches ouvertes
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Quand<a class="indexterm" name="ch09-open1"></a><a class="indexterm" name="ch09-open2"></a><a class="indexterm" name="ch09-open3"></a> il s&#8217;agit de qualit&eacute; de code, l&#8217;analyse statique n&#8217;est pas
+                le seul outil que vous pouvez utiliser. Un autre indicateur de la sant&eacute;
+                g&eacute;n&eacute;rale de votre projet peut &ecirc;tre trouv&eacute; avec le nombre de <code class="literal">FIXME</code>, <code class="literal">TODO</code>,
+                <code class="literal">@deprecated</code>, et autres balises
+                similaires dispers&eacute;es dans le code source. S&#8217;il y en a beaucoup, cela peut
+                &ecirc;tre un signe que le code de base a beaucoup de travail inachev&eacute;, et n&#8217;est
+                donc pas dans un &eacute;tat tr&egrave;s finalis&eacute;.
+         </p>
+         <p>Le<a class="indexterm" name="I_indexterm9_d1e13713"></a><a class="indexterm" name="I_indexterm9_d1e13718"></a> plugin Task Scanners de Jenkins permet de garder une trace
+                de ces sortes de balises dans votre code source, et optionnellement de
+                signaler un build avec une mauvaise ic&ocirc;ne de temps sur le tableau de bord
+                s&#8217;il y a beaucoup trop de t&acirc;ches ouvertes.
+         </p>
+         <p>Pour le configurer, vous devez installer &agrave; la fois le plugin Static
+                Analysis Utilities et le plugin Task Scanner. Une fois qu'ils sont install&eacute;s, vous
+                pouvez activer le plugin dans votre projet en cochant la case &laquo; Recherche
+                des t&acirc;ches ouvertes dans le workspace &raquo; dans la section Configuration du
+                Build dans la configuration de la t&acirc;che de votre projet.
+         </p>
+         <p>Configurer le plugin Task Scanner est assez simple (voir <a href="sect-code-quality-open-tasks.html#fig-hudson-task-scanner" title="Figure&nbsp;9.16.&nbsp;Configurer le plugin Task Scanner est simple">Figure&nbsp;9.16, &#8220;Configurer le plugin Task Scanner est simple&#8221;</a>). Vous entrez simplement les balises
+                que vous souhaitez suivre, avec diff&eacute;rentes priorit&eacute;s si vous consid&eacute;rez
+                certaines balises comme &eacute;tant plus importantes que d&#8217;autres. Par d&eacute;faut,
+                le plugin scrutera tout le code source java dans le projet, mais vous pouvez
+                red&eacute;finir ce comportement en compl&eacute;tant le champ Files to scan. Dans <a href="sect-code-quality-open-tasks.html#fig-hudson-task-scanner" title="Figure&nbsp;9.16.&nbsp;Configurer le plugin Task Scanner est simple">Figure&nbsp;9.16, &#8220;Configurer le plugin Task Scanner est simple&#8221;</a>, par exemple, nous v&eacute;rifions les balises
+            	pour les fichiers XML et JSP.
+         </p>
+         <div class="figure"><a name="fig-hudson-task-scanner"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13733"></a><img src="figs/web/jtdg_0916.png" alt="Configurer le plugin Task Scanner est simple"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.16.&nbsp;Configurer le plugin Task Scanner est simple</b></p>
+         </div><br class="figure-break"><p>Le bouton Avanc&eacute; vous donne acc&egrave;s &agrave; des options plus sophistiqu&eacute;s.
+                Probablement, les plus utiles sont les seuils de sant&eacute;, qui vous laissent
+                d&eacute;finir le nombre maximum de probl&egrave;mes tol&eacute;r&eacute;s avant que le build ne soit
+                plus consid&eacute;r&eacute; &laquo; ensoleill&eacute; &raquo;, et le nombre minimum de probl&egrave;mes requis
+                pour le statut de &laquo; temps orageux &raquo;.
+         </p>
+         <p>Le plugin g&eacute;n&egrave;re un graphique qui montre les tendances de balises
+                par ordre de priorit&eacute; (voir <a href="sect-code-quality-open-tasks.html#fig-hudson-task-scanner-report" title="Figure&nbsp;9.17.&nbsp;Le graphique de tendances des t&acirc;ches ouvertes">Figure&nbsp;9.17, &#8220;Le graphique de tendances des t&acirc;ches ouvertes&#8221;</a>). Si vous cliquez sur le
+                rapport des t&acirc;ches ouvertes, vous pouvez aussi voir le d&eacute;tail des t&acirc;ches
+                par module Maven, package ou fichier, ou encore une liste des
+                t&acirc;ches<a class="indexterm" name="I_indexterm9_d1e13744"></a><a class="indexterm" name="I_indexterm9_d1e13746"></a><a class="indexterm" name="I_indexterm9_d1e13748"></a> ouvertes.
+         </p>
+         <div class="figure"><a name="fig-hudson-task-scanner-report"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13754"></a><img src="figs/web/jtdg_0917.png" alt="Le graphique de tendances des t&acirc;ches ouvertes"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.17.&nbsp;Le graphique de tendances des t&acirc;ches ouvertes</b></p>
+         </div><br class="figure-break"></div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-code-quality-complexity.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-sonar.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">9.6.&nbsp;Les rapports sur la complexit&eacute; du code&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;9.8.&nbsp;Int&eacute;gration avec Sonar</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,308 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>12.2.&nbsp;Mise en oeuvre du d&eacute;ploiement automatis&eacute; et continu</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-automated-deployment.html" title="Chapter&nbsp;12.&nbsp;D&eacute;ploiement automatis&eacute; et livraison continue">
+      <link rel="prev" href="chapter-automated-deployment.html" title="Chapter&nbsp;12.&nbsp;D&eacute;ploiement automatis&eacute; et livraison continue">
+      <link rel="next" href="sect-deploying-to-an-app-server.html" title="12.3.&nbsp;D&eacute;ployer vers un serveur d'application">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-automated-deployment.html">Chapter&nbsp;12.&nbsp;D&eacute;ploiement automatis&eacute; et livraison continue</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-deploying-to-an-app-server.html">12.3.&nbsp;D&eacute;ployer vers un serveur d'application</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-implementing-cd"></a>12.2.&nbsp;Mise en oeuvre du d&eacute;ploiement automatis&eacute; et continu
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Dans sa forme la plus &eacute;l&eacute;mentaire, le D&eacute;ploiement Automatis&eacute; peut &ecirc;tre
+            	aussi simple que l'&eacute;criture de vos propres scripts afin de d&eacute;ployer votre
+            	application vers un serveur particulier. L'avantage principal de la solution
+            	script&eacute;e est la simplicit&eacute; et l'aisance en termes de configuration. Cependant,
+            	une telle approche peut atteindre ses limites si vous avez besoin de mettre
+            	en oeuvre des actions de d&eacute;ploiement plus &eacute;labor&eacute;es, telles qu'installer un
+            	logiciel sur une machine ou red&eacute;marrer le serveur. Pour des sc&eacute;narios plus
+            	avanc&eacute;s, vous pourriez avoir besoin d'un outil de d&eacute;ploiement/configuration
+            	plus sophistiqu&eacute; tel que Puppet ou Chef.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-deployment-script"></a>12.2.1.&nbsp;Le script de d&eacute;ploiement
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une <a class="indexterm" name="I_indexterm12_d1e16879"></a>
+               		<a class="indexterm" name="I_indexterm12_d1e16884"></a>
+               		<a class="indexterm" name="I_indexterm12_d1e16889"></a>
+               		<a class="indexterm" name="I_indexterm12_d1e16892"></a>part essentielle de toute initiative de D&eacute;ploiement Automatis&eacute;
+               		est un processus de d&eacute;ploiement script&eacute;. Bien que celui puisse sembler
+               		&eacute;vident, il y a encore de nombreuses organisations o&ugrave; le d&eacute;ploiement demeure
+               		un processus consommateur de resources, compliqu&eacute; et lourd, incluant copie
+               		manuelle de fichiers, ex&eacute;cution manuelle de script, des notes &eacute;crites &agrave; la main
+               		et ainsi de suite. La bonne nouvelle est qu'en g&eacute;n&eacute;ral cela n'a vocation pas &agrave;
+               		rester ainsi. Avec un peu de travail, il est g&eacute;n&eacute;ralement possible d'&eacute;crire un
+               		script pour automatis&eacute; la plupart, voir l'int&eacute;gralit&eacute;, du processus.
+                     
+            </p>
+            <p>La complexit&eacute; d'un script de d&eacute;ploiement varie &eacute;norm&eacute;ment d'une application
+               	  &agrave; une autre. Pour un simple site web, un d&eacute;ploiement de script peut se limiter &agrave;
+               	  resynchroniser un dossier sur le serveur cible. De nombreuses applications Java ont
+               	  Ant ou des plugins Maven qui peuvent &ecirc;tre utilis&eacute;s pour le d&eacute;ploiement. Pour une
+               	  architecture plus compliqu&eacute;e, le d&eacute;ploiement peut impliquer plusieurs applications
+               	  et services sur de multiples serveurs <span class="keep-together">en grappe</span>,
+               	  le tout coordinn&eacute; de fa&ccedil;on extr&ecirc;ment pr&eacute;cise. La plupart des processus de d&eacute;ploiement
+               	  sont entre ces deux extr&ecirc;mes.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-liquibase"></a>12.2.2.&nbsp;Mises &agrave; jour de base de donn&eacute;es
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>D&eacute;ployer<a class="indexterm" name="ch12-db1"></a>
+               		<a class="indexterm" name="ch12-db2"></a>
+               		<a class="indexterm" name="ch12-db3"></a> votre application vers le serveur d'application est g&eacute;n&eacute;ralement
+               		seulement une partie du puzzle. Les bases de donn&eacute;es, relationnelles ou autres,
+               		jouent presque toujours un r&ocirc;le central dans l'architecture logiciel. Bien s&ucirc;r,
+               		id&eacute;alement, votre base de donn&eacute;es devrait &ecirc;tre parfaite d&egrave;s le d&eacute;but, mais cela
+               		est rarement le cas dans le monde r&eacute;el. En effet, lorsque vous mettez &agrave; jour
+               		votre application, vous avez g&eacute;n&eacute;ralement &eacute;galement besoin de mettre une ou
+               		plusieurs bases de donn&eacute;es &agrave; jour. 
+               	  
+            </p>
+            <p>Les mises &agrave; jour de base de donn&eacute;es sont g&eacute;n&eacute;ralement plus difficile &agrave; mettre
+               	  en oeuvre que les mises &agrave; jour applicatives, vu que tant la structure que les donn&eacute;es
+               	  sont susceptibles d'&ecirc;tre modifi&eacute;es. Cependant, les mises &agrave; jour de base de donn&eacute;es sont
+               	  critiques pour le d&eacute;veloppement et le d&eacute;ploiement. Elles m&eacute;ritent donc de l'attention
+               	  et de la planification.
+            </p>
+            <p>Certains frameworks, tels que <a class="indexterm" name="I_indexterm12_d1e16928"></a>Ruby on Rails et <a class="indexterm" name="I_indexterm12_d1e16932"></a>Hibernate, peuvent supporter automatiquement des changements structurels
+               	  d'une base de donn&eacute;es. En utilisant ces frameworks, vous pouvez usuellement sp&eacute;cifier si
+               	  vous voulez cr&eacute;er un nouveau sch&eacute;ma de la base &agrave; chaque mise &agrave; jour ou si vous voulez mettre
+               	  &agrave; jour le sch&eacute;ma tout en conservant les donn&eacute;es. Bien que cela semble utile &agrave; premi&egrave;re vue,
+               	  ces fonctionnalit&eacute;s sont en fait juste suffisantes pour des environnements non critiques.
+               	  Ces outils ne g&egrave;rent pas bien les migrations de donn&eacute;es, point pourtant essentiel.
+               	  Par exemple, si vous cr&eacute;ez une colonne dans votre base de donn&eacute;es, 
+               	  le processus de mise &agrave; jour va simplement cr&eacute;er une nouvelle colonne: il ne
+               	  va pas copier les donn&eacute;es de l'ancienne colonne vers la nouvelle, pas plus
+               	  qu'il ne va supprimer l'ancienne colonne de la table mise &agrave; jour.
+                     
+            </p>
+            <p>Heuresement, cela n'est pas la seule approche disponible. Un autre outil
+               	  qui tente de r&eacute;soudre le probl&egrave;me complexe des mises &agrave; jour de base de donn&eacute;es
+               	  est <a class="indexterm" name="ch12-liquibase"></a><a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.liquibase.org/" target="_top">Liquibase</a>.
+                     Liquibase est un outil open source qui permet d'organiser des processus de
+               	  mises &agrave; jour entre versions d'une base de donn&eacute;es &agrave; travers une approche de
+               	  haut niveau.
+            </p>
+            <p>Liquibase garde un historique des mises &agrave; jour appliqu&eacute;es dans une table
+               	  de la base de donn&eacute;es. Il peut ainsi ais&eacute;ment amener n'importe quelle base vers
+               	  l'&eacute;tat souhait&eacute;. Par cons&eacute;quent, pas de risque d'appliquer deux fois le m&ecirc;me script
+               	  de mise &agrave; jour : Liquibase applique seulement les scripts qui n'ont pas encore
+               	  &eacute;t&eacute; appliqu&eacute;s. Liquibase est aussi capable de d&eacute;faire des changements, du moins
+               	  pour certains types de changements. Vu que cela ne fonctionne pas pour tous les
+               	  changements (les donn&eacute;es d'une table supprim&eacute;e, par exemple, ne peuvent pas &ecirc;tre
+               	  restaur&eacute;es) il est pr&eacute;f&eacute;rable de ne pas trop compter sur cette fonctionnalit&eacute;.
+                     
+            </p>
+            <p>Dans Liquibase, les changements de la base de donn&eacute;es sont aggr&eacute;g&eacute;s sous
+               	  la forme "d'ensembles de changement", chacun repr&eacute;sentant la mise &agrave; jour dans
+               	  un format XML ind&eacute;pendant de la base de donn&eacute;es. Ces ensembles de changement
+               	  peuvent inclure tous les changements que vous pourriez appliquer &agrave; une base de donn&eacute;es,
+               	  de la cr&eacute;ation ou suppression de table &agrave; la cr&eacute;ation ou mise &agrave; jour de colonne,
+               	  index ou cl&eacute;s &eacute;trang&egrave;res : 
+            </p><a name="I_programlisting12_d1e16948"></a><pre class="programlisting">&lt;databaseChangeLog
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.6"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.6
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.6.xsd"&gt;
+  &lt;changeSet id="1" author="john"&gt;
+    &lt;createTable tableName="department"&gt;
+      &lt;column name="id" type="int"&gt;
+        &lt;constraints primaryKey="true" nullable="false"/&gt;
+      &lt;/column&gt;
+      &lt;column name="name" type="varchar(50)"&gt;
+        &lt;constraints nullable="false"/&gt;
+      &lt;/column&gt;
+      &lt;column name="active" type="boolean" defaultValue="1"/&gt;
+    &lt;/createTable&gt;
+  &lt;/changeSet&gt;
+&lt;/databaseChangeLog&gt;</pre><p>Les ensembles de changement peuvent aussi refl&eacute;ter des modifications &agrave;
+               	  une table existante. Par exemple, l'ensemble de changement suivant repr&eacute;sente
+               	  le renommage d'une colonne :
+                     
+            </p><a name="I_programlisting12_d1e16952"></a><pre class="programlisting">&lt;changeSet id="1" author="bob"&gt;
+  &lt;renameColumn tableName="person" oldColumnName="fname" newColumnName="firstName"/&gt;
+&lt;/changeSet&gt;</pre><p>Etant donn&eacute; que cette repr&eacute;sentation concerne la nature s&eacute;mantique du
+               	  changement, Liquibase est capable de r&eacute;aliser correctement tant la mise &agrave; jour
+               	  du sch&eacute;ma que la migration de donn&eacute;es correspondante.
+            </p>
+            <p>Liquibase peut aussi bien g&eacute;rer les changements de donn&eacute;es que de
+               	  structure. Par exemple, l'ensemble de changement suivant ins&egrave;re une nouvelle
+               	  ligne de donn&eacute;es dans une table : 
+            </p><a name="I_programlisting12_d1e16959"></a><pre class="programlisting">&lt;changeSet id="326" author="simon"&gt;
+  &lt;insert tableName="country"&gt;
+    &lt;column name="id" valueNumeric="1"/&gt;
+    &lt;column name="code" value="AL"/&gt;
+    &lt;column name="name" value="Albania"/&gt;
+  &lt;/addColumn&gt;
+&lt;/changeSet&gt;</pre><p>Chaque ensemble de changements a un identifiant et un auteur, ce qui facilite
+               	  la tra&ccedil;abilit&eacute; et r&eacute;duit le risque de conflit. Les d&eacute;veloppeurs peuvent tester
+               	  leurs ensembles de changements &agrave; leur propre base de donn&eacute;es et les archiver une fois
+               	  qu'ils sont pr&ecirc;ts. Bien s&ucirc;r, l'&eacute;tape suivante est de configurer Jenkins pour qu'il
+               	  applique les mises &agrave; jour Liquibase &agrave; la base de donn&eacute;es appropri&eacute;e avant que les tests
+               	  d'int&eacute;gration ou que les d&eacute;ploiements d'applications ne soient r&eacute;alis&eacute;s, g&eacute;n&eacute;ralement en
+               	  tant que partie du script de build ordinaire du projet.
+                     
+            </p>
+            <p>Liquibase s'int&egrave;gre bien dans le processus de build. Il peut &ecirc;tre ex&eacute;cut&eacute; depuis
+               	  la ligne de commande ou &ecirc;tre int&eacute;gr&eacute; dans Ant ou Maven. Pour ce dernier, par exemple, vous
+               	  pouvez configurer le "Maven Liquibase Plugin" comme suit :
+            </p><a name="I_programlisting12_d1e16965"></a><pre class="programlisting">&lt;project&gt;
+  &lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;groupId&gt;org.liquibase&lt;/groupId&gt;
+        &lt;artifactId&gt;liquibase-plugin&lt;/artifactId&gt;
+        &lt;version&gt;1.9.3.0&lt;/version&gt;
+        &lt;configuration&gt;
+        &lt;propertyFileWillOverride&gt;true&lt;/propertyFileWillOverride&gt;
+        &lt;propertyFile&gt;src/main/resources/liquibase.properties&lt;/propertyFile&gt;
+      &lt;/configuration&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;
+...
+&lt;/project&gt;</pre><p>En utilisant ainsi Liquibase avec Maven, vous pourriez mettre &agrave; jour une
+               	  base de donn&eacute;es cible vers le sch&eacute;ma courant en utilisant ce plugin:
+            </p><pre class="screen">$ mvn liquibase:update</pre><p>Les informations de connexion par d&eacute;faut &agrave; la base de donn&eacute;es sont sp&eacute;cifi&eacute;es
+               	  dans le fichier <code class="filename">src/main/resources/liquibase.properties</code>,
+               	  et ont l'aspect suivant :
+            </p><a name="I_programlisting12_d1e16976"></a><pre class="programlisting">changeLogFile = changelog.xml
+driver = com.mysql.jdbc.Driver
+url = jdbc:mysql://localhost/ebank
+username = scott
+password = tiger
+verbose = true
+dropFirst = false</pre><p>Vous pouvez toutefois surcharger n'importe laquelle de ces propri&eacute;t&eacute;s
+               	  depuis la ligne de commande, ce qui rend facile de configurer un build Jenkins
+               	  pour mettre &agrave; jour diff&eacute;rentes bases de donn&eacute;es.
+            </p>
+            <p>D'autres commandes similaires vous permettent de g&eacute;n&eacute;rer un script SQL
+               	  (si vous avez besoin de le soumettre &agrave; votre administrateur de base donn&eacute;es par
+               	  exemple), ou de revenir &agrave; une version pr&eacute;c&eacute;dente du 
+               	  <a class="indexterm" name="I_indexterm12_d1e16982"></a>sch&eacute;ma.
+            </p>
+            <p>Cela n'est bien s&ucirc;r qu'un exemple d'une solution possible. D'autres &eacute;quipes
+               	  pr&eacute;f&egrave;rent maintenir manuellement une s&eacute;rie de scripts SQL de mises &agrave; jour, voir
+               	  &eacute;crivent leur propre solution. L'important est d'avoir un outillage vous permettant
+               	  de mettre &agrave; jour diff&eacute;rentes bases de donn&eacute;es de fa&ccedil;on fiable et reproductible lors
+               	  de vos d&eacute;ploiements 
+               	  <a class="indexterm" name="I_indexterm12_d1e16988"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e16990"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e16992"></a>applicatifs.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-smoke-tests"></a>12.2.3.&nbsp;Tests fumigatoires
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>N'importe <a class="indexterm" name="I_indexterm12_d1e17000"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17005"></a>
+               		<a class="indexterm" name="I_indexterm12_d1e17010"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17013"></a>quel d&eacute;ploiement automatis&eacute; s&eacute;rieux a besoin d'&ecirc;tre suivi par une s&eacute;rie
+               	  de tests fumigatoires automatis&eacute;s. Un sous ensemble des tests d'acceptance automatis&eacute;s
+               	  peut faire un bon candidat. Les tests fumigatoires devraient &ecirc;tre non intrusifs et
+               	  relativement rapides. Ils doivent pouvoir &ecirc;tre ex&eacute;cut&eacute;s en production, ce qui est
+               	  susceptible de restreindre le nombre d'actions possibles durant les tests.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-rolling-back"></a>12.2.4.&nbsp;Revenir sur des changements
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Un autre<a class="indexterm" name="I_indexterm12_d1e17024"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17029"></a> aspect important &agrave; consid&eacute;rer lors de la mise en place du D&eacute;ploiement
+               	  Automatis&eacute; est comment revenir en arri&egrave;re si quelque chose se passe mal. Cela est
+               	  encore plus important si vous voulez impl&eacute;menter du D&eacute;ploiement Continu. Il est en
+               	  effet critique de pouvoir revenir en arri&egrave;re si besoin.
+            </p>
+            <p>La mise en oeuvre varie grandement en fonction de l'application. Bien qu'il
+               	  soit relativement simple de red&eacute;ployer une version pr&eacute;c&eacute;dente d'une application en
+               	  utilisant Jenkins (nous verrons cela plus loin dans ce chapitre), l'application
+               	  n'est g&eacute;n&eacute;ralement pas le seul acteur en jeu. Un retour en arri&egrave;re de la base de
+               	  donn&eacute;es &agrave; un &eacute;tat pr&eacute;c&eacute;dent est souvent &agrave; mettre en oeuvre.
+            </p>
+            <p>Nous <a class="indexterm" name="I_indexterm12_d1e17039"></a> avons vu comment il est possible d'utiliser Liquibase pour les mises &agrave; jour
+               	  de base de donn&eacute;es, et bien s&ucirc;r de nombreuses autres strat&eacute;gies sont &eacute;galement
+               	  possibles. Cependant, revenir &agrave; un &eacute;tat pr&eacute;c&eacute;dent de la base de donn&eacute;es pr&eacute;sente des d&eacute;fis
+               	  particuliers. Liquibase, par exemple, permet de revenir sur certains changements de
+               	  structure de la base de donn&eacute;es, mais pas de tous. De plus, des donn&eacute;es perdues (lors 
+               	  de la suppression de table par exemple) ne peuvent &ecirc;tre restaur&eacute;es en utilisant que
+               	  Liquibase.
+            </p>
+            <p>La fa&ccedil;on la plus fiable de retourner &agrave; un &eacute;tat pr&eacute;c&eacute;dent est probablement
+               	  de prendre une image de la base juste avant la mise &agrave; jour. Cette image peut ensuite
+               	  &ecirc;tre utilis&eacute;e lors de la restauration. Une m&eacute;thode efficace est d'automatiser ce
+               	  processus dans <span class="keep-together">Jenkins</span> dans la t&acirc;che de d&eacute;ploiment,
+               	  et de sauver l'image de la base et le fichier binaire d&eacute;ployable en tant qu'art&eacute;facts.
+               	  De cette fa&ccedil;on, vous pouvez ais&eacute;ment restaurer la base de donn&eacute;es en utilisant l'image
+               	  sauvegard&eacute;e et ensuite de red&eacute;ployer l'application en utilisant le fichier d&eacute;ployable
+               	  sauv&eacute;. Nous allons regarder un exemple de cette strat&eacute;gie plus loin dans ce 
+                     <a class="indexterm" name="I_indexterm12_d1e17050"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17052"></a>chapitre.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-automated-deployment.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-deploying-to-an-app-server.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;12.&nbsp;D&eacute;ploiement automatis&eacute; et livraison continue&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;12.3.&nbsp;D&eacute;ployer vers un serveur d'application</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,90 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>1.4.&nbsp;De Hudson &agrave; Jenkins &#8212; Un rapide historique</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="intro.html" title="Chapter&nbsp;1.&nbsp;Introduction &agrave; Jenkins">
+      <link rel="prev" href="intro-sect-introducing-jenkins.html" title="1.3.&nbsp;Introduction &agrave; Jenkins (n&eacute; Hudson)">
+      <link rel="next" href="intro-sect-jenkins-or-hudson.html" title="1.5.&nbsp;Dois-je utiliser Jenkins ou Hudson?">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="intro-sect-introducing-jenkins.html">1.3.&nbsp;Introduction &agrave; Jenkins (n&eacute; Hudson)</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="intro-sect-jenkins-or-hudson.html">1.5.&nbsp;Dois-je utiliser Jenkins ou Hudson?</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="intro-sect-history"></a>1.4.&nbsp;De Hudson &agrave; Jenkins &#8212; Un rapide historique
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Jenkins<a class="indexterm" name="ch01-history"></a> est le produit d'un d&eacute;veloppeur visionnaire, <a class="indexterm" name="I_indexterm1_d1e646"></a>Kohsuke Kawaguchi, qui a commenc&eacute; ce projet comme un loisir sous le nom d'<a class="indexterm" name="I_indexterm1_d1e650"></a>Hudson &agrave; la fin de l'ann&eacute;e 2004 alors qu'il travaillait chez Sun. Comme Hudson &eacute;voluait au cours des ann&eacute;es, 
+            	il &eacute;tait de plus en plus utilis&eacute; par les &eacute;quipes de Sun pour leurs propres projets. D&eacute;but 2008, Sun reconnaissait la qualit&eacute;
+            et la valeur
+            	de cet outil et demandait &agrave; Kohsuke de travailler &agrave; plein temps sur Hudson, commen&ccedil;ant ainsi &agrave; fournir des services professionnels
+            et
+            	du support sur Hudson. En 2010, Hudson &eacute;tait d&eacute;venu la principale solution d'Int&eacute;gration Continue avec une part de march&eacute;
+            d'environ 70%.
+         </p>
+         <p>En 2009, Oracle racheta Sun. Vers la fin 2010, des tensions apparurent entre la communaut&eacute; de d&eacute;veloppeurs d'Hudson et d'Oracle,
+            dont la source
+            		&eacute;tait les probl&egrave;mes de l'infrastructure Java.net, aggrav&eacute;es par la politique d'Oracle au sujet de la marque Hudson. Ces
+            tensions r&eacute;v&eacute;laient de profonds
+            		d&eacute;saccords sur la gestion du projet par Oracle. En effet, Oracle voulait orienter le projet vers un processus de d&eacute;veloppement
+            plus control&eacute;, avec 
+            		des livraisons moins fr&eacute;quentes, alors que le coeur des d&eacute;veloppeurs d'Hudson, men&eacute; par Kohsuke, preferait continuer &agrave; fonctionner
+            selon le mod&egrave;le 
+            		communautaire ouvert, flexible et rapide qui avait si bien fonctionn&eacute; pour Hudson par le pass&eacute;.
+         </p>
+         <p>En Janvier 2011, la communaut&eacute; des d&eacute;veloppeurs Hudson vota pour renommer le projet en Jenkins. Par la suite ils migr&egrave;rent
+            le code originel d'Hudson vers un nouveau
+            		<a class="indexterm" name="I_indexterm1_d1e658"></a><a xmlns:xlink="http://www.w3.org/1999/xlink" href="https://github.com/jenkinsci" target="_top">projet Github</a> 
+            		et y poursuivirent leur travail. La grande majorit&eacute; des d&eacute;veloppeurs du coeur et des plugins leva le camp et suivit Kohsuke
+            Kawaguchi et les autres principaux contributeurs
+            		dans le camp de Jenkins, o&ugrave; le gros de l'activit&eacute; de d&eacute;veloppement peut &ecirc;tre observ&eacute;e aujourd'hui.
+         </p>
+         <p>Apr&egrave;s ce fork, la majorit&eacute; des utilisateurs suivit la communaut&eacute; des d&eacute;veloppeurs Jenkins et passa &agrave; Jenkins. Au moment o&ugrave;
+            ces lignes sont &eacute;crites, 
+            		les sondages montrent qu'environ 75% des utilisateurs d'Hudson sont pass&eacute;s &agrave; Jenkins, 13 % utilisent encore Hudson et 12%
+            utilisent Jenkins et Hudson ou
+            		sont en cours de migration vers Jenkins.
+         </p>
+         <p>Cependant, Oracle et Sonatype (la compagnie deri&egrave;re Maven et Nexus) ont poursuivi leur travail &agrave; partir du code d'Hudson (qui
+            est maintenant lui aussi h&eacute;berg&eacute; chez GitHub &agrave; <a xmlns:xlink="http://www.w3.org/1999/xlink" href="https://github.com/hudson" target="_top">https://github.com/hudson</a>), 
+            	mais selon un axe diff&eacute;rent. En effet, les <a class="indexterm" name="I_indexterm1_d1e670"></a>d&eacute;veloppeurs de Sonatype se sont concentr&eacute;s sur 
+            	des modifications dans l'architecture, notamment sur l'int&eacute;gration avec Maven, sur le framework d'injection de d&eacute;pendances,
+            et sur l'<a class="indexterm" name="I_indexterm1_d1e674"></a><a class="indexterm" name="I_indexterm1_d1e676"></a>architecture des plugins.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="intro-sect-introducing-jenkins.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="intro-sect-jenkins-or-hudson.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">1.3.&nbsp;Introduction &agrave; Jenkins (n&eacute; Hudson)&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;1.5.&nbsp;Dois-je utiliser Jenkins ou Hudson?</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

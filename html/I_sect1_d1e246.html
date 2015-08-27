@@ -1,0 +1,85 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>5.&nbsp;Conventions de ligne de commande</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="preface.html" title="Pr&eacute;face">
+      <link rel="prev" href="preface-sect-fontConventions.html" title="4.&nbsp;Conventions sur les polices">
+      <link rel="next" href="I_sect1_d1e280.html" title="6.&nbsp;Contributeurs">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="preface-sect-fontConventions.html">4.&nbsp;Conventions sur les polices</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect1_d1e280.html">6.&nbsp;Contributeurs</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="I_sect1_d1e246"></a>5.&nbsp;Conventions de ligne de commande
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>De temps en temps, ce livre traite des instructions en ligne de
+            commande. Quand c'est le cas, la sortie produite par la console (e.g. les
+                invites de commande ou la sortie &eacute;cran) est affich&eacute;e en caract&egrave;res
+                normaux, et les commandes (ce que vous tapez) sont &eacute;crites en <strong class="userinput"><code>gras</code></strong>. Par exemple :
+         </p><pre class="screen">$ <strong class="userinput"><code>ls -al</code></strong>
+total 168
+drwxr-xr-x   16 johnsmart  staff    544 21 Jan 07:20 .
+drwxr-xr-x+  85 johnsmart  staff   2890 21 Jan 07:10 ..
+-rw-r--r--    1 johnsmart  staff     30 26 May  2009 .owner
+-rw-r--r--@   1 johnsmart  staff   1813 16 Apr  2009 config.xml
+drwxr-xr-x  181 johnsmart  staff   6154 26 May  2009 fingerprints
+drwxr-xr-x   17 johnsmart  staff    578 16 Apr  2009 jobs
+drwxr-xr-x    3 johnsmart  staff    102 15 Apr  2009 log
+drwxr-xr-x   63 johnsmart  staff   2142 26 May  2009 plugins
+-rw-r--r--    1 johnsmart  staff     46 26 May  2009 queue.xml
+-rw-r--r--@   1 johnsmart  staff     64 13 Nov  2008 secret.key
+-rw-r--r--    1 johnsmart  staff  51568 26 May  2009 update-center.json
+drwxr-xr-x    3 johnsmart  staff    102 26 May  2009 updates
+drwxr-xr-x    3 johnsmart  staff    102 15 Apr  2009 userContent
+drwxr-xr-x   12 johnsmart  staff    408 17 Feb  2009 users
+drwxr-xr-x   28 johnsmart  staff    952 26 May  2009 war</pre><p>Lorsque n&eacute;cessaire, l'antislash &agrave; la fin de la ligne est utilis&eacute;
+                pour indiquer un saut de ligne : vous pouvez taper l'ensemble sur une seule
+                ligne (sans l'antislash) si vous pr&eacute;f&eacute;rez. N'oubliez pas d'enlever le
+                caract&egrave;re &#8220;&gt;&#8221; au d&eacute;but des lignes concern&eacute;es &#8212; c'est un caract&egrave;re de
+                l'invite Unix :
+         </p><pre class="screen">$ wget -O - http://jenkins-ci.org/debian/jenkins-ci.org.key \
+&gt; | sudo apt-key add -</pre><p>Pour des raisons de coh&eacute;rence, &agrave; moins que nous ne traitions une
+                question sp&eacute;cifique &agrave; Windows, nous utiliserons des invites de commande de
+                style Unix (le signe dollar, &#8220;$&#8221;), comme montr&eacute; ici :
+         </p><pre class="screen">$ java -jar jenkins.war</pre><p>ou :</p><pre class="screen">$ svn list svn://localhost</pre><p>Cependant, &agrave; moins qu'on indique le contraire, les utilisateurs
+                Windows peuvent utiliser ces commandes depuis la console de commande
+                Windows :
+         </p><pre class="screen">C:\Documents and Settings\Owner&gt; java -jar jenkins.war</pre><p>ou :</p><pre class="screen">C:\Documents and Settings\Owner&gt; svn list svn://localhost</pre></div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="preface-sect-fontConventions.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect1_d1e280.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">4.&nbsp;Conventions sur les polices&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;6.&nbsp;Contributeurs</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

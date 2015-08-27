@@ -1,0 +1,147 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.6.&nbsp;Installer Jenkins sur Redhat, Fedora ou CentOS</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="sect-installing-debian.html" title="3.5.&nbsp;Installer Jenkins sur Debian ou Ubuntu">
+      <link rel="next" href="sect-install-jenkins-suse.html" title="3.7.&nbsp;Installer Jenkins sur SUSE ou OpenSUSE">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-installing-debian.html">3.5.&nbsp;Installer Jenkins sur Debian ou Ubuntu</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-install-jenkins-suse.html">3.7.&nbsp;Installer Jenkins sur SUSE ou OpenSUSE</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-hudson-redhat"></a>3.6.&nbsp;Installer Jenkins sur Redhat, Fedora ou CentOS
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			<a class="indexterm" name="ch03-rfc1"></a>
+            			<a class="indexterm" name="ch03-rfc2"></a>
+            			<a class="indexterm" name="ch03-rfc3"></a>
+            			Il existe &eacute;galement des paquets binaires natifs pour Redhat,
+            			Fedora et CentOS. Il vous faut d'abord configurer le
+            			r&eacute;f&eacute;rentiel comme
+            			il suit :
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>sudo wget -O
+				/etc/yum.repos.d/jenkins.repo \</code></strong>
+			<strong class="userinput"><code>http://jenkins-ci.org/redhat/jenkins.repo</code></strong>
+			$
+			<strong class="userinput"><code>sudo rpm --import
+				http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key</code></strong>
+		</pre><p>Sur une nouvelle installation, vous devrez peut-&ecirc;tre installer le JDK:</p><pre class="screen">
+			$
+			<strong class="userinput"><code>sudo yum install java-1.6.0-openjdk</code></strong>
+		</pre><p>Ensuite, vous pouvez installer le paquet comme montr&eacute; ici :</p><pre class="screen">
+			$
+			<strong class="userinput"><code>sudo yum install jenkins</code></strong>
+		</pre><p>
+            			Ceci installera la derni&egrave;re version de Jenkins dans le
+            			r&eacute;pertoire <code class="filename">/usr/lib/jenkins</code>
+            			. Le r&eacute;pertoire de travail par d&eacute;faut
+            			de Jenkins sera
+            			<code class="filename">/var/lib/jenkins</code>
+            			.
+            		
+         </p>
+         <p>
+            			Vous pouvez maintenant d&eacute;marrer Jenkins en utilisant la
+            			commande de <code class="literal">service</code>
+            			:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>sudo service jenkins start</code></strong>
+		</pre><p>
+            			Jenkins va maintenant &ecirc;tre ex&eacute;cut&eacute; sur le port par d&eacute;faut : 8080 (
+            			<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://localhost:8080/" target="_top">http://localhost:8080/</a>
+            			).
+            		
+         </p>
+         <p>
+            			Les param&egrave;tres de configuration de Jenkins sont plac&eacute;s dans le fichier
+            			<code class="filename">/etc/sysconfig/jenkins</code>
+            			. Cependant, au
+            			moment de l'&eacute;criture de ce livre, les options de configuration sont plus limit&eacute;es que celles
+            			fournies par le paquet 
+            			Ubuntu : vous pouvez d&eacute;finir le port HTTP en utilisant
+            			le
+            			<a class="indexterm" name="I_indexterm3_d1e3109"></a>
+            			param&egrave;tre JENKINS_PORT, par exemple, mais pour sp&eacute;cifier un
+            			contexte d'application vous devez modifier le script de d&eacute;marrage &agrave;
+            			la main. Les
+            			principales options de configuration sont list&eacute;es ici :
+            		
+         </p>
+         <div class="variablelist">
+            <dl>
+               <dt><span class="term">JENKINS_JAVA_CMD</span></dt>
+               <dd>
+                  <p>
+                     						La
+                     						<a class="indexterm" name="I_indexterm3_d1e3120"></a>
+                     						version de Java que vous voulez utiliser pour ex&eacute;cuter Jenkins
+                     					
+                  </p>
+               </dd>
+               <dt><span class="term">JENKINS_JAVA_OPTIONS</span></dt>
+               <dd>
+                  <p>
+                     						Les options de ligne de commande
+                     						<a class="indexterm" name="I_indexterm3_d1e3130"></a>
+                     						&agrave; passer &agrave; Java, tels que les options de m&eacute;moire
+                     					
+                  </p>
+               </dd>
+               <dt><span class="term">JENKINS_PORT</span></dt>
+               <dd>
+                  <p>
+                     						Le port sur lequel Jenkins sera
+                     						<a class="indexterm" name="I_indexterm3_d1e3140"></a>
+                     						<a class="indexterm" name="I_indexterm3_d1e3142"></a>
+                     						<a class="indexterm" name="I_indexterm3_d1e3144"></a>
+                     						ex&eacute;cut&eacute;
+                     					
+                  </p>
+               </dd>
+            </dl>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-installing-debian.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-install-jenkins-suse.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.5.&nbsp;Installer Jenkins sur Debian ou Ubuntu&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.7.&nbsp;Installer Jenkins sur SUSE ou OpenSUSE</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

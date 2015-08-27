@@ -1,0 +1,122 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>1.5.&nbsp;Dois-je utiliser Jenkins ou Hudson?</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="intro.html" title="Chapter&nbsp;1.&nbsp;Introduction &agrave; Jenkins">
+      <link rel="prev" href="intro-sect-history.html" title="1.4.&nbsp;De Hudson &agrave; Jenkins &#8212; Un rapide historique">
+      <link rel="next" href="intro-sect-your-organization.html" title="1.6.&nbsp;Mettre en place l'Int&eacute;gration Continue au sein de votre organisation">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="intro-sect-history.html">1.4.&nbsp;De Hudson &agrave; Jenkins &#8212; Un rapide historique</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="intro-sect-your-organization.html">1.6.&nbsp;Mettre en place l'Int&eacute;gration Continue au sein de votre organisation</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="intro-sect-jenkins-or-hudson"></a>1.5.&nbsp;Dois-je utiliser Jenkins ou Hudson?
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Donc faut-il <a class="indexterm" name="I_indexterm1_d1e684"></a>utiliser Jenkins ou Hudson ? Puisqu'il s'agit 
+            	ici d'un livre traitant de Jenkins, voici plusieurs raisons pour choisir Jenkins :
+         </p>
+         <div class="itemizedlist">
+            <ul type="disc">
+               <li>
+                  <p><span class="emphasis"><em>Jenkins est le nouvel Hudson.</em></span> En fait, Jenkins 
+                     est simplement le bon vieil Hudson renomm&eacute;, donc si vous avez appr&eacute;ci&eacute;
+                             Hudson, vous aimerez Jenkins ! Jenkins utilise le code d'Hudson et
+                             l'&eacute;quipe de d&eacute;veloppement ainsi que la philosophie du projet sont rest&eacute;es
+                             identiques. En r&eacute;sum&eacute;,  les d&eacute;veloppeurs initiaux qui ont &eacute;crit la plus grande partie
+                             du coeur d'Hudson, ont simplement continu&eacute; en travaillant sur le projet Jenkins
+                             apr&egrave;s la s&eacute;paration.
+                  </p>
+               </li>
+               <li>
+                  <p><span class="emphasis"><em>La communaut&eacute; <a class="indexterm" name="I_indexterm1_d1e700"></a>Jenkins</em></span>. Comme de nombreux projets
+                             Open Source <a class="indexterm" name="I_indexterm1_d1e707"></a>ayant du succ&egrave;s, la force
+                             d'Hudson venait de sa grande et dynamique communaut&eacute; et de son adoption massive.
+                             Les bogues sont d&eacute;t&eacute;ct&eacute;s (et g&eacute;n&eacute;ralement corrig&eacute;s) beaucoup plus rapidement, et
+                             si par malheur vous rencontrez un souci il y a de fortes chances que quelqu'un d'autre l'ait d&eacute;j&agrave;
+                             rencontr&eacute; ! Si vous avez un probl&egrave;me, &eacute;crivez une question sur la liste de diffusion ou sur le canal IRC &#8212;
+                             vous trouverez s&ucirc;rement quelqu'un pour vous aider.
+                  </p>
+               </li>
+               <li>
+                  <p><span class="emphasis"><em>Le rythme de d&eacute;veloppement <a class="indexterm" name="I_indexterm1_d1e717"></a>intense</em></span>. 
+                             Jenkins conserve la fr&eacute;quence &eacute;l&eacute;v&eacute;e des sorties, typique d'Hudson, et que de
+                             nombreux d&eacute;veloppeurs appr&eacute;cient. Les nouvelles fonctionnalit&eacute;s, les nouveaux plugins
+                             et les corrections de bogues apparaissent hebdomadairement et le temps de correction
+                             des bogues est vraiment tr&egrave;s court. Si, par contre, vous pr&eacute;ferrez plus de stabilit&eacute;, il y a toujours les versions
+                     LTS.
+                  </p>
+               </li>
+            </ul>
+         </div>
+         <p>Et, <a class="indexterm" name="I_indexterm1_d1e726"></a>pour &eacute;quilibrer les choses, voici quelques raisons qui peuvent vous faire pr&eacute;ferrer Hudson :
+         </p>
+         <div class="itemizedlist">
+            <ul type="disc">
+               <li>
+                  <p><span class="emphasis"><em>Si &ccedil;a fonctionne, ne le touchez pas.</em></span> Vous
+                             avez d&eacute;j&agrave; un Hudson install&eacute; dont vous &ecirc;tes tr&egrave;s satisfait et vous ne 
+                             ressentez pas le besoin d'installer la derni&egrave;re version.
+                  </p>
+               </li>
+               <li>
+                  <p><span class="emphasis"><em>L'int&eacute;gration professionnelle et <a class="indexterm" name="I_indexterm1_d1e740"></a>les outils Sonatype.</em></span> Hudson va probablement
+                             mettre l'accent sur son int&eacute;gration avec des outils professionnels comme 
+                             <a class="indexterm" name="I_indexterm1_d1e745"></a>un annuaire LDAP/Active Directory et les produits de Sonatype tels que
+                             <a class="indexterm" name="I_indexterm1_d1e749"></a>Maven 3, <a class="indexterm" name="I_indexterm1_d1e755"></a>Nexus et <a class="indexterm" name="I_indexterm1_d1e761"></a>M2Ecipse, alors que Jenkins
+                             sera plus ouvert &agrave; des outils concurrents comme  <a class="indexterm" name="I_indexterm1_d1e765"></a>Artifactory et <a class="indexterm" name="I_indexterm1_d1e772"></a>Gradle.
+                  </p>
+               </li>
+               <li>
+                  <p><span class="emphasis"><em>L'architecture <a class="indexterm" name="I_indexterm1_d1e782"></a>des plugins.</em></span> 
+                             Si vous avez l'intention d'&eacute;crire vos propres plugins Jenkins/Hudson plugins, il vous faut savoir 
+                             que Sonatype travaille  pour proposer une injection de d&eacute;pendance JSR-330 pour les plugins
+                             d'Hudson. Les nouveaux d&eacute;veloppeurs peuvent trouver cette approche plus facile &agrave; utiliser 
+                             m&ecirc;me si cela soul&egrave;ve des questions quant &agrave; la compatibilit&eacute; entre Jenkins et Hudson.
+                  </p>
+               </li>
+            </ul>
+         </div>
+         <p>La bonne nouvelle est que quelque soit l'outil que vous utilisiez entre Hudson et Jenkins, ils restent
+                globalement tr&egrave;s proches et la plupart des techniques et des astuces pr&eacute;sent&eacute;es dans ce livre
+                seront valables sur les deux. En effet, pour illustrer ce point, de nombreuses captures d'&eacute;cran
+                dans ce livre font r&eacute;f&eacute;rence &agrave; Hudson plut&ocirc;t qu'&agrave; Jenkins.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="intro-sect-history.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="intro-sect-your-organization.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">1.4.&nbsp;De Hudson &agrave; Jenkins &#8212; Un rapide historique&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;1.6.&nbsp;Mettre en place l'Int&eacute;gration Continue au sein de votre organisation</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,108 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>4.8.&nbsp;Configurer le serveur de messagerie &eacute;lectronique</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-configuration.html" title="Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins">
+      <link rel="prev" href="sect-configuration-scm.html" title="4.7.&nbsp;Configurer vos outils de gestion de version">
+      <link rel="next" href="sect-configuration-proxies.html" title="4.9.&nbsp;Configurer un Proxy">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-scm.html">4.7.&nbsp;Configurer vos outils de gestion de version</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-proxies.html">4.9.&nbsp;Configurer un Proxy</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-configuration-email"></a>4.8.&nbsp;Configurer le serveur de messagerie &eacute;lectronique
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p><a class="indexterm" name="ch04-email1"></a><a class="indexterm" name="ch04-email2"></a><a class="indexterm" name="ch04-email3"></a>La derni&egrave;re des options de configuration basique que vous
+            devez mettre en place est la configuration du serveur de messagerie
+            &eacute;lectronique. L'email est la technique de notification la plus
+            fondamentale de Jenkins &#8212; quand un build &eacute;choue, il envoie un
+                email au d&eacute;veloppeur qui a committ&eacute; les changements, et optionnellement
+                aux autres membres de l'&eacute;quipe. Jenkins a donc besoin de conna&icirc;tre
+                votre serveur de messagerie &eacute;lectronique (voir <a href="sect-configuration-email.html#fig-configure-email" title="Figure&nbsp;4.10.&nbsp;Configurer un serveur d'email dans Jenkins">Figure&nbsp;4.10, &#8220;Configurer un serveur d'email dans Jenkins&#8221;</a>).
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-configure-email"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject4_d1e4874"></a><img src="figs/web/jtdg_0410.png" alt="Configurer un serveur d'email dans Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;4.10.&nbsp;Configurer un serveur d'email dans Jenkins</b></p>
+            </div><br class="figure-break"></div>
+         <p>L'email de l'administrateur syst&egrave;me est l'adresse depuis laquelle
+                les messages de notification sont envoy&eacute;s. Vous pouvez aussi utiliser ce
+                champ pour tester la configuration email &#8212; si vous cliquez sur le bouton
+                Tester la configuration, Jenkins enverra un email de test &agrave; cette
+                adresse.
+         </p>
+         <p>Dans de nombreuses organisations, vous pouvez d&eacute;river l'adresse
+                email de l'utilisateur &agrave; partir de son login en ajoutant le nom de domaine
+                de l'organisation. Par exemple, chez ACME, l'utilisateur Marcel Tartampion
+                aura un login "mtartampion" et une adresse email "mtartampion@acme.com&#8221;.
+                Si cela s'&eacute;tend &agrave; votre syst&egrave;me de gestion de version, Jenkins peut vous
+                &eacute;conomiser un bon nombre d'efforts de configuration dans ce domaine. Dans
+                l'exemple pr&eacute;c&eacute;dent, vous pourriez simplement sp&eacute;cifier le suffixe email
+                utilisateur par d&eacute;faut et Jenkins devinera le reste.
+         </p>
+         <p>Vous devrez aussi fournir une URL de base correcte pour votre
+                serveur Jenkins (une qui n'utilise pas localhost). Jenkins utilise cette
+                URL dans les notifications email pour que les utilisateurs puissent aller
+                directement de l'email &agrave; l'&eacute;cran d'&eacute;chec du build sur
+                Jenkins.
+         </p>
+         <p>Jenkins fournit aussi une configuration email plus sophistiqu&eacute;e, en
+                utilisant des fonctionnalit&eacute;s plus avanc&eacute;es comme l'authentification SMTP
+                et SSL. Si vous &ecirc;tes dans ce cas, cliquez sur le bouton Avanc&eacute; pour
+                configurer ces options.
+         </p>
+         <p><a class="indexterm" name="I_indexterm4_d1e4888"></a>Par exemple, plusieurs organisations utilisent Google Apps
+                pour leurs services de messagerie. Vous pouvez configurer Jenkins pour travailler
+                avec le service Gmail comme montr&eacute; dans <a href="sect-configuration-email.html#fig-configure-gmail" title="Figure&nbsp;4.11.&nbsp;Configurer un serveur d'email pour utiliser un domaine Google Apps">Figure&nbsp;4.11, &#8220;Configurer un serveur d'email pour utiliser un domaine Google
+                     Apps&#8221;</a>. Tout ce que vous avez besoin de
+                faire dans ce cas est d'utiliser le serveur SMTP Gmail, et de fournir
+                votre nom d'utilisateur Gmail et votre mot de passe dans Authentication SMTP
+                (vous devez aussi utiliser SSL et le port non-standard <a class="indexterm" name="I_indexterm4_d1e4894"></a><a class="indexterm" name="I_indexterm4_d1e4896"></a><a class="indexterm" name="I_indexterm4_d1e4898"></a>465).
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-configure-gmail"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject4_d1e4904"></a><img src="figs/web/jtdg_0411.png" alt="Configurer un serveur d'email pour utiliser un domaine Google Apps"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;4.11.&nbsp;Configurer un serveur d'email pour utiliser un domaine Google
+                           Apps</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-scm.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-proxies.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">4.7.&nbsp;Configurer vos outils de gestion de version&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;4.9.&nbsp;Configurer un Proxy</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

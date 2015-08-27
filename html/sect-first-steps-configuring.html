@@ -1,0 +1,230 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>2.4.&nbsp;Configuring the Tools</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-first-steps.html" title="Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins">
+      <link rel="prev" href="sect-first-steps-starting.html" title="2.3.&nbsp;D&eacute;marrer Jenkins">
+      <link rel="next" href="sect-first-steps-first-job.html" title="2.5.&nbsp;Your First Jenkins Build Job">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-first-steps-starting.html">2.3.&nbsp;D&eacute;marrer Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-first-job.html">2.5.&nbsp;Your First Jenkins Build Job</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-first-steps-configuring"></a>2.4.&nbsp;Configuring the Tools
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Before <a class="indexterm" name="ch02-configure"></a>we get started, we do need to do a little configuration.
+                More precisely, we need to tell Jenkins about the build tools and JDK
+                versions we will be using for our builds.
+         </p>
+         <p>Click on the <a class="indexterm" name="I_indexterm2_d1e1367"></a>Manage Jenkins link on the home page (see <a href="sect-first-steps-starting.html#fig-hudson-start" title="Figure&nbsp;2.7.&nbsp;La page de d&eacute;marrage Jenkins">Figure&nbsp;2.7, &#8220;La page de d&eacute;marrage Jenkins&#8221;</a>). This will take you to the Manage
+                Jenkins page, the central one-stop-shop for all your Jenkins
+                configuration. From this screen, you can configure your Jenkins server,
+                install and upgrade plugins, keep track of system load, manage distributed
+                build servers, and more! For now, however, we&#8217;ll keep it simple. Just
+                click on the Configuring System link at the top of the list (see <a href="sect-first-steps-configuring.html#fig-hudson-manage" title="Figure&nbsp;2.8.&nbsp;The Manage Jenkins screen">Figure&nbsp;2.8, &#8220;The Manage Jenkins screen&#8221;</a>).
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-manage"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1378"></a><img src="figs/web/jtdg_0401.png" alt="The Manage Jenkins screen"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.8.&nbsp;The Manage Jenkins screen</b></p>
+            </div><br class="figure-break"></div>
+         <p>This will take you to Jenkins&#8217;s main configuration screen (see <a href="sect-first-steps-configuring.html#fig-hudson-configure" title="Figure&nbsp;2.9.&nbsp;The Configure Jenkins screen">Figure&nbsp;2.9, &#8220;The Configure Jenkins screen&#8221;</a>). From here you can configure everything
+                from security configuration and build tools to email servers, version
+                control systems and integration with third-party software. The screen
+                contains a lot of information, but most of the fields contain sensible
+                default values, so you can safely ignore them for now.
+         </p>
+         <div class="figure"><a name="fig-hudson-configure"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e1390"></a><img src="figs/web/jtdg_0402.png" alt="The Configure Jenkins screen"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.9.&nbsp;The Configure Jenkins screen</b></p>
+         </div><br class="figure-break"><p>For now, you will just need to configure the tools required to build
+                our sample project. The application we will be building is a Java
+                application, built using Maven. So in this case, all we need to do is to
+                set up a recent JDK and Maven installation.
+         </p>
+         <p>However before we start, take a look at the little blue question
+                mark icons lined to the right of the screen. These are<a class="indexterm" name="I_indexterm2_d1e1399"></a> Jenkins&#8217;s contextual help buttons. If you are curious about
+                a particular field, click on the help icon next to it and Jenkins will
+                display a very detailed description about what it is and how it
+                works.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e1493"></a>2.4.1.&nbsp;Configuring Your Maven Setup
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p><a class="indexterm" name="ch02-maven"></a><a class="indexterm" name="ch02-maven2"></a><a class="indexterm" name="ch02-maven3"></a><a class="indexterm" name="ch02-maven4"></a>Our sample project uses Maven, so we will need to install
+                     and configure Maven first. Jenkins provides great out-of-the-box support
+                     for Maven. Scroll down until you reach the Maven section in the
+                     Configure System screen (see <a href="sect-first-steps-configuring.html#fig-hudson-maven" title="Figure&nbsp;2.10.&nbsp;Configuring a Maven installation">Figure&nbsp;2.10, &#8220;Configuring a Maven installation&#8221;</a>).
+            </p>
+            <p>Jenkins provides several options when it comes to configuring
+                     Maven. If you already have Maven installed on your machine, you can
+                     simply provide the path in the MAVEN_HOME field. Alternatively, you can
+                     install a Maven distribution by extracting a zip file located in a
+                     shared directory, or execute a home-rolled installation script. Or you
+                     can let Jenkins do all the hard work and download Maven for you. To
+                     choose this option, just tick the Install automatically checkbox.
+                     Jenkins will download and install Maven from the Apache website the
+                     first time a build job needs it. Just choose the Maven version you want
+                     to install and Jenkins will do the rest. You will also need to give a
+                     name for your Maven version (imaginatively called &#8220;Maven 2.2.1&#8221; in the
+                     example), so that you can refer to it in your build jobs.
+            </p>
+            <p>For this to work, you need to have an Internet connection. If you
+                     are behind a proxy, you&#8217;ll need to provide your proxy information&#8212;we
+                     discuss how to set this up in <a href="sect-configuration-proxies.html" title="4.9.&nbsp;Configurer un Proxy">Section&nbsp;4.9, &#8220;Configurer un Proxy&#8221;</a>.
+            </p>
+            <div class="figure"><a name="fig-hudson-maven"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1441"></a><img src="figs/web/jtdg_0210.png" alt="Configuring a Maven installation"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.10.&nbsp;Configuring a Maven installation</b></p>
+            </div><br class="figure-break"><p>One of the nice things about the Jenkins Maven installation
+                     process is how well it <span class="keep-together">works</span> with
+                     remote build agents. Later on in the book, we&#8217;ll see how Jenkins can
+                     also run builds on remote build servers. You can define a standard way
+                     of installing Maven for all of your build servers (downloading from the
+                     Internet, unzipping a distribution bundle on a shared server, etc.)&#8212;all
+                     of these options will work when you add a new remote build agent or set
+                     up a new build server using this Jenkins <a class="indexterm" name="I_indexterm2_d1e1451"></a><a class="indexterm" name="I_indexterm2_d1e1453"></a><a class="indexterm" name="I_indexterm2_d1e1455"></a><a class="indexterm" name="I_indexterm2_d1e1457"></a>configuration.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e1548"></a>2.4.2.&nbsp;Configuring the JDK
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p><a class="indexterm" name="I_indexterm2_d1e1464"></a><a class="indexterm" name="I_indexterm2_d1e1469"></a>Once you have configured your Maven installation, you will
+                     also need to configure a JDK installation (see <a href="sect-first-steps-configuring.html#fig-hudson-jdk" title="Figure&nbsp;2.11.&nbsp;Configuring a JDK installation">Figure&nbsp;2.11, &#8220;Configuring a JDK installation&#8221;</a>). Again, if you have a Java JDK (as opposed
+                     to a Java Runtime Environment&#8212;the JDK contains extra development tools
+                     such as the Java compiler) already installed on your workstation, you
+                     can simply provide the path to your JDK in the JAVA_HOME field.
+                     Otherwise, you can ask Jenkins to download the JDK from the <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.oracle.com/technetwork/java/index.html" target="_top">Oracle
+                        website</a> the first time a build job requires it. This is similar
+                     to the automatic Maven installation feature&#8212;just pick the JDK version
+                     you need and Jenkins will take care of all the logistics. However, for
+                     licensing reasons, you will also need to tick a checkbox to indicate
+                     that you agree with the Java SDK License Agreement.
+            </p>
+            <div class="figure"><a name="fig-hudson-jdk"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1483"></a><img src="figs/web/jtdg_0211.png" alt="Configuring a JDK installation"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.11.&nbsp;Configuring a JDK installation</b></p>
+            </div><br class="figure-break"><p>Now go to the bottom of the screen and click on the Save
+                     button.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e1578"></a>2.4.3.&nbsp;Notification
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Another<a class="indexterm" name="I_indexterm2_d1e1495"></a><a class="indexterm" name="I_indexterm2_d1e1500"></a><a class="indexterm" name="I_indexterm2_d1e1505"></a> important aspect you would typically set up is
+                     notification. When a Jenkins build breaks, and when it works again, it
+                     can send out email messages to the team to spread the word. Using
+                     plugins, you can also get it to send instant messages or SMS messages,
+                     post entries on Twitter, or get people notified in a few other ways. It
+                     all depends on what works best for your organizational culture. Email
+                     notification is easy enough to set up if you know your local SMTP server
+                     address&#8212;just provide this value in the Email Notification section
+                     towards the bottom of the main configuration page. However, to keep
+                     things simple, we&#8217;re not going to worry about notifications just
+                     yet.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e1599"></a>2.4.4.&nbsp;Setting Up Git
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>The <a class="indexterm" name="ch02-git"></a><a class="indexterm" name="ch02-git2"></a><a class="indexterm" name="ch02-git3"></a>last thing we need to configure for this demo is to get
+                     Jenkins working with Git. Jenkins comes with support for <a class="indexterm" name="I_indexterm2_d1e1531"></a><a class="indexterm" name="I_indexterm2_d1e1536"></a>Subversion and <a class="indexterm" name="I_indexterm2_d1e1542"></a><a class="indexterm" name="I_indexterm2_d1e1547"></a>CVS out of the box, but you will need to install the
+                     Jenkins Git plugin to be able to complete the rest of this tutorial.
+                     Don&#8217;t worry, the process is pretty simple. First of all, click on the
+                     Manage Jenkins link to the left of the screen to go back to the main
+                     configuration screen (see <a href="sect-first-steps-configuring.html#fig-hudson-manage" title="Figure&nbsp;2.8.&nbsp;The Manage Jenkins screen">Figure&nbsp;2.8, &#8220;The Manage Jenkins screen&#8221;</a>). Then
+                     click on Manage Plugins. This will open the plugin configuration screen,
+                     which is where you manage the extra features you want to install on your
+                     Jenkins server. You should see four tabs: Updates, Available, Installed,
+                     and Advanced (see <a href="sect-first-steps-configuring.html#fig-jenkins-plugin-manager-installed" title="Figure&nbsp;2.12.&nbsp;Managing plugins in Jenkins">Figure&nbsp;2.12, &#8220;Managing plugins in Jenkins&#8221;</a>).
+            </p>
+            <div class="figure"><a name="fig-jenkins-plugin-manager-installed"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1561"></a><img src="figs/web/jtdg_0212.png" alt="Managing plugins in Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.12.&nbsp;Managing plugins in Jenkins</b></p>
+            </div><br class="figure-break"><p>For now, just click on the Available tab. Here you will see a very
+                     long list of available plugins. Find the Git Plugin entry in this list
+                     and tick the corresponding checkbox (see <a href="sect-first-steps-configuring.html#fig-jenkins-installing-git" title="Figure&nbsp;2.13.&nbsp;Installing the Git plugin">Figure&nbsp;2.13, &#8220;Installing the Git plugin&#8221;</a>), and then scroll down to the
+                     bottom of the screen and click on Install. This will download and
+                     install the Jenkins Git plugin into your local Jenkins instance.
+            </p>
+            <div class="figure"><a name="fig-jenkins-installing-git"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1573"></a><img src="figs/web/jtdg_0213.png" alt="Installing the Git plugin"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.13.&nbsp;Installing the Git plugin</b></p>
+            </div><br class="figure-break"><p>Once it is done, you will need to restart Jenkins for the changes
+                     to take effect. To do this, you can simply click on the &#8220;Restart Jenkins
+                     when no jobs are running&#8221; button displayed on the installation screen,
+                     or alternatively shut down and restart Jenkins by hand.
+            </p>
+            <p>That is all we need to configure at this stage. You are now ready
+                     to set up your first Jenkins build <a class="indexterm" name="I_indexterm2_d1e1582"></a><a class="indexterm" name="I_indexterm2_d1e1584"></a><a class="indexterm" name="I_indexterm2_d1e1586"></a><a class="indexterm" name="I_indexterm2_d1e1588"></a>job!
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-first-steps-starting.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-first-job.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">2.3.&nbsp;D&eacute;marrer Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;2.5.&nbsp;Your First Jenkins Build Job</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

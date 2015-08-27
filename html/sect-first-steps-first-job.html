@@ -1,0 +1,255 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>2.5.&nbsp;Your First Jenkins Build Job</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-first-steps.html" title="Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins">
+      <link rel="prev" href="sect-first-steps-configuring.html" title="2.4.&nbsp;Configuring the Tools">
+      <link rel="next" href="sect-first-steps-first-job-in-action.html" title="2.6.&nbsp;Your First Build Job in Action">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-first-steps-configuring.html">2.4.&nbsp;Configuring the Tools</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-first-job-in-action.html">2.6.&nbsp;Your First Build Job in Action</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-first-steps-first-job"></a>2.5.&nbsp;Your First Jenkins Build Job
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Build jobs<a class="indexterm" name="ch02-jobcreate"></a> are at the heart of the Jenkins build process. Simply put,
+            you can think of a Jenkins build job as a particular task or step in your
+            build process. This may involve simply compiling your source code and
+            running your unit tests. Or you might want a build job to do other related
+            tasks, such as running your integration tests, measuring code coverage or
+                code quality metrics, generating technical documentation, or even
+                deploying your application to a web server. A real project usually
+                requires many separate but related build jobs.
+         </p>
+         <p>Our sample application is a simple Java implementation of John
+                Conway&#8217;s <a class="indexterm" name="ch02-game"></a>&#8220;Game of Life.&#8221;<sup>[<a name="footnote-game-of-life" href="#ftn.footnote-game-of-life">2</a>]</sup> The Game of Life is a mathematical game which takes place on
+                a two dimensional grid of cells, which we will refer to as the Universe.
+                Each cell can be either alive or dead. Cells interact with their direct
+                neighbors to determine whether they will live or die in the next
+                generation of cells. For each new generation of cells, the following rules
+                are applied:
+         </p>
+         <div class="itemizedlist">
+            <ul type="disc">
+               <li>
+                  <p>Any live cell with fewer than two live neighbors dies of
+                             underpopulation.
+                  </p>
+               </li>
+               <li>
+                  <p>Any live cell with more than three live neighbors dies of
+                             overcrowding.
+                  </p>
+               </li>
+               <li>
+                  <p>Any live cell with two or three live neighbors lives on to the
+                             next generation.
+                  </p>
+               </li>
+               <li>
+                  <p>Any dead cell with exactly three live neighbors becomes a live
+                             cell.
+                  </p>
+               </li>
+            </ul>
+         </div>
+         <p>Our application is a Java module, built using Maven, that implements
+                the core business logic of the Game of Life. We&#8217;ll worry about the user
+                interfaces later on. For now, let&#8217;s see how we can automate this build in
+                Jenkins. If you are not familiar with Maven, or prefer Ant or another
+                build framework&#8212;don&#8217;t worry! The examples don&#8217;t require much knowledge of
+                Maven, and we&#8217;ll be looking at plenty of examples of using other build
+                tools later on in the book.
+         </p>
+         <p>For our first build job, we will keep it simple: we are just going
+                to compile and test our sample application. Click on the New Job link. You
+                should get to a screen similar to <a href="sect-first-steps-first-job.html#fig-first-build-job" title="Figure&nbsp;2.14.&nbsp;Setting up your first build job in Jenkins">Figure&nbsp;2.14, &#8220;Setting up your first build job in Jenkins&#8221;</a>.
+                Jenkins supports several different types of <a class="indexterm" name="I_indexterm2_d1e1633"></a>build jobs. The two most commonly-used are the freestyle
+                builds and the Maven 2/3 builds. The <a class="indexterm" name="I_indexterm2_d1e1639"></a>freestyle projects allow you to configure just about any
+                sort of build job: they are highly flexible and very configurable. The
+                <a class="indexterm" name="I_indexterm2_d1e1643"></a>Maven 2/3 builds understand the Maven project structure, and
+                can use this to let you set up Maven build jobs with less effort and a few
+                extra features. There are also plugins that provide support for other
+                types of build jobs. Nevertheless, although our project does use Maven, we
+                are going to use a<a class="indexterm" name="ch02-freecreate"></a> freestyle build job, just to keep things simple and general
+                to start with. So choose &#8220;Build a freestyle software project&#8221;, as shown in
+                <a href="sect-first-steps-first-job.html#fig-first-build-job" title="Figure&nbsp;2.14.&nbsp;Setting up your first build job in Jenkins">Figure&nbsp;2.14, &#8220;Setting up your first build job in Jenkins&#8221;</a>.
+         </p>
+         <p>You&#8217;ll <a class="indexterm" name="I_indexterm2_d1e1658"></a>also need to give your build job a sensible name. In this
+                case, call it <span class="emphasis"><em>gameoflife-default</em></span>, as it will be the
+                default CI build for our Game of Life project.
+         </p>
+         <div class="figure"><a name="fig-first-build-job"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e1670"></a><img src="figs/web/jtdg_0214.png" alt="Setting up your first build job in Jenkins"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.14.&nbsp;Setting up your first build job in Jenkins</b></p>
+         </div><br class="figure-break"><p>Once you click on OK, Jenkins will display the project configuration
+                screen (see <span class="keep-together"><a href="sect-first-steps-first-job.html#fig-jenkins-git-new-project" title="Figure&nbsp;2.15.&nbsp;Telling Jenkins where to find the source code">Figure&nbsp;2.15, &#8220;Telling Jenkins where to find the source code&#8221;</a></span>).
+         </p>
+         <p>In a nutshell, Jenkins works by checking out the source code of your
+                project and building it in its own workspace. So the next thing you need
+                to do is to tell Jenkins where it can find the <a class="indexterm" name="I_indexterm2_d1e1682"></a>source code for your project. You do this in the<a class="indexterm" name="I_indexterm2_d1e1688"></a> Source Code Management <a class="indexterm" name="I_indexterm2_d1e1694"></a><a class="indexterm" name="I_indexterm2_d1e1699"></a>section (see <a href="sect-first-steps-first-job.html#fig-jenkins-git-new-project" title="Figure&nbsp;2.15.&nbsp;Telling Jenkins where to find the source code">Figure&nbsp;2.15, &#8220;Telling Jenkins where to find the source code&#8221;</a>). Jenkins<a class="indexterm" name="I_indexterm2_d1e1707"></a> provides support for CVS and Subversion out of the box, and
+                many others such as Git, Mercurial, ClearCase, Perforce and many more via
+                plugins.
+         </p>
+         <p>For this project, we will be getting the source code from the GitHub
+                repository we set up earlier. On the Jenkins screen, choose &#8220;Git&#8221; and
+                enter the Repository URL we defined in <a href="sect-first-steps-environment.html#sect-git-fork" title="2.2.5.&nbsp;Forker le d&eacute;p&ocirc;t des exemples">Section&nbsp;2.2.5, &#8220;Forker le d&eacute;p&ocirc;t des exemples&#8221;</a>
+                (see <a href="sect-first-steps-first-job.html#fig-jenkins-git-new-project" title="Figure&nbsp;2.15.&nbsp;Telling Jenkins where to find the source code">Figure&nbsp;2.15, &#8220;Telling Jenkins where to find the source code&#8221;</a>). Make sure this is
+                the URL of your fork, and not of the original repository: it should have
+                the form
+                <span class="emphasis"><em>git@github.com:<em class="replaceable"><code>&lt;username&gt;</code></em>/game-of-life.git</em></span>,
+                where <em class="replaceable"><code>&lt;username&gt;</code></em> is the username for your
+                own GitHub account. You can leave all of the other options up until here
+                with their default values.
+         </p>
+         <div class="figure"><a name="fig-jenkins-git-new-project"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e1732"></a><img src="figs/web/jtdg_0215.png" alt="Telling Jenkins where to find the source code"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.15.&nbsp;Telling Jenkins where to find the source code</b></p>
+         </div><br class="figure-break"><p>Once<a class="indexterm" name="I_indexterm2_d1e1739"></a><a class="indexterm" name="ch02-trigger2"></a> we have told Jenkins where to find the source code for our
+                application, we need to tell it how often it should check for updates. We
+                want Jenkins to monitor the <span class="keep-together">repository</span> and start a build whenever any
+                changes have been committed. This is a common way to set up a build job in
+                a Continuous Integration context, as it provides fast feedback if the
+                build fails. Other approaches include building on regular intervals (for
+                example, once a day), requiring a user to kick of the build manually, or
+                even triggering a build remotely using a &#8220;post-commit&#8221; hook in your
+                SCM.
+         </p>
+         <p>We configure all of this in the Build Triggers section (see <a href="sect-first-steps-first-job.html#fig-new-job-triggers" title="Figure&nbsp;2.16.&nbsp;Scheduling the build jobs">Figure&nbsp;2.16, &#8220;Scheduling the build jobs&#8221;</a>). Pick the Poll SCM option and enter &#8220;*
+                * * * *&#8221; (that&#8217;s five asterisks separated by spaces) in the Schedule box.
+                Jenkins schedules are configured using the <code class="literal">cron</code> syntax,
+                well-known in the Unix world. The <code class="literal">cron</code> syntax consists
+                of five fields separated by white space, indicating respectively <span class="keep-together">the</span> minute (0&#8211;59), hour (0&#8211;23), day of the
+                month (1&#8211;31), month (1&#8211;12) and the day of the week (0&#8211;7, with 0 and 7
+                being Sunday). The star is a wildcard character which accepts any valid
+                value for that field. So five stars basically means &#8220;every minute of every
+                hour of every day.&#8221; You can also provide ranges of values: &#8220;* 9-17 * * *&#8221;
+                would mean &#8220;every minute of every day, between 9am and 5pm.&#8221; You can also
+                space out the schedule using intervals: &#8220;*/5 * * * *&#8221; means &#8220;every 5
+                minutes,&#8221; for example. Finally, there are some other convenient
+                short-hands, such as &#8220;@daily&#8221; and &#8220;@hourly&#8221;.
+         </p>
+         <p>Don&#8217;t worry if your Unix skills are a little rusty&#8212;if you click on
+                the blue question mark icon on the side of the schedule box, Jenkins will
+                bring up a very complete <a class="indexterm" name="I_indexterm2_d1e1770"></a>refresher.
+         </p>
+         <div class="figure"><a name="fig-new-job-triggers"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e1776"></a><img src="figs/web/jtdg_0216.png" alt="Scheduling the build jobs"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.16.&nbsp;Scheduling the build jobs</b></p>
+         </div><br class="figure-break"><p>The<a class="indexterm" name="ch02-stepadd"></a> next step is to configure the actual build itself. In a
+                freestyle build job, you can break down your build job into a number of
+                build steps. This makes it easier to organize builds in clean, separate
+                stages. For example, a build might run a suite of functional tests in one
+                step, and then tag the build in a second step if all of the functional
+                tests succeed. In technical terms, a build step might involve invoking an
+                Ant task or a Maven target, or running a shell script. There are also
+                Jenkins plugins that let you use additional types of build steps: Gant,
+                Grails, Gradle, Rake, Ruby, MSBuild and many other build tools are all
+                supported.
+         </p>
+         <p><a class="indexterm" name="I_indexterm2_d1e1790"></a><a class="indexterm" name="I_indexterm2_d1e1795"></a>For now, we just want to run a simple Maven build. Scroll
+                down to the Build section and click on the &#8220;Add build step&#8221; and choose
+                &#8220;Invoke top-level Maven targets&#8221; (see <a href="sect-first-steps-first-job.html#fig-new-job-build-step" title="Figure&nbsp;2.17.&nbsp;Adding a build step">Figure&nbsp;2.17, &#8220;Adding a build step&#8221;</a>). Then enter &#8220;clean package&#8221; in the
+                Goals field. If you are not familiar with Maven, this will delete any
+                previous build artifacts, compile our code, run our unit tests, and
+                generate a JAR file.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-new-job-build-step"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e1808"></a><img src="figs/web/jtdg_0217.png" alt="Adding a build step"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.17.&nbsp;Adding a build step</b></p>
+            </div><br class="figure-break"></div>
+         <p>By default, this build job will fail if the code does not compile or
+                if any of the unit tests fail. That&#8217;s the most fundamental thing that
+                you&#8217;d expect of any build server. But <span class="keep-together">Jenkins</span> also does a great job of helping you
+                display your test results and test result trends.
+         </p>
+         <p>The<a class="indexterm" name="I_indexterm2_d1e1820"></a><a class="indexterm" name="I_indexterm2_d1e1827"></a><a class="indexterm" name="I_indexterm2_d1e1834"></a> de facto standard for test reporting in the Java world is
+                an <a class="indexterm" name="I_indexterm2_d1e1842"></a>XML format used by JUnit.<a class="indexterm" name="I_indexterm2_d1e1848"></a> This format is also used by many other Java testing tools,
+                such as TestNG, Spock and Easyb. Jenkins understands this format, so if
+                your build produces JUnit XML test results, Jenkins can generate nice
+                graphical test reports and statistics on test results over time, and also
+                let you view the details of any test failures. Jenkins also keeps track of
+                how long your tests take to run, both globally, and per test&#8212;this can come
+                in handy if you need to track down performance issues.
+         </p>
+         <p>So the next thing we need to do is to get Jenkins to keep tabs on
+                our unit tests.
+         </p>
+         <p><a class="indexterm" name="I_indexterm2_d1e1858"></a>Go to the Post-build Actions section (see <a href="sect-first-steps-first-job.html#fig-new-job-test-reports" title="Figure&nbsp;2.18.&nbsp;Configuring JUnit test reports and artifact archiving">Figure&nbsp;2.18, &#8220;Configuring JUnit test reports and artifact archiving&#8221;</a>) and tick &#8220;Publish JUnit test result
+                report&#8221; checkbox. When Maven runs unit tests in a project, it
+                automatically generates the XML test reports in a directory called
+                <code class="filename">surefire-reports</code> in the <code class="filename">target</code> directory. So enter
+                &#8220;**/target/surefire-reports/*.xml&#8221; in the &#8220;Test report XMLs&#8221; field. The
+                two asterisks at the start of the path (&#8220;**&#8221;) are a best practice to make
+                the configuration a bit more robust: they allow Jenkins to find the target
+                directory no matter how we have configured Jenkins to check out the source
+                code.
+         </p>
+         <p>Another<a class="indexterm" name="I_indexterm2_d1e1874"></a><a class="indexterm" name="I_indexterm2_d1e1881"></a><a class="indexterm" name="I_indexterm2_d1e1884"></a> thing you often want to do is to archive your build
+                results. Jenkins can store a copy of the binary artifacts generated by
+                your build, allowing you to download the binaries produced by a build
+                directly from the build results page. It will also post the latest binary
+                artifacts on the project home page, which is a convenient way to
+                distribute the latest and greatest version of your application. You can
+                activate this option by ticking the &#8220;Archive the artifacts&#8221; checkbox and
+                indicating which binary artifacts you want Jenkins to archive. In <a href="sect-first-steps-first-job.html#fig-new-job-test-reports" title="Figure&nbsp;2.18.&nbsp;Configuring JUnit test reports and artifact archiving">Figure&nbsp;2.18, &#8220;Configuring JUnit test reports and artifact archiving&#8221;</a>, for example, we have configured
+                Jenkins to store all of the JAR files generated by this <a class="indexterm" name="I_indexterm2_d1e1892"></a><a class="indexterm" name="I_indexterm2_d1e1894"></a>build job.
+         </p>
+         <div class="figure"><a name="fig-new-job-test-reports"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e1900"></a><img src="figs/web/jtdg_0218.png" alt="Configuring JUnit test reports and artifact archiving"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.18.&nbsp;Configuring JUnit test reports and artifact archiving</b></p>
+         </div><br class="figure-break"><p>Now we&#8217;re done&#8212;just click on the Save button at the bottom of the
+                screen. Our build job <a class="indexterm" name="I_indexterm2_d1e1907"></a>should now be ready to run. So let&#8217;s see it in
+                action!
+         </p>
+         <div class="footnotes"><br><hr width="100" align="left">
+            <div class="footnote">
+               <p><sup>[<a name="ftn.footnote-game-of-life" href="#footnote-game-of-life">2</a>] </sup>See <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_top">http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life</a>.
+               </p>
+            </div>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-first-steps-configuring.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-first-job-in-action.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">2.4.&nbsp;Configuring the Tools&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;2.6.&nbsp;Your First Build Job in Action</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

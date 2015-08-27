@@ -1,0 +1,398 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>5.5.&nbsp;D&eacute;clencheurs de build</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-build-jobs.html" title="Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build">
+      <link rel="prev" href="sect-subversion.html" title="5.4.&nbsp;Configurer la Gestion du Code Source">
+      <link rel="next" href="I_sect15_d1e6584.html" title="5.6.&nbsp;Les &eacute;tapes de builds">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-subversion.html">5.4.&nbsp;Configurer la Gestion du Code Source</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect15_d1e6584.html">5.6.&nbsp;Les &eacute;tapes de builds</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-build-triggers"></a>5.5.&nbsp;D&eacute;clencheurs de build
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Une fois que<a class="indexterm" name="ch05-trigger1"></a><a class="indexterm" name="ch05-trigger2"></a> vous avez configur&eacute; votre syst&egrave;me de gestion de version, vous devez
+                dire &agrave; Jenkins quand d&eacute;marrer un build. Vous pouvez configurer cela dans
+                la section Ce qui d&eacute;clenche le build.
+         </p>
+         <p>Dans un build free-style, il y a trois mani&egrave;res basiques de d&eacute;clencher
+                une t&acirc;che de build (voir <a href="sect-build-triggers.html#fig-hudson-new-job-triggers" title="Figure&nbsp;5.23.&nbsp;Il y a de multiples mani&egrave;res de configurer Jenkins pour le d&eacute;marrage d'une t&acirc;che de build">Figure&nbsp;5.23, &#8220;Il y a de multiples mani&egrave;res de configurer Jenkins pour le 
+                     d&eacute;marrage d'une t&acirc;che de build&#8221;</a>):
+         </p>
+         <div class="itemizedlist">
+            <ul type="disc">
+               <li>
+                  <p>D&eacute;marrer une t&acirc;che de build une fois qu'une autre s'est termin&eacute;e</p>
+               </li>
+               <li>
+                  <p>Lancer des builds &agrave; des intervalles p&eacute;riodiques</p>
+               </li>
+               <li>
+                  <p>Scruter les changements sur le SCM</p>
+               </li>
+            </ul>
+         </div>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-new-job-triggers"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e6304"></a><img src="figs/web/jtdg_0523.png" alt="Il y a de multiples mani&egrave;res de configurer Jenkins pour le d&eacute;marrage d'une t&acirc;che de build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.23.&nbsp;Il y a de multiples mani&egrave;res de configurer Jenkins pour le 
+                           d&eacute;marrage d'une t&acirc;che de build</b></p>
+            </div><br class="figure-break"></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e6469"></a>5.5.1.&nbsp;D&eacute;clencher une t&acirc;che de build lorsqu'une autre t&acirc;che de build
+                              se termine
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>La <a class="indexterm" name="I_indexterm5_d1e6314"></a>premi&egrave;re option vous permet de configurer un build qui
+                     se lancera &agrave; chaque fois qu'un autre build se terminera. C'est une 
+                     mani&egrave;re facile de construire une s&eacute;quence de build. Par exemple, vous 
+                     pourriez configurer une t&acirc;che de build initiale qui lancera des tests 
+                     unitaires et des tests d'int&eacute;gration, suivie d'une autre t&acirc;che de build 
+                     s&eacute;par&eacute;e qui lancera de l'analyse statique de code, plus gourmande en CPU. 
+                     Vous remplissez simplement le nom du job pr&eacute;c&eacute;dent dans ce champ. Si la 
+                     t&acirc;che de build peut &ecirc;tre lanc&eacute;e par plusieurs autres t&acirc;ches de build, 
+                     listez simplement leurs noms ici en les s&eacute;parant par des virgules. Dans 
+                     ce cas l&agrave;, la t&acirc;che de build sera d&eacute;clench&eacute;e &agrave; <span class="emphasis"><em>chaque</em></span> fois que des t&acirc;ches 
+                     de build pr&eacute;sentes dans la liste se termineront.
+            </p>
+            <p>Il y a un champ sym&eacute;trique dans la section des Actions &agrave; la suite 
+                     du build appel&eacute;e &#8220;Construire d'autres projets&#8221;. Ce champ sera mis &agrave; jour 
+                     automatiquement dans les t&acirc;ches de build correspondantes en coh&eacute;rence 
+                     avec ce que vous aurez rempli ici. Cependant, au contraire de &#8220;Construire 
+                     &agrave; la suite d'autres projets&#8221;, vous avez la possibilit&eacute; de d&eacute;clencher une 
+                     autre t&acirc;che de build m&ecirc;me si le build est <a class="indexterm" name="I_indexterm5_d1e6325"></a><a class="indexterm" name="I_indexterm5_d1e6332"></a>instable (voir <a href="sect-build-triggers.html#fig-hudson-new-job-trigger-build-after" title="Figure&nbsp;5.24.&nbsp;D&eacute;clencher une autre t&acirc;che de build m&ecirc;me si celle-ci est instable.">Figure&nbsp;5.24, &#8220;D&eacute;clencher une autre t&acirc;che de build m&ecirc;me si celle-ci est 
+                          instable.&#8221;</a>). Cela est utile par exemple si vous voulez ex&eacute;cuter une t&acirc;che de build 
+                     sur des indicateurs de qualit&eacute; du code m&ecirc;me s'il y a des tests unitaires 
+                     qui ont &eacute;chou&eacute; dans la premi&egrave;re t&acirc;che de build.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-new-job-trigger-build-after"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e6343"></a><img src="figs/web/jtdg_0524.png" alt="D&eacute;clencher une autre t&acirc;che de build m&ecirc;me si celle-ci est instable."></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.24.&nbsp;D&eacute;clencher une autre t&acirc;che de build m&ecirc;me si celle-ci est 
+                                instable.</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e6508"></a>5.5.2.&nbsp;T&acirc;ches de build p&eacute;riodiques
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une autre<a class="indexterm" name="ch05-regular"></a> strat&eacute;gie est simplement de d&eacute;clencher une t&acirc;che de build &agrave; intervalle r&eacute;gulier. Il est important 
+                     de faire remarquer qu'il ne s'agit plus d'Int&eacute;gration Continue ; il 
+                     s'agit simplement de builds p&eacute;riodiques, chose que vous pourriez tout 
+                     aussi bien faire, par exemple, avec une t&acirc;che cron sous Unix. Aux d&eacute;buts 
+                     des builds automatis&eacute;s, et toujours aujourd'hui dans beaucoup 
+                     d'entreprises, les builds ne sont pas ex&eacute;cut&eacute;s en r&eacute;ponse aux 
+                     changements commit&eacute;s dans le syst&egrave;me de contr&ocirc;le de version mais seulement la 
+                     nuit (build nocturne journalier). Cependant, pour &ecirc;tre efficace, le 
+                     serveur d'Int&eacute;gration Continue doit apporter un retour d'information 
+                     beaucoup plus rapidement qu'une seule fois par jour.
+            </p>
+            <p>Il y a toutefois quelques cas o&ugrave; les t&acirc;ches p&eacute;riodiques auront 
+                     une utilit&eacute;. Cela inclut les tr&egrave;s longues t&acirc;ches de build, lorsqu'un 
+                     retour rapide est moins critique. Par exemple, des tests de charge et 
+                     de performance intensifs qui prennent plusieurs heures &agrave; s'ex&eacute;cuter ou 
+                     <a class="indexterm" name="I_indexterm5_d1e6361"></a>des t&acirc;ches de build Sonar. Sonar est une excellente mani&egrave;re de conserver une 
+                     vue sur vos indicateurs de qualit&eacute; du code de vos projets et 
+                     au fur et &agrave; mesure que le temps passe mais il ne permet de conserver qu'un 
+                     seul lot de donn&eacute;es par jour. Il n'est donc pas n&eacute;cessaire d'ex&eacute;cuter 
+                     des builds Sonar plus fr&eacute;quemment que cela.
+            </p>
+            <p>Pour toutes les t&acirc;ches p&eacute;riodiques, Jenkins utilise une 
+                     syntaxe ressemblant &agrave; celle de cron. Cette syntaxe est constitu&eacute;e 
+                     de cinq champs s&eacute;par&eacute;s par des espaces blancs au format suivant :
+            </p>
+            <table class="simplelist" border="0" summary="Simple list">
+               <tr>
+                  <td>MINUTES HEURES JOURMOIS MOIS JOURSEMAINE</td>
+               </tr>
+            </table>
+            <p>Les valeurs suivantes sont possibles pour chaque champ :</p>
+            <div class="variablelist">
+               <dl>
+                  <dt><span class="term">MINUTES</span></dt>
+                  <dd>
+                     <p>Les minutes dans une heure (0-59)</p>
+                  </dd>
+                  <dt><span class="term">HEURES</span></dt>
+                  <dd>
+                     <p>Les heures dans une journ&eacute;e (0-23)</p>
+                  </dd>
+                  <dt><span class="term">JOURMOIS</span></dt>
+                  <dd>
+                     <p>Le jour dans un mois (1-31)</p>
+                  </dd>
+                  <dt><span class="term">MOIS</span></dt>
+                  <dd>
+                     <p>Le mois (1-12)</p>
+                  </dd>
+                  <dt><span class="term">JOURSEMAINE</span></dt>
+                  <dd>
+                     <p>Le jour de la semaine (0-7) o&ugrave; 0 et 7 repr&eacute;sentent le dimanche </p>
+                  </dd>
+               </dl>
+            </div>
+            <p>Il existe &eacute;galement quelques raccourcis :</p>
+            <div class="itemizedlist">
+               <ul type="disc">
+                  <li>
+                     <p>&#8220;*&#8221; repr&eacute;sente l'ensemble des valeurs possibles. Par exemple,
+                                  &#8220;* * * * *&#8221; signifie &#8220;toutes les minutes.&#8221;
+                     </p>
+                  </li>
+                  <li>
+                     <p>Vous pouvez d&eacute;finir des espaces en utilisant la notation &#8220;M&#8211;N&#8221;. Par exemple
+                                  &#8220;1-5&#8221; dans le champ JOURSEMAINE signifie &#8220;lundi &agrave; vendredi.&#8221;
+                     </p>
+                  </li>
+                  <li>
+                     <p>Vous pouvez utiliser la notation slash pour d&eacute;finir des sauts dans un espace. 
+                                  Par exemple, &#8220;*/5&#8221; dans le champ MINUTES signifie &#8220;toutes les cinq
+                                  minutes.&#8221;
+                     </p>
+                  </li>
+                  <li>
+                     <p>Une liste dont les &eacute;l&eacute;ments sont s&eacute;par&eacute;s par des virgules indique 
+                                  une liste de valeur prises en compte. Par exemple, &#8220;15,45&#8221; dans le champ 
+                                  MINUTES signifie &#8220;aux minutes 15 et 45 de chaque heure.&#8221;
+                     </p>
+                  </li>
+                  <li>
+                     <p>Vous pouvez aussi utiliser les raccourcis suivants : &#8220;@yearly&#8221;,
+                                  &#8220;@annually&#8221;, &#8220;@monthly&#8221;, &#8220;@weekly&#8221;, &#8220;@daily&#8221;, &#8220;@midnight&#8221;, et
+                                  &#8220;@hourly&#8221;.
+                     </p>
+                  </li>
+               </ul>
+            </div>
+            <p>G&eacute;n&eacute;ralement vous n'aurez besoin que d'une seule ligne dans ce champ mais 
+                     pour des configurations de p&eacute;riodicit&eacute; plus compliqu&eacute;es, vous aurez peut-&ecirc;tre 
+                     besoin de<a class="indexterm" name="I_indexterm5_d1e6425"></a> plusieurs lignes.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e6588"></a>5.5.3.&nbsp;Scruter le SCM
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Comme <a class="indexterm" name="I_indexterm5_d1e6433"></a><a class="indexterm" name="I_indexterm5_d1e6438"></a>nous avons pu le voir, les t&acirc;ches de build p&eacute;riodiques ne sont g&eacute;n&eacute;ralement pas
+                     la meilleure strat&eacute;gie pour la plupart des t&acirc;ches de <span class="keep-together">build d'Int&eacute;gration Continue</span>.
+                     La valeur du retour d'information est proportionnelle &agrave; la vitesse &agrave; 
+                     laquelle vous recevez ce retour et il n'y a pas d'exception en ce qui 
+                     concerne l'Int&eacute;gration Continue. C'est pour cette raison que scruter 
+                     le SCM est g&eacute;n&eacute;ralement une bien meilleure option.
+            </p>
+            <p>La scrutation implique l'interrogation &agrave; intervalles r&eacute;guliers 
+                     du serveur de contr&ocirc;le de version pour savoir si des changements ont 
+                     &eacute;t&eacute; ajout&eacute;s. Si des changements ont &eacute;t&eacute; faits dans le code source du 
+                     projet, Jenkins lance alors un build. Scruter est habituellement une 
+                     op&eacute;ration peu co&ucirc;teuse, vous pouvez donc le faire fr&eacute;quemment pour vous 
+                     assurer qu'un build sera lanc&eacute; rapidement apr&egrave;s tout commit de code 
+                     source. Plus vous scruterez fr&eacute;quemment, plus votre t&acirc;che 
+                     d&eacute;marrera rapidement et plus pr&eacute;cis sera le retour d'information li&eacute; aux 
+                     changements effectu&eacute;s dans le cas o&ugrave; le build &eacute;choue.
+            </p>
+            <p>Dans Jenkins, la scrutation du SCM est tr&egrave;s facile &agrave; configurer et 
+                     utilise la m&ecirc;me syntaxe cron pr&eacute;c&eacute;demment pr&eacute;sent&eacute;e.
+            </p>
+            <p>Naturellement vous aurez l'envie de scruter le SCM le plus souvent 
+                     possible (par exemple en utilisant &#8220;* * * * *&#8221; pour chaque minute). 
+                     Comme Jenkins n'utilise que des requ&ecirc;tes simples et ne lance de build 
+                     que lorsque le code source a &eacute;t&eacute; modifi&eacute;, cette approche est souvent 
+                     raisonnable pour de petits projets. Cela montre cependant des limites 
+                     quand il y a un grand nombre de t&acirc;ches de build car cela pourrait 
+                     saturer le serveur SCM et le r&eacute;seau avec les requ&ecirc;tes dont beaucoup 
+                     sont inutiles. Dans ce cas, une approche plus pr&eacute;cise sera plus 
+                     appropri&eacute;e avec un d&eacute;clenchement de la t&acirc;che de build directement 
+                     par le SCM lorsqu'il re&ccedil;oit un changement. Cette option est discut&eacute;e dans <a href="sect-build-triggers.html#sect-build-trigger-remote" title="5.5.4.&nbsp;D&eacute;clencher des builds &agrave; distance">Section&nbsp;5.5.4, &#8220;D&eacute;clencher des builds &agrave; distance&#8221;</a>.
+            </p>
+            <p>Si des changements sont commit&eacute;s tr&egrave;s fr&eacute;quemment et dans un 
+                     grand nombre de projets, cela peut causer la cr&eacute;ation d'une longue liste 
+                     d'attente de t&acirc;ches de build et ainsi retarder le retour d'information 
+                     par la suite. Vous pouvez donc partiellement r&eacute;duire la file d'attente 
+                     de builds en scrutant moins r&eacute;guli&egrave;rement le SCM mais au prix d'un retour 
+                     d'information moins pr&eacute;cis.
+            </p>
+            <p>Si vous utilisez <a class="indexterm" name="I_indexterm5_d1e6459"></a>CVS, scruter 
+                     n'est peut &ecirc;tre pas une bonne option. Lorsque CVS v&eacute;rifie les nouveaux 
+                     changements d'un projet, il v&eacute;rifie chaque fichier un par un ce qui 
+                     une proc&eacute;dure lente et fastidieuse. La meilleure solution est de migrer 
+                     vers un syst&egrave;me de contr&ocirc;le de version plus moderne tel que Git ou 
+                     Subversion. La deuxi&egrave;me meilleure solution sera de scruter &agrave; des intervalles 
+                     beaucoup plus espac&eacute;s (toutes les 30 minutes par exemple).
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-build-trigger-remote"></a>5.5.4.&nbsp;D&eacute;clencher des builds &agrave; distance
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Scruter <a class="indexterm" name="ch05-remote1"></a><a class="indexterm" name="ch05-remote2"></a>peut &ecirc;tre une strat&eacute;gie efficace pour des petits projets projects mais 
+                     cela ne s'adapte pas tr&egrave;s bien &agrave; un grand nombre de jobs. Cela utilise 
+                     inutilement beaucoup de ressources r&eacute;seau et il y a toujours un court 
+                     d&eacute;lai entre le commit de nouveau code et le d&eacute;marrage 
+                     de la t&acirc;che de build. La strat&eacute;gie sera donc de d&eacute;l&eacute;guer &agrave; votre syst&egrave;me 
+                     de gestion de version le d&eacute;clenchement du build dans Jenkins d&egrave;s qu'un 
+                     changement est commit&eacute;.
+            </p>
+            <p>Il est facile de d&eacute;marrer une t&acirc;che de build Jenkins &agrave; distance. 
+                     Vous devez simplement invoquer une URL de la forme suivante :
+            </p>
+            <table class="simplelist" border="0" summary="Simple list">
+               <tr>
+                  <td>
+                               <span class="emphasis"><em>http://SERVER/jenkins/job/PROJECTNAME/build</em></span>
+                             
+                  </td>
+               </tr>
+            </table>
+            <p>Par exemple, si mon serveur Jenkins est accessible &agrave;
+                     <span class="emphasis"><em>http://myserver:8080/jenkins</em></span>, je pourrais d&eacute;marrer la t&acirc;che de build 
+                     <span class="emphasis"><em>gameoflife</em></span> en invoquant l'URL suivante 
+                     en utilisant un outil tel que <code class="literal">wget</code> ou 
+                     <code class="literal">curl</code> :
+            </p><pre class="screen">$ <strong class="userinput"><code>wget http://myserver:8080/jenkins/job/gameoflife/build</code></strong></pre><p>L'astuce alors est de faire faire cette invocation directement 
+                     par votre serveur de contr&ocirc;le de version d&egrave;s qu'un changement est commit&eacute;. 
+                     Les d&eacute;tails dans la mani&egrave;re de faire sont diff&eacute;rent pour chaque syst&egrave;me 
+                     de contr&ocirc;le de version. Dans Subversion, par exemple, vous devrez &eacute;crire 
+                     un script ex&eacute;cut&eacute; automatiquement apr&egrave;s la soumission de code pour faire 
+                     d&eacute;clencher le build. Votre script pourrait par exemple parcourir l'URL 
+                     de votre d&eacute;p&ocirc;t, en extraire le nom du projet et ensuite effectuer une 
+                     op&eacute;ration de <code class="literal">wget</code> sur l'URL correspondante &agrave; la t&acirc;che de 
+                     build :
+            </p><a name="I_programlisting5_d1e6510"></a><pre class="programlisting">JENKINS_SERVER=http://myserver:8080/jenkins
+REPOS="$1"
+PROJECT=<span class="emphasis"><em>&lt;Expression R&eacute;guli&egrave;re de Traitement ici&gt;</em></span><a name="svn-hook-1"></a><img src="../images/callouts/1.png" alt="1" border="0">
+/usr/bin/wget $JENKINS_SERVER/job/${PROJECT}/build</pre><div class="calloutlist">
+               <table border="0" summary="Callout list">
+                  <tr>
+                     <td width="5%" valign="top" align="left"><a href="#svn-hook-1"><img src="../images/callouts/1.png" alt="1" border="0"></a> 
+                     </td>
+                     <td valign="top" align="left">
+                        <p>Utilisez une expression r&eacute;guli&egrave;re pour extraire le nom de votre projet
+                                     de l'URL de votre d&eacute;p&ocirc;t Subversion.
+                        </p>
+                     </td>
+                  </tr>
+               </table>
+            </div>
+            <p>Cette approche ne d&eacute;clenchera cependant qu'un build en particulier et 
+                     se repose sur une convention de nommage qui veut que la t&acirc;che de build par 
+                     d&eacute;faut se base sur le nom de votre d&eacute;p&ocirc;t Subversion. Vous pouvez opter 
+                     pour une approche plus flexible avec Subversion en utilisant directement 
+                     l'API Subversion de Jenkins comme cela est d&eacute;montr&eacute; ici :
+            </p><a name="I_programlisting5_d1e6522"></a><pre class="programlisting">JENKINS_SERVER=http://myserver:8080/jenkins
+REPOS="$1"
+REV="$2"
+UUID=`svnlook uuid $REPOS`
+/usr/bin/wget \
+  --header "Content-Type:text/plain;charset=UTF-8" \
+  --post-data "`svnlook changed --revision $REV $REPOS`" \
+  --output-document "-" \
+  --timeout=2 \
+  $JENKINS_SERVER/subversion/${UUID}/notifyCommit?rev=$REV</pre><p>Cela d&eacute;clenchera automatiquement n'importe quelle t&acirc;che de build 
+                     Jenkins qui surveille ce <span class="keep-together">d&eacute;p&ocirc;t</span> Subversion.
+            </p>
+            <p>Si vous avez activ&eacute; la s&eacute;curit&eacute; dans Jenkins, les choses peuvent 
+                     devenir un peu plus compliqu&eacute;es. Dans le plus simple des cas (o&ugrave; 
+                     n'importe quel utilisateur peut faire ce qu'il veut), vous n'avez 
+                     qu'&agrave; activer l'option &#8220;D&eacute;clencher les builds &agrave; distance&#8221; (voir <a href="sect-build-triggers.html#fig-hudson-builds-tokens" title="Figure&nbsp;5.25.&nbsp;D&eacute;clencher un build via une URL en utilisant un jeton">Figure&nbsp;5.25, &#8220;D&eacute;clencher un build via une URL en utilisant un jeton&#8221;</a>), et fournir une cha&icirc;ne de caract&egrave;res 
+                     sp&eacute;cifique qui pourra &ecirc;tre utilis&eacute;e dans l'URL :
+            </p>
+            <table class="simplelist" border="0" summary="Simple list">
+               <tr>
+                  <td>
+                               <span class="emphasis"><em>http://SERVER/jenkins/job/PROJECTNAME/build?token=DOIT</em></span>
+                             
+                  </td>
+               </tr>
+            </table>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-builds-tokens"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e6541"></a><img src="figs/web/jtdg_0525.png" alt="D&eacute;clencher un build via une URL en utilisant un jeton"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.25.&nbsp;D&eacute;clencher un build via une URL en utilisant un jeton</b></p>
+               </div><br class="figure-break"></div>
+            <p>Cela ne fonctionnera pas si les utilisateurs ont besoin d'&ecirc;tre authentifi&eacute;s pour d&eacute;clencher un build 
+                     (par exemple si vous utilisez une s&eacute;curit&eacute; par projet ou bas&eacute;e sur une matrice). 
+                     Dans ce cas, vous aurez besoin de fournir un nom d'utilisateur et un 
+                     mot de passe, comme montr&eacute; dans l'exemple suivant :
+            </p><pre class="screen">$ <strong class="userinput"><code>wget http://scott:tiger@myserver:8080/jenkins/job/gameoflife/build</code></strong></pre><p><a class="indexterm" name="I_indexterm5_d1e6554"></a><a class="indexterm" name="I_indexterm5_d1e6556"></a>ou :
+            </p><pre class="screen">$ <strong class="userinput"><code>curl -u scott:tiger http://scott:tiger@myserver:8080/jenkins/job/gameoflife/build</code></strong></pre></div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e6726"></a>5.5.5.&nbsp;Construction manuelle de t&acirc;ches
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Une <a class="indexterm" name="I_indexterm5_d1e6568"></a><a class="indexterm" name="I_indexterm5_d1e6573"></a>construction ne doit pas forc&eacute;ment &ecirc;tre d&eacute;clench&eacute;e automatiquement. Certaines t&acirc;ches de build 
+                     doivent seulement &ecirc;tre d&eacute;marr&eacute;es manuellement, par une intervention 
+                     humaine. Par exemple, vous pourriez avoir besoin de configurer un 
+                     d&eacute;ploiement automatique dans un environnement de test de validation 
+                     (UAT), qui ne devra &ecirc;tre d&eacute;marr&eacute; qu'&agrave; la demande de vos coll&egrave;gues de 
+                     la validation (QA). Dans ce cas, laissez simplement la section 
+                     Ce qui d&eacute;clenche le build<a class="indexterm" name="I_indexterm5_d1e6579"></a><a class="indexterm" name="I_indexterm5_d1e6581"></a> vide.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-subversion.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect15_d1e6584.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">5.4.&nbsp;Configurer la Gestion du Code Source&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;5.6.&nbsp;Les &eacute;tapes de builds</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,229 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>A.2.&nbsp;Automatiser vos tests avec Ant</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="appendix-automating-your-tests.html" title="Appendix&nbsp;A.&nbsp;Automatiser vos tests unitaires et d&#8217;int&eacute;gration">
+      <link rel="prev" href="appendix-automating-your-tests.html" title="Appendix&nbsp;A.&nbsp;Automatiser vos tests unitaires et d&#8217;int&eacute;gration">
+      <link rel="next" href="ix01.html" title="Index">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="appendix-automating-your-tests.html">Appendix&nbsp;A.&nbsp;Automatiser vos tests unitaires et <span class="keep-together">
+                          d&#8217;int&eacute;gration</span></a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="ix01.html">Index</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-testing-ant"></a>A.2.&nbsp;Automatiser vos tests avec Ant
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Mettre en place<a class="indexterm" name="appa-ant2"></a><a class="indexterm" name="appa-ant3"></a> des tests automatis&eacute;s avec Ant est aussi relativement facile, bien que
+            cela requiert un peu plus de plomberie qu&#8217;avec Maven. En particulier, Ant ne fournit
+            pas directement les librairies JUnit et les t&acirc;ches Ant adapt&eacute;es, donc
+            il faut les installer soi-m&ecirc;me quelque part. L&#8217;approche la plus portable est
+                d&#8217;utiliser un outil de Gestion de d&eacute;pendances tel qu&#8217;Ivy, ou de placer
+                les fichiers JAR correspondants dans un r&eacute;pertoire &agrave; l&#8217;int&eacute;rieur de la
+                structure de votre projet.
+         </p>
+         <p>Pour lancer les tests avec Ant, vous appelez la t&acirc;che
+                <code class="literal">&lt;junit&gt;</code>. Une configuration typique adapt&eacute;e
+                &agrave; Jenkins est pr&eacute;sent&eacute;e dans cet exemple :
+         </p><a name="I_programlisting_d1e18567"></a><pre class="programlisting">&lt;property name="build.dir" value="target" /&gt;
+&lt;property name="java.classes" value="${build.dir}/classes" /&gt;
+&lt;property name="test.classes" value="${build.dir}/test-classes" /&gt;
+&lt;property name="test.reports" value="${build.dir}/test-reports" /&gt;
+&lt;property name="lib" value="${build.dir}/lib" /&gt;
+
+&lt;path id="test.classpath"&gt;<a name="junit-ant-1"></a><img src="../images/callouts/1.png" alt="1" border="0">
+  &lt;pathelement location="/jenkins-guide-complet/hudsonbook-content-fr/tools/junit/*.jar" /&gt;
+  &lt;pathelement location="${java.classes}" /&gt;
+  &lt;pathelement location="${lib}" /&gt;
+&lt;/path&gt;
+
+&lt;target name="test" depends="test-compile"&gt;
+  &lt;junit haltonfailure="no" failureproperty="failed"&gt;<a name="junit-ant-2"></a><img src="../images/callouts/2.png" alt="2" border="0">
+    &lt;classpath&gt;<a name="junit-ant-3"></a><img src="../images/callouts/3.png" alt="3" border="0">
+      &lt;path refid="test.classpath" /&gt;
+      &lt;pathelement location="${test.classes}" /&gt;
+    &lt;/classpath&gt;
+    &lt;formatter type="xml" /&gt;<a name="junit-ant-4"></a><img src="../images/callouts/4.png" alt="4" border="0">
+    &lt;batchtest fork="yes" forkmode="perBatch"<a name="junit-ant-5"></a><img src="../images/callouts/5.png" alt="5" border="0"> todir="${test.reports}"&gt;
+      &lt;fileset dir="${test.src}"&gt;<a name="junit-ant-6"></a><img src="../images/callouts/6.png" alt="6" border="0">
+        &lt;include name="**/*Test*.java" /&gt;
+      &lt;/fileset&gt;
+    &lt;/batchtest&gt;
+  &lt;/junit&gt;
+  &lt;fail message="TEST FAILURE" if="failed" /&gt;<a name="junit-ant-7"></a><img src="../images/callouts/7.png" alt="7" border="0">
+&lt;/target&gt;</pre><div class="calloutlist">
+            <table border="0" summary="Callout list">
+               <tr>
+                  <td width="5%" valign="top" align="left"><a href="#junit-ant-1"><img src="../images/callouts/1.png" alt="1" border="0"></a> 
+                  </td>
+                  <td valign="top" align="left">
+                     <p>Nous devons mettre en place un <span class="emphasis"><em>classpath</em></span> contenant les fichiers JAR <code class="filename">junit</code> et <code class="filename">junit-ant</code>, sans oublier
+                                les classes de l&#8217;application et toute autre d&eacute;pendance de l&#8217;application pour la
+                                compilation et le lancement.
+                     </p>
+                  </td>
+               </tr>
+               <tr>
+                  <td width="5%" valign="top" align="left"><a href="#junit-ant-2"><img src="../images/callouts/2.png" alt="2" border="0"></a> 
+                  </td>
+                  <td valign="top" align="left">
+                     <p>Les tests en eux-m&ecirc;mes sont lanc&eacute;s ici. L&#8217;option
+                                <code class="literal">haltonfailure</code> est utilis&eacute;e pour faire &eacute;chouer le build
+                                imm&eacute;diatement d&egrave;s qu&#8217;un test &eacute;choue. Dans un environnement d&#8217;Int&eacute;gration Continue,
+                                ce n&#8217;est pas exactement ce qu&#8217;on veux, puisque nous devons &eacute;galement avoir
+                                les r&eacute;sultats des tests suivants. Nous avons donc positionn&eacute; cette valeur &agrave;
+                                <code class="literal">no</code> et utilis&eacute; l&#8217;option <code class="literal">failureproperty</code>
+                                pour forcer l&#8217;&eacute;chec du build d&egrave;s que tous les tests sont
+                                termin&eacute;s.
+                     </p>
+                  </td>
+               </tr>
+               <tr>
+                  <td width="5%" valign="top" align="left"><a href="#junit-ant-3"><img src="../images/callouts/3.png" alt="3" border="0"></a> 
+                  </td>
+                  <td valign="top" align="left">
+                     <p>Le <span class="emphasis"><em>classpath</em></span> doit contenir les librairies JUnit, les
+                                classes de votre application et leurs d&eacute;pendances, et vos classes de test
+                                compil&eacute;es.
+                     </p>
+                  </td>
+               </tr>
+               <tr>
+                  <td width="5%" valign="top" align="left"><a href="#junit-ant-4"><img src="../images/callouts/4.png" alt="4" border="0"></a> 
+                  </td>
+                  <td valign="top" align="left">
+                     <p>La t&acirc;che Junit de Ant peut produire des rapports aux formats texte et XML, mais
+                                pour Jenkins, nous avons seulement besoin de ceux en XML.
+                     </p>
+                  </td>
+               </tr>
+               <tr>
+                  <td width="5%" valign="top" align="left"><a href="#junit-ant-5"><img src="../images/callouts/5.png" alt="5" border="0"></a> 
+                  </td>
+                  <td valign="top" align="left">
+                     <p>L&#8217;option <code class="literal">fork</code> lance vos test dans une JVM
+                                s&eacute;par&eacute;e. C&#8217;est g&eacute;n&eacute;ralement une bonne id&eacute;e, puisque cela peut &eacute;viter les probl&egrave;mes de type <span class="emphasis"><em>classloader</em></span>
+                                li&eacute;s &agrave; des conflits avec les librairies propres &agrave; Ant. N&eacute;anmoins, le comportement
+                                par d&eacute;faut de la t&acirc;che Junit de Ant est de cr&eacute;er une nouvelle JVM pour chaque test,
+                                ce qui ralentit significativement les tests. L&#8217;option
+                                <code class="literal">perBatch</code> est plus int&eacute;ressante, puisqu&#8217;elle cr&eacute;e une seule nouvelle
+                                JVM pour chaque batch de tests.
+                     </p>
+                  </td>
+               </tr>
+               <tr>
+                  <td width="5%" valign="top" align="left"><a href="#junit-ant-6"><img src="../images/callouts/6.png" alt="6" border="0"></a> 
+                  </td>
+                  <td valign="top" align="left">
+                     <p>Vous d&eacute;finissez les tests que vous voulez lancer au sein d&#8217;un &eacute;l&eacute;ment <span class="emphasis"><em>fileset</em></span>. Cela
+                                permet une grande souplesse, et rend simple la d&eacute;finition d&#8217;autres objectifs
+                                pour diff&eacute;rents sous-ensembles de tests (int&eacute;gration, web, et autres).
+                     </p>
+                  </td>
+               </tr>
+               <tr>
+                  <td width="5%" valign="top" align="left"><a href="#junit-ant-7"><img src="../images/callouts/7.png" alt="7" border="0"></a> 
+                  </td>
+                  <td valign="top" align="left">
+                     <p>Force l&#8217;&eacute;chec du build <span class="emphasis"><em>apr&egrave;s</em></span> la fin des
+                                tests, si l&#8217;un d&#8217;entre eux a &eacute;chou&eacute;.
+                     </p>
+                  </td>
+               </tr>
+            </table>
+         </div>
+         <p>Si vous pr&eacute;f&eacute;rez TestNG, Ant est &eacute;videmment bien support&eacute; &eacute;galement.
+                En utilisant TestNG pour l&#8217;exemple pr&eacute;c&eacute;dent, vous pourriez faire quelque chose comme
+                ceci :
+         </p><a name="I_programlisting_d1e18632"></a><pre class="programlisting">&lt;property name="build.dir" value="target" /&gt;
+&lt;property name="java.classes" value="${build.dir}/classes" /&gt;
+&lt;property name="test.classes" value="${build.dir}/test-classes" /&gt;
+&lt;property name="test.reports" value="${build.dir}/test-reports" /&gt;
+&lt;property name="lib" value="${build.dir}/lib" /&gt;
+
+&lt;path id="test.classpath"&gt;
+  &lt;pathelement location="${java.classes}" /&gt;
+  &lt;pathelement location="${lib}" /&gt;
+&lt;/path&gt;
+
+&lt;taskdef resource="testngtasks" classpath="lib/testng.jar"/&gt;
+
+&lt;target name="test" depends="test-compile"&gt;
+  &lt;testng classpathref="test.classpath"
+          outputDir="${testng.report.dir}"
+          haltonfailure="no" 
+          failureproperty="failed"&gt;
+    &lt;classfileset dir="${test.classes}"&gt;
+      &lt;include name="**/*Test*.class" /&gt;
+    &lt;/classfileset&gt;
+  &lt;/testng&gt;
+  &lt;fail message="TEST FAILURE" if="failed" /&gt;
+&lt;/target&gt;</pre><p>TestNG est une librairie de test tr&egrave;s flexible, et la t&acirc;che TestNG a
+                beaucoup plus d&#8217;options que &ccedil;a. Par exemple, pour lancer seulement les tests
+                d&eacute;finis comme faisant partie du groupe &#8220;integration-test&#8221; que nous avons vu pr&eacute;c&eacute;demment, nous pourrions faire
+                &ccedil;a :
+         </p><a name="I_programlisting_d1e18636"></a><pre class="programlisting">&lt;target name="integration-test" depends="test-compile"&gt;
+  &lt;testng classpathref="test.classpath"
+          <strong class="userinput"><code>groups="integration-test"</code></strong>
+          outputDir="${testng.report.dir}"
+          haltonfailure="no" 
+          failureproperty="failed"&gt;
+    &lt;classfileset dir="${test.classes}"&gt;
+      &lt;include name="**/*Test*.class" /&gt;
+    &lt;/classfileset&gt;
+  &lt;/testng&gt;
+  &lt;fail message="TEST FAILURE" if="failed" /&gt;
+&lt;/target&gt;</pre><p>Ou pour lancer les tests en parall&egrave;le, en utilisant quatre threads concurrents, vous
+                <a class="indexterm" name="I_indexterm_d1e18643"></a><a class="indexterm" name="I_indexterm_d1e18645"></a>pourriez faire &ccedil;a :
+         </p><a name="I_programlisting_d1e18648"></a><pre class="programlisting">&lt;target name="integration-test" depends="test-compile"&gt;
+  &lt;testng classpathref="test.classpath"
+          <strong class="userinput"><code>parallel="true"</code></strong>
+          <strong class="userinput"><code>threadCount=4</code></strong>
+          outputDir="${testng.report.dir}"
+          haltonfailure="no" 
+          failureproperty="failed"&gt;
+    &lt;classfileset dir="${test.classes}"&gt;
+      &lt;include name="**/*Test*.class" /&gt;
+    &lt;/classfileset&gt;
+  &lt;/testng&gt;
+  &lt;fail message="TEST FAILURE" if="failed" /&gt;
+&lt;/target&gt;</pre></div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="appendix-automating-your-tests.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="ix01.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Appendix&nbsp;A.&nbsp;Automatiser vos tests unitaires et <span class="keep-together">
+                       d&#8217;int&eacute;gration</span>&nbsp;
+               </td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;Index</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,215 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>5.3.&nbsp;Cr&eacute;er une t&acirc;che de build free-style</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-build-jobs.html" title="Chapter&nbsp;5.&nbsp;Configurer vos t&acirc;ches de Build">
+      <link rel="prev" href="sect-build-jobs.html" title="5.2.&nbsp;T&acirc;ches de Build Jenkins">
+      <link rel="next" href="sect-subversion.html" title="5.4.&nbsp;Configurer la Gestion du Code Source">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-jobs.html">5.2.&nbsp;T&acirc;ches de Build Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-subversion.html">5.4.&nbsp;Configurer la Gestion du Code Source</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-build-jobs-freestyle"></a>5.3.&nbsp;Cr&eacute;er une t&acirc;che de build free-style
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>La <a class="indexterm" name="ch05-free"></a>t&acirc;che de build free-style est l'option la
+            plus flexible et la plus configurable et peut &ecirc;tre utilis&eacute;e pour n'importe quel type de projet. Elle est assez rapide &agrave; mettre
+            en place et la plupart des
+                    options de configuration vues ici sont &eacute;galement disponible dans les autres
+                    types de t&acirc;ches de build.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-general-options"></a>5.3.1.&nbsp;Options G&eacute;n&eacute;rales
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>La premi&egrave;re section que vous voyez lorsque vous cr&eacute;ez un job de type
+                         free-style contient les informations g&eacute;n&eacute;rales du projet comme son nom
+                         unique ou sa description ainsi que d'autres indiquant comment et o&ugrave; la
+                         t&acirc;che de build doit &ecirc;tre ex&eacute;cut&eacute;e (voir <a href="sect-build-jobs-freestyle.html#fig-hudson-new-project-general" title="Figure&nbsp;5.2.&nbsp;Cr&eacute;er une nouvelle t&acirc;che de build">Figure&nbsp;5.2, &#8220;Cr&eacute;er une nouvelle t&acirc;che de build&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-new-project-general"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e5101"></a><img src="figs/web/jtdg_0502.png" alt="Cr&eacute;er une nouvelle t&acirc;che de build"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.2.&nbsp;Cr&eacute;er une nouvelle t&acirc;che de build</b></p>
+               </div><br class="figure-break"></div>
+            <p>Le <a class="indexterm" name="I_indexterm5_d1e5108"></a>nom du projet peut &ecirc;tre n'importe lequel mais il
+                         est bon de noter qu'il sera utilis&eacute; comme repertoire du projet et dans les URLs du job. J'&eacute;vite donc g&eacute;n&eacute;ralement
+               d'utiliser des
+                         noms avec des espaces. La <a class="indexterm" name="I_indexterm5_d1e5114"></a>description du projet
+                         appara&icirc;tra sur la page de d&eacute;marrage du projet &#8212; utilisez la pour
+                         donner une id&eacute;e g&eacute;n&eacute;rale sur le but de la t&acirc;che de build et son contexte. Les tags
+                         HTML y sont accept&eacute;s.
+            </p>
+            <p>Les autres options sont plus techniques et nous reviendrons sur
+                         quelques unes plus en d&eacute;tails dans la suite de ce guide.
+            </p>
+            <p>Un<a class="indexterm" name="I_indexterm5_d1e5124"></a><a class="indexterm" name="I_indexterm5_d1e5129"></a> des aspects importants est la mani&egrave;re dont vous allez g&eacute;rer l'historique
+                         de vos builds. Les t&acirc;ches de build peuvent consommer beaucoup d'espace disque particuli&egrave;rement
+                         si vous archivez les artefacts de vos builds (les fichiers binaires tels que JARs,
+                         WARs, TARs, etc. g&eacute;n&eacute;r&eacute;s par votre t&acirc;che de build). M&ecirc;me sans artefacts, garder un
+                         enregistrement pour chaque t&acirc;che de build consomme de la m&eacute;moire et de l'espace disque
+                         suppl&eacute;mentaire et cela n'est peut &ecirc;tre pas justifi&eacute; selon la nature de votre t&acirc;che de build.
+                         Par exemple, pour un job de qualim&eacute;trie g&eacute;n&eacute;rant des rapports sur
+                         l'analyse statique et la couverture de votre code dans le temps, vous pourriez
+                         vouloir garder une trace de vos builds pendant toute la dur&eacute;e du projet. Cependant,
+                         pour une t&acirc;che de build qui d&eacute;ploie automatiquement une application sur un serveur de test,
+                         garder un historique et les artefacts pour la post&eacute;rit&eacute; est peut &ecirc;tre beaucoup
+                         moins important.
+            </p>
+            <p>L'option de suppression des anciens builds vous permet de limiter le nombre
+                         de builds conserv&eacute;s dans l'historique. Vous pouvez aussi bien demander &agrave;
+                         Jenkins de ne garder que les builds r&eacute;cents (Jenkins supprimera les builds apr&egrave;s
+                         un certain nombre de jours) ou ne garder pas plus qu'un nombre d&eacute;termin&eacute; de builds.
+                         Si un build en particulier a une valeur sentimentale pour vous, vous pouvez
+                         toujours demander &agrave; Jenkins de le conserver &agrave; tout jamais en utilisant le bouton
+                         de conservation sans limite de temps sur la page de d&eacute;tails du build (voir <a href="sect-build-jobs-freestyle.html#fig-jenkins-keep-forever" title="Figure&nbsp;5.3.&nbsp;Conserver un build sans limite de temps">Figure&nbsp;5.3, &#8220;Conserver un build sans limite de temps&#8221;</a>).
+                         Notez que ce bouton n'apparaitra que si vous avez demand&eacute; &agrave; Jenkins de
+                         supprimer les anciens builds.
+            </p>
+            <div class="figure"><a name="fig-jenkins-keep-forever"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject5_d1e5142"></a><img src="figs/web/jtdg_0503.png" alt="Conserver un build sans limite de temps"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;5.3.&nbsp;Conserver un build sans limite de temps</b></p>
+            </div><br class="figure-break"><p>En plus de cela, Jenkins ne supprimera jamais le dernier build stable qui
+                         s'est termin&eacute; avec succ&egrave;s, peu importe son anciennet&eacute;. Par exemple, si vous limitez
+                         Jenkins pour ne conserver que les vingt derniers builds et que votre dernier build
+                         qui s'est termin&eacute; avec succ&egrave;s s'est ex&eacute;cut&eacute; trente builds plus t&ocirc;t, Jenkins
+                         le conservera en plus des vingt derniers builds &eacute;chou&eacute;s.
+            </p>
+            <p>Vous<a class="indexterm" name="I_indexterm5_d1e5151"></a> avez aussi la
+                         possibilit&eacute; de d&eacute;sactiver une t&acirc;che. Une t&acirc;che d&eacute;sactiv&eacute;e ne sera pas ex&eacute;cut&eacute;e tant que
+                         vous ne l'aurez pas r&eacute;activ&eacute;e. Utiliser cette option lorsque vous venez de cr&eacute;er
+                         votre job est cependant assez rare. D'un autre c&ocirc;t&eacute;, cette option est souvent utile
+                         lorsque vous devez suspendre temporairement une t&acirc;che pendant une maintenance ou une
+                         grande refactorisation du projet et plus g&eacute;n&eacute;ralement lorsqu'une notification d'echec
+                         de la t&acirc;che de build ne sera pas utile &agrave; l'&eacute;quipe.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e5323"></a>5.3.2.&nbsp;Options avanc&eacute;es du projet
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Les options avanc&eacute;es du projet contiennent, comme l'indique le
+                         nom de cette section, des options de configuration moins courantes.
+                         Vous devrez cliquer sur le bouton Avanc&eacute; pour les faire apparaitre.
+                         (voir <a href="sect-build-jobs-freestyle.html#fig-hudson-new-project-advanced" title="Figure&nbsp;5.4.&nbsp;Pour afficher les options avanc&eacute;es, vous devez cliquer sur le bouton Avanc&eacute;...">Figure&nbsp;5.4, &#8220;Pour afficher les options avanc&eacute;es, vous devez cliquer sur le bouton
+                              Avanc&eacute;...&#8221;</a>).
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-new-project-advanced"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e5167"></a><img src="figs/web/jtdg_0504.png" alt="Pour afficher les options avanc&eacute;es, vous devez cliquer sur le bouton Avanc&eacute;..."></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.4.&nbsp;Pour afficher les options avanc&eacute;es, vous devez cliquer sur le bouton
+                                    Avanc&eacute;...</b></p>
+               </div><br class="figure-break"></div>
+            <p>L'option<a class="indexterm" name="I_indexterm5_d1e5174"></a><a class="indexterm" name="I_indexterm5_d1e5179"></a> p&eacute;riode d'attente dans la configuration du job vous permet simplement
+                         d'outrepasser la p&eacute;riode d'attente d&eacute;finie globalement dans la configuration
+                         du syst&egrave;me de Jenkins (voir <a href="sect-configuration-system.html" title="4.3.&nbsp;Configurer l'environnement syst&egrave;me">Section&nbsp;4.3, &#8220;Configurer l'environnement syst&egrave;me&#8221;</a>). Cette
+                         option est principalement utilis&eacute;e pour les syst&egrave;mes de gestion de version qui ne
+                         supportent pas les commits atomiques, comme par exemple
+                         <a class="indexterm" name="I_indexterm5_d1e5185"></a>CVS, mais &eacute;galement dans les &eacute;quipes o&ugrave; les d&eacute;veloppeurs ont
+                         pour habitude de diviser le commit de leur travail en plusieurs petites contributions.
+            </p>
+            <p>L'option<a class="indexterm" name="I_indexterm5_d1e5193"></a> &#8220;Emp&ecirc;cher le build quand un projet en amont est en cours de build&#8221; est utile lorsque plusieurs
+                         projets li&eacute;s sont affect&eacute;s par un seul commit mais qu'ils doivent &ecirc;tre construits
+                         dans un ordre sp&eacute;cifique. Si vous activez cette option, Jenkins attendra que toutes
+                         les t&acirc;ches de build en amont (voir <a href="sect-build-triggers.html" title="5.5.&nbsp;D&eacute;clencheurs de build">Section&nbsp;5.5, &#8220;D&eacute;clencheurs de build&#8221;</a>) soient termin&eacute;es
+                         avant de d&eacute;marrer le build.
+            </p>
+            <p>Par exemple, lorsque vous livrez une nouvelle version d'un projet Apache
+                         Maven multimodule, la mise &agrave; jour du num&eacute;ro de version se fera dans plusieurs,
+                         voir l'ensemble, des modules du projet. Supposons que nous ayons ajout&eacute; une application
+                         web au projet Game of Life que nous avons utilis&eacute; dans le <a href="chapter-first-steps.html" title="Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins">Chapter&nbsp;2, <i xmlns:xlink="http://www.w3.org/1999/xlink">Vos premiers pas avec Jenkins</i></a>,
+                         et que nous l'ayons ajout&eacute; sous la forme d'un projet Apache Maven s&eacute;par&eacute;. Lorsque
+                         nous livrons une nouvelle version de ce projet, aussi bien le num&eacute;ro de version du core que celui de
+                         l'application web seront mis &agrave; jour (voir <a href="sect-build-jobs-freestyle.html#fig-hudson-new-job-version-updates" title="Figure&nbsp;5.5.&nbsp;L'option &#8220;Emp&ecirc;cher le build quand un projet en aval est en cours de build&#8221; est utile quand un simple commit affecte plusieurs projets d&eacute;pendants les uns des autres.">Figure&nbsp;5.5, &#8220;L'option &#8220;Emp&ecirc;cher le build quand un projet en aval est en cours de build&#8221; est
+                              utile quand un simple commit affecte plusieurs projets d&eacute;pendants les uns des autres.&#8221;</a>).
+                         Avant de pouvoir construire l'application web, nous devons construire une nouvelle version
+                         du module core de Game of Life. Cependant, si vous avez des t&acirc;ches de build free-style s&eacute;par&eacute;es
+                         pour chaque module, les t&acirc;ches de build de l'application web et du core devraient d&eacute;marrer
+                         simultan&eacute;ment. Le build de l'application web &eacute;chouera si le build du core n'a pas produit
+                         de nouvelle version du module du core, m&ecirc;me s'il n'y a pas de test &eacute;chou&eacute;.
+            </p>
+            <p>Pour &eacute;viter ce probl&egrave;me, vous pourriez configurer la t&acirc;che de build de l'application web
+                         pour d&eacute;marrer <span class="emphasis"><em>seulement</em></span> si le build du core s'est termin&eacute;
+                         avec succ&egrave;s. Cependant, cela signifie que l'application web ne serait jamais construite
+                         si des changements &eacute;taient effectu&eacute;s uniquement pour celle-ci et non pour le module core.
+                         Une meilleure approche est alors d'utiliser l'option &#8220;Construire &agrave; la suite d'autres
+                         projets (projets en amont)&#8221;. Dans ce cas, lorsqu'un num&eacute;ro de version a &eacute;t&eacute; mis &agrave; jour
+                         dans le contr&ocirc;le de version, Jenkins programmera les deux builds pour leur ex&eacute;cution.
+                         Il attendra cependant que le build du module core se soit termin&eacute; pour d&eacute;marrer le build
+                         de l'application web.
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-hudson-new-job-version-updates"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject5_d1e5215"></a><img src="figs/web/jtdg_0505.png" alt="L'option &#8220;Emp&ecirc;cher le build quand un projet en aval est en cours de build&#8221; est utile quand un simple commit affecte plusieurs projets d&eacute;pendants les uns des autres."></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;5.5.&nbsp;L'option &#8220;Emp&ecirc;cher le build quand un projet en aval est en cours de build&#8221; est
+                                    utile quand un simple commit affecte plusieurs projets d&eacute;pendants les uns des autres.</b></p>
+               </div><br class="figure-break"></div>
+            <p>Vous <a class="indexterm" name="I_indexterm5_d1e5222"></a>pouvez &eacute;galement surcharger l'espace de travail par d&eacute;faut utilis&eacute; par Jenkins pour
+                         y tirer le code source et construire votre projet. De mani&egrave;re g&eacute;n&eacute;rale, Jenkins
+                         cr&eacute;era un espace de travail sp&eacute;cifique pour votre projet accessible
+                         dans le r&eacute;pertoire de la t&acirc;che de build de votre projet (voir <a href="sec-hudson-home-directory-contents.html" title="3.13.&nbsp;What&#8217;s in the Jenkins Home Directory">Section&nbsp;3.13, &#8220;What&#8217;s in the Jenkins Home Directory&#8221;</a>). Cela fonctionne dans
+                         presque tous les cas. Il y a cependant des cas dans lesquels vous
+                         pourriez avoir besoin de forcer Jenkins &agrave; utiliser un espace de travail
+                         diff&eacute;rent gr&acirc;ce &agrave; cette option. Un exemple serait le cas o&ugrave; vous
+                         auriez besoin de construire plusieurs t&acirc;ches de build dans un m&ecirc;me espace de
+                         travail. Vous pouvez d&eacute;finir un r&eacute;pertoire de travail diff&eacute;rent en <span class="keep-together">cochant</span> l'option &#8220;Utiliser un r&eacute;pertoire de travail sp&eacute;cifique&#8221;
+                         et en sp&eacute;cifiant le chemin vous m&ecirc;me. Ce chemin peut aussi bien &ecirc;tre absolu ou relatif au
+                         r&eacute;pertoire de base de Jenkins.
+            </p>
+            <p>Nous verrons d'autres options avanc&eacute;es qui apparaissent dans
+                         cette section plus loin dans ce <a class="indexterm" name="I_indexterm5_d1e5235"></a> livre.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-jobs.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-subversion.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">5.2.&nbsp;T&acirc;ches de Build Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;5.4.&nbsp;Configurer la Gestion du Code Source</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

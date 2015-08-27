@@ -1,0 +1,127 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>9.5.&nbsp;Utiliser les rapports Checkstyle, PMD, et FindBugs</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-code-quality.html" title="Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code">
+      <link rel="prev" href="sect-violations.html" title="9.4.&nbsp;Rapports de probl&egrave;mes de qualit&eacute; de code avec le plugin Violations">
+      <link rel="next" href="sect-code-quality-complexity.html" title="9.6.&nbsp;Les rapports sur la complexit&eacute; du code">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-violations.html">9.4.&nbsp;Rapports de probl&egrave;mes de qualit&eacute; de code avec le plugin
+                         Violations</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-complexity.html">9.6.&nbsp;Les rapports sur la complexit&eacute; du code</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-code-quality-checkstyle"></a>9.5.&nbsp;Utiliser les rapports Checkstyle, PMD, et FindBugs
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Vous <a class="indexterm" name="I_indexterm9_d1e13490"></a><a class="indexterm" name="I_indexterm9_d1e13493"></a><a class="indexterm" name="I_indexterm9_d1e13498"></a><a class="indexterm" name="I_indexterm9_d1e13505"></a><a class="indexterm" name="I_indexterm9_d1e13508"></a><a class="indexterm" name="I_indexterm9_d1e13511"></a><a class="indexterm" name="I_indexterm9_d1e13516"></a><a class="indexterm" name="I_indexterm9_d1e13521"></a><a class="indexterm" name="I_indexterm9_d1e13528"></a>pouvez aussi effectuer des rapports individuellement sur les
+            r&eacute;sultats de Checkstyle, PMD, et FindBugs. En compl&eacute;ment du plugin
+            Violations, il y a des plugins Jenkins qui produisent des graphiques
+            de tendance et des rapports d&eacute;taill&eacute;s pour chacun de ces outils de fa&ccedil;on
+            individuelle. Nous allons voir comment le faire avec Checkstyle,
+                mais cette approche s&#8217;applique aussi pour PMD et FindBugs. Vous pouvez
+                aussi utiliser le plugin Analysis Collector pour afficher les r&eacute;sultats
+                combin&eacute;s dans un graphique similaire &agrave; celui produit par le plugin
+                Violations.
+         </p>
+         <p>Vous <a class="indexterm" name="I_indexterm9_d1e13539"></a><a class="indexterm" name="I_indexterm9_d1e13542"></a><a class="indexterm" name="I_indexterm9_d1e13545"></a><a class="indexterm" name="I_indexterm9_d1e13548"></a><a class="indexterm" name="I_indexterm9_d1e13553"></a><a class="indexterm" name="I_indexterm9_d1e13558"></a>pouvez installer ces plugins au travers du gestionnaire de
+                plugin comme vous le faites habituellement. Les plugins en question sont appel&eacute;s, sans
+                surprise, plugin Checkstyle, plugin PMD, et plugin FindBugs. Tous
+                ces plugins utilisent le plugin Static Analysis Utilities, qu'il vous faut 
+                aussi installer (voir <a href="sect-code-quality-checkstyle.html#fig-hudson-analysis-plugins" title="Figure&nbsp;9.11.&nbsp;Installer les plugins Checkstyle et Static Analysis Utilities.">Figure&nbsp;9.11, &#8220;Installer les plugins Checkstyle et Static Analysis
+                     Utilities.&#8221;</a>).
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-analysis-plugins"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject9_d1e13569"></a><img src="figs/web/jtdg_0911.png" alt="Installer les plugins Checkstyle et Static Analysis Utilities."></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;9.11.&nbsp;Installer les plugins Checkstyle et Static Analysis
+                           Utilities.</b></p>
+            </div><br class="figure-break"></div>
+         <p>Une fois que vous avez install&eacute; ces plugins, vous pouvez param&eacute;trer la cr&eacute;ation
+                des rapports dans la configuration de votre projet. Cochez la case
+                "Publiez les analyses de r&eacute;sultat Checkstyle". Dans un build free-style,
+                vous aurez besoin de sp&eacute;cifier un patron de chemin pour trouver les
+                rapports XML de Checkstyle ; dans un build Maven 2, Jenkins saurait
+                o&ugrave; les chercher par lui-m&ecirc;me.
+         </p>
+         <p>Ceci fournira des rapports Checkstyle basiques, mais comme
+                d&#8217;habitude, vous pouvez personnaliser ceci en cliquant sur le bouton
+                Avanc&eacute;. Dans un build Maven 2, vous pouvez configurer les valeurs de
+                seuils de la sant&eacute; (combien de violations passeront le build d'ensoleill&eacute;
+                &agrave; orageux), et aussi filtrer les priorit&eacute;s de violations que vous voulez
+                inclure dans le calcul. Par exemple, vous pourriez ne vouloir
+                prendre en compte que les probl&egrave;mes de haute priorit&eacute; pour le statut de
+                l&#8217;ic&ocirc;ne m&eacute;t&eacute;orologique.
+         </p>
+         <p>Les builds free-style ont quelques options suppl&eacute;mentaires que vous
+                pouvez configurer ; en particulier, vous pouvez rendre le build <a class="indexterm" name="I_indexterm9_d1e13580"></a><a class="indexterm" name="I_indexterm9_d1e13587"></a>instable (balle jaune) ou m&ecirc;me en &eacute;chec (balle
+                rouge) si vous avez un nombre de violations sup&eacute;rieur &agrave; celui d&eacute;fini, ou s'il y a plus
+                de nouvelle violations que le nombre donn&eacute;(voir <a href="sect-code-quality-checkstyle.html#fig-hudson-checkstyle-config" title="Figure&nbsp;9.12.&nbsp;Configurer le plugin Checkstyle">Figure&nbsp;9.12, &#8220;Configurer le plugin Checkstyle&#8221;</a>). Ainsi, dans la configuration
+                de l&#8217;illustration, s&#8217;il y a plus de 50 nouvelles violations Checkstyle
+                de n&#8217;importe quelle priorit&eacute; dans un build, le build sera signal&eacute; comme
+                instable. Cela a certainement son utilit&eacute; pour Checkstyle, mais cela peut
+                aussi se r&eacute;v&eacute;ler tr&egrave;s utile avec FindBugs, o&ugrave; les probl&egrave;mes de haute
+                priorit&eacute; repr&eacute;sentent souvent des bugs dangereux et potentiellement
+                bloquants.
+         </p>
+         <div class="figure"><a name="fig-hudson-checkstyle-config"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13598"></a><img src="figs/web/jtdg_0912.png" alt="Configurer le plugin Checkstyle"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.12.&nbsp;Configurer le plugin Checkstyle</b></p>
+         </div><br class="figure-break"><p>Maintenant, lorsque le build s'ex&eacute;cute, Jenkins g&eacute;n&eacute;rera un
+                graphique de tendance et des rapports d&eacute;taill&eacute;s pour les violations
+                Checkstyle (voir <a href="sect-code-quality-checkstyle.html#fig-hudson-checkstyle-trend" title="Figure&nbsp;9.13.&nbsp;Afficher les tendances Checkstyle">Figure&nbsp;9.13, &#8220;Afficher les tendances Checkstyle&#8221;</a>). De l&agrave;,
+                vous pouvez descendre pour voir les violations par priorit&eacute;, par
+                cat&eacute;gorie, par type de d&eacute;marrage, par package, etc.
+         </p>
+         <div class="figure"><a name="fig-hudson-checkstyle-trend"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject9_d1e13610"></a><img src="figs/web/jtdg_0913.png" alt="Afficher les tendances Checkstyle"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;9.13.&nbsp;Afficher les tendances Checkstyle</b></p>
+         </div><br class="figure-break"><p>Comme nous l&#8217;avons mentionn&eacute; pr&eacute;c&eacute;demment, la m&ecirc;me approche marche
+                aussi avec le plugin PMD et le plugin FindBugs. Ces plugins sont un
+                excellent moyen de fournir des rapports plus concentr&eacute;s sur les r&eacute;sultats
+                d&#8217;un outil particulier, et vous donnent aussi plus de contr&ocirc;le sur
+                l&#8217;impact que ces violations auront sur les r&eacute;sultats du build.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-violations.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-complexity.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">9.4.&nbsp;Rapports de probl&egrave;mes de qualit&eacute; de code avec le plugin
+                      Violations&nbsp;
+               </td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;9.6.&nbsp;Les rapports sur la complexit&eacute; du code</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

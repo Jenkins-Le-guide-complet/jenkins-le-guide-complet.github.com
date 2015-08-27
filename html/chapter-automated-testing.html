@@ -1,0 +1,169 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;6.&nbsp;Tests automatis&eacute;s</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="sect-build-jobs-conclusion.html" title="5.11.&nbsp;Conclusion">
+      <link rel="next" href="sect-chapter-automated-testing-unit.html" title="6.2.&nbsp;Automatisez vos tests unitaires et d'int&eacute;gration">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-jobs-conclusion.html">5.11.&nbsp;Conclusion</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-unit.html">6.2.&nbsp;Automatisez vos tests unitaires et d'int&eacute;gration</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="chapter-automated-testing"></a>Chapter&nbsp;6.&nbsp;Tests automatis&eacute;s
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="chapter-automated-testing.html#sect-chapter-automated-testing-introduction">6.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="sect-chapter-automated-testing-unit.html">6.2. Automatisez vos tests unitaires et d'int&eacute;gration</a></span></dt>
+               <dt><span class="sect1"><a href="sect-chapter-automated-testing-reporting.html">6.3. Configuration des rapports de test dans Jenkins</a></span></dt>
+               <dt><span class="sect1"><a href="sect-chapter-automated-testing-results.html">6.4. Afficher les r&eacute;sultats de test</a></span></dt>
+               <dt><span class="sect1"><a href="sect-chapter-automated-testing-ignoring.html">6.5. Ignorer des tests</a></span></dt>
+               <dt><span class="sect1"><a href="sect-chapter-automated-testing-coverage.html">6.6. Couverture de code</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-chapter-automated-testing-coverage.html#d0e9283">6.6.1. Mesurer la couverture de code avec Cobertura</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect3"><a href="sect-chapter-automated-testing-coverage.html#d0e9320">6.6.1.1. Int&eacute;grer Cobertura avec Maven</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-chapter-automated-testing-coverage.html#d0e9404">6.6.1.2. Int&eacute;grer Cobertura avec Ant</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-chapter-automated-testing-coverage.html#d0e9515">6.6.1.3. Installer le plugin de couverture de code Cobertura</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-chapter-automated-testing-coverage.html#d0e9543">6.6.1.4. Les rapports de couverture de code dans votre build</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-chapter-automated-testing-coverage.html#d0e9644">6.6.1.5. Interpr&eacute;ter les m&eacute;triques de couverture de code</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect2"><a href="sect-chapter-automated-testing-coverage.html#sect-clover">6.6.2. Mesurer la couverture de code avec Clover</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-chapter-automated-testing-acceptance.html">6.7. Tests d'acceptation automatis&eacute;s</a></span></dt>
+               <dt><span class="sect1"><a href="sect-chapter-automated-testing-performance.html">6.8. Tests de performance automatis&eacute;s avec JMeter</a></span></dt>
+               <dt><span class="sect1"><a href="sect-tests-too-slow.html">6.9. A l'aide ! Mes tests sont trop lents !</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-tests-too-slow.html#d0e10146">6.9.1. Ajouter plus de mat&eacute;riel</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-tests-too-slow.html#d0e10173">6.9.2. Lancer moins de tests d'int&eacute;gration/fonctionnels</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-tests-too-slow.html#d0e10194">6.9.3. Ex&eacute;cutez vos tests en parall&egrave;le</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-chapter-automated-testing-conclusion.html">6.10. Conclusion</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="sect-chapter-automated-testing-introduction"></a>6.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p><a class="indexterm" name="ch06-auto2"></a><a class="indexterm" name="I_indexterm6_d1e8512"></a>Si vous n'utilisez pas les tests automatis&eacute;s avec votre
+                   environnement d'int&eacute;gration continue, vous passez &agrave; c&ocirc;t&eacute; d'un aspect
+                   important. Croyez-moi &#8212; l'IC sans les tests automatis&eacute;s repr&eacute;sente juste une
+                   petite am&eacute;lioration pour les t&acirc;ches de build lanc&eacute;es automatiquement.
+                   Maintenant, ne vous m&eacute;prenez pas, si vous partez de z&eacute;ro, c'est quand m&ecirc;me
+                   un grand pas en avant, mais vous pouvez faire mieux. En r&eacute;sum&eacute;, si vous
+                   utilisez Jenkins sans tests automatis&eacute;s, vous n'obtenez pas autant de valeur
+                   de votre infrastructure d'int&eacute;gration continue que vous le devriez.
+            </p>
+            <p>Un des principes de base de l'int&eacute;gration continue est qu'un build
+                   doit &ecirc;tre v&eacute;rifiable. Vous devez &ecirc;tre capable de d&eacute;terminer objectivement si
+                   un build donn&eacute; est pr&ecirc;t &agrave; passer &agrave; la prochaine &eacute;tape du processus de
+                   construction, et le meilleur moyen de le faire est d'utiliser les tests
+                   automatis&eacute;s. Sans une bonne automatisation des tests, vous allez devoir
+                   conserver de nombreux artefacts construits et les tester manuellement, ce
+                   qui est contraire &agrave; l'esprit de l'int&eacute;gration continue.
+            </p>
+            <p>Il <a class="indexterm" name="I_indexterm6_d1e8524"></a><a class="indexterm" name="I_indexterm6_d1e8527"></a>y a plusieurs fa&ccedil;ons d'int&eacute;grer les tests automatis&eacute;s dans
+                   votre application. Une des fa&ccedil;ons les plus efficaces pour &eacute;crire des tests
+                   de haute qualit&eacute; est de les &eacute;crire en premier, en utilisant des techniques
+                   comme <a class="indexterm" name="I_indexterm6_d1e8533"></a>Test-Driven Development (TDD) ou <a class="indexterm" name="I_indexterm6_d1e8537"></a>Behavior-Driven Development (BDD). Dans cette approche,
+                   utilis&eacute;e couramment dans de nombreux projets agiles, le but de vos tests
+                   unitaires est &agrave; la fois de clarifier votre compr&eacute;hension du comportement du
+                   code et d'&eacute;crire un test automatis&eacute; prouvant que le code impl&eacute;mente le
+                   comportement. En se concentrant sur le test du comportement attendu de votre
+                   code, plut&ocirc;t que sur son impl&eacute;mentation, cela rend les tests plus compr&eacute;hensibles
+                   et plus pertinents, et par cons&eacute;quent aide Jenkins &agrave; fournir une information
+                   plus <span class="keep-together">pertinente</span>.
+            </p>
+            <p>Bien <a class="indexterm" name="I_indexterm6_d1e8546"></a><a class="indexterm" name="I_indexterm6_d1e8549"></a>entendu, l'approche plus classique mettant en oeuvre des tests
+                   unitaires, quand le code a &eacute;t&eacute; impl&eacute;ment&eacute;, est aussi couramment utilis&eacute;e, et
+                   est certainement mieux que pas de tests du tout.
+            </p>
+            <p>Jenkins n'est pas limit&eacute; aux tests unitaires, cependant. Il y a
+                   plusieurs autres types de tests automatis&eacute;s que vous devriez envisager,
+                   selon la nature de votre application, parmi les tests d'int&eacute;gration, les
+                   tests web, les tests fonctionnels, les tests de performance, les tests de
+                   charge et autres. Tous ceux-ci ont leur place dans un environnement de build
+                   automatis&eacute;.
+            </p>
+            <p>Jenkins <a class="indexterm" name="I_indexterm6_d1e8560"></a><a class="indexterm" name="I_indexterm6_d1e8563"></a>peut aussi &ecirc;tre utilis&eacute;, en conjonction avec des techniques
+                   telles que Behavior-Driven Development et Acceptance Test Driven
+                   Development, comme un outil de communication destin&eacute; &agrave; la fois aux
+                   d&eacute;veloppeurs et aux autres intervenants d'un projet. Des frameworks BDD tels
+                   que easyb, fitnesse, jbehave, rspec, Cucumber, et beaucoup d'autres,
+                   essaient de pr&eacute;senter les tests d'acceptation de sorte que les testeurs, les
+                   Product Owners, et les utilisateurs puissent les comprendre. Avec de tels
+                   outils, Jenkins peut fournir des informations sur l'avancement d'un projet
+                   en termes m&eacute;tiers, et ainsi faciliter la communication entre d&eacute;veloppeurs
+                   et les non-d&eacute;veloppeurs &agrave; l'int&eacute;rieur d'une &eacute;quipe.
+            </p>
+            <p>Pour des applications existantes avec peu ou pas de tests automatis&eacute;s
+                   existants, cela peut &ecirc;tre difficile et consommateur en temps de mettre en
+                   place des tests unitaires complets dans le code. De plus, les tests peuvent
+                   ne pas &ecirc;tre tr&egrave;s efficaces, parce qu'ils auront tendance &agrave; valider
+                   l'impl&eacute;mentation existante plut&ocirc;t que v&eacute;rifier le fonctionnel attendu. Une
+                   approche int&eacute;ressante dans ces situations est d'&eacute;crire <a class="indexterm" name="I_indexterm6_d1e8571"></a><a class="indexterm" name="I_indexterm6_d1e8574"></a><a class="indexterm" name="I_indexterm6_d1e8579"></a>des tests fonctionnels automatis&eacute;s (&#8220;r&eacute;gression&#8221;) qui simulent
+                   les mani&egrave;res les plus courantes d'utilisation de l'application. Par exemple,
+                   les outils de tests web automatis&eacute;s <a class="indexterm" name="I_indexterm6_d1e8585"></a><a class="indexterm" name="I_indexterm6_d1e8588"></a>tels que Selenium et WebDriver peuvent &ecirc;tre utilis&eacute;s
+                   efficacement pour tester les applications web &agrave; un haut niveau. Alors que
+                   cette approche n'est pas aussi compl&egrave;te que la combinaison de tests
+                   unitaires, d'int&eacute;gration et d'acceptation de bonne qualit&eacute;, c'est quand m&ecirc;me
+                   une fa&ccedil;on efficace et &eacute;conomique d'int&eacute;grer des tests de r&eacute;gression
+                   automatis&eacute;s dans une application existante.
+            </p>
+            <p>Dans ce chapitre, nous allons voir comment Jenkins vous aide &agrave;
+                   conserver les traces des r&eacute;sultats des tests automatis&eacute;s, et comment vous
+                   pouvez utiliser cette information pour surveiller et diss&eacute;quer votre
+                   processus de build.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-jobs-conclusion.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-unit.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">5.11.&nbsp;Conclusion&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;6.2.&nbsp;Automatisez vos tests unitaires et d'int&eacute;gration</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

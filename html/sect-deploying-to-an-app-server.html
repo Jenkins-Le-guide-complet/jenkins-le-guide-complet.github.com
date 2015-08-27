@@ -1,0 +1,595 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>12.3.&nbsp;D&eacute;ployer vers un serveur d'application</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-automated-deployment.html" title="Chapter&nbsp;12.&nbsp;D&eacute;ploiement automatis&eacute; et livraison continue">
+      <link rel="prev" href="sect-implementing-cd.html" title="12.2.&nbsp;Mise en oeuvre du d&eacute;ploiement automatis&eacute; et continu">
+      <link rel="next" href="I_sect112_d1e17665.html" title="12.4.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-implementing-cd.html">12.2.&nbsp;Mise en oeuvre du d&eacute;ploiement automatis&eacute; et continu</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect112_d1e17665.html">12.4.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-deploying-to-an-app-server"></a>12.3.&nbsp;D&eacute;ployer vers un serveur d'application
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Jenkins<a class="indexterm" name="ch12-app1"></a>
+            	<a class="indexterm" name="ch12-app2"></a>
+            	<a class="indexterm" name="ch12-app3"></a> fournit des plugins pour aider &agrave; d&eacute;ployer votre application vers un
+            	certain nombre de serveurs d'applications fr&eacute;quemment utilis&eacute;s. Le<a class="indexterm" name="I_indexterm12_d1e17076"></a>
+            	<a class="indexterm" name="I_indexterm12_d1e17081"></a> plugin Deploy vous permet de d&eacute;ployer
+            	vers Tomcat, JBoss, et GlassFish. Et le plugin <a class="indexterm" name="I_indexterm12_d1e17085"></a>
+            	<a class="indexterm" name="I_indexterm12_d1e17088"></a>
+            	<a class="indexterm" name="I_indexterm12_d1e17093"></a> Deploy Websphere tente de s'occuper
+            	des particularit&eacute;s du serveur d'application IBM WebSphere.
+         </p>
+         <p>Pour d'autres serveurs d'application, vous devez g&eacute;n&eacute;ralement int&eacute;grer
+            	le processus de d&eacute;ploiement dans vos scripts de build, ou de recourir &agrave; des scripts
+            	personnalis&eacute;s, pour d&eacute;ployer votre application. De m&ecirc;me, pour les autres langages,
+            	votre procesus de d&eacute;ploiement variera, mais il impliquera souvent d'utiliser des
+            	scripts shell. Par exemple, pour une application Ruby on Rails, vous pouvez utiliser
+            	un outil tel que Capistrano or Chef, ou simplement un script shell. Pour une
+            	application PHP, un transfert FTP ou via scp peut suffire.
+         </p>
+         <p>Regardons en premier certaines strat&eacute;gies possibles pour d&eacute;ployer votre
+            	application Java vers un serveur d'application.
+         </p>
+         <p>Lorsque l'application est d&eacute;ploy&eacute;e sur un serveur d'application en fonctionnement,
+            	cela est d&eacute;sign&eacute; sous le terme <a class="indexterm" name="I_indexterm12_d1e17103"></a>d&eacute;ploiement &agrave; chaud. Cela est g&eacute;n&eacute;ralement une
+            	fa&ccedil;on rapide et efficace de mettre votre application en ligne. Cependant, en fonction de
+            	votre application et de votre serveur d'application, cette approche est connue pour causer
+            	des fuites de m&eacute;moire ou des probl&egrave;mes de verrous sur des resources. Les anciennes versions
+            	de Tomcat, par exemple, &eacute;taient particuli&egrave;rement connues pour cela. Si vous rencontrez ce type
+            	de probl&egrave;me, vous pourriez avoir &agrave; forcer un red&eacute;marrage de l'application &agrave; chaque d&eacute;ploiement,
+            	ou &agrave; planifier un red&eacute;marrage de l'application chaque nuit sur votre serveur de test.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="sect-deploying-java-app"></a>12.3.1.&nbsp;D&eacute;ployer une application Java
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Dans cette <a class="indexterm" name="ch12-java1"></a>
+               	  <a class="indexterm" name="ch12-java2"></a> section, nous allons regarder un exemple montrant comment d&eacute;ployer
+               	  votre application web Java ou <a class="indexterm" name="I_indexterm12_d1e17125"></a>JEE vers un serveur d'application tel que<a class="indexterm" name="ch12-java3"></a>
+               	  <a class="indexterm" name="ch12-java4"></a>
+               	  <a class="indexterm" name="ch12-java5"></a> Tomcat, JBoss, ou GlassFish.
+            </p>
+            <p>L'un des principes fondamentaux du d&eacute;ploiement automatis&eacute; est de r&eacute;utiliser vos
+               	  fichiers binaires d&eacute;ployables. Il est inefficace et potentiellement dangereux de r&eacute;aliser
+               	  un nouveau build pendant le processus de d&eacute;ploiement. En effet, imaginer que vous ex&eacute;cutiez
+               	  une s&eacute;rie de tests unitaire et d'int&eacute;gration sur une version donn&eacute;e de votre application,
+               	  avant de la d&eacute;ployer dans un environnement de test. Si vous reconstruisez le binaire avant
+               	  de le d&eacute;ployer, le code source peut avoir changer depuis la version test&eacute;e, et donc vous ne
+               	  savez pas exacement ce que vous d&eacute;ployez.
+            </p>
+            <p>Un processus plus efficace est de r&eacute;utiliser des binaires g&eacute;n&eacute;r&eacute;s par un build
+               	  pr&eacute;c&eacute;dent. Par exemple, vous pourriez configurer une t&acirc;che de build de fa&ccedil;on &agrave; ex&eacute;cuter
+               	  les tests unitaires et d'int&eacute;gration avant de d&eacute;ployer un fichier binaire (g&eacute;n&eacute;ralement
+               	  un fichier WAR ou EAR). Vous pouvez faire cela tr&egrave;s efficacement en utilisant le plugin
+               	  <a class="indexterm" name="I_indexterm12_d1e17147"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17152"></a> Copy Artifact (voir <a href="sect-build-pipelines.html#sect-copying-artifacts" title="10.7.2.&nbsp;Copier des artefacts">Section&nbsp;10.7.2, &#8220;Copier des artefacts&#8221;</a>). Ce plugin vous
+               	  permet de copier un artefact d'un autre espace de travail dans l'espace de travail de la
+               	  t&acirc;che de build courante. Cela, lorsque combin&eacute; avec un trigger de build normal ou avec le 
+               	  plugin<a class="indexterm" name="I_indexterm12_d1e17158"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17163"></a> Build Promotion, vous permet de d&eacute;ployer pr&eacute;cis&eacute;ment le fichier binaire que
+               	  vous avez construit et test&eacute; dans la phase pr&eacute;c&eacute;dente.
+            </p>
+            <p>Cette approche impose certaines contraintes dans la fa&ccedil;on de construire votre
+               	  application. En particulier, toute configuration sp&eacute;cifique &agrave; un environnement doit
+               	  &ecirc;tre externalis&eacute;e hors de l'application; les connections JDBC et autres &eacute;l&eacute;ments de
+               	  configuration ne doivent pas &ecirc;tre inclus dans votre fichier WAR, mais plut&ocirc;t, par exemple,
+               	  &ecirc;tre d&eacute;finis au moyen de JDNI ou dans un fichier de propri&eacute;t&eacute;s externe. Si ce n'est pas le
+               	  cas, vous pourriez devoir construire &agrave; partir d'une r&eacute;vision donn&eacute;es du gestionnaire de
+               	  source, comme discut&eacute; pour Subversion dans <a href="sect-advanced-builds-parameterized.html#sect-build-from-svn-tag" title="10.2.4.&nbsp;Construire &agrave; partir d'un tag Subversion">Section&nbsp;10.2.4, &#8220;Construire &agrave; partir d'un tag Subversion&#8221;</a>.
+            </p>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="sect-deploy-plugin"></a>12.3.1.1.&nbsp;Utiliser le plugin Deploy
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Si vous<a class="indexterm" name="ch12-plug1"></a>
+                  		<a class="indexterm" name="ch12-plug2"></a> d&eacute;ployez sur serveur Tomcat, JBoss ou GlassFish, l'outil le plus utile
+                  		&agrave; votre disposition sera probablement le plugin Deploy. Ce plugin rend relativement
+                  		simple l'int&eacute;gration de ces plateformes dans votre processus de build Jenkins.
+                  		Si vous d&eacute;ployer sur IBM Websphere, vous pouvez utilisez le plugin<a class="indexterm" name="I_indexterm12_d1e17185"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17188"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17193"></a> Websphere Deploy dans le m&ecirc;me but.
+               </p>
+               <p>Voyons ce plugin en action, en utilisant le s&eacute;quenceur de build illustr&eacute; dans <a href="sect-deploying-to-an-app-server.html#fig-cd-pipeline" title="Figure&nbsp;12.1.&nbsp;Une cha&icirc;ne simple de d&eacute;ploiement automatis&eacute;">Figure&nbsp;12.1, &#8220;Une cha&icirc;ne simple de d&eacute;ploiement automatis&eacute;&#8221;</a>.
+               </p>
+               <div class="figure"><a name="fig-cd-pipeline"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject12_d1e17204"></a><img src="figs/web/jtdg_1201.png" alt="Une cha&icirc;ne simple de d&eacute;ploiement automatis&eacute;"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;12.1.&nbsp;Une cha&icirc;ne simple de d&eacute;ploiement automatis&eacute;</b></p>
+               </div><br class="figure-break"><p>Ici, le build par d&eacute;faut (<span><strong class="command">gameoflife-default</strong></span>) ex&eacute;cute
+                  		les tests unitaires et d'int&eacute;gration, puis cr&eacute;&eacute; un d&eacute;ployable binaire sous la forme d'un
+                  		fichier WAR. Le build des m&eacute;triques (<span><strong class="command">gameoflife-metrics</strong></span>)
+                  		lance des contr&ocirc;les suppl&eacute;mentaires sur les standards de codage et la couverture des tests. 
+                  		Si ces deux builds r&eacute;ussissent, l'application sera automatiquement d&eacute;ploy&eacute;e vers l'environnement
+                  		de test par la t&acirc;che de build <span><strong class="command">gameoflife-deploy-to-test</strong></span>.
+               </p>
+               <p>Dans la t&acirc;che de build <span class="emphasis"><em>gameoflife-deploy-to-test</em></span>, nous utilisons
+                  		le plugin Copy Artifact plugin pour r&eacute;cup&eacute;rer le fichier WAR g&eacute;n&eacute;r&eacute; dans la t&acirc;che <span><strong class="command">gameoflife-default</strong></span>
+                  		puis nous le copions dans l'espace de travail de la t&acirc;che courante (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-cd-copy-artifacts" title="Figure&nbsp;12.2.&nbsp;Copier l'artefact binaire &agrave; d&eacute;ployer">Figure&nbsp;12.2, &#8220;Copier l'artefact binaire &agrave; d&eacute;ployer&#8221;</a>).
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-jenkins-cd-copy-artifacts"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject12_d1e17233"></a><img src="figs/web/jtdg_1202.png" alt="Copier l'artefact binaire &agrave; d&eacute;ployer"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;12.2.&nbsp;Copier l'artefact binaire &agrave; d&eacute;ployer</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Ensuite, nous utilisons le plugin Deploy pour d&eacute;ployer le fichier WAR sur le
+                  		serveur de test. Bien s&ucirc;r, il est g&eacute;n&eacute;ralement possible, et pas trop difficile, d'&eacute;crire
+                  		&agrave; la main un tel script de d&eacute;ploiement. Dans certains cas, cela peut &ecirc;tre votre seul
+                  		recours. Toutefois, si un plugin Jenkins existe pour votre serveur d'application, cela
+                  		peut simplifier consid&eacute;rablement les choses de l'utiliser. Si vous d&eacute;ployez sur Tomcat,
+                  		JBoss, ou GlassFish, le plugin Deploy est susceptible de vous aider. Ce plugin utilise
+                  		Cargo pour se connecter &agrave; votre serveur d'application et y d&eacute;ployer (ou red&eacute;ployer) votre
+                  		application. Il suffit s&eacute;lectionner le type de serveur vis&eacute;, sp&eacute;cifier son URL ainsi qu'un
+                  		nom et mot de passe d'utilisateur ayant les droits de d&eacute;ploiement (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-cd-deploy-plugin" title="Figure&nbsp;12.3.&nbsp;D&eacute;ployer sur Tomcat avec le plugin Deploy">Figure&nbsp;12.3, &#8220;D&eacute;ployer sur Tomcat avec le plugin Deploy&#8221;</a>).
+               </p>
+               <div class="figure"><a name="fig-jenkins-cd-deploy-plugin"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject12_d1e17245"></a><img src="figs/web/jtdg_1203.png" alt="D&eacute;ployer sur Tomcat avec le plugin Deploy"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;12.3.&nbsp;D&eacute;ployer sur Tomcat avec le plugin Deploy</b></p>
+               </div><br class="figure-break"><p>Cela est connu comme le <a class="indexterm" name="I_indexterm12_d1e17252"></a>d&eacute;ploiement &agrave; chaud, c'est &agrave; dire que l'appplication est d&eacute;ploy&eacute;e sur
+                  		un serveur en cours de fonctionnement. Cela est g&eacute;n&eacute;ralement une fa&ccedil;on rapide et
+                  		efficace d'avoir votre application en ligne, et devrait &ecirc;tre votre solution pr&eacute;f&eacute;r&eacute;e
+                  		pour cela. Cependant, en fonction de votre application et de votre serveur, cette
+                  		approche fut parfois source de fuites de m&eacute;moire ou de verrouillage de ressources. Les
+                  		anciennes versions de Tomcat, par exemple, &eacute;taient bien connues pour cela. Si cela
+                  		vous arrive, vous pourriez avoir &agrave; planifier des red&eacute;marrages apr&egrave;s chaque d&eacute;ploiement,
+                  		ou &eacute;ventuellement planifier des red&eacute;marrages nocturnes du serveur d'application de votre
+                  		environnement de <a class="indexterm" name="I_indexterm12_d1e17256"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17258"></a> test.
+               </p>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e17479"></a>12.3.1.2.&nbsp;Red&eacute;ployer une version sp&eacute;cifique
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Lorsque <a class="indexterm" name="I_indexterm12_d1e17266"></a> vous d&eacute;ployez votre application de fa&ccedil;on automatis&eacute;e ou continuellement, il
+                  		devient critique de bien identifier la version de l'application actuellement d&eacute;ploy&eacute;e. Il
+                  		y a plusieurs fa&ccedil;ons de faire cela, qui varient essentiellement en fonction du r&ocirc;le de
+                  		Jenkins dans l'architecture de build et de d&eacute;ploiement.
+               </p>
+               <p>Certaines &eacute;quipes utilisent Jenkins comme la source de v&eacute;rit&eacute;, o&ugrave; les artefacts sont
+                  		&agrave; la fois construits et gard&eacute;s pour r&eacute;f&eacute;rence. Si vous stockez vos artefacts d&eacute;ployables dans
+                  		Jenkins, il est alors parfaitement logique de d&eacute;ployer vos artefacts directement depuis votre
+                  		instance Jenkins. Cela est facile &agrave; faire : dans la prochaine section nous verrons comment 
+                  		faire cela au moyen des plugins Copy Artifacts, Deploy, et Parameterized
+                          Trigger.
+               </p>
+               <p>Alternativement, si vous gardez vos artefacts dans un d&eacute;p&ocirc;t d'entreprise tel que Nexus
+                  		ou Artifactory, alors ce d&eacute;p&ocirc;t devrait &ecirc;tre le point central de r&eacute;f&eacute;rence : les artefacts
+                  		devraient &ecirc;tre construits et d&eacute;ploy&eacute;s par Jenkins, et les d&eacute;ployer ensuite depuis ici. C'est
+                  		typiquement le cas lorsque vous utilisez Maven comme votre outil de build. Des &eacute;quipes
+                  		utilisant Gradle ou Ivy sont aussi susceptibles d'utiliser cette approche. Les gestionnaires
+                  		de d&eacute;p&ocirc;t tels que Nexus et Artifactory, particuli&egrave;rement dans leur &eacute;ditions commerciales,
+                  		rendent cette strat&eacute;gie plus ais&eacute;e en offrant des fonctionnalit&eacute;s telles que la promotion
+                  		de build et des d&eacute;p&ocirc;ts interm&eacute;diaires qui aident &agrave; contr&ocirc;ler les versions des artefacts.
+               </p>
+               <p>Voyons &agrave; pr&eacute;sent comment vous pourriez impl&eacute;menter chacune de ces strat&eacute;gies
+                  		en utilisant Jenkins.
+               </p>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e17496"></a>12.3.1.3.&nbsp;D&eacute;ployer une version depuis un build Jenkins pr&eacute;c&eacute;dent
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>Red&eacute;ployer<a class="indexterm" name="ch12-previous"></a> un artefact pr&eacute;d&eacute;dement d&eacute;ploy&eacute; dans Jenkins est relativement
+                  		simple. Dans <a href="sect-deploying-to-an-app-server.html#sect-deploy-plugin" title="12.3.1.1.&nbsp;Utiliser le plugin Deploy">Section&nbsp;12.3.1.1, &#8220;Utiliser le plugin Deploy&#8221;</a>, nous avons vu comment utiliser
+                  		les plugins <a class="indexterm" name="I_indexterm12_d1e17291"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17296"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17299"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17304"></a> Copy Artifacts et Deploy pour d&eacute;ployer un fichier WAR produit par une
+                  		t&acirc;che de build pr&eacute;c&eacute;dente vers un serveur d'application. Ce dont nous avons besoin &agrave;
+                  		pr&eacute;sent est de laisser l'utilisateur sp&eacute;cifier la version &agrave; d&eacute;ployer, plut&ocirc;t que de
+                  		se contenter de d&eacute;ployer le dernier build.
+               </p>
+               <p>Nous pouvons<a class="indexterm" name="I_indexterm12_d1e17310"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17315"></a> faire cela en utilisant le plugin Parameterized Trigger (voir 
+                          <a href="sect-advanced-builds-parameterized.html" title="10.2.&nbsp;T&acirc;ches de build param&eacute;tr&eacute;es">Section&nbsp;10.2, &#8220;T&acirc;ches de build param&eacute;tr&eacute;es&#8221;</a>). En premier lieu, nous
+                  		ajoutons un param&egrave;tre &agrave; la t&acirc;che de construction, en utilisant le type de param&egrave;tre
+                  		&#8220;Build selector for Copy Artifact&#8221; (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-build-selector-copy-artifact" title="Figure&nbsp;12.4.&nbsp;Ajouter un param&egrave;tre &#8220;Build selector for Copy Artifact&#8221;">Figure&nbsp;12.4, &#8220;Ajouter un param&egrave;tre &#8220;Build selector for Copy Artifact&#8221;&#8221;</a>).
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-jenkins-build-selector-copy-artifact"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject12_d1e17326"></a><img src="figs/web/jtdg_1204.png" alt="Ajouter un param&egrave;tre &#8220;Build selector for Copy Artifact&#8221;"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;12.4.&nbsp;Ajouter un param&egrave;tre &#8220;Build selector for Copy Artifact&#8221;</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Cela ajoute un nouveau param&egrave;tre &agrave; votre t&acirc;che de build (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-build-selector-parameter" title="Figure&nbsp;12.5.&nbsp;Configurer le s&eacute;lecteur de param&eacute;trage de build">Figure&nbsp;12.5, &#8220;Configurer le s&eacute;lecteur de param&eacute;trage de build&#8221;</a>).
+                  		Vous devez entrer un nom et une description courte. Le nom fourni sera
+                  		utilis&eacute; comme une variable d'environnement pour les &eacute;tapes suivantes du build.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-jenkins-build-selector-parameter"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject12_d1e17338"></a><img src="figs/web/jtdg_1205.png" alt="Configurer le s&eacute;lecteur de param&eacute;trage de build"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;12.5.&nbsp;Configurer le s&eacute;lecteur de param&eacute;trage de build</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Le s&eacute;lecteur de param&eacute;trage de build vous permet de choisir un build pr&eacute;c&eacute;dent
+                  		de diverses fa&ccedil;ons, y compris le dernier build r&eacute;ussi, le build en amont ayant d&eacute;clench&eacute;
+                  		cette t&acirc;che de build ou un build sp&eacute;cifique. Toutes ces options seront offertes &agrave; l'utilisateur
+                  		lorsqu'il ou elle d&eacute;clenchera un build. Le s&eacute;lecteur par d&eacute;faut vous permet de sp&eacute;cifier
+                  		laquelle de ces options sera propos&eacute; par d&eacute;faut.
+               </p>
+               <p>Lorsque l'utilisateur s&eacute;lectionne une t&acirc;che de build particuli&egrave;re, le num&eacute;ro
+                  		de build sera &eacute;galement stock&eacute; dans la variable d'environnement pour l'utiliser dans
+                  		les &eacute;tapes du build. La variable d'environnement est appel&eacute; 
+                          <code class="code">COPYARTIFACT_BUILD_NUMBER_</code><em class="replaceable"><code>MY_BUILD_JOB</code></em>,
+                          o&ugrave; <em class="replaceable"><code>MY_BUILD_JOB</code></em> est le nom de la t&acirc;che de build 
+                          <span class="keep-together">originelle</span> (en lettres majuscules et avec
+                  		les caract&egrave;res autres que A&#8211;Z convertis en blanc soulign&eacute;s). Par exemple, si nous 
+                  		copions un artefact avec le num&eacute;ro de build 4 vers le project
+                          <span class="emphasis"><em>gameoflife-default</em></span>, la variable d'environnement
+                          <code class="code">COPYARTIFACT_BUILD_NUMBER_GAMEOFLIFE_DEFAULT</code>
+                          aura la valeur de 4.
+               </p>
+               <p>La seconde partie de la configuration est de dire &agrave; Jenkins ce 
+                  		qu'il doit r&eacute;cup&eacute;rer, et en provenance de quelle t&acirc;che de build. Dans 
+                  		la section Build de la configuration de notre projet, nous ajoutons une
+                  		&eacute;tape &#8220;Copy artifacts from another project&#8221;. L&agrave; nous sp&eacute;cifions le projet
+                  		o&ugrave; l'artefact a &eacute;t&eacute; construit et archiv&eacute; (<span class="emphasis"><em>gameoflife-default</em></span> dans
+                  		notre exemple). Vous devez aussi faire en sorte que Jenkins utilise le build
+                  		sp&eacute;cifi&eacute; dans le param&egrave;tre d&eacute;fini pr&eacute;c&eacute;dement. Cela se fait en choisissant
+                  		&#8220;Specified by a build parameter&#8221; dans l'option &#8220;Which build&#8221; et en fournissant le
+                  		nom de variable donn&eacute; plus t&ocirc;t dans le s&eacute;lecteur de param&eacute;trage de build
+                  		(voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-copy-artifacts-build-parameter" title="Figure&nbsp;12.6.&nbsp;Specifier o&ugrave; trouver les artefacts &agrave; d&eacute;ployer">Figure&nbsp;12.6, &#8220;Specifier o&ugrave; trouver les artefacts &agrave; d&eacute;ployer&#8221;</a>). Ensuite, il
+                  		suffit de configrer les artefacts &agrave; copier comme nous l'avons fait dans l'exemple
+                  		pr&eacute;c&eacute;dent.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-jenkins-copy-artifacts-build-parameter"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject12_d1e17374"></a><img src="figs/web/jtdg_1206.png" alt="Specifier o&ugrave; trouver les artefacts &agrave; d&eacute;ployer"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;12.6.&nbsp;Specifier o&ugrave; trouver les artefacts &agrave; d&eacute;ployer</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Enfin, nous d&eacute;ployons l'artefact copi&eacute; en utilisant le plugin Deploy, comme
+                  		illustr&eacute; dans <a href="sect-deploying-to-an-app-server.html#fig-jenkins-cd-deploy-plugin" title="Figure&nbsp;12.3.&nbsp;D&eacute;ployer sur Tomcat avec le plugin Deploy">Figure&nbsp;12.3, &#8220;D&eacute;ployer sur Tomcat avec le plugin Deploy&#8221;</a>.
+               </p>
+               <p>Voyons comment ce build fonctionne en pratique. Lorsque nous d&eacute;clenchons un build
+                  		manuellement, Jenkins va proposer une liste d'options vous permettant de choisir le build
+                  		&agrave; red&eacute;ployer (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-redeploy-choose-build" title="Figure&nbsp;12.7.&nbsp;Choix du build &agrave; red&eacute;ployer">Figure&nbsp;12.7, &#8220;Choix du build &agrave; red&eacute;ployer&#8221;</a>).
+               </p>
+               <div class="figure"><a name="fig-jenkins-redeploy-choose-build"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject12_d1e17391"></a><img src="figs/web/jtdg_1207.png" alt="Choix du build &agrave; red&eacute;ployer"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;12.7.&nbsp;Choix du build &agrave; red&eacute;ployer</b></p>
+               </div><br class="figure-break"><p>La plupat de ces options sont explicites.</p>
+               <p>L'option &#8220;latest successful build&#8221; correspond au build le plus r&eacute;cent
+                  		sans prendre en compte les builds &eacute;chou&eacute;s. Cette option va donc se contenter de
+                  		d&eacute;ployer &agrave; nouveau la derni&egrave;re version. Si vous utilisez cette option, vous voudrez
+                  		probablement cocher la case &#8220;Stable builds only&#8221;, qui excluera &eacute;galement tout build
+                  		instable.
+               </p>
+               <p>Si vous avez choisi de supprimer les anciens builds, vous serez capable d'indiquer
+                  		que certaines t&acirc;ches de build doivent &ecirc;tre &eacute;ternellement conserv&eacute;es (voir <a href="sect-build-jobs-freestyle.html#sect-general-options" title="5.3.1.&nbsp;Options G&eacute;n&eacute;rales">Section&nbsp;5.3.1, &#8220;Options G&eacute;n&eacute;rales&#8221;</a>).
+                  		Dans ce cas, vous pouvez choisir de d&eacute;ployer le &#8220;Latest saved build&#8221;.
+               </p>
+               <p>Une option raisonnable pour une t&acirc;che de build automatis&eacute;e &agrave; la fin d'un s&eacute;quenceur
+                  		de build est &#8220;Upstream build that triggered this job&#8221;. Ainsi, vous pouvez &ecirc;tre s&ucirc;r que
+                  		vous allez d&eacute;ployer l'artefact qui a &eacute;t&eacute; g&eacute;n&eacute;r&eacute; (ou promu) par la pr&eacute;c&eacute;dente t&acirc;che de
+                  		build, m&ecirc;me si d'autres builds ont eu lieu depuis. Il est important de noter que, bien que
+                  		ce type de build param&eacute;tr&eacute; est souvent utilis&eacute; pour d&eacute;ployer manuellement un artefact sp&eacute;cifique,
+                  		il peut aussi &ecirc;tre utilis&eacute; efficacement au sein d'un build automatis&eacute;. S'il n'est pas d&eacute;clench&eacute;
+                  		manuellement, le build va simplement utiliser la valeur d&eacute;finie dans le champ &#8220;default selector&#8221;.
+               </p>
+               <p>Vous pouvez aussi choisir l'option &#8220;Specified by permalink&#8221; (voir
+                          <a href="sect-deploying-to-an-app-server.html#fig-jenkins-build-permalink" title="Figure&nbsp;12.8.&nbsp;Utiliser l'option &#8220;Specified by permalink&#8221;">Figure&nbsp;12.8, &#8220;Utiliser l'option &#8220;Specified by permalink&#8221;&#8221;</a>). Cela vous permet de choisir parmi un certain
+                  		nombre de valeurs, telles que le dernier build, le dernier build stable, le dernier build r&eacute;ussi
+                  		et ainsi de suite.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-jenkins-build-permalink"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject12_d1e17414"></a><img src="figs/web/jtdg_1208.png" alt="Utiliser l'option &#8220;Specified by permalink&#8221;"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;12.8.&nbsp;Utiliser l'option &#8220;Specified by permalink&#8221;</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Cependant, si vous voulez red&eacute;ployer une version particuli&egrave;re de votre application,
+                  		une option plus utile est &#8220;Specific build&#8221; (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-specific-build" title="Figure&nbsp;12.9.&nbsp;Utiliser un build sp&eacute;cifique">Figure&nbsp;12.9, &#8220;Utiliser un build sp&eacute;cifique&#8221;</a>).
+                  		Cette option vous demande de fournir un num&eacute;ro de build particulier indiquant le build &agrave;
+                  		d&eacute;ployer. Cela est la fa&ccedil;on la plus flexible de red&eacute;ployer une application, vous avez seulement
+                  		besoin de conna&icirc;tre le num&eacute;ro du build &agrave; red&eacute;ployer, mais cela n'est g&eacute;n&eacute;ralement pas difficile
+                  		&agrave; trouver en regardant l'historique du build de la t&acirc;che de build originelle.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-jenkins-specific-build"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject12_d1e17426"></a><img src="figs/web/jtdg_1209.png" alt="Utiliser un build sp&eacute;cifique"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;12.9.&nbsp;Utiliser un build sp&eacute;cifique</b></p>
+                  </div><br class="figure-break"></div>
+               <p>Cela est une fa&ccedil;on pratique de d&eacute;ployer ou red&eacute;ployer des artefacts de build
+                  		Jenkins pr&eacute;c&eacute;dents. Cependant, dans certains cas, vous pourriez pr&eacute;f&eacute;rer utiliser un
+                  		artefact stock&eacute; dans un d&eacute;p&ocirc;t d'entreprise comme Nexus ou Artifactory. Nous allons voir
+                  		un exemple de cela dans la prochaine <a class="indexterm" name="I_indexterm12_d1e17434"></a> section.
+               </p>
+            </div>
+            <div class="sect3" lang="en">
+               <div class="titlepage">
+                  <div>
+                     <div>
+                        <h4 class="title"><a name="d0e17657"></a>12.3.1.4.&nbsp;D&eacute;ployer une version depuis un d&eacute;p&ocirc;t Maven
+                        </h4>
+                     </div>
+                  </div>
+               </div>
+               <p>De nombreuses <a class="indexterm" name="ch12-mavenrep"></a>organisations utilisent un gestionnaire de d&eacute;p&ocirc;t tel que Nexus ou Artifactory
+                  		afin de stocker et partager des artefacts binaires tels que des fichiers JAR. Cette strat&eacute;gie
+                  		est commun&eacute;ment utilis&eacute;e avec Maven, mais &eacute;galement avec d'autres outils de build tels que Ant
+                  		(coupl&eacute; &agrave; Ivy ou aux Maven Ant Tasks) et Gradle. Dans un environnement d'Int&eacute;gration Continue,
+                  		les versions snapshots et d&eacute;livrables sont construites sur votre serveur Jenkins, puis d&eacute;ploy&eacute;es
+                  		sur votre gestionnaire de d&eacute;p&ocirc;t (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-enterprise-repositories" title="Figure&nbsp;12.10.&nbsp;Utiliser un d&eacute;p&ocirc;t d'entreprise Maven">Figure&nbsp;12.10, &#8220;Utiliser un d&eacute;p&ocirc;t d'entreprise Maven&#8221;</a>). A chaque
+                  		fois qu'un d&eacute;veloppeur enregistre un changement dans le code source sur le syst&egrave;me de contr&ocirc;le des versions,
+                  		Jenkins va prendre ces changements et construire de nouvelles versions snapshot des artefacts correspondant.
+                  		Jenkins deploie alors ces artefacts snapshots sur le gestionnaire de d&eacute;p&ocirc;t d'entreprise, o&ugrave; ils peuvent &ecirc;tre
+                  		mis &agrave; disposition des autres d&eacute;veloppeurs de l'&eacute;quipe ou d'autres &eacute;quipes au sein de l'organisation. Nous
+                  		avons discut&eacute; sur la fa&ccedil;on de faire pour que Jenkins d&eacute;ploie automatiquement les artefacts Maven dans 
+                          <a href="sect-deploying-to-an-app-server.html#fig-jenkins-enterprise-repositories" title="Figure&nbsp;12.10.&nbsp;Utiliser un d&eacute;p&ocirc;t d'entreprise Maven">Figure&nbsp;12.10, &#8220;Utiliser un d&eacute;p&ocirc;t d'entreprise Maven&#8221;</a>. Une approche similaire peut &ecirc;tre suivie avec Gradle
+                  		ou Ivy.
+               </p>
+               <div class="figure"><a name="fig-jenkins-enterprise-repositories"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject12_d1e17455"></a><img src="figs/web/jtdg_1210.png" alt="Utiliser un d&eacute;p&ocirc;t d'entreprise Maven"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;12.10.&nbsp;Utiliser un d&eacute;p&ocirc;t d'entreprise Maven</b></p>
+               </div><br class="figure-break"><p>Les conventions Maven se basent sur un syst&egrave;me bien d&eacute;fini d'identifiants de version, faisant
+                  		la distinction entre des versions SNAPSHOTS et RELEASE. Les versions SNAPSHOT sont consid&eacute;r&eacute;es comme
+                  		des builds potentiellement instables des derni&egrave;res sources, tandis que les versions RELEASE sont des
+                  		versions officielles &eacute;tant pass&eacute;es au travers d'un processus de livraison plus formel. Typiquement, 
+                  		les artefacts SNAPSHOT sont r&eacute;serv&eacute;s &agrave; un usage interne &agrave; l'&eacute;quipe de d&eacute;veloppement, tandis que les
+                  		versions RELEASE sont consid&eacute;r&eacute;es comme pr&ecirc;tes pour des tests plus avanc&eacute;s.
+               </p>
+               <p>Une approche tr&egrave;s similaire peut &ecirc;tre utilis&eacute;e pour des artefacts d&eacute;ployables tels que les
+                  		fichiers WAR ou EAR, qui sont construits et test&eacute;s sur le serveur d'int&eacute;gration continue, puis
+                  		d&eacute;ploy&eacute;s automatiquement vers le d&eacute;p&ocirc;t d'entreprise, souvent au sein d'un s&eacute;quenceur de build
+                  		impliquant des tests automatis&eacute;s et des contr&ocirc;les qualit&eacute; (voir 
+                          <a href="sect-build-pipelines.html" title="10.7.&nbsp;Pipelines de build et promotions">Section&nbsp;10.7, &#8220;Pipelines de build et promotions&#8221;</a>). Les versions SNAPSHOT sont typiquement d&eacute;ploy&eacute;es sur
+                  		un serveur de test pour des tests automatis&eacute;s ou manuels, afin de d&eacute;terminer si une version
+                  		est pr&ecirc;te pour &ecirc;tre officiellement publi&eacute;es.
+               </p>
+               <p>La strat&eacute;gie exacte utilis&eacute;e pour d&eacute;terminer quand une version est &agrave; cr&eacute;er et comment
+                  		elle est d&eacute;ploy&eacute;e varie grandement d'une organisation &agrave; une autre. Par exemple, certaines &eacute;quipes
+                  		pr&eacute;f&egrave;rent un processus formel &agrave; la fin de chaque it&eacute;ration, avec un num&eacute;ro de version bien d&eacute;fini
+                  		et des notes de livraison correspondantes distribu&eacute;es aux &eacute;quipes d'assurance qualit&eacute; pour des tests
+                  		suppl&eacute;mentaires. Quand une version particuli&egrave;re obtient le feu vert de l'assurance qualit&eacute;, elle peut
+                  		&ecirc;tre d&eacute;ploy&eacute;e en production. D'autres pr&eacute;f&egrave;rent utiliser un processus lean, d&eacute;ployant une nouvelle version
+                  		lorsqu'un correctif ou une nouvelle fonctionnalit&eacute; est pr&ecirc;t &agrave; &ecirc;tre d&eacute;ploy&eacute;. Si une &eacute;quipe est
+                  		particuli&egrave;rement confiante dans ses tests automatis&eacute;s et ses contr&ocirc;les qualit&eacute;, il est m&ecirc;me possible
+                  		d'automatiser compl&egrave;tement le processus, en g&eacute;n&eacute;rant et livrant une nouvelle version p&eacute;riodiquement
+                  		(par exemple chaque nuit) ou &agrave; chaque fois qu'un changement a &eacute;t&eacute; r&eacute;alis&eacute;.
+               </p>
+               <p>Il y a de nombreuses fa&ccedil;ons d'impl&eacute;menter ce type de strat&eacute;gie. Dans le reste de cette section,
+                  		nous verrons comment la r&eacute;aliser via un projet Maven multimodule conventionnel. Notre projet
+                  		de d&eacute;monstration est une application web nomm&eacute;e <span><strong class="command">gameoflife</strong></span>, consistitu&eacute;e
+                  		de trois modules : <span><strong class="command">gameoflife-core</strong></span>,
+                          <span><strong class="command">gameoflife-services</strong></span> et <span><strong class="command">gameoflife-web</strong></span>.
+                  		Le module <span><strong class="command">gameoflife-web</strong></span> g&eacute;n&egrave;re un fichier WAR incluant les JAR des deux
+                  		autres modules. Le WAR est ce que nous voulons d&eacute;ployer :
+               </p><pre class="screen">tuatara:gameoflife johnsmart$ ls -l
+total 32
+drwxr-xr-x  16 johnsmart  staff    544 16 May 09:58 gameoflife-core
+drwxr-xr-x   8 johnsmart  staff    272  4 May 18:12 gameoflife-deploy
+drwxr-xr-x   8 johnsmart  staff    272 16 May 09:58 gameoflife-services
+drwxr-xr-x  15 johnsmart  staff    510 16 May 09:58 gameoflife-web
+-rw-r--r--@  1 johnsmart  staff  12182  4 May 18:07 pom.xml</pre><p>Pr&eacute;c&eacute;dement dans ce chapitre, nous avons vu comment utiliser le plugin Deploy pour d&eacute;ployer un
+                  		fichier WAR g&eacute;n&eacute;r&eacute; par la t&acirc;che de build courante vers un serveur d'application. Ce que nous voulons
+                  		maintenant c'est d&eacute;ployer une version arbitraire du fichier WAR vers un serveur d'application.
+               </p>
+               <p>Dans <a href="sect-build-pipelines.html#jenkins-maven-releases" title="10.7.1.&nbsp;Gestion des releases Maven avec le plugin M2Release">Section&nbsp;10.7.1, &#8220;Gestion des releases Maven avec le plugin M2Release&#8221;</a>, nous avons discut&eacute; de comment configurer Jenkins 
+                  		pour invoquer le plugin Maven Release afin de g&eacute;n&eacute;rer une version release formelle de l'application.
+                  		La premi&egrave;re &eacute;tape du d&eacute;ploiement d&eacute;bute ici, nous supposerons donc que cela a &eacute;t&eacute; configur&eacute; et que
+                  		plusieurs versions releases ont d&eacute;j&agrave; &eacute;t&eacute; d&eacute;ploy&eacute;es sur notre gestionnaire de d&eacute;p&ocirc;t d'entreprise.
+               </p>
+               <p>La prochaine &eacute;tape implique de cr&eacute;er un projet d&eacute;di&eacute; pour le processus de d&eacute;ploiement. Ce projet
+                  		sera un projet Maven standard.
+               </p>
+               <p>La premi&egrave;re chose &agrave; faire est de mettre en place un projet de d&eacute;ploiement d&eacute;di&eacute;. Dans sa forme la
+                  		plus simple, ce projet va simplement r&eacute;cup&eacute;rer la version requise de votre fichier WAR depuis le
+                  		gestionnaire de d&eacute;p&ocirc;t pour le d&eacute;ployer avec Jenkins. Dans le fichier <code class="filename">pom.xml</code>
+                  		qui suit, nous utilisons le module <code class="filename">maven-war-plugin</code> pour r&eacute;cup&eacute;rer
+                  		la version sp&eacute;cifi&eacute;e du fichier WAR <span><strong class="command">gameoflife-web</strong></span>. Cette version est
+                  		sp&eacute;cifi&eacute;e dans la <span class="keep-together">propri&eacute;t&eacute;</span> <code class="literal">target.version</code> :
+               </p><a name="I_programlisting12_d1e17513"></a><pre class="programlisting">&lt;project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/
+        XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://
+  maven.apache.org/maven-v4_0_0.xsd"&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;com.wakaleo.gameoflife&lt;/groupId&gt;
+  &lt;artifactId&gt;gameoflife-deploy-with-jenkins&lt;/artifactId&gt;
+  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+  &lt;packaging&gt;war&lt;/packaging&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;com.wakaleo.gameoflife&lt;/groupId&gt;
+      &lt;artifactId&gt;gameoflife-web&lt;/artifactId&gt;
+      &lt;type&gt;war&lt;/type&gt;d
+      &lt;version&gt;${target.version}&lt;/version&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+  &lt;build&gt;
+    &lt;plugins&gt;
+      &lt;plugin&gt;
+        &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+        &lt;configuration&gt;
+          &lt;warName&gt;gameoflife&lt;/warName&gt;
+          &lt;overlays&gt;
+            &lt;overlay&gt;
+              &lt;groupId&gt;com.wakaleo.gameoflife&lt;/groupId&gt;
+              &lt;artifactId&gt;gameoflife-web&lt;/artifactId&gt;
+            &lt;/overlay&gt;
+          &lt;/overlays&gt;
+        &lt;/configuration&gt;
+      &lt;/plugin&gt;
+    &lt;/plugins&gt;
+  &lt;/build&gt;
+  &lt;properties&gt;
+    &lt;target.version&gt;RELEASE&lt;/target.version&gt;
+  &lt;/properties&gt;
+&lt;/project&gt;</pre><p>Ensuite, nous configurons un build Jenkins pour invoquer le fichier <code class="filename">pom.xml</code>
+                  		en utilisant une valeur pour la propri&eacute;t&eacute; d&eacute;finie par l'utilisateur (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-gameoflife-deploy" title="Figure&nbsp;12.11.&nbsp;D&eacute;ployer un artefact depuis un d&eacute;p&ocirc;t Maven">Figure&nbsp;12.11, &#8220;D&eacute;ployer un artefact depuis un d&eacute;p&ocirc;t Maven&#8221;</a>).
+                  		Notez que nous avons d&eacute;fini la valeur par d&eacute;faut &agrave; RELEASE pour qu'ainsi, par d&eacute;faut, la version release la plus r&eacute;cente
+                  		soit d&eacute;ploy&eacute;e. Sinon, l'utilisateur peut fournir le num&eacute;ro de version de la version &agrave; d&eacute;ployer ou &agrave;
+                  		<span class="keep-together">red&eacute;ployer</span>.
+               </p>
+               <div class="figure-float">
+                  <div class="figure"><a name="fig-jenkins-gameoflife-deploy"></a><div class="figure-contents">
+                        <div class="mediaobject"><a name="I_mediaobject12_d1e17528"></a><img src="figs/web/jtdg_1211.png" alt="D&eacute;ployer un artefact depuis un d&eacute;p&ocirc;t Maven"></div>
+                     </div>
+                     <p class="title"><b>Figure&nbsp;12.11.&nbsp;D&eacute;ployer un artefact depuis un d&eacute;p&ocirc;t Maven</b></p>
+                  </div><br class="figure-break"></div>
+               <p>La suite de cette t&acirc;che de build r&eacute;cup&egrave;re simplement le projet &agrave; d&eacute;ployer et
+                  		appelle le but <code class="literal">mvn package</code>, puis d&eacute;ploie le fichier
+                  		WAR en utilisant le plugin Deploy (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-mvn-package" title="Figure&nbsp;12.12.&nbsp;Pr&eacute;parer le WAR &agrave; d&eacute;ployer">Figure&nbsp;12.12, &#8220;Pr&eacute;parer le WAR &agrave; d&eacute;ployer&#8221;</a>). La
+                  		propri&eacute;t&eacute; <code class="literal">target.version</code> sera automatiquement pass&eacute;e
+                  		dans la t&acirc;che de build et utilis&eacute;e pour d&eacute;ployer la bonne version.
+               </p>
+               <div class="figure"><a name="fig-jenkins-mvn-package"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject12_d1e17546"></a><img src="figs/web/jtdg_1212.png" alt="Pr&eacute;parer le WAR &agrave; d&eacute;ployer"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;12.12.&nbsp;Pr&eacute;parer le WAR &agrave; d&eacute;ployer</b></p>
+               </div><br class="figure-break"><p>Des techniques similaires peuvent &ecirc;tre utilis&eacute;es pour d'autres types de projet. Si
+                  		vous d&eacute;ployez sur un serveur d'application non support&eacute; par le plugin Deploy, vous avez aussi
+                  		la possibilit&eacute; d'&eacute;crire un script sp&eacute;cifique dans le langage de votre choix et en faisant
+                  		en sorte que Jenkins passe le num&eacute;ro de version demand&eacute; comme d&eacute;crit
+                  		<a class="indexterm" name="I_indexterm12_d1e17553"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17555"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17557"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17559"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17561"></a>
+                  		<a class="indexterm" name="I_indexterm12_d1e17563"></a>plus haut.
+               </p>
+            </div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e17790"></a>12.3.2.&nbsp;D&eacute;ployer des applications &agrave; base de scripts telles Ruby et PHP
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>D&eacute;ployer <a class="indexterm" name="ch12-scripting1"></a>
+               	  <a class="indexterm" name="ch12-scripting2"></a>
+               	  <a class="indexterm" name="ch12-scripting3"></a>
+               	  <a class="indexterm" name="ch12-scripting4"></a> des projets utilisant des langages de script tels que PHP et Ruby est g&eacute;n&eacute;ralement
+               	  plus simple que de d&eacute;ployer des applications Java, bien que les probl&eacute;matiques li&eacute;es aux mises &agrave;
+               	  jour de base de donn&eacute;es soient similaires. En effet, bien souvent ces d&eacute;ploiement impliquent
+               	  essentiellement de copier des fichiers vers un serveur distant. Pour obtenir les fichiers en
+               	  premier lieu, vous avez le choix entre les copiers depuis l'espace de travail d'une autre t&acirc;che
+               	  de build via l'option Copy Artifacts, ou de r&eacute;cup&eacute;rer directement le code source depuis le d&eacute;p&ocirc;t
+               	  de code source, en utilisant au besoin une r&eacute;vision sp&eacute;cifique ou un tag comme d&eacute;crit pour
+               	  Subversion dans <a href="sect-advanced-builds-parameterized.html#sect-build-from-svn-tag" title="10.2.4.&nbsp;Construire &agrave; partir d'un tag Subversion">Section&nbsp;10.2.4, &#8220;Construire &agrave; partir d'un tag Subversion&#8221;</a> et pour Git dans <a href="sect-advanced-builds-parameterized.html#sect-building-git-tag" title="10.2.5.&nbsp;R&eacute;aliser un build &agrave; partir d'un tag Git">Section&nbsp;10.2.5, &#8220;R&eacute;aliser un build &agrave; partir d'un tag Git&#8221;</a>.
+               	  Une fois le code source pr&eacute;sent dans votre espace de travail Jenkins, vous n'avez simplement qu'&agrave; le copier
+               	  vers le serveur cible.
+            </p>
+            <p>Un outil utile pour ce type de d&eacute;ploiement est la s&eacute;rie de plugins <a class="indexterm" name="I_indexterm12_d1e17594"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17599"></a> Publish Over pour Jenkins (Publish Over FTP, Publish Over SSH, et Publish Over CIFS). Ces plugins
+               	  fournissent une fa&ccedil;on uniforme et flexible de d&eacute;ployer vos artefacts applicatifs vers d'autres serveurs via
+               	  diff&eacute;rents protocoles, incluant CIFS (pour les disques Windows partag&eacute;s), FTP, et SSH/SFTP.
+            </p>
+            <p>La configuration de chacun de ces plugins est similaire. Une fois les plugins install&eacute;s, vous devez
+               	  d&eacute;finir les configurations des h&ocirc;tes, qui sont g&eacute;r&eacute;es ensemble dans l'&eacute;cran principal de configuration. Vous
+               	  pouvez cr&eacute;er autant de configurations d'h&ocirc;tes que d&eacute;sir&eacute;. Elles apparaitront dans une liste d&eacute;roulante dans
+               	  la page de configuration de la t&acirc;che.
+            </p>
+            <p>La configuration des h&ocirc;tes a des libell&eacute;s explicites (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-ssh-config" title="Figure&nbsp;12.13.&nbsp;Configurer un h&ocirc;te distant">Figure&nbsp;12.13, &#8220;Configurer un h&ocirc;te distant&#8221;</a>).
+               	  Le nom appara&icirc;tra dans la liste d&eacute;roulante des configurations de t&acirc;ches de build. Vous pouvez configurer
+               	  une authentification FTP au moyen d'un identifiant et mot de passe, ou bien, pour le SSH, une cl&eacute; SSH ou
+               	  un identifiant/mot de passe. Vous devez &eacute;galement fournir un r&eacute;pertoire existant sur le serveur distant qui
+               	  servira de r&eacute;pertoire racine pour cette configuration. Dans les Options avanc&eacute;es, vous pouvez &eacute;galement
+               	  configurer le port SSH et la dur&eacute;e d'expiration.
+            </p>
+            <div class="figure"><a name="fig-jenkins-ssh-config"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject12_d1e17612"></a><img src="figs/web/jtdg_1213.png" alt="Configurer un h&ocirc;te distant"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;12.13.&nbsp;Configurer un h&ocirc;te distant</b></p>
+            </div><br class="figure-break"><p>Une fois vos h&ocirc;tes configur&eacute;s, vous pouvez configurer vos t&acirc;ches de build
+               	  afin qu'elles d&eacute;ploient des artefacts vers ces h&ocirc;tes.Vous pouvez faire cela en
+               	  tant qu'&eacute;tape de build (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-ssh-build-step" title="Figure&nbsp;12.14.&nbsp;D&eacute;ployer des fichiers vers un h&ocirc;te distant dans la section build">Figure&nbsp;12.14, &#8220;D&eacute;ployer des fichiers vers un h&ocirc;te distant dans la section build&#8221;</a>) ou en tant
+               	  qu'action faisant suite au build (voir <a href="sect-deploying-to-an-app-server.html#fig-jenkins-ssh-deploy" title="Figure&nbsp;12.15.&nbsp;D&eacute;ployer des fichiers vers un h&ocirc;te distant depuis les actions r&eacute;alis&eacute;es apr&egrave;s le build">Figure&nbsp;12.15, &#8220;D&eacute;ployer des fichiers vers un h&ocirc;te distant depuis les actions r&eacute;alis&eacute;es apr&egrave;s le build&#8221;</a>). Dans
+               	  les deux cas, les options sont similaires.
+            </p>
+            <div class="figure"><a name="fig-jenkins-ssh-build-step"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject12_d1e17626"></a><img src="figs/web/jtdg_1214.png" alt="D&eacute;ployer des fichiers vers un h&ocirc;te distant dans la section build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;12.14.&nbsp;D&eacute;ployer des fichiers vers un h&ocirc;te distant dans la section build</b></p>
+            </div><br class="figure-break"><p>En premier lieu, vous devez s&eacute;lectionner l'h&ocirc;te cible depuis la liste des h&ocirc;tes
+               	  que vous avez configur&eacute; dans la section pr&eacute;c&eacute;dente. Ensuite, vous indiquez les fichiers
+               	  que vous voulez transf&eacute;rer. Cela se fait en d&eacute;finissant un ou plusieurs &#8220;Transfer sets.&#8221;
+               	  Un <span class="emphasis"><em>Transfer set</em></span> est un ensemble de fichiers (d&eacute;finis par une expression
+               	  Ant) que vous d&eacute;ployez vers le dossier sp&eacute;cifi&eacute; sur le serveur distant. Vous pouvez aussi fournir
+               	  un pr&eacute;fix &agrave; supprimer, cela vous permet de laisser de c&ocirc;t&eacute; des dossiers non n&eacute;cessaires que vous
+               	  ne voulez pas voir appara&icirc;tre sur le serveur (tel que le chemin <code class="filename">target/site</code>
+               	  dans l'<span class="keep-together">exemple</span>). Vous pouvez ajouter autant d'emsenble de transfert 
+               	  que requis, de fa&ccedil;on &agrave; avoir les fichiers voulus sur le serveur distant. Le plugin propose &eacute;galement 
+               	  plusieurs options pour ex&eacute;cuter des commandes sur le serveur distant une fois le transfert fini ou 
+               	  pour exclure certains fichiers ou applatir <a class="indexterm" name="I_indexterm12_d1e17640"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17642"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17644"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17646"></a> les <a class="indexterm" name="I_indexterm12_d1e17649"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17652"></a>
+               	  <a class="indexterm" name="I_indexterm12_d1e17654"></a>dossiers.
+            </p>
+            <div class="figure"><a name="fig-jenkins-ssh-deploy"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject12_d1e17660"></a><img src="figs/web/jtdg_1215.png" alt="D&eacute;ployer des fichiers vers un h&ocirc;te distant depuis les actions r&eacute;alis&eacute;es apr&egrave;s le build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;12.15.&nbsp;D&eacute;ployer des fichiers vers un h&ocirc;te distant depuis les actions r&eacute;alis&eacute;es apr&egrave;s le build</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-implementing-cd.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect112_d1e17665.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">12.2.&nbsp;Mise en oeuvre du d&eacute;ploiement automatis&eacute; et continu&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;12.4.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

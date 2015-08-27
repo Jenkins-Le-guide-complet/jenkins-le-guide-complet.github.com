@@ -1,0 +1,180 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>6.4.&nbsp;Afficher les r&eacute;sultats de test</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-automated-testing.html" title="Chapter&nbsp;6.&nbsp;Tests automatis&eacute;s">
+      <link rel="prev" href="sect-chapter-automated-testing-reporting.html" title="6.3.&nbsp;Configuration des rapports de test dans Jenkins">
+      <link rel="next" href="sect-chapter-automated-testing-ignoring.html" title="6.5.&nbsp;Ignorer des tests">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-reporting.html">6.3.&nbsp;Configuration des rapports de test dans Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-ignoring.html">6.5.&nbsp;Ignorer des tests</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-chapter-automated-testing-results"></a>6.4.&nbsp;Afficher les r&eacute;sultats de test
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Une fois que<a class="indexterm" name="ch06-disp1"></a><a class="indexterm" name="ch06-disp2"></a> Jenkins sait o&ugrave; se trouvent les rapports de test, il fournit
+            un excellent travail de rapport sur ces derniers. En effet, une des t&acirc;ches
+                principales de Jenkins est de d&eacute;tecter et de fournir des rapports sur des
+                &eacute;checs de build. Et un test unitaire &eacute;chou&eacute; est un des sympt&ocirc;mes les plus
+                &eacute;vidents.
+         </p>
+         <p>Comme nous le mentionnions plus t&ocirc;t, Jenkins <a class="indexterm" name="ch06-fail1"></a><a class="indexterm" name="I_indexterm6_d1e8848"></a><a class="indexterm" name="I_indexterm6_d1e8853"></a>fait la distinction entre les builds
+                <span class="emphasis"><em>&eacute;chou&eacute;s</em></span> et les builds <span class="emphasis"><em>instables</em></span>.
+                Un build &eacute;chou&eacute; (indiqu&eacute; par une balle rouge) signale des tests &eacute;chou&eacute;s, ou
+                une t&acirc;che de build qui est cass&eacute;e d'une fa&ccedil;on brutale, telle qu'une erreur
+                de compilation. Un build instable, en revanche, est un build qui n'est pas
+                consid&eacute;r&eacute; de qualit&eacute; suffisante. C'est intentionnellement vague : ce qui
+                d&eacute;finit la &#8220;qualit&eacute;&#8221; est g&eacute;n&eacute;ralement donn&eacute; par vous, mais c'est typiquement
+                li&eacute; aux m&eacute;triques de code comme la couverture de code ou les standards de
+                codage, ce que nous discuterons plus tard dans le livre. Pour l'instant,
+                concentrons-nous sur les builds <span class="emphasis"><em>&eacute;chou&eacute;s</em></span>.
+         </p>
+         <p>Dans <a href="sect-chapter-automated-testing-results.html#fig-testing-maven-test-failure-dashboard" title="Figure&nbsp;6.5.&nbsp;Jenkins affiche la tendance des r&eacute;sultats de test sur la page d'accueil du projet">Figure&nbsp;6.5, &#8220;Jenkins affiche la tendance des r&eacute;sultats de test sur la page
+                     d'accueil du projet&#8221;</a>
+                nous<a class="indexterm" name="I_indexterm6_d1e8870"></a> pouvons voir comment Jenkins affiche une t&acirc;che de build Maven
+                contenant des &eacute;checs de tests. Ceci est la page d'accueil de la t&acirc;che de
+                build, qui devrait &ecirc;tre votre premier point d'entr&eacute;e quand un build &eacute;choue.
+                Quand un build contient des tests en &eacute;chec, le lien Dernier r&eacute;sultats des
+                tests indique <span class="keep-together">le nombre</span> courant
+                d'&eacute;checs de test dans cette t&acirc;che de build (&#8220;5 &eacute;checs&#8221; dans l'illustration),
+                <span class="keep-together">et aussi</span> la diff&eacute;rence dans le nombre
+                d'&eacute;checs de test depuis le dernier build (&#8220;+5&#8221; dans <span class="keep-together">l'illustration &#8212; </span>cinq nouveaux &eacute;checs de test).
+                Vous pouvez aussi voir comment les tests ont r&eacute;ussi dans le <span class="keep-together">temps &#8212; </span>les &eacute;checs de test des builds
+                pr&eacute;c&eacute;dents appara&icirc;tront en rouge dans le graphique Tendance des r&eacute;sultats
+                des tests.
+         </p>
+         <div class="figure"><a name="fig-testing-maven-test-failure-dashboard"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject6_d1e8892"></a><img src="figs/web/jtdg_0605.png" alt="Jenkins affiche la tendance des r&eacute;sultats de test sur la page d'accueil du projet"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;6.5.&nbsp;Jenkins affiche la tendance des r&eacute;sultats de test sur la page
+                        d'accueil du projet</b></p>
+         </div><br class="figure-break"><p>Si vous cliquez sur le lien Derniers r&eacute;sultats des tests, Jenkins vous
+                donnera un aper&ccedil;u des r&eacute;sultats des derniers tests (voir <a href="sect-chapter-automated-testing-results.html#fig-testing-test-result-details" title="Figure&nbsp;6.6.&nbsp;Jenkins affiche une vue synth&eacute;tique des r&eacute;sultats de test">Figure&nbsp;6.6, &#8220;Jenkins affiche une vue synth&eacute;tique des r&eacute;sultats de test&#8221;</a>). Jenkins supporte les
+                structures de projets multi-modules Maven, et pour une t&acirc;che de build Maven,
+                Jenkins va afficher une vue synth&eacute;tique des r&eacute;sultats de test par module.
+                Pour voir plus de d&eacute;tails sur les tests en &eacute;chec dans un module particulier,
+                cliquez simplement sur le module qui vous int&eacute;resse.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-testing-test-result-details"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject6_d1e8904"></a><img src="figs/web/jtdg_0606.png" alt="Jenkins affiche une vue synth&eacute;tique des r&eacute;sultats de test"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;6.6.&nbsp;Jenkins affiche une vue synth&eacute;tique des r&eacute;sultats de test</b></p>
+            </div><br class="figure-break"></div>
+         <p>Pour <a class="indexterm" name="I_indexterm6_d1e8911"></a>les t&acirc;ches de build free-style, Jenkins vous donnera
+                directement un aper&ccedil;u de vos r&eacute;sultats de test, mais organis&eacute; par packages
+                de haut niveau plut&ocirc;t que par modules.
+         </p>
+         <p>Dans les deux cas, Jenkins commence par pr&eacute;senter un aper&ccedil;u des
+                r&eacute;sultats de test pour chaque package. A partir d'ici, vous pouvez affiner,
+                voir les r&eacute;sultats de test pour chaque classe de test pour finir par les
+                tests dans les classes de test. Et s'il y a des tests en &eacute;chec, ils seront
+                surlign&eacute;s en haut de la page.
+         </p>
+         <p>Cette vue compl&egrave;te vous donne &agrave; la fois un bon aper&ccedil;u de l'&eacute;tat
+                courant de vos tests, et une indication sur leur historique. La colonne Age
+                indique depuis combien de temps un test a &eacute;t&eacute; cass&eacute;, avec un hyperlien qui
+                vous ram&egrave;ne vers le premier build dans lequel le test a &eacute;chou&eacute;.
+         </p>
+         <p>Vous pouvez aussi rajouter une description aux r&eacute;sultats de test, en
+                utilisant le lien ajouter une description dans le coin en haut &agrave; droite de
+                l'&eacute;cran. C'est une bonne mani&egrave;re d'annoter un &eacute;chec de build avec des
+                d&eacute;tails additionnels, afin de rajouter une information suppl&eacute;mentaire sur
+                l'origine du probl&egrave;me des &eacute;checs de test ou des notes sur la fa&ccedil;on de les
+                corriger.
+         </p>
+         <p>Lorsqu'un test &eacute;choue, vous voulez g&eacute;n&eacute;ralement savoir pourquoi. Pour
+                voir les d&eacute;tails d'un &eacute;chec d'un test donn&eacute;, cliquez sur le lien
+                correspondant sur cet &eacute;cran. Cela va afficher l'ensemble des d&eacute;tails, y
+                compris le message d'erreur et la pile, ainsi qu'un rappel du temps depuis
+                lequel le test est en &eacute;chec (voir <a href="sect-chapter-automated-testing-results.html#fig-testing-test-failure-details" title="Figure&nbsp;6.7.&nbsp;Les d&eacute;tails d'un &eacute;chec de test">Figure&nbsp;6.7, &#8220;Les d&eacute;tails d'un &eacute;chec de test&#8221;</a>). Vous devriez vous m&eacute;fier des
+                tests qui sont en &eacute;chec depuis plus de deux builds &#8212; cela signale soit un
+                probl&egrave;me technique pointu qui doit &ecirc;tre investigu&eacute;, soit une attitude
+                complaisante envers les tests en &eacute;chec (les d&eacute;veloppeurs ignorent peut-&ecirc;tre
+                les &eacute;checs de build), ce qui est plus s&eacute;rieux et doit s&ucirc;rement
+                &ecirc;tre<a class="indexterm" name="I_indexterm6_d1e8928"></a> &eacute;tudi&eacute;.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-testing-test-failure-details"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject6_d1e8934"></a><img src="figs/web/jtdg_0607.png" alt="Les d&eacute;tails d'un &eacute;chec de test"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;6.7.&nbsp;Les d&eacute;tails d'un &eacute;chec de test</b></p>
+            </div><br class="figure-break"></div>
+         <p>Assurez-vous <a class="indexterm" name="ch06-perf1"></a><a class="indexterm" name="ch06-perf2"></a>que vous gardez un oeil sur le temps que prennent vos tests
+                pour s'ex&eacute;cuter, et pas uniquement s'ils passent ou &eacute;chouent. Les tests
+                unitaires doivent &ecirc;tre con&ccedil;us pour s'ex&eacute;cuter rapidement, et des tests trop
+                longs peuvent &ecirc;tre le signe d'un probl&egrave;me de performance. Des tests
+                unitaires lents retardent aussi le retour, et en IC, un retour rapide est la
+                cl&eacute;. Par exemple, ex&eacute;cuter un millier de tests unitaires en cinq minutes est
+                bon &#8212; prendre une heure ne l'est pas. Donc c'est une bonne id&eacute;e de v&eacute;rifier
+                r&eacute;guli&egrave;rement combien de temps vos tests unitaires prennent pour s'ex&eacute;cuter,
+                et si n&eacute;cessaire investiguer pourquoi ils prennent autant de temps.
+         </p>
+         <p>Heureusement, Jenkins peut facilement vous dire la dur&eacute;e que prennent
+                vos tests pour s'ex&eacute;cuter dans le temps. Sur la page d'accueil de la t&acirc;che
+                de build, cliquez sur le lien &#8220;tendance&#8221; dans la boite Historique des builds
+                sur la gauche de l'&eacute;cran. Cela vous donnera un graphique &agrave; l'instar de celui
+                dans <a href="sect-chapter-automated-testing-results.html#fig-testing-test-trend" title="Figure&nbsp;6.8.&nbsp;Les tendances de temps de build peuvent vous donner un bon indicateur de la rapidit&eacute; de vos tests">Figure&nbsp;6.8, &#8220;Les tendances de temps de build peuvent vous donner un bon
+                     indicateur de la rapidit&eacute; de vos tests&#8221;</a>, vous montrant combien de
+                temps chacun de vos builds a pris pour s'ex&eacute;cuter. Cependant, les tests ne
+                sont pas la seule chose qui appara&icirc;t dans une t&acirc;che de build, mais si vous
+                avez suffisamment de tests &agrave; regarder de pr&egrave;s, ils vont probablement prendre
+                une grande partie du temps. Ainsi, ce graphique est aussi un excellent moyen
+                de voir comment vos tests se comportent.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-testing-test-trend"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject6_d1e8959"></a><img src="figs/web/jtdg_0608.png" alt="Les tendances de temps de build peuvent vous donner un bon indicateur de la rapidit&eacute; de vos tests"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;6.8.&nbsp;Les tendances de temps de build peuvent vous donner un bon
+                           indicateur de la rapidit&eacute; de vos tests</b></p>
+            </div><br class="figure-break"></div>
+         <p>Quand vous &ecirc;tes sur la page R&eacute;sultats des tests (voir <a href="sect-chapter-automated-testing-results.html#fig-testing-test-result-details" title="Figure&nbsp;6.6.&nbsp;Jenkins affiche une vue synth&eacute;tique des r&eacute;sultats de test">Figure&nbsp;6.6, &#8220;Jenkins affiche une vue synth&eacute;tique des r&eacute;sultats de test&#8221;</a>), vous pouvez aussi affiner et
+                voir le temps que prennent les tests dans un module, package ou classe
+                donn&eacute;e. Cliquez sur la dur&eacute;e du test dans la page R&eacute;sultats des tests (&#8220;A
+                dur&eacute; 31 ms&#8221; dans <a href="sect-chapter-automated-testing-results.html#fig-testing-test-result-details" title="Figure&nbsp;6.6.&nbsp;Jenkins affiche une vue synth&eacute;tique des r&eacute;sultats de test">Figure&nbsp;6.6, &#8220;Jenkins affiche une vue synth&eacute;tique des r&eacute;sultats de test&#8221;</a>) pour voir
+                l'historique du test pour un package, une classe, ou un test individuel
+                (voir <a href="sect-chapter-automated-testing-ignoring.html#fig-testing-test-result-history" title="Figure&nbsp;6.9.&nbsp;Jenkins vous permet de voir combien de temps les tests ont mis pour s'ex&eacute;cuter">Figure&nbsp;6.9, &#8220;Jenkins vous permet de voir combien de temps les tests ont mis pour
+                     s'ex&eacute;cuter&#8221;</a>). Cela rend facile
+                l'isolation d'un test qui prend plus de temps qu'il ne le devrait, ou m&ecirc;me
+                d&eacute;cider quand une optimisation g&eacute;n&eacute;rale de vos tests unitaires est<a class="indexterm" name="I_indexterm6_d1e8972"></a><a class="indexterm" name="I_indexterm6_d1e8974"></a><a class="indexterm" name="I_indexterm6_d1e8976"></a><a class="indexterm" name="I_indexterm6_d1e8978"></a> requise.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-reporting.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-ignoring.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">6.3.&nbsp;Configuration des rapports de test dans Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;6.5.&nbsp;Ignorer des tests</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,77 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>11.5.&nbsp;Surveillance des noeuds</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-distributed-builds.html" title="Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s">
+      <link rel="prev" href="sect-build-job-ties.html" title="11.4.&nbsp;Associer une t&acirc;che de build avec un esclave ou un groupe d'esclaves">
+      <link rel="next" href="I_sect111_d1e16634.html" title="11.6.&nbsp;Cloud computing">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-job-ties.html">11.4.&nbsp;Associer une t&acirc;che de build avec un esclave ou un groupe
+                         d'esclaves</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect111_d1e16634.html">11.6.&nbsp;Cloud computing</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="node-monitoring"></a>11.5.&nbsp;Surveillance des noeuds
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Jenkins <a class="indexterm" name="I_indexterm11_d1e16604"></a><a class="indexterm" name="I_indexterm11_d1e16611"></a><a class="indexterm" name="I_indexterm11_d1e16618"></a>ne distribue pas les t&acirc;ches de build aux agents esclaves et
+            advienne que pourra : il surveille pro-activement les machines esclaves, et
+                mettra un noeud offline s'il consid&egrave;re que celui-ci est incapable
+                d'effectuer un build sans danger. Vous pouvez d&eacute;finir exactement ce que
+                Jenkins surveille dans l'&eacute;cran G&eacute;rer les noeuds (voir <a href="node-monitoring.html#fig-jenkins-node-monitoring" title="Figure&nbsp;11.16.&nbsp;Jenkins surveille proactivement vos agents de build">Figure&nbsp;11.16, &#8220;Jenkins surveille proactivement vos agents de build&#8221;</a>). Jenkins surveille les agents
+            esclave de plusieurs fa&ccedil;ons. Il surveille le temps de r&eacute;ponse : un temps de
+                r&eacute;ponse excessif peut indiquer soit un probl&egrave;me r&eacute;seau soit que la machine
+                est tomb&eacute;e. Il surveille aussi la quantit&eacute; d'espace disque, l'espace disque
+                temporaire et l'espace de swap disponible &agrave; l'utilisateur Jenkins sur la
+                machine esclave, puisque les t&acirc;ches de build peuvent notoirement &ecirc;tre
+                consommatrices en espace disque. Il garde aussi un oeil sur les horloges
+                syst&egrave;mes, parce que si les horloges ne sont pas correctement synchronis&eacute;es,
+                des erreurs bizarres peuvent appara&icirc;tre. Si l'un de ces crit&egrave;res n'est pas
+                rempli, Jenkins mettra automatiquement le serveur hors-ligne.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-jenkins-node-monitoring"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject11_d1e16629"></a><img src="figs/web/jtdg_1116.png" alt="Jenkins surveille proactivement vos agents de build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;11.16.&nbsp;Jenkins surveille proactivement vos agents de build</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-build-job-ties.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="I_sect111_d1e16634.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">11.4.&nbsp;Associer une t&acirc;che de build avec un esclave ou un groupe
+                      d'esclaves&nbsp;
+               </td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;11.6.&nbsp;Cloud computing</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

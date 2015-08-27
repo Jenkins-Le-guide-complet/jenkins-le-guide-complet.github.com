@@ -1,0 +1,190 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>6.9.&nbsp;A l'aide ! Mes tests sont trop lents !</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-automated-testing.html" title="Chapter&nbsp;6.&nbsp;Tests automatis&eacute;s">
+      <link rel="prev" href="sect-chapter-automated-testing-performance.html" title="6.8.&nbsp;Tests de performance automatis&eacute;s avec JMeter">
+      <link rel="next" href="sect-chapter-automated-testing-conclusion.html" title="6.10.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-performance.html">6.8.&nbsp;Tests de performance automatis&eacute;s avec JMeter</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-conclusion.html">6.10.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-tests-too-slow"></a>6.9.&nbsp;A l'aide ! Mes tests sont trop lents !
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Un <a class="indexterm" name="ch06-imp1"></a><a class="indexterm" name="ch06-imp2"></a>des principes fondamentaux de la conception de vos builds
+            d'int&eacute;gration continue est que la valeur de l'information d'un &eacute;chec de
+                build diminue rapidement avec le temps. En d'autres termes, plus le retour
+                d'un &eacute;chec de build met de temps &agrave; vous atteindre, moins il vaut la peine,
+                et plus dur il est &agrave; corriger.
+         </p>
+         <p>En effet, si vos tests fonctionnels ou d'int&eacute;gration prennent
+            plusieurs heures pour s'ex&eacute;cuter, il y a des chances qu'ils ne seront pas
+                ex&eacute;cut&eacute;s &agrave; chaque changement. Ils sont plus susceptibles d'&ecirc;tre programm&eacute;s
+                comme un build quotidien. Le probl&egrave;me est alors que beaucoup de choses
+                peuvent intervenir en vingt-quatre heures, et, si le build quotidien &eacute;choue,
+                il sera difficile de d&eacute;terminer lequel des nombreux changements committ&eacute;s
+                sur le contr&ocirc;le de version pendant la journ&eacute;e &eacute;tait responsable. C'est un
+                probl&egrave;me s&eacute;rieux, et p&eacute;nalise la capacit&eacute; de votre serveur d'int&eacute;gration
+                continue de fournir un retour rapide qui le rend utile.
+         </p>
+         <p>Bien s&ucirc;r, certains builds <span class="emphasis"><em>sont</em></span> lents, par nature
+                . Les tests de performance ou de charge rentrent dans cette cat&eacute;gorie, comme
+                d'autres builds lourds de m&eacute;triques de qualit&eacute; de code pour de gros projets.
+                Cependant, <a class="indexterm" name="I_indexterm6_d1e9934"></a>les tests d'int&eacute;gration et <a class="indexterm" name="I_indexterm6_d1e9940"></a>fonctionnels <span class="emphasis"><em>ne</em></span> rentrent pas dans cette
+                cat&eacute;gorie. Vous devez faire tout ce que vous pouvez pour rendre ces tests
+                aussi rapides que possible. Moins de dix minutes est probablement acceptable
+                pour une suite compl&egrave;te d'int&eacute;gration/fonctionnel. Deux heures ne l'est
+                pas.
+         </p>
+         <p>Donc, si vous vous trouvez vous-m&ecirc;me &agrave; devoir acc&eacute;l&eacute;rer vos tests,
+                voici quelques strat&eacute;gies qui seront utiles, par ordre approximatif de
+                difficult&eacute;.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e10146"></a>6.9.1.&nbsp;Ajouter plus de mat&eacute;riel
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Quelquefois<a class="indexterm" name="I_indexterm6_d1e9956"></a> la fa&ccedil;on la plus facile pour acc&eacute;l&eacute;rer vos builds est de
+                     rajouter du mat&eacute;riel. Cela pourrait &ecirc;tre aussi simple que de mettre &agrave; jour
+                     votre serveur de build. Compar&eacute; au temps et effort pass&eacute;s &agrave; identifier et
+                     corriger les bugs li&eacute;s &agrave; l'int&eacute;gration, le co&ucirc;t d'achat d'un nouveau
+                     serveur flambant neuf est relativement faible.
+            </p>
+            <p>Une autre <a class="indexterm" name="I_indexterm6_d1e9964"></a><a class="indexterm" name="I_indexterm6_d1e9967"></a><a class="indexterm" name="I_indexterm6_d1e9972"></a>option est d'envisager l'utilisation d'approches virtuelles
+                     ou bas&eacute;es sur le cloud. Plus tard dans le livre, nous verrons comment vous
+                     pouvez utiliser des machines virtuelles VMWare ou une infrastructure cloud
+                     telles que Amazon Web Services (EC2) ou CloudBees pour augmenter votre
+                     capacit&eacute; de build sur une base &#8220;&agrave; la demande&#8221;, sans avoir &agrave; investir dans
+                     de nouvelles machines permanentes.
+            </p>
+            <p>Cette approche peut &eacute;galement impliquer la distribution de vos
+                     builds sur plusieurs serveurs. Bien que cela ne va pas en tant que tel
+                     acc&eacute;l&eacute;rer vos tests, cela peut mener &agrave; un retour plus rapide si votre
+                     serveur de build est sous forte demande, et si vos t&acirc;ches de build sont
+                     constamment en attente.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e10173"></a>6.9.2.&nbsp;Lancer moins de tests d'int&eacute;gration/fonctionnels
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Dans de nombreuses <a class="indexterm" name="I_indexterm6_d1e9983"></a><a class="indexterm" name="I_indexterm6_d1e9988"></a>applications, les tests d'int&eacute;gration ou fonctionnels sont
+                     utilis&eacute;s par d&eacute;faut comme moyen standard pour tester presque tous les
+                     aspects du syst&egrave;me. Cependant, les tests d'int&eacute;gration et fonctionnels ne
+                     sont pas le meilleur moyen de d&eacute;tecter et d'identifier les bugs. En raison
+                     du grand nombre de composants impliqu&eacute;s dans un test typique de bout en
+                     bout, il peut &ecirc;tre tr&egrave;s difficile de savoir o&ugrave; s'est produit l'erreur. En
+                     outre, avec autant de pi&egrave;ces changeant, il est extr&ecirc;mement difficile, si
+                     ce n'est totalement irr&eacute;alisable, de couvrir l'ensemble des chemins
+                     possibles &agrave; travers l'application.
+            </p>
+            <p>Pour cette raison, dans la mesure du possible, vous devriez pr&eacute;f&eacute;rer
+                     les tests unitaires rapides aux tests d'int&eacute;gration et fonctionnels
+                     beaucoup plus lents. Quand vous &ecirc;tes confiants dans le fait que les
+                     <span class="keep-together">composants</span> individuels fonctionnent
+                     correctement, vous pouvez compl&eacute;ter le tableau par quelques tests de bout
+                     en bout qui passent par des cas d'utilisation communs du syst&egrave;me, ou des
+                     cas d'utilisation qui ont caus&eacute; des probl&egrave;mes par le pass&eacute;. Cela va
+                     garantir que les composants s'embo&icirc;tent correctement, ce qui est, apr&egrave;s
+                     tout, ce que les tests d'int&eacute;gration sont suppos&eacute;s faire. Mais pr&eacute;f&eacute;rez,
+                     dans la mesure du possible, les tests unitaires aux tests plus complets.
+                     Cette strat&eacute;gie est probablement l'approche la plus viable pour maintenir
+                     votre retour rapide, mais elle n&eacute;cessite une certaine discipline et des
+                     efforts.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e10194"></a>6.9.3.&nbsp;Ex&eacute;cutez vos tests en parall&egrave;le
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>Si vos <a class="indexterm" name="I_indexterm6_d1e10004"></a>tests fonctionnels prennent deux heures pour s'ex&eacute;cuter, il
+                     est peu probable qu'ils aient tous besoin de s'ex&eacute;cuter &agrave; la suite. Il est
+                     aussi peu probable qu'ils consomment toute la CPU disponible sur votre
+                     machine de build. Alors d&eacute;couper vos tests d'int&eacute;gration en petits lots et
+                     les ex&eacute;cuter en parall&egrave;le a beaucoup de sens.
+            </p>
+            <p>Il y a plusieurs strat&eacute;gies que vous pouvez essayer, et votre choix
+                     va probablement d&eacute;pendre de la nature de votre application. Une approche,
+                     par exemple, est de mettre en place plusieurs t&acirc;ches de build pour
+                     ex&eacute;cuter des sous ensembles diff&eacute;rents de vos tests fonctionnels, et de
+                     lancer ces t&acirc;ches en parall&egrave;le. Jenkins vous permet d'agr&eacute;ger les
+                     r&eacute;sultats de test. C'est une bonne fa&ccedil;on de tirer avantage de
+                     l'architecture de build distribu&eacute;e pour acc&eacute;l&eacute;rer vos builds encore plus.
+                     Le point essentiel de cette strat&eacute;gie est la capacit&eacute; d'ex&eacute;cuter des
+                     sous-ensembles de vos tests en isolation, ce qui peut demander une
+                     certaine restructuration.
+            </p>
+            <p>A un plus bas niveau, vous pouvez aussi ex&eacute;cuter vos tests en
+                     parall&egrave;le au niveau des scripts de build. Comme nous avons vu
+                     pr&eacute;c&eacute;demment, TestNG et les versions les plus r&eacute;centes de JUnit supportent
+                     tous les deux l'ex&eacute;cution de tests en parall&egrave;le. N&eacute;anmoins, vous devrez
+                     vous assurer que vos tests peuvent &ecirc;tre ex&eacute;cut&eacute;s simultan&eacute;ment, ce qui
+                     peut n&eacute;cessiter une restructuration. Par exemple, les fichiers communs ou
+                     des variables d'instance partag&eacute;es vont dans ce cas causer des
+                     probl&egrave;mes.
+            </p>
+            <p>En g&eacute;n&eacute;ral, vous devez &ecirc;tre prudent sur &#8203;&#8203;les interactions entre
+                     vos tests. Si vos tests web d&eacute;marrent un serveur Web int&eacute;gr&eacute;, comme
+                     Jetty, par exemple, vous devez vous assurer que le port utilis&eacute; est
+                     diff&eacute;rent pour chaque ensemble de tests simultan&eacute;s.
+            </p>
+            <p>N&eacute;anmoins, si vous pouvez le faire fonctionner pour votre
+                     application, ex&eacute;cuter vos tests en parall&egrave;le est un des moyens les plus
+                     efficaces pour acc&eacute;l&eacute;rer <a class="indexterm" name="I_indexterm6_d1e10018"></a><a class="indexterm" name="I_indexterm6_d1e10020"></a>vos tests.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-performance.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-chapter-automated-testing-conclusion.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">6.8.&nbsp;Tests de performance automatis&eacute;s avec JMeter&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;6.10.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

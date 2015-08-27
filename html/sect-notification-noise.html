@@ -1,0 +1,182 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>8.13.&nbsp;Faire du bruit</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-notification.html" title="Chapter&nbsp;8.&nbsp;Notification">
+      <link rel="prev" href="sect-notification-sms.html" title="8.12.&nbsp;Notifications via SMS">
+      <link rel="next" href="sect-notification-extreme.html" title="8.14.&nbsp;Appareils de retour extr&egrave;mes">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-sms.html">8.12.&nbsp;Notifications via SMS</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-extreme.html">8.14.&nbsp;Appareils de retour extr&egrave;mes</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-notification-noise"></a>8.13.&nbsp;Faire du bruit
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Si votre
+                        <a class="indexterm" name="I_indexterm8_d1e12535"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12540"></a>
+            instance Jenkins s'ex&eacute;cute sur une machine qui est
+            physiquement situ&eacute;e &agrave; proximit&eacute; de l'&eacute;quipe de d&eacute;veloppement, vous pouvez aussi vouloir
+            ajouter les sons dans l'ensemble des strat&eacute;gies de notification. Cela peut &ecirc;tre une
+            strat&eacute;gie efficace pour les petites &eacute;quipes co-localis&eacute;es, mais cela devient plus difficile
+                        si le serveur de build est mis en place sur une machine virtuelle ou ailleurs dans le
+                        b&acirc;timent.
+                    
+         </p>
+         <p>Il y a deux fa&ccedil;ons d'int&eacute;grer des retours audio dans votre processus de build
+                        Jenkins : le plugin Jenkins Sounds et le plugin Jenkins Speaks.
+                        Les deux peuvent &ecirc;tre install&eacute;s via la page du gestionnaire de plugins de la mani&egrave;re habituelle
+                        .
+                    
+         </p>
+         <p>Le
+                        <a class="indexterm" name="I_indexterm8_d1e12548"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12553"></a>
+                        plugin Jenkins Sounds est le plus flexible des deux. Il
+                        vous permet de construire une strat&eacute;gie de communication d&eacute;taill&eacute;e bas&eacute;e sur le dernier
+                        r&eacute;sultat de build et aussi (facultatif) sur le r&eacute;sultat du pr&eacute;c&eacute;dent build
+                        (voir <a href="sect-notification-noise.html#fig-hudson-sounds" title="Figure&nbsp;8.28.&nbsp;Configurer les r&egrave;gles de Jenkins Sounds dans une t&acirc;che de build">Figure&nbsp;8.28, &#8220;Configurer les r&egrave;gles de Jenkins Sounds dans une t&acirc;che de build&#8221;</a>). Par exemple, vous pouvez configurer
+                        Jenkins pour jouer un son la premi&egrave;re fois qu'un build &eacute;choue, un son diff&eacute;rent
+                        si le build &eacute;choue une seconde fois, et encore un autre son lorsque le build est
+                        corrig&eacute;.
+                    
+         </p>
+         <div class="figure"><a name="fig-hudson-sounds"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject8_d1e12562"></a><img src="figs/web/jtdg_0827.png" alt="Configurer les r&egrave;gles de Jenkins Sounds dans une t&acirc;che de build"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;8.28.&nbsp;Configurer les r&egrave;gles de Jenkins Sounds dans une t&acirc;che de build</b></p>
+         </div><br class="figure-break"><p>Pour le mettre en place, vous devez cocher Jenkins Sounds &agrave; la
+                        section des actions post-build dans la page de configuration de la t&acirc;che de build. Vous pouvez
+                        ajouter autant de r&egrave;gles de configuration audio que vous le souhaitez. L'ajout d'une r&egrave;gle est assez
+                        simple. Vous devez tout d'abord choisir quel r&eacute;sultat de build va d&eacute;clencher le
+                        son. Vous devez &eacute;galement sp&eacute;cifier les r&eacute;sultats de build pr&eacute;c&eacute;dents pour lequel la pr&eacute;sente
+                        r&egrave;gle est applicable: Non Construit (NB), Avort&eacute; (Ab), &Eacute;chec (Fa),
+                        Non-positif (ONU) ou R&eacute;ussi (Su).
+                    
+         </p>
+         <p>Le plugin Jenkins Sounds propose une grande liste de sons pr&eacute;d&eacute;finis
+                        qui offrent g&eacute;n&eacute;ralement beaucoup de choix pour les administrateurs de build
+                        les plus exigeants. Vous pouvez cependant ajouter votre propre son &agrave; la liste si vous le
+                        voulez. Les fichiers sonores des sons sont stock&eacute;s dans un fichier ZIP ou JAR sous une structure
+                        plate (pas de sous-r&eacute;pertoire). La liste des sons
+                        propos&eacute;s par le plugin est tout simplement la liste des noms de fichiers auxquels on retire l'extension.
+                        Le plugin supporte les formats AIFF, AU, et WAV.
+                    
+         </p>
+         <p>Dans la page de configuration syst&egrave;me, vous pouvez indiquer &agrave; Jenkins un nouveau fichier d'archive de
+                        sons en utilisant la notation
+                        <code class="filename">http://</code>
+                        si votre archive de sons est disponible sur un serveur Web local, ou
+                        la notation
+                        <code class="filename">file://</code>
+                        s'il est disponible
+                        en local (voir <a href="sect-notification-noise.html#fig-hudson-sounds-config" title="Figure&nbsp;8.29.&nbsp;Configurer Jenkins Sounds">Figure&nbsp;8.29, &#8220;Configurer Jenkins Sounds&#8221;</a>). Une fois que
+                        vous avez sauv&eacute; la configuration, vous pouvez tester les sons de votre archive
+                        via le bouton Test Sound dans la section Avanc&eacute;.
+                    
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-sounds-config"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject8_d1e12584"></a><img src="figs/web/jtdg_0828.png" alt="Configurer Jenkins Sounds"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;8.29.&nbsp;Configurer Jenkins Sounds</b></p>
+            </div><br class="figure-break"></div>
+         <p>Le plugin Jenkins Sounds est un excellent choix si vous voulez
+                        compl&eacute;ter vos techniques de notification plus classiques. Les sons courts et
+                        reconnaissables sont un excellent moyen pour attirer l'attention d'un d&eacute;veloppeur et
+                        permettre &agrave; l'&eacute;quipe de savoir que quelque chose doit &ecirc;tre r&eacute;par&eacute;. Ils seront alors un peu
+                        plus attentifs lorsque les notifications plus d&eacute;taill&eacute;es suivront.
+                    
+         </p>
+         <p>Une
+                        <a class="indexterm" name="I_indexterm8_d1e12593"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12598"></a>
+                        <a class="indexterm" name="I_indexterm8_d1e12601"></a>
+                        autre option est le plugin Jenkins
+                        Speaks. Avec ce plugin, vous
+                        pouvez demander &agrave; Jenkins de diffuser une annonce personnalis&eacute;e (avec une voix tr&egrave;s robotique)
+                        lorsque votre build &eacute;choue (voir <a href="sect-notification-noise.html#fig-hudson-speaks" title="Figure&nbsp;8.30.&nbsp;Configurer Jenkins Speaks">Figure&nbsp;8.30, &#8220;Configurer Jenkins Speaks&#8221;</a>).
+                        Vous pouvez configurer le message exact &agrave; l'aide de Jelly. Jelly est un langage de script
+                        bas&eacute; sur XML largement utilis&eacute; dans les niveaux inf&eacute;rieurs de Jenkins.
+                    
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-speaks"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject8_d1e12613"></a><img src="figs/web/jtdg_0829.png" alt="Configurer Jenkins Speaks"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;8.30.&nbsp;Configurer Jenkins Speaks</b></p>
+            </div><br class="figure-break"></div>
+         <p>L'avantage de cette approche r&eacute;side dans sa pr&eacute;cision : puisque vous pouvez
+                        utiliser des variables Jenkins dans le script Jelly, vous pouvez demander &agrave; Jenkins de dire
+                        ce que vous voulez sur l'&eacute;tat de la construction. Voici un simple exemple :
+                    
+         </p><a name="I_programlisting8_d1e12620"></a><pre class="programlisting">&lt;j:choose&gt;
+            &lt;j:when test="${build.result!='SUCCESS'}"&gt;
+            Votre attention, s'il vous plait. Le projet ${build.project.name} a &eacute;chou&eacute;
+            &lt;j:if test="${build.project.lastBuild.result!='SUCCESS'}"&gt; encore&lt;/j:if&gt;
+            &lt;/j:when&gt;
+            &lt;j:otherwise&gt;&lt;!-- Ne rien dire --&gt;&lt;/j:otherwise&gt;
+            &lt;/j:choose&gt;</pre><p>Si vous laissez ce champ vide, le plugin va utiliser un mod&egrave;le
+                        par d&eacute;faut que vous pouvez configurer sur la page de configuration du syst&egrave;me. En fait,
+                        c'est g&eacute;n&eacute;ralement une bonne id&eacute;e de faire cela, et seulement d'utiliser script sp&eacute;cifique
+                        &agrave; un projet si c'est n&eacute;cessaire.
+                    
+         </p>
+         <p>L'inconv&eacute;nient est que la voix robotique est parfois peut &ecirc;tre un peu difficile
+                        &agrave; comprendre. Pour cette raison, c'est une bonne id&eacute;e de commencer votre
+                        annonce par une phrase g&eacute;n&eacute;rique telle que "Votre attention s'il vous pla&icirc;t&raquo;, ou &agrave;
+                        combiner Jenkins Speak avec le plugin Jenkins Sounds, de fa&ccedil;on &agrave; attirer l'attention des d&eacute;veloppeurs
+                        avant que le message r&eacute;el ne soit diffus&eacute;. L'utilisation de traits d'union dans
+                        les noms de projets (par exemple,
+                        <span class="emphasis"><em>jeu-de-vie</em></span>
+                        plut&ocirc;t que
+                        <span class="emphasis"><em>jeudevie</em></span>) aidera aussi le plugin &agrave; savoir comment
+                        prononcer vos noms de projet.
+                    
+         </p>
+         <p>Ces deux approches sont utiles pour les petites &eacute;quipes, mais peuvent &ecirc;tre limit&eacute;es
+                        pour les plus grosses, lorsque le serveur n'est pas physiquement situ&eacute; &agrave;
+                        proximit&eacute; de l'&eacute;quipe de d&eacute;veloppement. Les futures versions pourront supporter la lecture
+                        de sons sur une machine s&eacute;par&eacute;e, mais au moment de la r&eacute;daction de ce livre ce n'est
+                        pas encore disponible.
+                    
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-sms.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-notification-extreme.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">8.12.&nbsp;Notifications via SMS&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;8.14.&nbsp;Appareils de retour extr&egrave;mes</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

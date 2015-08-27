@@ -1,0 +1,116 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>11.7.&nbsp;Utiliser le service CloudBees DEV@cloud</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-distributed-builds.html" title="Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s">
+      <link rel="prev" href="I_sect111_d1e16634.html" title="11.6.&nbsp;Cloud computing">
+      <link rel="next" href="sect-distributed-builds-conclusion.html" title="11.8.&nbsp;Conclusion">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect111_d1e16634.html">11.6.&nbsp;Cloud computing</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-distributed-builds-conclusion.html">11.8.&nbsp;Conclusion</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-distributed-builds-Using-the-Cloudbees"></a>11.7.&nbsp;Utiliser le service CloudBees DEV@cloud
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Un autre option que vous pourriez consid&eacute;rer est d'ex&eacute;cuter votre
+                instance Jenkins en utilisant une architecture bas&eacute;e sur le cloud d&eacute;di&eacute;e &agrave;
+                Jenkins, comme le service DEV@cloud offert par CloudBees. CloudBees fournit
+                du <span class="emphasis"><em>"Jenkins as a service"</em></span> et d'autres services de
+                d&eacute;veloppement vari&eacute;s (comme Sonar) autour de Jenkins. En utilisant un
+                service sp&eacute;cifique d&eacute;di&eacute; &agrave; Jenkins, il n'est pas n&eacute;cessaire d'installer (ou
+                de g&eacute;rer) des ma&icirc;tres ou esclaves Jenkins sur vos machines. Une instance
+                ma&icirc;tre est automatiquement configur&eacute;e pour vous, et quand vous donnez une
+                t&acirc;che &agrave; construire, CloudBees met &agrave; disposition un esclave pour vous et le
+                reprend quand la t&acirc;che est effectu&eacute;e.
+         </p>
+         <p>Comment cette approche se compare-t-elle &agrave; l'architecture bas&eacute;e sur
+                Amazon EC2 que nous avons pr&eacute;sent&eacute; dans la section pr&eacute;c&eacute;dente ? L'avantage
+                principal est qu'il y a beaucoup moins de travail &agrave; effectuer dans la
+                gestion du mat&eacute;riel de votre architecture d'IC. Utiliser l'infrastructure
+                Amazon EC2 vous &eacute;vite d'avoir &agrave; vous soucier du mat&eacute;riel, mais vous avez
+                encore &agrave; configurer et g&eacute;rer vos images de serveur par vous-m&ecirc;me.
+                L'architecture CloudBees DEV@cloud est de plus haut-niveau, un service
+                centr&eacute; sur l'IC, qui fournit non seulement un serveur Jenkins mais aussi
+                d'autres outils en relation comme des d&eacute;p&ocirc;ts SVN ou Git, de la gestion
+                utilisateur, et Sonar. En plus, le mod&egrave;le de tarification (paiement &agrave; la
+                minute) est sans doute mieux adapt&eacute; &agrave; une architecture d'IC bas&eacute;e sur le
+                cloud que l'approche par paiement &agrave; l'heure utilis&eacute;e par Amazon.
+         </p>
+         <p>Les services bas&eacute;s sur Amazon EC2 sont souvent, mais pas toujours,
+                utilis&eacute; dans un environnement de "cloud hybride" o&ugrave; vous d&eacute;chargez vos
+                t&acirc;ches sur le cloud, mais un certaine quantit&eacute; de vos build restent chez
+                vous. Le service DEV@cloud de CloudBees est une solution de cloud public o&ugrave;
+                le build complet se d&eacute;roule dans le cloud (bien que CloudBees offre une
+                solution similaire fonctionnant sur un cloud priv&eacute;).
+         </p>
+         <p>Cr&eacute;er un compte CloudBees DEV@cloud est facile, et vous pouvez en
+                utiliser un gratuit pour exp&eacute;rimenter le service (notez que le service
+                gratuit CloudBees a seulement un nombre limit&eacute; de plugins disponibles ; vous
+                devrez vous inscrire &agrave; la version professionnelle pour pouvoir utiliser la
+                gamme compl&egrave;te de plugins). Pour cr&eacute;er un compte CloudBees, allez sur la
+                <a xmlns:xlink="http://www.w3.org/1999/xlink" href="https://grandcentral.cloudbees.com/account/signup" target="_top">page
+                   d'enregistrement</a>. Vous devrez entrer quelques informations telles
+                que le nom d'utilisateur, des informations email, et un nom de compte. Une
+                fois enregistr&eacute;, vous aurez acc&egrave;s &agrave; la fois aux services DEV@cloud et
+                RUN@cloud (en r&eacute;sum&eacute; la plateforme enti&egrave;re CloudBees).
+         </p>
+         <p>A ce stade, vous devrez souscrire au service DEV@cloud. Pour nos
+                besoins, vous pouvez vous en sortir en choisissant simplement l'option
+                gratuite. Vous devrez attendre quelques minutes que CloudBees mette &agrave;
+                disposition un ma&icirc;tre Jenkins pour vous. L'&eacute;tape suivante est de valider
+                votre compte (ceci aide CloudBees &agrave; &eacute;viter la cr&eacute;ation de comptes factices
+                de faire tourner des t&acirc;ches fallacieuses sur le service). Cliquez sur le
+                lien de validation, et entrez votre num&eacute;ro de t&eacute;l&eacute;phone. Un appel entrant
+                automatique vous donnera un code ; entrez le code sur le formulaire. Une
+                fois ceci fait, vous pouvez commencer &agrave; ex&eacute;cuter des builds.
+         </p>
+         <p>Votre premi&egrave;re escale apr&egrave;s connexion sera la console de gestion
+                (appel&eacute;e GrandCentral). Cliquez sur le bouton &#8220;Jenkins Builds&#8221; pour vous
+                rendre sur votre ma&icirc;tre Jenkins flambant neuf.
+         </p>
+         <p>A partir de l&agrave;, votre interaction avec la plateforme DEV@cloud est
+                exactement comme un Jenkins autonome. Quand vous cr&eacute;ez une nouvelle t&acirc;che de
+                build, pointez simplement sur votre d&eacute;p&ocirc;t de code source existant et appuyez
+                sur build repository. DEV@cloud mettra &agrave; disposition un esclave pour vous et
+                lancera un build (cela pourrait prendre une minute ou deux pour pr&eacute;parer
+                l'esclave).
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect111_d1e16634.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-distributed-builds-conclusion.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">11.6.&nbsp;Cloud computing&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;11.8.&nbsp;Conclusion</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

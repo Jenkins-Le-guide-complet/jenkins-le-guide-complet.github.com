@@ -1,0 +1,149 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>4.5.&nbsp;Configurer vos JDKs</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-configuration.html" title="Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins">
+      <link rel="prev" href="sect-configuration-global.html" title="4.4.&nbsp;Configurer les propri&eacute;t&eacute;s globales">
+      <link rel="next" href="sect-configuration-build-tools.html" title="4.6.&nbsp;Configurer vos outils de build">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-global.html">4.4.&nbsp;Configurer les propri&eacute;t&eacute;s globales</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-build-tools.html">4.6.&nbsp;Configurer vos outils de build</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-configuration-jdks"></a>4.5.&nbsp;Configurer vos JDKs
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p><a class="indexterm" name="ch04-jdk1"></a><a class="indexterm" name="ch04-jdk2"></a>Historiquement, l'une des utilisations les plus communes de
+                Jenkins &eacute;tait de construire des applications Java. Jenkins fournit donc
+                naturellement un support int&eacute;gr&eacute; pour Java.
+         </p>
+         <p>Par d&eacute;faut, Jenkins construira les applications Java en utilisant la
+            version de Java qu'il trouve dans le PATH, qui est habituellement celle
+            avec laquelle Jenkins fonctionne. Toutefois, pour un serveur de
+            build de production, vous voudrez probablement plus de contr&ocirc;le que
+            cela. Par exemple, vous pourriez ex&eacute;cuter votre serveur Jenkins avec Java
+            6, pour des raisons de performance. Par contre, votre serveur de
+            production pourrait tourner avec Java 5 ou m&ecirc;me Java 1.4. Les grosses
+                organisations sont souvent tr&egrave;s pr&eacute;cautionneuses lorsqu'il s'agit de
+                mettre &agrave; jour les versions de Java dans leurs environnements de
+                production, et certains des serveurs d'application poids-lourds du march&eacute;
+                sont de notori&eacute;t&eacute; publique lents &agrave; &ecirc;tre certifi&eacute;s avec les derniers
+                JDKs.
+         </p>
+         <p>Dans tous les cas, c'est toujours une sage pratique que de
+                construire votre application en utilisant une version de Java proche de
+                celle utilis&eacute;e sur votre serveur de production. Bien qu'une application
+                compil&eacute;e avec Java 1.4 tournera g&eacute;n&eacute;ralement avec Java 6, l'inverse n'est
+                pas toujours vrai. Vous pourriez aussi avoir plusieurs applications qui
+                n&eacute;cessitent d'&ecirc;tre construites avec diff&eacute;rentes versions de Java.
+         </p>
+         <p>Jenkins fournit un bon support pour travailler avec de multiples
+                JVMs. En effet, Jenkins rend tr&egrave;s facile la configuration et l'utilisation
+                de plusieurs versions de Java. Comme la plupart des configurations de
+                niveau syst&egrave;me, cela se param&egrave;tre dans l'&eacute;cran Configurer le syst&egrave;me (voir
+                <a href="sect-configuration-system.html#fig-configure-system" title="Figure&nbsp;4.2.&nbsp;Configuration du syst&egrave;me dans Jenkins">Figure&nbsp;4.2, &#8220;Configuration du syst&egrave;me dans Jenkins&#8221;</a>). A cet endroit, vous trouverez
+                une section appel&eacute;e JDK qui vous permettra de g&eacute;rer les installations de
+                JDK avec lesquelles vous voulez que Jenkins travaille.
+         </p>
+         <p>Le moyen le plus simple de d&eacute;clarer une installation de JDK est de
+                fournir un nom appropri&eacute; (qui sera ensuite utilis&eacute; pour identifier cette
+                installation de Java lors de la configuration de vos builds), et un
+                chemin vers le r&eacute;pertoire de l'installation Java (le m&ecirc;me chemin que vous
+                utiliseriez pour la <a class="indexterm" name="I_indexterm4_d1e4531"></a> variable <code class="literal">JAVA_HOME</code>),
+                comme montr&eacute; sur <a href="sect-configuration-jdks.html#fig-configure-jdk" title="Figure&nbsp;4.5.&nbsp;Configuration des JDKs dans Jenkins">Figure&nbsp;4.5, &#8220;Configuration des JDKs dans Jenkins&#8221;</a>. Bien que vous
+                deviez entrer le chemin manuellement, Jenkins v&eacute;rifiera en temps r&eacute;el &agrave; la
+                fois que le r&eacute;pertoire existe et que &ccedil;a ressemble &agrave; un r&eacute;pertoire JDK
+                valide.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-configure-jdk"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject4_d1e4543"></a><img src="figs/web/jtdg_0405.png" alt="Configuration des JDKs dans Jenkins"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;4.5.&nbsp;Configuration des JDKs dans Jenkins</b></p>
+            </div><br class="figure-break"></div>
+         <p>Vous pouvez <a class="indexterm" name="I_indexterm4_d1e4550"></a><a class="indexterm" name="I_indexterm4_d1e4555"></a>aussi demander &agrave; Jenkins d'installer Java pour vous. Dans ce
+                cas, Jenkins t&eacute;l&eacute;chargera l'installeur du JDK et installera une copie sur
+                votre machine (voir <a href="sect-configuration-jdks.html#fig-configure-jdk-installers" title="Figure&nbsp;4.6.&nbsp;Installer un JDK automatiquement">Figure&nbsp;4.6, &#8220;Installer un JDK automatiquement&#8221;</a>). La
+                premi&egrave;re fois qu'une construction a besoin d'utiliser ce JDK, Jenkins
+                t&eacute;l&eacute;chargera et installera la version sp&eacute;cifi&eacute;e de Java dans le r&eacute;pertoire
+                <code class="filename">tools</code> du r&eacute;pertoire racine de
+                Jenkins. Si le build est ex&eacute;cut&eacute; sur un nouvel agent de
+                build qui n'a pas ce JDK install&eacute;, il le t&eacute;l&eacute;chargera et
+                l'installera sur celui-ci de la m&ecirc;me fa&ccedil;on.
+         </p>
+         <p>C'est<a class="indexterm" name="I_indexterm4_d1e4568"></a> aussi un formidable moyen de configurer les agents de
+                construction. Comme nous le verrons plus loin dans le livre, Jenkins peut
+                d&eacute;l&eacute;guer des t&acirc;ches de build &agrave; d'autres machines, ou d'autres
+                agents de construction. Un agent de construction (ou &#8220;esclave&#8221;) est
+                simplement un autre ordinateur que Jenkins peut utiliser pour ex&eacute;cuter
+                certains de ses builds. Si vous utilisez l'option d'installation
+                automatique de Jenkins, vous n'avez pas &agrave; installer toutes les versions du
+                JDK dont vous avez besoin sur les machines agent de construction &#8212; Jenkins
+                le fera pour vous la premi&egrave;re fois que cela lui sera n&eacute;cessaire.
+         </p>
+         <p>Par d&eacute;faut, Jenkins propose de t&eacute;l&eacute;charger le JDK &agrave; partir du site
+                web d'Oracle. Si votre installation Jenkins est derri&egrave;re un serveur proxy,
+                vous pourrez avoir besoin de modifier votre configuration de proxy pour
+                permettre &agrave; Jenkins d'acc&eacute;der aux sites externes de t&eacute;l&eacute;chargement (voir
+                <a href="sect-configuration-proxies.html" title="4.9.&nbsp;Configurer un Proxy">Section&nbsp;4.9, &#8220;Configurer un Proxy&#8221;</a>). Une autre option est de
+                fournir une URL pointant sur votre propre copie interne des binaires du
+                JDK (soit sous la forme d'un ZIP soit sous la forme d'un fichier TAR
+                compress&eacute; avec GZip), stock&eacute; sur un serveur local &agrave; l'int&eacute;rieur de votre
+                organisation. Cela vous permet de fournir des installations normalis&eacute;es
+                sur un serveur local et d'acc&eacute;l&eacute;rer les installations automatiques. Quand
+                vous utilisez cette option, Jenkins vous permet aussi de sp&eacute;cifier un
+                label, ce qui resteindra l'utilisation de cette installation aux noeuds
+                ayant ce label. C'est une technique utile si vous avez besoin d'installer
+                une version sp&eacute;cifique d'un outil sur certaines machines de build.
+                La m&ecirc;me approche peut aussi &ecirc;tre utilis&eacute;e pour les autres outils de
+                build (comme Maven et Ant).
+         </p>
+         <div class="figure"><a name="fig-configure-jdk-installers"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject4_d1e4581"></a><img src="figs/web/jtdg_0406.png" alt="Installer un JDK automatiquement"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;4.6.&nbsp;Installer un JDK automatiquement</b></p>
+         </div><br class="figure-break"><p>L'installeur automatique ne fonctionnera pas dans tous les
+                environnements (s'il ne parvient pas &agrave; trouver ou identifier un syst&egrave;me
+                d'exploitation satisfaisant, par exemple, l'installation &eacute;chouera), mais
+                c'est n&eacute;anmoins un moyen utile et agr&eacute;able de configurer de nouveaux
+                serveurs de build ou des agents de construction distribu&eacute;s de
+                <a class="indexterm" name="I_indexterm4_d1e4589"></a><a class="indexterm" name="I_indexterm4_d1e4591"></a>mani&egrave;re consistante.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-global.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-build-tools.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">4.4.&nbsp;Configurer les propri&eacute;t&eacute;s globales&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;4.6.&nbsp;Configurer vos outils de build</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

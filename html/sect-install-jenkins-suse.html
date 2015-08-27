@@ -1,0 +1,139 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.7.&nbsp;Installer Jenkins sur SUSE ou OpenSUSE</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="sect-hudson-redhat.html" title="3.6.&nbsp;Installer Jenkins sur Redhat, Fedora ou CentOS">
+      <link rel="next" href="sect-running-hudson-standalone.html" title="3.8.&nbsp;Ex&eacute;cuter Jenkins comme une application autonome">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-hudson-redhat.html">3.6.&nbsp;Installer Jenkins sur Redhat, Fedora ou CentOS</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-running-hudson-standalone.html">3.8.&nbsp;Ex&eacute;cuter Jenkins comme une application autonome</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-install-jenkins-suse"></a>3.7.&nbsp;Installer Jenkins sur SUSE ou OpenSUSE
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			Les paquets binaires
+            			<a class="indexterm" name="ch03-suse1"></a>
+            			<a class="indexterm" name="ch03-suse2"></a>
+            			sont aussi disponibles pour SUSE et OpenSUSE, donc le
+            			processus d'installation process sur ces plates-formes est simple.
+            			Premi&egrave;rement,
+            			vous
+            			devez ajouter le d&eacute;p&ocirc;t Jenkins &agrave; la liste des d&eacute;p&ocirc;ts SUSE :
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>sudo zypper addrepo
+				http://pkg.jenkins-ci.org/opensuse/ jenkins</code></strong>
+		</pre><p>
+            			Enfin, il vous suffit d'installer Jenkins en utilisant la
+            			commande
+            			<code class="literal">zypper</code> :
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>sudo zypper install jenkins</code></strong>
+		</pre><p>
+            			Comme vous pouvez le voir sur la sortie de la console, ceci installera &agrave; la fois
+            			Jenkins et le dernier JDK de Sun, si ce dernier
+            			n'est pas d&eacute;j&agrave;
+            			install&eacute;. Les installations OpenSuse 
+            			<span class="keep-together">ont g&eacute;n&eacute;ralement</span>
+            			la version OpenJDK de Java, mais
+            			Jenkins pr&eacute;f&egrave;re celle de Sun. Lors du
+            			<span class="keep-together">t&eacute;l&eacute;chargement</span>
+            			JDK de Sun, il vous sera demand&eacute; de
+            			valider la licence de Java Sun avant de continuer
+            			l'installation.
+            		
+         </p>
+         <p>
+            			Ce processus d'installation cr&eacute;era aussi un utilisateur
+            			<code class="filename">jenkins</code>
+            			et installera Jenkins en tant que service,
+            			de sorte qu'il se lancera automatiquement &agrave; chaque d&eacute;marrage de la machine. Pour
+            			d&eacute;marrer manuellement
+            			Jenkins, vous pouvez appeler le script de d&eacute;marrage jenkins depuis
+            			le r&eacute;pertoire
+            			<code class="filename">/etc/init.d</code>
+            			:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>sudo /etc/init.d/jenkins jenkins start</code></strong>
+		</pre><p>
+            			Jenkins sera maintenant ex&eacute;cut&eacute; par d&eacute;faut sur le port 8080 (
+            			<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://localhost:8080/" target="_top">http://localhost:8080/</a>
+            			).
+            		
+         </p>
+         <p>
+            			Les options de configuration sont similaires &agrave; celles de l'installation pour Redhat
+            			(voir
+            			<a href="sect-hudson-redhat.html" title="3.6.&nbsp;Installer Jenkins sur Redhat, Fedora ou CentOS">Section&nbsp;3.6, &#8220;Installer Jenkins sur Redhat, Fedora ou CentOS&#8221;</a>
+            			). Vous pouvez d&eacute;finir un nombre limit&eacute;
+            			de variables de configuration dans le fichier
+            			<code class="filename">/etc/sysconfig/jenkins</code>
+            			, mais pour toutes
+            			les options de configuration avanc&eacute;es, vous devrez modifier le script de d&eacute;marrage dans
+            			<code class="filename">/etc/init.d/jenkins</code>
+            			.
+            		
+         </p>
+         <p>
+            			L'outil
+            			<code class="literal">zypper</code>
+            			facilite aussi la mise &agrave; jour de votre
+            			instance Jenkins:
+            		
+         </p><pre class="screen">
+			$
+			<strong class="userinput"><code>sudo zypper update jenkins</code></strong>
+		</pre><p>
+            			Ceci t&eacute;l&eacute;chargera et installera la derni&egrave;re version de Jenkins depuis
+            			le site de Jenkins
+            			<a class="indexterm" name="I_indexterm3_d1e3226"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e3228"></a>
+            			.
+            		
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-hudson-redhat.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-running-hudson-standalone.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.6.&nbsp;Installer Jenkins sur Redhat, Fedora ou CentOS&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.8.&nbsp;Ex&eacute;cuter Jenkins comme une application autonome</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

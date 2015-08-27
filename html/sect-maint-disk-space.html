@@ -1,0 +1,295 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>13.2.&nbsp;Surveillance de l'espace disque</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-maintaining-jenkins.html" title="Chapter&nbsp;13.&nbsp;Maintenir Jenkins">
+      <link rel="prev" href="chapter-maintaining-jenkins.html" title="Chapter&nbsp;13.&nbsp;Maintenir Jenkins">
+      <link rel="next" href="sect-maint-server-load.html" title="13.3.&nbsp;Surveiller la charge serveur">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-maintaining-jenkins.html">Chapter&nbsp;13.&nbsp;Maintenir Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-maint-server-load.html">13.3.&nbsp;Surveiller la charge serveur</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-maint-disk-space"></a>13.2.&nbsp;Surveillance de l'espace disque
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			L'historique des builds
+            			<a class="indexterm" name="ch13-monitor1"></a>
+            			<a class="indexterm" name="ch13-monitor2"></a>
+            			<a class="indexterm" name="ch13-monitor3"></a>
+            			<a class="indexterm" name="ch13-monitor4"></a>
+            			prend de l'espace disque. De plus, Jenkins analyse les builds
+            			pr&eacute;c&eacute;dents lorsqu'il charge la configuration d'un projet. Ainsi, le
+            			chargement d'une t&acirc;che avec un millier de builds archiv&eacute;s prendra bien
+            			plus de temps qu'une t&acirc;che n'en n'ayant que 50. Si vous avez un gros
+            			serveur Jenkins avec des dizaines ou des milliers de t&acirc;ches, le temps
+            			total est proportionellement multipli&eacute;.
+            		
+         </p>
+         <p>
+            			La fa&ccedil;on la plus simple de plafonner l'utilisation de l'espace disque
+            			est probablement de limiter le nombre de builds qu'un projet conserve
+            			dans son historique. Cela se configure en cochant la case "Supprimer
+            			les anciens builds" en haut de la page de configuration d'un projet
+            			(voir
+            			<a href="sect-maint-disk-space.html#fig-maintenance-discard-old-builds" title="Figure&nbsp;13.1.&nbsp;Suppression des anciens builds">Figure&nbsp;13.1, &#8220;Suppression des anciens builds&#8221;</a>
+            			). Si vous dites &agrave; Jenkins de ne garder que les 20 derniers builds,
+            			il commencera &agrave; effacer les plus vieux builds une fois ce nombre
+            			atteint. Vous pouvez limiter le nombre d'anciens builds conserv&eacute;s par
+            			un nombre de builds ou par date (par exemple les builds de moins de
+            			30 jours). Jenkins fait cela intelligemment: il gardera toujours le
+            			dernier build r&eacute;ussi au sein de son historique, ainsi vous ne perdrez
+            			jamais votre dernier build r&eacute;ussi.
+            		
+         </p>
+         <div class="figure"><a name="fig-maintenance-discard-old-builds"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject13_d1e17727"></a><img src="figs/web/jtdg_1301.png" alt="Suppression des anciens builds"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;13.1.&nbsp;Suppression des anciens builds</b></p>
+         </div><br class="figure-break"><p>Le probl&egrave;me avec la suppresion des anciens builds est que vous
+            			perdez l'historique des builds par la m&ecirc;me occasion. Pourtant,
+            			Jenkins utilise cet historique pour r&eacute;aliser diff&eacute;rents graphiques
+            			sur les r&eacute;sultats des tests et les m&eacute;triques de build. Limiter le
+            			nombre de build conserv&eacute; &agrave; 20, par exemple, implique que Jenkins
+            			affichera des graphiques contenant seulement 20 points. Cela peut
+            			&ecirc;tre un peu limit&eacute;. Cette sorte d'information peut &ecirc;tre tr&egrave;s utile
+            			aux d&eacute;veloppeurs. Il est souvent int&eacute;ressant de pouvoir afficher
+            			l'&eacute;volution des m&eacute;triques sur l'ensemble de la vie du projet, et pas
+            			seulement sur les 2 derni&egrave;res semaines.
+            		
+         </p>
+         <p>
+            			Heuresement, Jenkins a un m&eacute;canisme &agrave; m&ecirc;me de rendre les d&eacute;veloppeurs
+            			et les administraturs syst&egrave;mes heureux. En g&eacute;n&eacute;ral, les &eacute;l&eacute;ments
+            			prenant le plus de place sont les artefacts de build : fichiers JAR,
+            			WAR et ainsi de suite. L'historique de build en elle-m&ecirc;me est
+            			principalement constitu&eacute;e de fichiers de log XML, qui ne prennent pas trop de
+            			place. Si vous cliquez sur le button "Avanc&eacute;...", Jenkins vous
+            			offre
+            			la possibilit&eacute; de supprimer les artefacts mais pas les donn&eacute;es
+            			du
+            			build. Dans
+            			<a href="sect-maint-disk-space.html#fig-maintenance-discard-old-builds-advanced" title="Figure&nbsp;13.2.&nbsp;Supprimer les anciens builds &#8212; options avanc&eacute;es">Figure&nbsp;13.2, &#8220;Supprimer les anciens builds &#8212; options avanc&eacute;es&#8221;</a>
+            			, par exemple, nous avons configur&eacute; Jenkins pour qu'il garde les
+            			artefacts 7 jours au maximum. Cette option est vraiment pratique si
+            			vous avez besoin de limiter l'utilisation du disque tout en d&eacute;sirant
+            			fournir l'ensemble des m&eacute;triques pour les &eacute;quipes de d&eacute;veloppement.
+            		
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-maintenance-discard-old-builds-advanced"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject13_d1e17741"></a><img src="figs/web/jtdg_1302.png" alt="Supprimer les anciens builds &#8212; options avanc&eacute;es"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;13.2.&nbsp;Supprimer les anciens builds &#8212; options avanc&eacute;es</b></p>
+            </div><br class="figure-break"></div>
+         <p>N'h&eacute;sitez pas &agrave; &ecirc;tre drastique, en gardant un nombre maximal
+            			d'artefact assez faible. Souvenez vous que Jenkins gardera toujours
+            			le dernier build stable et le dernier r&eacute;ussi, quelque soit sa
+            			configuration. Ainsi, vous aurez toujours au moins le dernier build
+            			r&eacute;ussi (&agrave; moins bien s&ucirc;r qu'il n'y ait pas encore eu de build
+            			r&eacute;ussi). Jenkins offre &eacute;galement de marquer un build particulier &agrave;
+            			"Conserver ce build sans limite de temps", afin que certains builds
+            			importants ne puissent &ecirc;tre supprim&eacute;s automatiquement.
+            		
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e17988"></a>13.2.1.&nbsp;Utiliser le plugin "Disk Usage"
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>
+               				Le plugin Disk Usage
+               				<a class="indexterm" name="ch13-usage1"></a>
+               				<a class="indexterm" name="ch13-usage2"></a>
+               				est un des plus utiles pour un administrateur Jenkins. Ce plugin
+               				conserve et reporte l'espace disque utilis&eacute; par vos projets. Il vous
+               				permet de rep&eacute;rer et corriger les projets qui utilisent trop
+               				d'espace.
+               			
+            </p>
+            <p>
+               				Vous pouvez installer le plugin Disk Usage de la fa&ccedil;on habituelle,
+               				depuis l'&eacute;cran "Gestion des plugins". Apr&egrave;s installation du plugin
+               				et red&eacute;marrage de Jenkins, le plugin Disk Usage enregistre la
+               				quantit&eacute; d'espace disque utilis&eacute;e par chaque projet. Il ajoute
+               				&eacute;galement un lien "Disk usage" sur la page "Administrer Jenkins". Ce
+               				lien vous permet d'afficher la quantit&eacute; totale d'espace utilis&eacute; par
+               				vos projets (voir
+               				<a href="sect-maint-disk-space.html#fig-maintenance-disk-usage" title="Figure&nbsp;13.3.&nbsp;Voir l'utilisation d'espace disque">Figure&nbsp;13.3, &#8220;Voir l'utilisation d'espace disque&#8221;</a>
+               				).
+               			
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-maintenance-disk-usage"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject13_d1e17769"></a><img src="figs/web/jtdg_1303.png" alt="Voir l'utilisation d'espace disque"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;13.3.&nbsp;Voir l'utilisation d'espace disque</b></p>
+               </div><br class="figure-break"></div>
+            <p>La liste est tri&eacute;e par utilisation totale d'espace disque,
+               				ainsi les projets utilisant le plus d'espace apparaissent en haut. La
+               				liste fournit deux valeurs par projet. La colonne "Builds" indique
+               				l'espace disque total utilis&eacute; par l'historique des builds, tandis
+               				que la colonne "Workspace" est l'espace disque utilis&eacute; pour
+               				construire le projet. Pour les projets en cours, l'espace utilis&eacute;
+               				par l'espace de travail tend &agrave; &ecirc;tre relativement stable, tandis que
+               				la valeur pour l'historique des builds croit au cours du temps,
+               				parfois &agrave; une vitesse excessivement rapide, &agrave; moins que vous ne
+               				fassiez quelque chose. Vous pouvez garder sous contr&ocirc;le l'espace
+               				disque utilis&eacute; par l'historique d'un projet en limitant le nombre de
+               				builds conserv&eacute;s et en faisant attention &agrave; quels artefacts sont
+               				conserv&eacute;s.
+               			
+            </p>
+            <p>
+               				Pour se faire une id&eacute;e sur la vitesse &agrave; laquelle l'espace disque est
+               				utilis&eacute;, vous pouvez aussi afficher l'espace disque utilis&eacute; par
+               				chaque projet au cours du temps. Pour faire cela, vous devez
+               				configurer le plugin sur la page "Configurer le syst&egrave;me" (voir
+               				<a href="sect-maint-disk-space.html#fig-maintenance-disk-usage-project" title="Figure&nbsp;13.4.&nbsp;Affichage de l'utilisation disque d'un projet">Figure&nbsp;13.4, &#8220;Affichage de l'utilisation disque d'un projet&#8221;</a>
+               				).
+               			
+            </p>
+            <div class="figure"><a name="fig-maintenance-disk-usage-project"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject13_d1e17783"></a><img src="figs/web/jtdg_1304.png" alt="Affichage de l'utilisation disque d'un projet"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;13.4.&nbsp;Affichage de l'utilisation disque d'un projet</b></p>
+            </div><br class="figure-break"><p>
+               				Cela va enregistrer et afficher combien d'espace disque vos projets
+               				consomment au cours du temps. Le plugin "Disk Usage" affiche un
+               				graphique de l'utlisation du disque au cours du temps (voir
+               				<a href="sect-maint-disk-space.html#fig-maintenance-project-disk-usage" title="Figure&nbsp;13.5.&nbsp;Affichage de l'espace disque d'un projet au cours du temps">Figure&nbsp;13.5, &#8220;Affichage de l'espace disque d'un projet au cours du temps
+                  				&#8221;</a>
+               				) qui donne un bon aper&ccedil;u de la vitesse &agrave; laquelle votre projet
+               				consomme l'espace disque, ou au contraire si l'espace utilis&eacute; est
+               				stable au cours
+               				<a class="indexterm" name="I_indexterm13_d1e17792"></a>
+               				<a class="indexterm" name="I_indexterm13_d1e17794"></a>
+               				du temps.
+               			
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-maintenance-project-disk-usage"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject13_d1e17800"></a><img src="figs/web/jtdg_1305.png" alt="Affichage de l'espace disque d'un projet au cours du temps"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;13.5.&nbsp;Affichage de l'espace disque d'un projet au cours du temps
+                        				</b></p>
+               </div><br class="figure-break"></div>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e18047"></a>13.2.2.&nbsp;Disk Usage et les projets Jenkins de type Apache Maven
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>
+               				Si vous
+               				<a class="indexterm" name="ch13-musage"></a>
+               				utilisez les t&acirc;ches de build Maven, il y a des d&eacute;tails
+               				suppl&eacute;mentaires que vous devriez conna&icirc;tre. Dans Jenkins, les t&acirc;ches de build
+               				Maven archivent automatiquement, par d&eacute;faut, les artefacts du
+               				build. Cela peut &ecirc;tre diff&eacute;rent de vos attentes.
+               			
+            </p>
+            <p>Le probl&egrave;me est que ces artefacts SNAPSHOT prennent de la
+               				place, beaucoup m&ecirc;me. Sur un projet actif, Jenkins est susceptible
+               				de r&eacute;aliser plusieurs builds par heure. Stocker de fa&ccedil;on permanente
+               				chacun des fichiers JAR g&eacute;n&eacute;r&eacute;s pour chaque build peut &ecirc;tre vraiment
+               				couteux. Le probl&egrave;me s'amplifie si vous avez des projets
+               				multimodules. En effet, Jenkins archive les artefacts g&eacute;n&eacute;r&eacute;s pour
+               				chaque module.
+               			
+            </p>
+            <p>En fait, si vous avez besoin d'archiver vos artefacts SNAPSHOT
+               				Maven, il est probablement plus avis&eacute; de les d&eacute;ployer directement
+               				dans votre gestionnaire de d&eacute;p&ocirc;t local. Nexus Pro, par exemple,
+               				peut &ecirc;tre configur&eacute; pour faire cela. Artifactory peut &ecirc;tre configur&eacute;
+               				pour supprimer les vieux artefacts SNAPSHOT.
+               			
+            </p>
+            <p>
+               				Heuresement, vous pouvez configurer Jenkins pour r&eacute;aliser cela.
+               				Allez dans la section "Buid" de l'&eacute;cran de configuration de votre
+               				t&acirc;che et cliquez sur le bouton "Avanc&eacute;...". Des champs suppl&eacute;mentaires
+               				sont alors affich&eacute;s, comme montr&eacute; dans
+               				<a href="sect-maint-disk-space.html#fig-jenkins-maven-no-archives" title="Figure&nbsp;13.6.&nbsp;T&acirc;ches de build Maven&#8212;options avanc&eacute;es">Figure&nbsp;13.6, &#8220;T&acirc;ches de build Maven&#8212;options avanc&eacute;es&#8221;</a>
+               				.
+               			
+            </p>
+            <div class="figure-float">
+               <div class="figure"><a name="fig-jenkins-maven-no-archives"></a><div class="figure-contents">
+                     <div class="mediaobject"><a name="I_mediaobject13_d1e17827"></a><img src="figs/web/jtdg_1306.png" alt="T&acirc;ches de build Maven&#8212;options avanc&eacute;es"></div>
+                  </div>
+                  <p class="title"><b>Figure&nbsp;13.6.&nbsp;T&acirc;ches de build Maven&#8212;options avanc&eacute;es</b></p>
+               </div><br class="figure-break"></div>
+            <p>
+               				Si vous cochez l'option &#8220;D&eacute;sactive l'archivage automatique des artefacts&#8221;,
+               				Jenkins ne stockera pas les fichiers Jar g&eacute;n&eacute;r&eacute; par les builds de
+               				votre projet. C'est une bonne fa&ccedil;on de rendre heureux votre
+               				administrateur syst&egrave;me.
+               			
+            </p>
+            <p>
+               				Notez que parfois vous avez
+               				<span class="emphasis"><em>vraiment</em></span>
+               				besoin d'archiver les artefacts Maven. Par exemple, cela s'av&egrave;re
+               				souvent utiles quand vous impl&eacute;mentez un s&eacute;quenceur de build 
+               				(voir
+               				<a href="sect-build-pipelines.html" title="10.7.&nbsp;Pipelines de build et promotions">Section&nbsp;10.7, &#8220;Pipelines de build et promotions&#8221;</a>
+               				). Dans ce cas, vous pouvez toujours choisir, manuellement, les 
+               				artefacts n&eacute;cessaires, et alors utiliser l'option "Supprimer les
+               				anciens builds" pour d&eacute;finir la dur&eacute;e
+               				<a class="indexterm" name="I_indexterm13_d1e17841"></a>
+               				<a class="indexterm" name="I_indexterm13_d1e17843"></a>
+               				<a class="indexterm" name="I_indexterm13_d1e17845"></a>
+               				<a class="indexterm" name="I_indexterm13_d1e17847"></a>
+               				<a class="indexterm" name="I_indexterm13_d1e17849"></a>
+               				de conservation.
+               			
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-maintaining-jenkins.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-maint-server-load.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;13.&nbsp;Maintenir Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;13.3.&nbsp;Surveiller la charge serveur</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

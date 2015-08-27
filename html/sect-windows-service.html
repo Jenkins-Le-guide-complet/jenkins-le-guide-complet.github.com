@@ -1,0 +1,269 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.12.&nbsp;Installing Jenkins as a Windows Service</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="I_sect13_d1e3564.html" title="3.11.&nbsp;Memory Considerations">
+      <link rel="next" href="sec-hudson-home-directory-contents.html" title="3.13.&nbsp;What&#8217;s in the Jenkins Home Directory">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect13_d1e3564.html">3.11.&nbsp;Memory Considerations</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sec-hudson-home-directory-contents.html">3.13.&nbsp;What&#8217;s in the Jenkins Home Directory</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-windows-service"></a>3.12.&nbsp;Installing Jenkins as a Windows Service
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			If
+            			<a class="indexterm" name="ch03-svc1"></a>
+            			<a class="indexterm" name="ch03-svc2"></a>
+            			you are running a production installation of Jenkins on a
+            			Windows box, it is essential to have it running as a Windows
+            			service. This
+            			way, Jenkins will automatically start whenever the server reboots,
+            			and can
+            			be managed using the standard
+            			Windows administration tools.
+            		
+         </p>
+         <p>One of the advantages of running Jenkins on an application
+            			server
+            			such as Tomcat is that it is generally fairly
+            			easy to configure these
+            			servers to run as a Windows service. However, it is also fairly easy
+            			to
+            			install Jenkins as a
+            			service, without having to install Tomcat.
+            		
+         </p>
+         <p>Jenkins has a very convenient feature designed to make it easy
+            			to
+            			install Jenkins as a Windows servers. There is
+            			currently no graphical
+            			installer that does this for you, but you get the next best thing&#8212;a
+            			web-based graphical
+            			installer.
+            		
+         </p>
+         <p>
+            			First, you need to start the Jenkins server on your target machine.
+            			The simplest approach is to run Jenkins using Java
+            			Web Start (see
+            			<a href="sect-windows-service.html#fig-hudson-java-web-start" title="Figure&nbsp;3.4.&nbsp;Starting Jenkins using Java Web Start">Figure&nbsp;3.4, &#8220;Starting Jenkins using Java Web Start&#8221;</a>
+            			). Alternatively, you can do this by
+            			downloading Jenkins and running it from the command line, as we discussed
+            			earlier:
+            		
+         </p><pre class="screen">C:\jenkins&gt;
+			<strong class="userinput"><code>java -jar jenkins.war</code></strong>
+		</pre><p>This second option is useful if the default Jenkins port (8080)
+            			is
+            			already being used by another application. It
+            			doesn&#8217;t actually matter
+            			which port you use&#8212;you can change this later.
+            		
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-java-web-start"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject3_d1e3652"></a><img src="figs/web/jtdg_0304.png" alt="Starting Jenkins using Java Web Start"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;3.4.&nbsp;Starting Jenkins using Java Web Start</b></p>
+            </div><br class="figure-break"></div>
+         <p>
+            			Once you have Jenkins running, connect to this server and go to the
+            			Manage Jenkins screen. Here you will find an
+            			Install as Windows
+            			Service
+            			button. This will create a Jenkins service on the server that will
+            			automatically start and
+            			stop Jenkins in an orderly manner (see
+            			<a href="sect-windows-service.html#fig-hudson-windows-service" title="Figure&nbsp;3.5.&nbsp;Installing Jenkins as a Windows service">Figure&nbsp;3.5, &#8220;Installing Jenkins as a Windows service&#8221;</a>
+            			).
+            		
+         </p>
+         <p>
+            			Jenkins will prompt you for an installation directory. This will be
+            			the Jenkins home directory (
+            			<code class="literal">JENKINS_HOME</code>
+            			). The default
+            			value is the default
+            			<code class="literal">JENKINS_HOME</code>
+            			value: a directory
+            			called
+            			<span><strong class="command">.jenkins</strong></span>
+            			in the current user&#8217;s
+            			home directory. This is often not a good choice for a Windows
+            			installation. When running Jenkins
+            			on Windows XP, you should avoid
+            			installing your Jenkins home directory anywhere near your
+            			<code class="filename">C:\\Documents And Settings</code>
+            			directory&#8212;not only
+            			is it a ridiculously long name, the spaces can wreak havoc with your
+            			Ant
+            			and Maven builds and any
+            			tests using classpath-based resources. It is
+            			much
+            			better to use a short and sensible name such as
+            			<code class="filename">C:\Jenkins</code>
+            			. The Vista and Windows 7 home
+            			directory paths like
+            			<code class="filename">C:\Users\john</code>
+            			will also work fine.
+            		
+         </p>
+         <div class="figure"><a name="fig-hudson-windows-service"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject3_d1e3685"></a><img src="figs/web/jtdg_0305.png" alt="Installing Jenkins as a Windows service"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;3.5.&nbsp;Installing Jenkins as a Windows service</b></p>
+         </div><br class="figure-break"><p>
+            			A short home directory path is sometimes required for other reasons,
+            			too. On many versions of Windows (Windows XP,
+            			Windows Server 2003,
+            			etc.),
+            			file path lengths are limited to around 260 characters. If you combine a
+            			nested Jenkins work
+            			directory and a deep class path, you can often
+            			overrun
+            			this, which will result in very obscure build errors. To
+            			minimize the
+            			risks of over-running the Windows file path limits, you need to
+            			redefine
+            			the
+            			<code class="literal">JENKINS_HOME</code>
+            			environment variable to point to a
+            			shorter path, as we discussed above.
+            		
+         </p>
+         <p>
+            			This approach won&#8217;t always work with Windows Vista or Windows 7. An
+            			alternative strategy is to use the
+            			<code class="filename">jenkins.exe</code>
+            			program that the Web Start
+            			installation process will have installed in the directory you specified
+            			above. Open the
+            			command line prompt as an administrator (right-click, &#8220;Run
+            			as administrator&#8221;) and run the
+            			<code class="filename">jenkins.exe</code>
+            			executable with the
+            			<code class="literal">install</code>
+            			option:
+            		
+         </p><pre class="screen">C:\Jenkins&gt;
+			<strong class="userinput"><code>jenkins.exe install</code></strong>
+		</pre><p>
+            			This basic installation will work fine in a simple context, but you
+            			will often need to fine-tune your service. For
+            			example, by default,
+            			the
+            			Jenkins service will be running under the local System account. However,
+            			if you are using
+            			Maven, Jenkins will need an
+            			<code class="filename">.m2</code>
+            			directory and a
+            			<code class="filename">settings.xml</code>
+            			file in the home directory.
+            			Similarly, if you are using Groovy, you might need a
+            			<code class="filename">.groovy/lib</code>
+            			directory. And so on. To allow
+            			this, and to make testing your Jenkins install easier, make sure you run
+            			this service
+            			under a real user account with the correct development
+            			environment set up (see
+            			<a href="sect-windows-service.html#fig-hudson-windows-service-config" title="Figure&nbsp;3.6.&nbsp;Configuring the Jenkins Windows Service">Figure&nbsp;3.6, &#8220;Configuring the Jenkins Windows Service&#8221;</a>
+            			). Alternatively, run the
+            			application as the system user, but use the System Information page in
+            			Jenkins to check the
+            			<code class="filename">/jenkins-guide-complet</code>
+            			directory, and place any files that must be placed in the user home
+            			directory here.
+            		
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-windows-service-config"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject3_d1e3730"></a><img src="figs/web/jtdg_0306.png" alt="Configuring the Jenkins Windows Service"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;3.6.&nbsp;Configuring the Jenkins Windows Service</b></p>
+            </div><br class="figure-break"></div>
+         <p>
+            			You configure the finer details of the Jenkins service in a file
+            			called
+            			<code class="filename">jenkins.xml</code>
+            			, in the same
+            			directory as your
+            			<code class="filename">jenkins.war</code>
+            			file.
+            			Here you can configure (or reconfigure) ports, JVM options, an the
+            			Jenkins
+            			work directory. In the following
+            			example, we give Jenkins a bit more
+            			memory and get it to run on port 8081:
+            		
+         </p><a name="I_programlisting3_d1e3743"></a><pre class="programlisting">&lt;service&gt;
+			&lt;id&gt;jenkins&lt;/id&gt;
+			&lt;name&gt;Jenkins&lt;/name&gt;
+			&lt;description&gt;This service runs the Jenkins continuous integration system
+			&lt;/description&gt;
+			&lt;env name="JENKINS_HOME" value="D:\jenkins" /&gt;
+			&lt;executable&gt;java&lt;/executable&gt;
+			&lt;arguments&gt;-Xrs -Xmx512m
+			-Dhudson.lifecycle=hudson.lifecycle.WindowsServiceLifecycle
+			-jar "%BASE%\jenkins.war" --httpPort=8081
+			--ajp13Port=8010&lt;/arguments&gt;
+			&lt;/service&gt;</pre><p>
+            			Finally, if you need to uninstall the Jenkins service, you can do
+            			one of two things. The simplest is to run the
+            			Jenkins executable with
+            			the
+            			<code class="literal">uninstall</code>
+            			option:
+            		
+         </p><pre class="screen">C:\jenkins&gt;
+			<strong class="userinput"><code>jenkins.exe uninstall</code></strong>
+		</pre><p>
+            			The other option is to use the Windows
+            			<a class="indexterm" name="I_indexterm3_d1e3756"></a>
+            			<a class="indexterm" name="I_indexterm3_d1e3758"></a>
+            			service tool
+            			<code class="literal">sc</code>
+            			:
+            		
+         </p><pre class="screen">C:&gt;
+			<strong class="userinput"><code>sc delete jenkins</code></strong>
+		</pre></div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="I_sect13_d1e3564.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sec-hudson-home-directory-contents.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.11.&nbsp;Memory Considerations&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.13.&nbsp;What&#8217;s in the Jenkins Home Directory</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

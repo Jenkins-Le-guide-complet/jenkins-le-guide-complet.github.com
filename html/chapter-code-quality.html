@@ -1,0 +1,162 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="sect-notification-conclusion.html" title="8.15.&nbsp;Conclusion">
+      <link rel="next" href="sect-code-quality-build-process.html" title="9.2.&nbsp;La qualit&eacute; du code dans votre processus de build">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-conclusion.html">8.15.&nbsp;Conclusion</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-build-process.html">9.2.&nbsp;La qualit&eacute; du code dans votre processus de build</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="chapter-code-quality"></a>Chapter&nbsp;9.&nbsp;Qualit&eacute; du Code
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="chapter-code-quality.html#sect-code-quality-introduction">9.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="sect-code-quality-build-process.html">9.2. La qualit&eacute; du code dans votre processus de build</a></span></dt>
+               <dt><span class="sect1"><a href="sect-code-quality-tools.html">9.3. Les outils d&#8217;analyse de qualit&eacute; du code populaires pour Java et
+                            Groovy</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-code-quality-tools.html#d0e13083">9.3.1. Checkstyle</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-code-quality-tools.html#d0e13219">9.3.2. PMD/CPD</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-code-quality-tools.html#d0e13349">9.3.3. FindBugs</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-code-quality-tools.html#d0e13418">9.3.4. CodeNarc</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-violations.html">9.4. Rapports de probl&egrave;mes de qualit&eacute; de code avec le plugin
+                            Violations</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-violations.html#d0e13579">9.4.1. Travailler avec des t&acirc;ches de build free-style</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-violations.html#d0e13675">9.4.2. Travailler avec des t&acirc;ches de build Maven</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-code-quality-checkstyle.html">9.5. Utiliser les rapports Checkstyle, PMD, et FindBugs</a></span></dt>
+               <dt><span class="sect1"><a href="sect-code-quality-complexity.html">9.6. Les rapports sur la complexit&eacute; du code</a></span></dt>
+               <dt><span class="sect1"><a href="sect-code-quality-open-tasks.html">9.7. Les rapports sur les t&acirc;ches ouvertes</a></span></dt>
+               <dt><span class="sect1"><a href="sect-code-quality-sonar.html">9.8. Int&eacute;gration avec Sonar</a></span></dt>
+               <dt><span class="sect1"><a href="sect-code-quality-conclusion.html">9.9. Conclusion</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="sect-code-quality-introduction"></a>9.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p><a class="indexterm" name="ch09-cq"></a>Rares sont ceux qui nient l&#8217;importance de l&#8217;&eacute;criture d&#8217;un
+                   code de qualit&eacute;. Un code de grande qualit&eacute; contient moins de bugs, est
+                   plus facile &agrave; comprendre et plus facile &agrave; maintenir. Toutefois, les
+                   d&eacute;finitions pr&eacute;cises de la qualit&eacute; d&#8217;un code peuvent &ecirc;tre plus
+                   subjectives, variant entre organisations, &eacute;quipes, et m&ecirc;me entre individus
+                   d&#8217;une m&ecirc;me &eacute;quipe.
+            </p>
+            <p>C&#8217;est <a class="indexterm" name="I_indexterm9_d1e12711"></a> ici que les normes de codage entrent en jeu. Les normes de
+                   codage sont des r&egrave;gles, parfois relativement arbitraires, qui d&eacute;finissent
+                   les styles et les conventions de codage qui sont consid&eacute;r&eacute;es comme
+                   acceptables au sein d&#8217;une &eacute;quipe ou d&#8217;une organisation. Dans beaucoup de
+                   cas, se mettre d&#8217;accord sur un ensemble de normes et les appliquer est
+                   plus important que les normes elles-m&ecirc;mes. En effet, un des aspects les
+                   plus importants d'un code de qualit&eacute; est qu&#8217;il soit facile &agrave; lire et &agrave;
+                   comprendre. Si tous les d&eacute;veloppeurs d&#8217;une &eacute;quipe appliquent les m&ecirc;mes
+                   normes et les m&ecirc;mes pratiques, le code sera ainsi plus lisible, au moins pour les
+                   membres de cette &eacute;quipe. Et, si les normes sont commun&eacute;ment utilis&eacute;es dans
+                   l&#8217;industrie, le code sera d&#8217;autant plus lisible pour les nouveaux
+                   d&eacute;veloppeurs arrivant dans l&#8217;&eacute;quipe.
+            </p>
+            <p>Les normes de codage incluent &agrave; la fois des aspects esth&eacute;tiques
+                   comme la disposition et la mise en forme du code, les conventions de
+                   nommage et ainsi de suite, ainsi que les potentielles mauvaises
+                   pratiques comme les oublis d&#8217;accolades apr&egrave;s une condition en Java. Un
+                   style de codage coh&eacute;rent r&eacute;duit les co&ucirc;ts de maintenance, rend le code
+                   plus propre et plus lisible et permet de travailler plus facilement avec
+                   du code &eacute;crit par d&#8217;autres membres de l&#8217;&eacute;quipe.
+            </p>
+            <p>Seul un d&eacute;veloppeur exp&eacute;riment&eacute; peut r&eacute;ellement juger de la
+                   qualit&eacute; d&#8217;un code dans tous ses aspects. C&#8217;est le r&ocirc;le des revues de code
+                   et, entre autres, des pratiques comme la programmation en bin&ocirc;me. En
+                   particulier, seul un &#339;il humain peut d&eacute;cider si un bout de code est
+                   r&eacute;ellement bien &eacute;crit et s&#8217;il fait r&eacute;ellement ce que les exigences lui
+                   demandent de faire. N&eacute;anmoins, les outils de mesure de qualit&eacute; de code
+                   peuvent &ecirc;tre d'une grande aide. En effet, il n&#8217;est pas r&eacute;aliste d&#8217;essayer de
+                   forcer des normes de codage sans ce type d&#8217;outil.
+            </p>
+            <p>Ces outils analysent le code source ou le byte code de votre
+                   application et v&eacute;rifient si le code respecte certaines r&egrave;gles. Les mesures
+                   de qualit&eacute; de code peuvent englober beaucoup d&#8217;aspects de la qualit&eacute; d&#8217;un
+                   code, des normes de codage et des meilleurs pratiques jusqu&#8217;&agrave; la
+                   couverture du code, en passant par les avertissements du
+                   compilateur jusqu&#8217;aux commentaires TODO. Certaines mesures
+                   se concentrent sur les caract&eacute;ristiques mesurables de votre base de code,
+                   comme le nombre de lignes de code (NLOC), la moyenne de complexit&eacute; du code
+                   ou le nombre de lignes par classe. D&#8217;autres se focalisent sur des analyses
+                   statiques plus sophistiqu&eacute;es, ou sur la recherche de bugs potentiels ou de
+                   mauvaises pratiques dans votre code.
+            </p>
+            <p>Il y a<a class="indexterm" name="I_indexterm9_d1e12727"></a> une large gamme de plugins &eacute;tablissant des rapports sur la
+                   qualit&eacute; du code disponibles pour Jenkins. Beaucoup sont des outils
+                   d&#8217;analyse statique Java, comme Checkstyle, PMD, FindBugs, Cobertura et
+                   JDepends. D&#8217;autres, comme fxcop et NCover, se focalisent sur les
+                   applications .NET.
+            </p>
+            <p>Pour tous ces outils, vous devez configurer votre t&acirc;che de build
+                   pour g&eacute;n&eacute;rer les donn&eacute;es de mesure de qualit&eacute; de code avant que Jenkins
+                   puisse produire le moindre rapport.
+            </p>
+            <p>L&#8217;<a class="indexterm" name="I_indexterm9_d1e12737"></a><a class="indexterm" name="I_indexterm9_d1e12742"></a>exception notable de cette r&egrave;gle est Sonar. Sonar peut
+                   extraire des mesures de qualit&eacute; de code depuis n&#8217;importe quel projet Maven, sans
+                   aucune configuration suppl&eacute;mentaire dans votre projet. Ce qui est
+                   excellent lorsque vous avez un nombre important de projets Maven
+                   qui doivent &ecirc;tre int&eacute;gr&eacute;s &agrave; Jenkins et que vous voulez configurer des
+                   rapports de qualit&eacute; de code coh&eacute;rents sur tous les projets.
+            </p>
+            <p>Dans le reste de ce chapitre, vous verrez comment configurer des
+                   rapports de qualit&eacute; de code dans vos builds Jenkins et &eacute;galement comment
+                   les utiliser comme un &eacute;l&eacute;ment efficace dans votre processus de build.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-notification-conclusion.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-code-quality-build-process.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">8.15.&nbsp;Conclusion&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;9.2.&nbsp;La qualit&eacute; du code dans votre processus de build</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

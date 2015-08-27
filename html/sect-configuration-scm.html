@@ -1,0 +1,92 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>4.7.&nbsp;Configurer vos outils de gestion de version</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-configuration.html" title="Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins">
+      <link rel="prev" href="sect-configuration-build-tools.html" title="4.6.&nbsp;Configurer vos outils de build">
+      <link rel="next" href="sect-configuration-email.html" title="4.8.&nbsp;Configurer le serveur de messagerie &eacute;lectronique">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-build-tools.html">4.6.&nbsp;Configurer vos outils de build</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-email.html">4.8.&nbsp;Configurer le serveur de messagerie &eacute;lectronique</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-configuration-scm"></a>4.7.&nbsp;Configurer vos outils de gestion de version
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p><a class="indexterm" name="ch04-vc1"></a><a class="indexterm" name="ch04-vc2"></a><a class="indexterm" name="ch04-vc3"></a><a class="indexterm" name="I_indexterm4_d1e4806"></a>Jenkins arrive de base pr&eacute;-install&eacute; avec des plugins pour
+                CVS et Subversion. Les autres syst&egrave;mes de gestion de version sont
+                support&eacute;s par des plugins que vous pouvez t&eacute;l&eacute;charger depuis l'&eacute;cran G&eacute;rer
+                les plugins.
+         </p>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e4978"></a>4.7.1.&nbsp;Configurer Subversion
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p><a class="indexterm" name="I_indexterm4_d1e4816"></a><a class="indexterm" name="I_indexterm4_d1e4821"></a>Subversion ne n&eacute;cessite pas de configuration sp&eacute;ciale,
+                     puisque Jenkins utilise des biblioth&egrave;ques Java natives pour interagir
+                     avec des d&eacute;p&ocirc;ts Subversion. Si vous avez besoin de vous authentifier
+                     pour vous connecter &agrave; un d&eacute;p&ocirc;t, Jenkins vous le demandera quand vous
+                     entrerez l'URL Subversion dans la configuration de la t&acirc;che de
+                     build.
+            </p>
+         </div>
+         <div class="sect2" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h3 class="title"><a name="d0e4993"></a>4.7.2.&nbsp;Configurer CVS
+                     </h3>
+                  </div>
+               </div>
+            </div>
+            <p>CVS <a class="indexterm" name="I_indexterm4_d1e4832"></a><a class="indexterm" name="I_indexterm4_d1e4837"></a>n&eacute;cessite peu voire aucune configuration. Par d&eacute;faut,
+                     Jenkins cherchera des outils comme CVS dans le chemin syst&egrave;me, bien que
+                     vous puissiez fournir le chemin explicitement s'il ne s'y trouve pas.
+                     CVS garde le login et le mot de passe dans un fichier appel&eacute; <code class="filename">.cvspass</code>, qui se trouve habituellement dans
+                     votre r&eacute;pertoire utilisateur. Si ce n'est pas le cas, vous pouvez
+                     fournir un chemin o&ugrave; Jenkins pourra trouver <a class="indexterm" name="I_indexterm4_d1e4846"></a><a class="indexterm" name="I_indexterm4_d1e4848"></a><a class="indexterm" name="I_indexterm4_d1e4850"></a>ce fichier.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-build-tools.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-email.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">4.6.&nbsp;Configurer vos outils de build&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;4.8.&nbsp;Configurer le serveur de messagerie &eacute;lectronique</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,1051 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Jenkins : Le guide complet</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="next" href="copyright.html" title="Copyright">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left">&nbsp;</td>
+               <td width="20%" align="center">&nbsp;</td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="copyright.html">Copyright</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="book" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h1 class="title"><a name="book"></a>Jenkins : Le guide complet
+                  </h1>
+               </div>
+               <div><span class="author"><span class="firstname">John Ferguson</span> <span class="surname">Smart</span> 
+                                 ()
+                                 </span></div>
+               <div>
+                  <div class="othercredit">
+                     <h3 class="othercredit"><span class="firstname">Jennifer</span> <span class="surname">Knight</span></h3>
+                  </div>
+               </div>
+               <div>
+                  <div class="othercredit">
+                     <h3 class="othercredit"><span class="firstname">David</span> <span class="surname">Futato</span></h3>
+                  </div>
+               </div>
+               <div>
+                  <div class="othercredit">
+                     <h3 class="othercredit"><span class="firstname">Robert</span> <span class="surname">Romano</span></h3>
+                  </div>
+               </div>
+               <div>
+                  <div class="othercredit">
+                     <h3 class="othercredit"><span class="firstname">Angela</span> <span class="surname">Howard</span></h3>
+                  </div>
+               </div>
+               <div>
+                  <div class="othercredit">
+                     <h3 class="othercredit"><span class="firstname">Karen</span> <span class="surname">Montgomery</span></h3>
+                  </div>
+               </div>
+               <div>
+                  <p class="copyright">Copyright &copy; 2011 John Ferguson Smart</p>
+               </div>
+               <div>
+                  <div class="legalnotice"><a name="d0e38"></a><p>Imprim&eacute; aux &Eacute;tats-Unis d&#8217;Am&eacute;rique.</p>
+                  </div>
+               </div>
+               <div>
+                  <div class="legalnotice"><a name="d0e41"></a><p>[LSI]</p>
+                  </div>
+               </div>
+               <div>
+                  <div class="legalnotice"><a name="d0e44"></a><p>Les livres O&#8217;Reilly peuvent &ecirc;tre achet&eacute;s &agrave; des fins &eacute;ducatives, commerciales ou de vente
+                            &agrave; usage promotionnel. Des &eacute;ditions en ligne sont &eacute;galement disponibles pour la plupart des titres
+                            (<a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://my.safaribooksonline.com/?portal=oreilly" target="_top">http://my.safaribooksonline.com</a>).
+                            Pour plus d&#8217;informations, contactez notre d&eacute;partement entreprises/institutions
+                            : (800) 998-9938 ou <code class="email">&lt;<a href="mailto:corporate@oreilly.com">corporate@oreilly.com</a>&gt;</code>.
+                     </p>
+                  </div>
+               </div>
+               <div>
+                  <div class="legalnotice"><a name="d0e53"></a><p>Nutshell Handbook, le logo de Nutshell Handbook, et le logo de O&#8217;Reilly
+                            sont des marques d&eacute;pos&eacute;es de O&#8217;Reilly Media, Inc. <span class="emphasis"><em>Jenkins : Le
+                                  guide complet</em></span>, l&#8217;image d&#8217;une grenouille faux-grillon orn&eacute;e, et
+                            l&#8217;habillage commercial li&eacute; sont des marques d&eacute;pos&eacute;es de O&#8217;Reilly Media, Inc.
+                     </p>
+                     <p>Beaucoup d&#8217;appellations utilis&eacute;es par les fabricants et les vendeurs pour
+                            distinguer leurs produits sont des marques d&eacute;pos&eacute;es. Lorsque ces appellations
+                            apparaissent dans ce livre, et que O&#8217;Reilly Media, Inc., &eacute;tait au courant d&#8217;une
+                            marque d&eacute;pos&eacute;e, les d&eacute;signations ont &eacute;t&eacute; inscrites en majuscules ou avec des
+                            initiales en majuscule.
+                     </p>
+                     <p><span class="emphasis"><em>Jenkins : Le guide complet</em></span> est disponible
+                            sous la licence <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://creativecommons.org/licenses/by-nc-nd/3.0/us/legalcode" target="_top">Creative
+                               Commons Attribution-Noncommercial-No Derivative Works 3.0 United States
+                               </a>.
+                     </p>
+                  </div>
+               </div>
+               <div>
+                  <div class="legalnotice"><a name="d0e68"></a><p>Bien que toutes les pr&eacute;cautions aient &eacute;t&eacute; prises lors de la pr&eacute;paration de ce
+                            livre, l&#8217;&eacute;diteur et l&#8217;auteur n&#8217;assument aucune responsabilit&eacute; pour les erreurs ou
+                            omissions, ou pour les dommages r&eacute;sultant de l&#8217;utilisation de l&#8217;information
+                            contenue dans ce document.
+                     </p>
+                  </div>
+               </div>
+               <div>
+                  <div class="legalnotice"><a name="d0e129"></a><p></p>
+                  </div>
+               </div>
+            </div>
+            <hr>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="preface"><a href="copyright.html">Copyright</a></span></dt>
+               <dt><span class="preface"><a href="foreword.html">Avant-propos</a></span></dt>
+               <dt><span class="preface"><a href="preface.html">Pr&eacute;face</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="preface.html#I_sect1_d1e167">1. Audience</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect1_d1e185.html">2. Organisation du livre</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect1_d1e190.html">3. Jenkins ou Hudson?</a></span></dt>
+                     <dt><span class="sect1"><a href="preface-sect-fontConventions.html">4. Conventions sur les polices</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect1_d1e246.html">5. Conventions de ligne de commande</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect1_d1e280.html">6. Contributeurs</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="I_sect1_d1e280.html#d0e405">6.1. Les traducteurs du pr&eacute;sent livre en fran&ccedil;ais</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="I_sect1_d1e356.html">7. L'&eacute;quipe de revue</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect1_d1e364.html">8. Sponsors du livre</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="I_sect1_d1e364.html#d0e462">8.1. Wakaleo Consulting</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect1_d1e364.html#d0e479">8.2. CloudBees</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect1_d1e364.html#d0e499">8.3. Odd-e</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="I_sect1_d1e420.html">9. Utilisation des exemples de code</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect1_d1e455.html">10. Safari&reg; Books Online</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect1_d1e468.html">11. Comment nous contacter</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect1_d1e514.html">12. Remerciements</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="intro.html">1. Introduction &agrave; Jenkins</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="intro.html#I_sect11_d1e536">1.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="intro-sect-intro.html">1.2. Les fondamentaux de l'Int&eacute;gration Continue</a></span></dt>
+                     <dt><span class="sect1"><a href="intro-sect-introducing-jenkins.html">1.3. Introduction &agrave; Jenkins (n&eacute; Hudson)</a></span></dt>
+                     <dt><span class="sect1"><a href="intro-sect-history.html">1.4. De Hudson &agrave; Jenkins &#8212; Un rapide historique</a></span></dt>
+                     <dt><span class="sect1"><a href="intro-sect-jenkins-or-hudson.html">1.5. Dois-je utiliser Jenkins ou Hudson?</a></span></dt>
+                     <dt><span class="sect1"><a href="intro-sect-your-organization.html">1.6. Mettre en place l'Int&eacute;gration Continue au sein de votre organisation</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e886">1.6.1. Phase 1 &#8212; Pas de serveur de build</a></span></dt>
+                           <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e895">1.6.2. Phase 2 &#8212; Builds quotidiens</a></span></dt>
+                           <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e909">1.6.3. Phase 3 &#8212; Builds quotidiens et tests automatis&eacute;s basiques</a></span></dt>
+                           <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e920">1.6.4. Phase 4 &#8212; Arriv&eacute;e des m&eacute;triques</a></span></dt>
+                           <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e947">1.6.5. Phase 5 &#8212; Prendre les tests au s&eacute;rieux</a></span></dt>
+                           <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e961">1.6.6. Phase 6 &#8212; Tests d'acceptance automatis&eacute;s et un <span class="keep-together">d&eacute;ploiement</span> plus automatis&eacute;</a></span></dt>
+                           <dt><span class="sect2"><a href="intro-sect-your-organization.html#d0e991">1.6.7. Phase 7&#8212; D&eacute;ploiement Continu</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="I_sect11_d1e919.html">1.7. Et maintenant ?</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-first-steps.html">2. Vos premiers pas avec Jenkins</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-first-steps.html#sect-first-steps-introduction">2.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-first-steps-environment.html">2.2. Pr&eacute;paration de votre environnement</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-first-steps-environment.html#d0e1069">2.2.1. Installation de Java</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-first-steps-environment.html#d0e1111">2.2.2. Installation de Git</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-first-steps-environment.html#d0e1161">2.2.3. Configurer un compte GitHub</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-first-steps-environment.html#d0e1185">2.2.4. Configurer les clefs SSH</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-first-steps-environment.html#sect-git-fork">2.2.5. Forker le d&eacute;p&ocirc;t des exemples</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-first-steps-starting.html">2.3. D&eacute;marrer Jenkins</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-first-steps-configuring.html">2.4. Configuring the Tools</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-first-steps-configuring.html#d0e1493">2.4.1. Configuring Your Maven Setup</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-first-steps-configuring.html#d0e1548">2.4.2. Configuring the JDK</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-first-steps-configuring.html#d0e1578">2.4.3. Notification</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-first-steps-configuring.html#d0e1599">2.4.4. Setting Up Git</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-first-steps-first-job.html">2.5. Your First Jenkins Build Job</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-first-steps-first-job-in-action.html">2.6. Your First Build Job in Action</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-first-steps-javadocs.html">2.7. More Reporting&#8212;Displaying Javadocs</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-first-steps-metrics.html">2.8. Adding Code Coverage and Other Metrics</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect12_d1e2485.html">2.9. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-installing.html">3. Installer Jenkins</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-installing.html#chapter-installing-introduction">3.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="chapter-installing-downloading.html">3.2. T&eacute;l&eacute;charger et installer Jenkins</a></span></dt>
+                     <dt><span class="sect1"><a href="chapter-installing-build-server.html">3.3. Pr&eacute;paration d'un serveur de build pour Jenkins</a></span></dt>
+                     <dt><span class="sect1"><a href="sec-hudson-home-directory.html">3.4. Le r&eacute;pertoire de travail de Jenkins</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-installing-debian.html">3.5. Installer Jenkins sur Debian ou Ubuntu</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-hudson-redhat.html">3.6. Installer Jenkins sur Redhat, Fedora ou CentOS</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-install-jenkins-suse.html">3.7. Installer Jenkins sur SUSE ou OpenSUSE</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-running-hudson-standalone.html">3.8. Ex&eacute;cuter Jenkins comme une application autonome</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-jenkins-apache.html">3.9. Running Jenkins Behind an Apache Server</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-jenkins-app-server.html">3.10. Running Jenkins on an Application Server</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect13_d1e3564.html">3.11. Memory Considerations</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-windows-service.html">3.12. Installing Jenkins as a Windows Service</a></span></dt>
+                     <dt><span class="sect1"><a href="sec-hudson-home-directory-contents.html">3.13. What&#8217;s in the Jenkins Home Directory</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-jenkins-backing-up-data.html">3.14. Backing Up Your Jenkins Data</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-installation-upgrading.html">3.15. Upgrading Your Jenkins Installation</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-installation-conclusion.html">3.16. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-configuration.html">4. Configurer votre serveur Jenkins</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-configuration.html#sect-configuration-introduction">4.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-configuration-manage-hudson.html">4.2. Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer
+                                  Jenkins</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-configuration-system.html">4.3. Configurer l'environnement syst&egrave;me</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-configuration-global.html">4.4. Configurer les propri&eacute;t&eacute;s globales</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-configuration-jdks.html">4.5. Configurer vos JDKs</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-configuration-build-tools.html">4.6. Configurer vos outils de build</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-configuration-build-tools.html#d0e4776">4.6.1. Maven</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-configuration-build-tools.html#hudson-config-ant">4.6.2. Ant</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-configuration-build-tools.html#d0e4914">4.6.3. Langage de scripts Shell</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-configuration-scm.html">4.7. Configurer vos outils de gestion de version</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-configuration-scm.html#d0e4978">4.7.1. Configurer Subversion</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-configuration-scm.html#d0e4993">4.7.2. Configurer CVS</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-configuration-email.html">4.8. Configurer le serveur de messagerie &eacute;lectronique</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-configuration-proxies.html">4.9. Configurer un Proxy</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect14_d1e4953.html">4.10. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-build-jobs.html">5. Configurer vos t&acirc;ches de Build</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-build-jobs.html#sect-build-jobs-introduction">5.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-build-jobs.html">5.2. T&acirc;ches de Build Jenkins</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-build-jobs-freestyle.html">5.3. Cr&eacute;er une t&acirc;che de build free-style</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-build-jobs-freestyle.html#sect-general-options">5.3.1. Options G&eacute;n&eacute;rales</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-jobs-freestyle.html#d0e5323">5.3.2. Options avanc&eacute;es du projet</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-subversion.html">5.4. Configurer la Gestion du Code Source</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-subversion.html#d0e5426">5.4.1. Travailler avec Subversion</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-subversion.html#git-plugin">5.4.2. Travailler avec Git</a></span></dt>
+                           <dd>
+                              <dl>
+                                 <dt><span class="sect3"><a href="sect-subversion.html#installing-the-plugin">5.4.2.1. Installation du plugin</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-subversion.html#using-the-plugin">5.4.2.2. Utilisation du plugin</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-subversion.html#build-triggers">5.4.2.3. D&eacute;clencheurs de build</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-subversion.html#post-build-actions">5.4.2.4. Actions post-build</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-subversion.html#github-plugin">5.4.2.5. Plugin GitHub</a></span></dt>
+                              </dl>
+                           </dd>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-build-triggers.html">5.5. D&eacute;clencheurs de build</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-build-triggers.html#d0e6469">5.5.1. D&eacute;clencher une t&acirc;che de build lorsqu'une autre t&acirc;che de build
+                                          se termine</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-triggers.html#d0e6508">5.5.2. T&acirc;ches de build p&eacute;riodiques</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-triggers.html#d0e6588">5.5.3. Scruter le SCM</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-triggers.html#sect-build-trigger-remote">5.5.4. D&eacute;clencher des builds &agrave; distance</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-triggers.html#d0e6726">5.5.5. Construction manuelle de t&acirc;ches</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="I_sect15_d1e6584.html">5.6. Les &eacute;tapes de builds</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="I_sect15_d1e6584.html#d0e6767">5.6.1. Les &eacute;tapes de build Maven</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect15_d1e6584.html#d0e6892">5.6.2. Les &eacute;tapes de build Ant</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect15_d1e6584.html#d0e6942">5.6.3. Ex&eacute;cuter une commande Batch Shell ou Windows</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect15_d1e6584.html#sect-hudson-environment-variables">5.6.4. Utiliser les variables d&#8217;environnement Jenkins dans vos builds</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect15_d1e6584.html#d0e7336">5.6.5. Ex&eacute;cuter des scripts Groovy</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect15_d1e6584.html#d0e7420">5.6.6. Construire des projets dans d&#8217;autres langages</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="I_sect15_d1e7235.html">5.7. Les actions &agrave; la suite du build</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="I_sect15_d1e7235.html#d0e7447">5.7.1. Rapport sur les r&eacute;sultats de tests</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect15_d1e7235.html#d0e7498">5.7.2. Archiver les r&eacute;sultats de build</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect15_d1e7235.html#d0e7713">5.7.3. Notifications</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect15_d1e7235.html#d0e7767">5.7.4. Construire d&#8217;autres projets</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="I_sect15_d1e7582.html">5.8. D&eacute;marrer votre nouvelle t&acirc;che de build</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-build-jobs-maven.html">5.9. Travailler avec des t&acirc;ches de build Maven</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e7841">5.9.1. Construire d&egrave;s lors qu&#8217;une d&eacute;pendance SNAPSHOT est construite</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e7910">5.9.2. Configurer un build Maven</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e8029">5.9.3. Les actions &agrave; la suite du build</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-jobs-maven.html#sect-builds-deploy-enterprise-repository">5.9.4. D&eacute;ployer vers un gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e8192">5.9.5. D&eacute;ployer vers des gestionnaires de d&eacute;p&ocirc;t d&#8217;entreprise commerciales</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e8232">5.9.6. G&eacute;rer les modules</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-jobs-maven.html#d0e8255">5.9.7. Les &eacute;tapes de build suppl&eacute;mentaires dans votre t&acirc;che de build Maven</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="using-jenkins-with-other-languages.html">5.10. Utiliser Jenkins avec d&#8217;autres langages</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="using-jenkins-with-other-languages.html#d0e8295">5.10.1. Construire des projets avec Grails</a></span></dt>
+                           <dt><span class="sect2"><a href="using-jenkins-with-other-languages.html#d0e8361">5.10.2. Construire des projets avec Gradle</a></span></dt>
+                           <dd>
+                              <dl>
+                                 <dt><span class="sect3"><a href="using-jenkins-with-other-languages.html#the-gradle-plugin-for-hudson">5.10.2.1. Le plugin Gradle de Jenkins</a></span></dt>
+                                 <dt><span class="sect3"><a href="using-jenkins-with-other-languages.html#incremental-builds">5.10.2.2. Les builds incr&eacute;mentaux</a></span></dt>
+                              </dl>
+                           </dd>
+                           <dt><span class="sect2"><a href="using-jenkins-with-other-languages.html#d0e8472">5.10.3. Construire des projets avec Visual Studio MSBuild</a></span></dt>
+                           <dt><span class="sect2"><a href="using-jenkins-with-other-languages.html#d0e8557">5.10.4. Construire des projets avec NAnt</a></span></dt>
+                           <dt><span class="sect2"><a href="using-jenkins-with-other-languages.html#sect-ruby-builds">5.10.5. Construire des projets avec Ruby et Ruby on Rails</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-build-jobs-conclusion.html">5.11. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-automated-testing.html">6. Tests automatis&eacute;s</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-automated-testing.html#sect-chapter-automated-testing-introduction">6.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-chapter-automated-testing-unit.html">6.2. Automatisez vos tests unitaires et d'int&eacute;gration</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-chapter-automated-testing-reporting.html">6.3. Configuration des rapports de test dans Jenkins</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-chapter-automated-testing-results.html">6.4. Afficher les r&eacute;sultats de test</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-chapter-automated-testing-ignoring.html">6.5. Ignorer des tests</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-chapter-automated-testing-coverage.html">6.6. Couverture de code</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-chapter-automated-testing-coverage.html#d0e9283">6.6.1. Mesurer la couverture de code avec Cobertura</a></span></dt>
+                           <dd>
+                              <dl>
+                                 <dt><span class="sect3"><a href="sect-chapter-automated-testing-coverage.html#d0e9320">6.6.1.1. Int&eacute;grer Cobertura avec Maven</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-chapter-automated-testing-coverage.html#d0e9404">6.6.1.2. Int&eacute;grer Cobertura avec Ant</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-chapter-automated-testing-coverage.html#d0e9515">6.6.1.3. Installer le plugin de couverture de code Cobertura</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-chapter-automated-testing-coverage.html#d0e9543">6.6.1.4. Les rapports de couverture de code dans votre build</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-chapter-automated-testing-coverage.html#d0e9644">6.6.1.5. Interpr&eacute;ter les m&eacute;triques de couverture de code</a></span></dt>
+                              </dl>
+                           </dd>
+                           <dt><span class="sect2"><a href="sect-chapter-automated-testing-coverage.html#sect-clover">6.6.2. Mesurer la couverture de code avec Clover</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-chapter-automated-testing-acceptance.html">6.7. Tests d'acceptation automatis&eacute;s</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-chapter-automated-testing-performance.html">6.8. Tests de performance automatis&eacute;s avec JMeter</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-tests-too-slow.html">6.9. A l'aide ! Mes tests sont trop lents !</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-tests-too-slow.html#d0e10146">6.9.1. Ajouter plus de mat&eacute;riel</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-tests-too-slow.html#d0e10173">6.9.2. Lancer moins de tests d'int&eacute;gration/fonctionnels</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-tests-too-slow.html#d0e10194">6.9.3. Ex&eacute;cutez vos tests en parall&egrave;le</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-chapter-automated-testing-conclusion.html">6.10. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-security.html">7. S&eacute;curiser Jenkins</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-security.html#sect-security-introduction">7.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-security-activating.html">7.2. Activer la s&eacute;curit&eacute; dans Jenkins</a></span></dt>
+                     <dt><span class="sect1"><a href="hudson-security-simple.html">7.3. S&eacute;curit&eacute; simple dans Jenkins</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-security-realms.html">7.4. Domaines de s&eacute;curit&eacute; &#8212; Identifier les
+                                  utilisateurs Jenkins</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-security-realms.html#hudson-users-internal">7.4.1. Utiliser la base de donn&eacute;es int&eacute;gr&eacute;e &agrave; Jenkins</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-security-realms.html#sec-security-ldap">7.4.2. Utiliser un annuaire LDAP</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-security-realms.html#d0e10590">7.4.3. Utiliser Microsoft Active Directory</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-security-realms.html#d0e10666">7.4.4. Utiliser les utilisateurs et les groupes Unix</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-security-realms.html#d0e10691">7.4.5. D&eacute;l&eacute;guer au conteneur de Servlet</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-security-realms.html#d0e10729">7.4.6. Utiliser Atlassian Crowd</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-security-realms.html#d0e10804">7.4.7. S'int&eacute;grer avec d'autres syst&egrave;mes</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-authorization.html">7.5. Autorisation &#8212; Qui peut faire quoi</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-authorization.html#sec-matrix-security">7.5.1. S&eacute;curit&eacute; bas&eacute;e sur une matrice</a></span></dt>
+                           <dd>
+                              <dl>
+                                 <dt><span class="sect3"><a href="sect-authorization.html#d0e10959">7.5.1.1. Mettre en place la s&eacute;curit&eacute; bas&eacute;e sur une matrice</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-authorization.html#d0e11010">7.5.1.2. Configurer plus finement les permissions utilisateurs</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-authorization.html#d0e11198">7.5.1.3. A l'aide ! Je me suis verrouill&eacute; tout seul !</a></span></dt>
+                              </dl>
+                           </dd>
+                           <dt><span class="sect2"><a href="sect-authorization.html#d0e11220">7.5.2. S&eacute;curit&eacute; bas&eacute;e sur le projet</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-authorization.html#d0e11324">7.5.3. S&eacute;curit&eacute; bas&eacute;e sur les r&ocirc;les</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-security-auditing.html">7.6. Audit &#8212; Garder la trace des actions utilisateurs</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-security-conclusion.html">7.7. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-notification.html">8. Notification</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-notification.html#sect-notification-introduction">8.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-email.html">8.2. Notification par email</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-advanced-email.html">8.3. Notification par email avanc&eacute;e</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-claiming.html">8.4. Revendiquer des builds</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-rss.html">8.5. Flux RSS</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-build-radiator.html">8.6. Radars de build</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-instant-messaging.html">8.7. Messagerie instantan&eacute;e</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-notification-instant-messaging.html#d0e12169">8.7.1. Notification par IM avec Jabber</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-notification-instant-messaging.html#d0e12380">8.7.2. Notification avec IRC</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-notification-irc.html">8.8. Notification par IRC</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-desktop.html">8.9. Notificateurs de bureau</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notifo.html">8.10. Notifications via Notifo</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-mobile.html">8.11. Notifications vers mobiles</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-sms.html">8.12. Notifications via SMS</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-noise.html">8.13. Faire du bruit</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-extreme.html">8.14. Appareils de retour extr&egrave;mes</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-notification-conclusion.html">8.15. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-code-quality.html">9. Qualit&eacute; du Code</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-code-quality.html#sect-code-quality-introduction">9.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-code-quality-build-process.html">9.2. La qualit&eacute; du code dans votre processus de build</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-code-quality-tools.html">9.3. Les outils d&#8217;analyse de qualit&eacute; du code populaires pour Java et
+                                  Groovy</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-code-quality-tools.html#d0e13083">9.3.1. Checkstyle</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-code-quality-tools.html#d0e13219">9.3.2. PMD/CPD</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-code-quality-tools.html#d0e13349">9.3.3. FindBugs</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-code-quality-tools.html#d0e13418">9.3.4. CodeNarc</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-violations.html">9.4. Rapports de probl&egrave;mes de qualit&eacute; de code avec le plugin
+                                  Violations</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-violations.html#d0e13579">9.4.1. Travailler avec des t&acirc;ches de build free-style</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-violations.html#d0e13675">9.4.2. Travailler avec des t&acirc;ches de build Maven</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-code-quality-checkstyle.html">9.5. Utiliser les rapports Checkstyle, PMD, et FindBugs</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-code-quality-complexity.html">9.6. Les rapports sur la complexit&eacute; du code</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-code-quality-open-tasks.html">9.7. Les rapports sur les t&acirc;ches ouvertes</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-code-quality-sonar.html">9.8. Int&eacute;gration avec Sonar</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-code-quality-conclusion.html">9.9. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-advanced-builds.html">10. Builds avanc&eacute;s</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-advanced-builds.html#sect-advanced-builds-introduction">10.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-advanced-builds-parameterized.html">10.2. T&acirc;ches de build param&eacute;tr&eacute;es</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#d0e14145">10.2.1. Cr&eacute;er des t&acirc;ches de build param&eacute;tr&eacute;es</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#d0e14223">10.2.2. Adapter vos build pour travailler avec des scripts de builds
+                                          param&eacute;tr&eacute;s</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#d0e14331">10.2.3. Types de param&egrave;tres plus avanc&eacute;s</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#sect-build-from-svn-tag">10.2.4. Construire &agrave; partir d'un tag Subversion</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#sect-building-git-tag">10.2.5. R&eacute;aliser un build &agrave; partir d'un tag Git</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#d0e14575">10.2.6. D&eacute;marrer une t&acirc;che de build param&eacute;tr&eacute;e &agrave; distance</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-advanced-builds-parameterized.html#d0e14615">10.2.7. Historique des t&acirc;ches de build param&eacute;tr&eacute;es</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-advanced-builds-triggers.html">10.3. D&eacute;clencheurs param&eacute;tr&eacute;s</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-multi-configuration-build-jobs.html">10.4. T&acirc;ches de build multiconfiguration</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-multi-configuration-build-jobs.html#d0e14770">10.4.1. Configurer un build multiconfiguration</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-multi-configuration-build-jobs.html#d0e14822">10.4.2. Configurer un axe Esclave</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-multi-configuration-build-jobs.html#d0e14874">10.4.3. Configurer un axe JDK</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-multi-configuration-build-jobs.html#d0e14907">10.4.4. Axe personnalis&eacute;</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-multi-configuration-build-jobs.html#d0e14938">10.4.5. Ex&eacute;cuter un Build Multiconfiguration</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="I_sect110_d1e14808.html">10.5. G&eacute;n&eacute;rer vos t&acirc;ches de build Maven automatiquement</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="I_sect110_d1e14808.html#d0e15096">10.5.1. Configurer une t&acirc;che</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect110_d1e14808.html#d0e15172">10.5.2. R&eacute;utiliser une configuration de t&acirc;che par h&eacute;ritage</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect110_d1e14808.html#d0e15218">10.5.3. Le support des plugins</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect110_d1e14808.html#d0e15312">10.5.4. Les t&acirc;ches Freestyle</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="I_sect110_d1e15110.html">10.6. Coordonner vos
+                                  builds</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="I_sect110_d1e15110.html#d0e15343">10.6.1. Les builds parall&egrave;les dans Jenkins</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect110_d1e15110.html#d0e15370">10.6.2. Graphes de d&eacute;pendance</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect110_d1e15110.html#d0e15404">10.6.3. Jonctions</a></span></dt>
+                           <dt><span class="sect2"><a href="I_sect110_d1e15110.html#d0e15487">10.6.4. Plugin Locks and Latches</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-build-pipelines.html">10.7. Pipelines de build et promotions</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-build-pipelines.html#jenkins-maven-releases">10.7.1. Gestion des releases Maven avec le plugin M2Release</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-pipelines.html#sect-copying-artifacts">10.7.2. Copier des artefacts</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-pipelines.html#sect-build-promotion">10.7.3. Promotions de build</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-pipelines.html#d0e16063">10.7.4. Agr&eacute;ger des r&eacute;sultats de tests</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-build-pipelines.html#d0e16130">10.7.5. Pipelines de Build</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="I_sect110_d1e16005.html">10.8. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-distributed-builds.html">11. Builds distribu&eacute;s</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-distributed-builds.html#sect-distributed-builds-introduction">11.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-distributed-build-architecture.html">11.2. L'Architecture de build distribu&eacute;e de Jenkins</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-master-slave-strategies.html">11.3. Strat&eacute;gies Ma&icirc;tre/Esclave dans Jenkins</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-master-slave-strategies.html#d0e16347">11.3.1. Le ma&icirc;tre d&eacute;marre l'agent esclave en utilisant SSH</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-master-slave-strategies.html#d0e16475">11.3.2. D&eacute;marrer l'agent esclave manuellement via Java Web Start</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-master-slave-strategies.html#d0e16589">11.3.3. Installer un esclave Jenkins en tant que service Windows</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-master-slave-strategies.html#d0e16634">11.3.4. D&eacute;marrer le noeud esclave en mode Headless</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-master-slave-strategies.html#d0e16669">11.3.5. D&eacute;marrer un esclave Windows en tant que service distant</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-build-job-ties.html">11.4. Associer une t&acirc;che de build avec un esclave ou un groupe
+                                  d'esclaves</a></span></dt>
+                     <dt><span class="sect1"><a href="node-monitoring.html">11.5. Surveillance des noeuds</a></span></dt>
+                     <dt><span class="sect1"><a href="I_sect111_d1e16634.html">11.6. Cloud computing</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="I_sect111_d1e16634.html#d0e16864">11.6.1. Utiliser Amazon EC2</a></span></dt>
+                           <dd>
+                              <dl>
+                                 <dt><span class="sect3"><a href="I_sect111_d1e16634.html#d0e16879">11.6.1.1. Mettre en place votre ferme de build Amazon EC2</a></span></dt>
+                                 <dt><span class="sect3"><a href="I_sect111_d1e16634.html#d0e16914">11.6.1.2. Utiliser des instances EC2 comme partie de votre ferme de
+                                                  build</a></span></dt>
+                                 <dt><span class="sect3"><a href="I_sect111_d1e16634.html#d0e16931">11.6.1.3. Utiliser des instances dynamiques</a></span></dt>
+                              </dl>
+                           </dd>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-distributed-builds-Using-the-Cloudbees.html">11.7. Utiliser le service CloudBees DEV@cloud</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-distributed-builds-conclusion.html">11.8. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-automated-deployment.html">12. D&eacute;ploiement automatis&eacute; et livraison continue</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-automated-deployment.html#sect-continuous-deployment-introduction">12.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-implementing-cd.html">12.2. Mise en oeuvre du d&eacute;ploiement automatis&eacute; et continu</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-implementing-cd.html#sect-deployment-script">12.2.1. Le script de d&eacute;ploiement</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-implementing-cd.html#sect-liquibase">12.2.2. Mises &agrave; jour de base de donn&eacute;es</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-implementing-cd.html#sect-smoke-tests">12.2.3. Tests fumigatoires</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-implementing-cd.html#sect-rolling-back">12.2.4. Revenir sur des changements</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-deploying-to-an-app-server.html">12.3. D&eacute;ployer vers un serveur d'application</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-deploying-to-an-app-server.html#sect-deploying-java-app">12.3.1. D&eacute;ployer une application Java</a></span></dt>
+                           <dd>
+                              <dl>
+                                 <dt><span class="sect3"><a href="sect-deploying-to-an-app-server.html#sect-deploy-plugin">12.3.1.1. Utiliser le plugin Deploy</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-deploying-to-an-app-server.html#d0e17479">12.3.1.2. Red&eacute;ployer une version sp&eacute;cifique</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-deploying-to-an-app-server.html#d0e17496">12.3.1.3. D&eacute;ployer une version depuis un build Jenkins pr&eacute;c&eacute;dent</a></span></dt>
+                                 <dt><span class="sect3"><a href="sect-deploying-to-an-app-server.html#d0e17657">12.3.1.4. D&eacute;ployer une version depuis un d&eacute;p&ocirc;t Maven</a></span></dt>
+                              </dl>
+                           </dd>
+                           <dt><span class="sect2"><a href="sect-deploying-to-an-app-server.html#d0e17790">12.3.2. D&eacute;ployer des applications &agrave; base de scripts telles Ruby et PHP</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="I_sect112_d1e17665.html">12.4. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="chapter"><a href="chapter-maintaining-jenkins.html">13. Maintenir Jenkins</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="chapter-maintaining-jenkins.html#sect-maint-introduction">13.1. Introduction</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-maint-disk-space.html">13.2. Surveillance de l'espace disque</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-maint-disk-space.html#d0e17988">13.2.1. Utiliser le plugin "Disk Usage"</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-maint-disk-space.html#d0e18047">13.2.2. Disk Usage et les projets Jenkins de type Apache Maven</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-maint-server-load.html">13.3. Surveiller la charge serveur</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-maint-backups.html">13.4. Sauvegarde de votre configuration</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect2"><a href="sect-maint-backups.html#d0e18194">13.4.1. Fondamentaux de la sauvegarde Jenkins</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-maint-backups.html#d0e18296">13.4.2. Utilisation du Backup Plugin</a></span></dt>
+                           <dt><span class="sect2"><a href="sect-maint-backups.html#d0e18348">13.4.3. Des sauvegardes automatis&eacute;es plus l&eacute;g&egrave;res</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect1"><a href="sect-maint-archiving-jobs.html">13.5. Archiver les t&acirc;ches de build</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-maint-migrating-jobs.html">13.6. Migrer les t&acirc;ches de build</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-maint-conclusion.html">13.7. Conclusion</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="appendix"><a href="appendix-automating-your-tests.html">A. Automatiser vos tests unitaires et <span class="keep-together">
+                             d&#8217;int&eacute;gration</span></a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect1"><a href="appendix-automating-your-tests.html#sect-testing-maven">A.1. Automatiser vos tests avec Maven</a></span></dt>
+                     <dt><span class="sect1"><a href="sect-testing-ant.html">A.2. Automatiser vos tests avec Ant</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="index"><a href="ix01.html">Index</a></span></dt>
+            </dl>
+         </div>
+         <div class="list-of-figures">
+            <p><b>List of Figures</b></p>
+            <dl>
+               <dt>2.1. <a href="sect-first-steps-environment.html#fig-installing-java">Installer Java</a></dt>
+               <dt>2.2. <a href="sect-first-steps-environment.html#fig-github-signup">Cr&eacute;er un compte GitHub</a></dt>
+               <dt>2.3. <a href="sect-first-steps-environment.html#fig-github-fork">Forker le d&eacute;p&ocirc;t des exemples de code</a></dt>
+               <dt>2.4. <a href="sect-first-steps-starting.html#fig-hudson-webstart-page">Ex&eacute;cuter Jenkins en utilisant Java Web Start &agrave; partir du site web
+                           du livre</a></dt>
+               <dt>2.5. <a href="sect-first-steps-starting.html#fig-first-steps-downloading-hudson">Java Web Start t&eacute;l&eacute;chargera et ex&eacute;cutera la derni&egrave;re version de 
+                           Jenkins</a></dt>
+               <dt>2.6. <a href="sect-first-steps-starting.html#fig-first-steps-console">Java Web Start ex&eacute;cutant Jenkins</a></dt>
+               <dt>2.7. <a href="sect-first-steps-starting.html#fig-hudson-start">La page de d&eacute;marrage Jenkins</a></dt>
+               <dt>2.8. <a href="sect-first-steps-configuring.html#fig-hudson-manage">The Manage Jenkins screen</a></dt>
+               <dt>2.9. <a href="sect-first-steps-configuring.html#fig-hudson-configure">The Configure Jenkins screen</a></dt>
+               <dt>2.10. <a href="sect-first-steps-configuring.html#fig-hudson-maven">Configuring a Maven installation</a></dt>
+               <dt>2.11. <a href="sect-first-steps-configuring.html#fig-hudson-jdk">Configuring a JDK installation</a></dt>
+               <dt>2.12. <a href="sect-first-steps-configuring.html#fig-jenkins-plugin-manager-installed">Managing plugins in Jenkins</a></dt>
+               <dt>2.13. <a href="sect-first-steps-configuring.html#fig-jenkins-installing-git">Installing the Git plugin</a></dt>
+               <dt>2.14. <a href="sect-first-steps-first-job.html#fig-first-build-job">Setting up your first build job in Jenkins</a></dt>
+               <dt>2.15. <a href="sect-first-steps-first-job.html#fig-jenkins-git-new-project">Telling Jenkins where to find the source code</a></dt>
+               <dt>2.16. <a href="sect-first-steps-first-job.html#fig-new-job-triggers">Scheduling the build jobs</a></dt>
+               <dt>2.17. <a href="sect-first-steps-first-job.html#fig-new-job-build-step">Adding a build step</a></dt>
+               <dt>2.18. <a href="sect-first-steps-first-job.html#fig-new-job-test-reports">Configuring JUnit test reports and artifact archiving</a></dt>
+               <dt>2.19. <a href="sect-first-steps-first-job-in-action.html#fig-new-job-running">Your first build job running</a></dt>
+               <dt>2.20. <a href="sect-first-steps-first-job-in-action.html#fig-hudson-dashboard">The Jenkins dashboard</a></dt>
+               <dt>2.21. <a href="sect-first-steps-first-job-in-action.html#fig-new-job-failed">A failed build</a></dt>
+               <dt>2.22. <a href="sect-first-steps-first-job-in-action.html#fig-new-job-failure-details">The list of all the broken tests</a></dt>
+               <dt>2.23. <a href="sect-first-steps-first-job-in-action.html#fig-hudson-new-job-test-failure-details">Details about a failed test</a></dt>
+               <dt>2.24. <a href="sect-first-steps-first-job-in-action.html#fig-new-job-fixed-build">Now the build is back to normal</a></dt>
+               <dt>2.25. <a href="sect-first-steps-javadocs.html#fig-hudson-freestyle-javadoc-build-step">Adding a new build step and report to generate Javadoc</a></dt>
+               <dt>2.26. <a href="sect-first-steps-javadocs.html#fig-hudson-javadoc-results">Jenkins will add a Javadoc link to your build results</a></dt>
+               <dt>2.27. <a href="sect-first-steps-metrics.html#fig-hudson-plugin-manager">Jenkins has a large range of plugins available</a></dt>
+               <dt>2.28. <a href="sect-first-steps-metrics.html#fig-hudson-cobertura-build-step">Adding another Maven goal to generating test coverage
+                           metrics</a></dt>
+               <dt>2.29. <a href="sect-first-steps-metrics.html#fig-hudson-cobertura-config">Configuring the test coverage metrics in Jenkins</a></dt>
+               <dt>2.30. <a href="sect-first-steps-metrics.html#fig-hudson-initial-coverage-report">Jenkins displays code coverage metrics on the build home
+                           page</a></dt>
+               <dt>2.31. <a href="sect-first-steps-metrics.html#fig-hudson-code-coverage-class">Jenkins lets you display code coverage metrics for packages and
+                           classes</a></dt>
+               <dt>2.32. <a href="sect-first-steps-metrics.html#fig-hudson-code-coverage-graph">Jenkins also displays a graph of code coverage over time</a></dt>
+               <dt>3.1. <a href="chapter-installing-downloading.html#fig-jenkins-windows-installer">Vous pouvez t&eacute;l&eacute;charger les binaires de Jenkins sur le site web de Jenkins
+                     			</a></dt>
+               <dt>3.2. <a href="chapter-installing-downloading.html#fig-hudson-home-page">L'assistant de configuration sous Windows</a></dt>
+               <dt>3.3. <a href="chapter-installing-downloading.html#fig-hudson-starting-page">La page d'accueil de Jenkins</a></dt>
+               <dt>3.4. <a href="sect-windows-service.html#fig-hudson-java-web-start">Starting Jenkins using Java Web Start</a></dt>
+               <dt>3.5. <a href="sect-windows-service.html#fig-hudson-windows-service">Installing Jenkins as a Windows service</a></dt>
+               <dt>3.6. <a href="sect-windows-service.html#fig-hudson-windows-service-config">Configuring the Jenkins Windows Service</a></dt>
+               <dt>3.7. <a href="sec-hudson-home-directory-contents.html#fig-hudson-home-directory">The Jenkins home directory</a></dt>
+               <dt>3.8. <a href="sec-hudson-home-directory-contents.html#fig-hudson-jobs-directory">The Jenkins jobs directory</a></dt>
+               <dt>3.9. <a href="sec-hudson-home-directory-contents.html#fig-hudson-jobs-directory-details">The builds directory</a></dt>
+               <dt>3.10. <a href="sect-installation-upgrading.html#fig-hudson-upgrade">Upgrading Jenkins from the web interface</a></dt>
+               <dt>4.1. <a href="sect-configuration-manage-hudson.html#fig-hudson-manage-hudson">Configurer son installation Jenkins dans l'&eacute;cran Administrer
+                           Jenkins</a></dt>
+               <dt>4.2. <a href="sect-configuration-system.html#fig-configure-system">Configuration du syst&egrave;me dans Jenkins</a></dt>
+               <dt>4.3. <a href="sect-configuration-global.html#fig-configure-global-properties">Configurer les variables d'environnement dans Jenkins</a></dt>
+               <dt>4.4. <a href="sect-configuration-global.html#fig-config-properties-in-job">Utiliser une variable d'environnement configur&eacute;e</a></dt>
+               <dt>4.5. <a href="sect-configuration-jdks.html#fig-configure-jdk">Configuration des JDKs dans Jenkins</a></dt>
+               <dt>4.6. <a href="sect-configuration-jdks.html#fig-configure-jdk-installers">Installer un JDK automatiquement</a></dt>
+               <dt>4.7. <a href="sect-configuration-build-tools.html#fig-configure-maven">Configurer Maven dans Jenkins</a></dt>
+               <dt>4.8. <a href="sect-configuration-build-tools.html#fig-configure-mvnopts">Configurer la variable syst&egrave;me MVN_OPTS</a></dt>
+               <dt>4.9. <a href="sect-configuration-build-tools.html#fig-configure-ant">Configurer Ant dans Jenkins</a></dt>
+               <dt>4.10. <a href="sect-configuration-email.html#fig-configure-email">Configurer un serveur d'email dans Jenkins</a></dt>
+               <dt>4.11. <a href="sect-configuration-email.html#fig-configure-gmail">Configurer un serveur d'email pour utiliser un domaine Google
+                           Apps</a></dt>
+               <dt>4.12. <a href="sect-configuration-proxies.html#fig-configuration-proxy">Configurer Jenkins pour utiliser un proxy</a></dt>
+               <dt>5.1. <a href="sect-build-jobs.html#fig-hudson-build-types">Jenkins supporte quatre principaux types de t&acirc;ches de build</a></dt>
+               <dt>5.2. <a href="sect-build-jobs-freestyle.html#fig-hudson-new-project-general">Cr&eacute;er une nouvelle t&acirc;che de build</a></dt>
+               <dt>5.3. <a href="sect-build-jobs-freestyle.html#fig-jenkins-keep-forever">Conserver un build sans limite de temps</a></dt>
+               <dt>5.4. <a href="sect-build-jobs-freestyle.html#fig-hudson-new-project-advanced">Pour afficher les options avanc&eacute;es, vous devez cliquer sur le bouton
+                                 Avanc&eacute;...</a></dt>
+               <dt>5.5. <a href="sect-build-jobs-freestyle.html#fig-hudson-new-job-version-updates">L'option &#8220;Emp&ecirc;cher le build quand un projet en aval est en cours de build&#8221; est
+                                 utile quand un simple commit affecte plusieurs projets d&eacute;pendants les uns des autres.</a></dt>
+               <dt>5.6. <a href="sect-subversion.html#fig-hudson-new-job-svn">Jenkins embarque par d&eacute;faut le support pour Subversion</a></dt>
+               <dt>5.7. <a href="sect-subversion.html#fig-hudson-new-job-diff">Navigateur de code source montrant les changements dans le 
+                             code qui ont caus&eacute; le build.</a></dt>
+               <dt>5.8. <a href="sect-subversion.html#I_figure1_id2245320">Configuration syst&egrave;me du plugin Git</a></dt>
+               <dt>5.9. <a href="sect-subversion.html#I_figure1_id2245479">Remplir une URL de d&eacute;p&ocirc;t Git</a></dt>
+               <dt>5.10. <a href="sect-subversion.html#I_figure1_id2245574">Configuration avanc&eacute;e d'une URL de d&eacute;p&ocirc;t Git</a></dt>
+               <dt>5.11. <a href="sect-subversion.html#I_figure1_id2245638">Configuration avanc&eacute;e des branches Git &agrave; construire</a></dt>
+               <dt>5.12. <a href="sect-subversion.html#I_figure1_id2245692">Branches et r&eacute;gions</a></dt>
+               <dt>5.13. <a href="sect-subversion.html#I_figure1_id2245980">Choix de la strat&eacute;gie</a></dt>
+               <dt>5.14. <a href="sect-subversion.html#I_figure1_id2246035">Configuration globale de l'ex&eacute;cutable de Git</a></dt>
+               <dt>5.15. <a href="sect-subversion.html#I_figure1_id2246089">Navigateur de d&eacute;p&ocirc;t</a></dt>
+               <dt>5.16. <a href="sect-subversion.html#I_figure1_id2246150">Journal de scrutation</a></dt>
+               <dt>5.17. <a href="sect-subversion.html#I_figure1_id2246192">R&eacute;sultats de la scrutation de Git</a></dt>
+               <dt>5.18. <a href="sect-subversion.html#I_figure1_id2246304">D&eacute;clenchement par Gerrit</a></dt>
+               <dt>5.19. <a href="sect-subversion.html#I_figure1_id2246534">Git Publisher</a></dt>
+               <dt>5.20. <a href="sect-subversion.html#I_figure1_id2246482">Fusionner les r&eacute;sultats</a></dt>
+               <dt>5.21. <a href="sect-subversion.html#I_figure1_id2246641">Navigateur de d&eacute;p&ocirc;t GitHub</a></dt>
+               <dt>5.22. <a href="sect-subversion.html#I_figure1_id2246688">Navigateur de d&eacute;p&ocirc;t GitHub</a></dt>
+               <dt>5.23. <a href="sect-build-triggers.html#fig-hudson-new-job-triggers">Il y a de multiples mani&egrave;res de configurer Jenkins pour le 
+                           d&eacute;marrage d'une t&acirc;che de build</a></dt>
+               <dt>5.24. <a href="sect-build-triggers.html#fig-hudson-new-job-trigger-build-after">D&eacute;clencher une autre t&acirc;che de build m&ecirc;me si celle-ci est 
+                             instable.</a></dt>
+               <dt>5.25. <a href="sect-build-triggers.html#fig-hudson-builds-tokens">D&eacute;clencher un build via une URL en utilisant un jeton</a></dt>
+               <dt>5.26. <a href="I_sect15_d1e6584.html#fig-hudson-build-steps">Ajouter une &eacute;tape de build &agrave; une t&acirc;che de build Freestyle</a></dt>
+               <dt>5.27. <a href="I_sect15_d1e6584.html#fig-hudson-build-ant-step">Configurer une &eacute;tape de build Ant</a></dt>
+               <dt>5.28. <a href="I_sect15_d1e6584.html#fig-hudson-build-shell-step">Configurer une &eacute;tape Ex&eacute;cuter un script Shell</a></dt>
+               <dt>5.29. <a href="I_sect15_d1e6584.html#fig-hudson-groovy-installation">Ajouter une installation Groovy &agrave; Jenkins</a></dt>
+               <dt>5.30. <a href="I_sect15_d1e6584.html#fig-hudson-groovy-build-step">Lancer des commandes Groovy dans le cadre d&#8217;une t&acirc;che de build</a></dt>
+               <dt>5.31. <a href="I_sect15_d1e6584.html#fig-hudson-groovy-fitnesse-build-step">Lancer des scripts Groovy dans le cadre d&#8217;une t&acirc;che de build</a></dt>
+               <dt>5.32. <a href="I_sect15_d1e7235.html#fig-hudson-build-job-junit">Rapport sur les r&eacute;sultats de tests</a></dt>
+               <dt>5.33. <a href="I_sect15_d1e7235.html#fig-hudson-build-job-artifact-configuration">Configurer les artefacts de builds</a></dt>
+               <dt>5.34. <a href="I_sect15_d1e7235.html#fig-hudson-build-artifact">Les artefacts de build sont affich&eacute;s sur la page de r&eacute;sultat d&#8217;un build et la page d&#8217;accueil d&#8217;un job</a></dt>
+               <dt>5.35. <a href="I_sect15_d1e7235.html#fig-hudson-archiving-source">Archiver le code source et un paquet binaire</a></dt>
+               <dt>5.36. <a href="I_sect15_d1e7235.html#fig-hudson-build-job-email">Notification par email</a></dt>
+               <dt>5.37. <a href="sect-build-jobs-maven.html#fig-hudson-build-job-new-mvn2">Cr&eacute;er une nouvelle t&acirc;che de build Maven</a></dt>
+               <dt>5.38. <a href="sect-build-jobs-maven.html#fig-hudson-build-job-maven2">Sp&eacute;cifier les goals Maven</a></dt>
+               <dt>5.39. <a href="sect-build-jobs-maven.html#fig-hudson-build-job-maven2-advanced">Les t&acirc;ches de build Maven &#8212; les options avanc&eacute;es</a></dt>
+               <dt>5.40. <a href="sect-build-jobs-maven.html#fig-hudson-maven2-deploy">D&eacute;ployer des artefacts vers un d&eacute;p&ocirc;t Maven</a></dt>
+               <dt>5.41. <a href="sect-build-jobs-maven.html#fig-nexus-artifact-deployed">Apr&egrave;s d&eacute;ploiement, l&#8217;artefact devrait &ecirc;tre disponible sur votre gestionnaire de d&eacute;p&ocirc;t d&#8217;entreprise</a></dt>
+               <dt>5.42. <a href="sect-build-jobs-maven.html#fig-hudson-redeploy-artifact">Red&eacute;ployer un artefact</a></dt>
+               <dt>5.43. <a href="sect-build-jobs-maven.html#fig-maven2-artifactory">D&eacute;ployer vers Artifactory depuis Jenkins</a></dt>
+               <dt>5.44. <a href="sect-build-jobs-maven.html#fig-maven2-artifactory-link">Jenkins affiche un lien vers le d&eacute;p&ocirc;t Artifactory correspondant</a></dt>
+               <dt>5.45. <a href="sect-build-jobs-maven.html#fig-artifactory-artifact">Voir l&#8217;artefact d&eacute;ploy&eacute; sur Artifactory</a></dt>
+               <dt>5.46. <a href="sect-build-jobs-maven.html#fig-artifactory-pro-artifact">Voir les artefacts d&eacute;ploy&eacute;s et le build Jenkins correspondant dans Artifactory</a></dt>
+               <dt>5.47. <a href="sect-build-jobs-maven.html#fig-maven2-modules">G&eacute;rer les modules dans une t&acirc;che de build Maven</a></dt>
+               <dt>5.48. <a href="sect-build-jobs-maven.html#fig-m2-extra-steps">Configurer des &eacute;tapes de build Maven suppl&eacute;mentaires</a></dt>
+               <dt>5.49. <a href="using-jenkins-with-other-languages.html#fig-hudson-build-job-grails-builder">Ajouter une installation Grails &agrave; Jenkins</a></dt>
+               <dt>5.50. <a href="using-jenkins-with-other-languages.html#fig-hudson-build-job-grails">Configurer une &eacute;tape de build Grails</a></dt>
+               <dt>5.51. <a href="using-jenkins-with-other-languages.html#fig-gradle-plugin">Configurer le plugin Gradle</a></dt>
+               <dt>5.52. <a href="using-jenkins-with-other-languages.html#fig-gradle-build-job">Configurer une t&acirc;che de build Gradle</a></dt>
+               <dt>5.53. <a href="using-jenkins-with-other-languages.html#gradle-incremental-build">T&acirc;che incr&eacute;mentale de Gradle</a></dt>
+               <dt>5.54. <a href="using-jenkins-with-other-languages.html#fig-hudson-msbuild-config">Configurer les outils de build .NET avec Jenkins</a></dt>
+               <dt>5.55. <a href="using-jenkins-with-other-languages.html#fig-hudson-msbuild-step">Une &eacute;tape de build utilisant MSBuild</a></dt>
+               <dt>5.56. <a href="using-jenkins-with-other-languages.html#fig-hudson-nant-step">Une &eacute;tape de build utilisant NAnt</a></dt>
+               <dt>5.57. <a href="using-jenkins-with-other-languages.html#fig-hudson-rake-step">Une &eacute;tape de build utilisant Rake</a></dt>
+               <dt>5.58. <a href="using-jenkins-with-other-languages.html#fig-hudson-rails-metrics">Publier des m&eacute;triques de qualit&eacute; de code pour Ruby et Rails</a></dt>
+               <dt>6.1. <a href="sect-chapter-automated-testing-reporting.html#fig-testing-maven-verify-goal">Vous configurez votre installation Jenkins dans l'&eacute;cran Administrer
+                           Jenkins</a></dt>
+               <dt>6.2. <a href="sect-chapter-automated-testing-reporting.html#fig-testing-freestyle-junit-config">Configurer les rapports de test Maven dans un projet
+                           free-style</a></dt>
+               <dt>6.3. <a href="sect-chapter-automated-testing-reporting.html#fig-hudson-xunit-plugin">Installer le plugin xUnit</a></dt>
+               <dt>6.4. <a href="sect-chapter-automated-testing-reporting.html#fig-hudson-xunit-plugin-config">Publier les r&eacute;sultat de test xUnit</a></dt>
+               <dt>6.5. <a href="sect-chapter-automated-testing-results.html#fig-testing-maven-test-failure-dashboard">Jenkins affiche la tendance des r&eacute;sultats de test sur la page
+                           d'accueil du projet</a></dt>
+               <dt>6.6. <a href="sect-chapter-automated-testing-results.html#fig-testing-test-result-details">Jenkins affiche une vue synth&eacute;tique des r&eacute;sultats de test</a></dt>
+               <dt>6.7. <a href="sect-chapter-automated-testing-results.html#fig-testing-test-failure-details">Les d&eacute;tails d'un &eacute;chec de test</a></dt>
+               <dt>6.8. <a href="sect-chapter-automated-testing-results.html#fig-testing-test-trend">Les tendances de temps de build peuvent vous donner un bon
+                           indicateur de la rapidit&eacute; de vos tests</a></dt>
+               <dt>6.9. <a href="sect-chapter-automated-testing-ignoring.html#fig-testing-test-result-history">Jenkins vous permet de voir combien de temps les tests ont mis pour
+                           s'ex&eacute;cuter</a></dt>
+               <dt>6.10. <a href="sect-chapter-automated-testing-ignoring.html#fig-testing-test-skipped">Jenkins affiche les tests ignor&eacute;s en jaune</a></dt>
+               <dt>6.11. <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-cobertura-plugin">Installer le plugin Cobertura</a></dt>
+               <dt>6.12. <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-coverage-build-config">Votre build de couverture de code doit produire les donn&eacute;es de
+                               couverture de code</a></dt>
+               <dt>6.13. <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-coverage-config">Configurer les m&eacute;triques de couverture de code dans
+                               Jenkins</a></dt>
+               <dt>6.14. <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-testing-coverage-stabiliy">Les r&eacute;sultats des tests de couverture de code contribuent &agrave;
+                               l'&eacute;tat du projet sur le tableau de bord</a></dt>
+               <dt>6.15. <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-code-coverage-graph-over-time">Configurer les m&eacute;triques de couverture de code dans
+                               Jenkins</a></dt>
+               <dt>6.16. <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-code-coverage-package">Afficher les m&eacute;triques de couverture de code</a></dt>
+               <dt>6.17. <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-clover-config">Configurer les rapports Clover dans Jenkins</a></dt>
+               <dt>6.18. <a href="sect-chapter-automated-testing-coverage.html#fig-hudson-clover-report">Tendance de couverture de code Clover</a></dt>
+               <dt>6.19. <a href="sect-chapter-automated-testing-acceptance.html#fig-hudson-junit-acceptance-tests">Utilisation de conventions de nommage orient&eacute;es m&eacute;tier pour des tests
+                           JUnit</a></dt>
+               <dt>6.20. <a href="sect-chapter-automated-testing-acceptance.html#fig-hudson-html-publisher-plugin">Installer le plugin HTML Publisher</a></dt>
+               <dt>6.21. <a href="sect-chapter-automated-testing-acceptance.html#fig-hudson-html-reports">Publier les rapports HTML</a></dt>
+               <dt>6.22. <a href="sect-chapter-automated-testing-acceptance.html#fig-hudson-easyb-report">Jenkins affiche un lien sp&eacute;cial sur la page d'accueil de la t&acirc;che
+                           de build pour votre rapport</a></dt>
+               <dt>6.23. <a href="sect-chapter-automated-testing-acceptance.html#fig-jenkins-doclinks-plugin">Le plugin DocLinks vous permet d'archiver des documents HTML et
+                           non-HTML</a></dt>
+               <dt>6.24. <a href="sect-chapter-automated-testing-performance.html#fig-jmeter-console">Pr&eacute;parer un script de test de performance dans JMeter</a></dt>
+               <dt>6.25. <a href="sect-chapter-automated-testing-performance.html#fig-hudson-installing-performance-plugin">Pr&eacute;parer un script de tests de performance dans JMeter</a></dt>
+               <dt>6.26. <a href="sect-chapter-automated-testing-performance.html#fig-hudson-midnight-build">Mise en place du build de performance pour s'ex&eacute;cuter chaque nuit &agrave;
+                           minuit</a></dt>
+               <dt>6.27. <a href="sect-chapter-automated-testing-performance.html#fig-hudson-performance-build-config">Les tests de performance peuvent demander de grandes quantit&eacute;s de
+                           m&eacute;moire</a></dt>
+               <dt>6.28. <a href="sect-chapter-automated-testing-performance.html#fig-hudson-performance-setup">Configurer le plugin Performance dans votre t&acirc;che de build</a></dt>
+               <dt>6.29. <a href="sect-chapter-automated-testing-performance.html#fig-hudson-performance-trend">Le plugin Jenkins Performance garde une trace des temps de r&eacute;ponse
+                           et des erreurs</a></dt>
+               <dt>6.30. <a href="sect-chapter-automated-testing-performance.html#fig-hudson-performance-breakdown">Vous pouvez aussi visualiser les r&eacute;sultats de performance par
+                           requ&ecirc;te</a></dt>
+               <dt>7.1. <a href="sect-security-activating.html#fig-hudson-enabling-security">Activer la s&eacute;curit&eacute; dans Jenkins</a></dt>
+               <dt>7.2. <a href="hudson-security-simple.html#fig-hudson-user-signup">La page de connexion Jenkins</a></dt>
+               <dt>7.3. <a href="sect-security-realms.html#fig-hudson-user-list">La liste des utilisateurs connus de Jenkins</a></dt>
+               <dt>7.4. <a href="sect-security-realms.html#fig-hudson-user-builds">Afficher les builds auxquels un utilisateur participe</a></dt>
+               <dt>7.5. <a href="sect-security-realms.html#fig-hudson-edit-user">Cr&eacute;er un nouveau compte utilisateur en s'enregistrant</a></dt>
+               <dt>7.6. <a href="sect-security-realms.html#fig-security-email-config">Synchroniser les adresses email</a></dt>
+               <dt>7.7. <a href="sect-security-realms.html#fig-hudson-manage-users">Vous pouvez aussi g&eacute;rer les utilisateurs Jenkins depuis la page
+                             de configuration Jenkins</a></dt>
+               <dt>7.8. <a href="sect-security-realms.html#fig-hudson-user-database">La base de donn&eacute;es des utilisateurs de Jenkins</a></dt>
+               <dt>7.9. <a href="sect-security-realms.html#fig-hudson-security-ldap">Configurer LDAP dans Jenkins</a></dt>
+               <dt>7.10. <a href="sect-security-realms.html#fig-hudson-security-ldap-groups">Utiliser des groupes LDAP dans Jenkins</a></dt>
+               <dt>7.11. <a href="sect-security-realms.html#fig-hudson-security-container">S&eacute;lectionner le domaine de s&eacute;curit&eacute;</a></dt>
+               <dt>7.12. <a href="sect-security-realms.html#fig-hudson-security-cloud-app">Utiliser Atlassian Crowd comme domaine de s&eacute;curit&eacute;
+                             Jenkins</a></dt>
+               <dt>7.13. <a href="sect-security-realms.html#fig-hudson-security-crowd">Utiliser Atlassian Crowd comme domaine de s&eacute;curit&eacute;
+                             Jenkins</a></dt>
+               <dt>7.14. <a href="sect-security-realms.html#fig-hudson-security-crowd-groups-matrix">Utiliser les groupes Atlassian Crowd dans
+                             Jenkins</a></dt>
+               <dt>7.15. <a href="sect-security-realms.html#fig-hudson-security-scripts">Utiliser des scripts personnalis&eacute;s pour g&eacute;rer
+                             l'authentification</a></dt>
+               <dt>7.16. <a href="sect-authorization.html#fig-hudson-matrix-anonymous">S&eacute;curit&eacute; bas&eacute;e sur une matrice</a></dt>
+               <dt>7.17. <a href="sect-authorization.html#fig-hudson-matrix-admin">Configurer un administrateur</a></dt>
+               <dt>7.18. <a href="sect-authorization.html#fig-hudson-matrix-users">Configurer les autres utilisateurs</a></dt>
+               <dt>7.19. <a href="sect-authorization.html#fig-hudson-project-based-security">S&eacute;curit&eacute; bas&eacute;e sur le projet</a></dt>
+               <dt>7.20. <a href="sect-authorization.html#fig-hudson-security-project-anon">Configurer la s&eacute;curit&eacute; bas&eacute;e sur le projet</a></dt>
+               <dt>7.21. <a href="sect-authorization.html#fig-hudson-security-readonly-project">Voir un projet</a></dt>
+               <dt>7.22. <a href="sect-authorization.html#fig-hudson-security-extended-read">Configurer les permissions de droit de lecture &eacute;tendus</a></dt>
+               <dt>7.23. <a href="sect-authorization.html#fig-hudson-security-role-based">Configurer la s&eacute;curit&eacute; bas&eacute;e sur les r&ocirc;les</a></dt>
+               <dt>7.24. <a href="sect-authorization.html#fig-hudson-security-manage-roles-menu">Le menu de configuration G&eacute;rer les r&ocirc;les</a></dt>
+               <dt>7.25. <a href="sect-authorization.html#fig-hudson-security-global-roles">G&eacute;rer les r&ocirc;les globaux</a></dt>
+               <dt>7.26. <a href="sect-authorization.html#fig-hudson-security-project-roles">G&eacute;rer les r&ocirc;les de projets</a></dt>
+               <dt>7.27. <a href="sect-authorization.html#fig-hudson-security-assign-roles">Assigner des r&ocirc;les &agrave; des utilisateurs</a></dt>
+               <dt>7.28. <a href="sect-security-auditing.html#fig-hudson-security-audit-trail">Configurer le plugin Audit Trail</a></dt>
+               <dt>7.29. <a href="sect-security-auditing.html#fig-hudson-security-confighistory-setup">Mettre en place l'historique des configurations de t&acirc;ches</a></dt>
+               <dt>7.30. <a href="sect-security-auditing.html#fig-hudson-jobconfig-global-history">Pr&eacute;sentation de l'historique de configuration des t&acirc;ches</a></dt>
+               <dt>7.31. <a href="sect-security-auditing.html#fig-hudson-jobconfig-config-history">Voir les diff&eacute;rences dans l'historique de configuration des
+                           t&acirc;ches</a></dt>
+               <dt>8.1. <a href="sect-notification-email.html#fig-hudson-email-configuration">Configurer les notifications par email</a></dt>
+               <dt>8.2. <a href="sect-notification-advanced-email.html#fig-hudson-email-ext-configuration">Configurer les notifications par email avanc&eacute;es</a></dt>
+               <dt>8.3. <a href="sect-notification-advanced-email.html#fig-email-notification-triggers">Configurer les d&eacute;clencheurs de notification par email</a></dt>
+               <dt>8.4. <a href="sect-notification-advanced-email.html#fig-hudson-email-notification-message">Message de notification personnalis&eacute;</a></dt>
+               <dt>8.5. <a href="sect-notification-claiming.html#fig-hudson-notification-claim">Revendiquer un build &eacute;chou&eacute;</a></dt>
+               <dt>8.6. <a href="sect-notification-rss.html#fig-hudson-notification-rss-view">Flux RSS dans Jenkins</a></dt>
+               <dt>8.7. <a href="sect-build-radiator.html#fig-hudson-notification-radiator-job">Cr&eacute;er une vue radar</a></dt>
+               <dt>8.8. <a href="sect-build-radiator.html#fig-hudson-notification-radiator">Afficher une vue radar</a></dt>
+               <dt>8.9. <a href="sect-notification-instant-messaging.html#fig-email-notification-jabber-plugins">Installation des plugins Jenkins de messagerie instantan&eacute;e</a></dt>
+               <dt>8.10. <a href="sect-notification-instant-messaging.html#fig-hudson-notification-im-users">Jenkins n&eacute;cessite son propre compte de messagerie instantan&eacute;e</a></dt>
+               <dt>8.11. <a href="sect-notification-instant-messaging.html#fig-hudson-notification-jabber-basic">Mise en place de notifications de base Jabber dans Jenkins</a></dt>
+               <dt>8.12. <a href="sect-notification-instant-messaging.html#fig-hudson-notification-jabber-advanced">Configuration avanc&eacute;e Jabber</a></dt>
+               <dt>8.13. <a href="sect-notification-instant-messaging.html#fig-hudson-notification-im-messages">Messages Jenkins Jabber en action</a></dt>
+               <dt>8.14. <a href="sect-notification-irc.html#hudson-notification-irc-plugins-install">Installation des plugins Jenkins IRC</a></dt>
+               <dt>8.15. <a href="sect-notification-irc.html#hudson-notification-irc-advanced">Configuration avanc&eacute;e des notifications par IRC</a></dt>
+               <dt>8.16. <a href="sect-notification-irc.html#hudson-notification-irc-job">Configuration avanc&eacute;e de notifications par IRC pour une t&acirc;che de build</a></dt>
+               <dt>8.17. <a href="sect-notification-irc.html#hudson-notification-irc-xchat">Messages de notification par IRC en action</a></dt>
+               <dt>8.18. <a href="sect-notification-desktop.html#fig-hudson-notification-eclipse">Notifications Jenkins dans Eclipse</a></dt>
+               <dt>8.19. <a href="sect-notification-desktop.html#fig-hudson-netbeans">Connexion de Jenkins dans NetBeans</a></dt>
+               <dt>8.20. <a href="sect-notification-desktop.html#fig-hudson-tray-launch">Lancement de Jenkins Tray Application</a></dt>
+               <dt>8.21. <a href="sect-notification-desktop.html#fig-hudson-tray">Ex&eacute;cution de Jenkins Tray Application</a></dt>
+               <dt>8.22. <a href="sect-notifo.html#fig-hudson-notification-notifo-service">Cr&eacute;er un service Notifo pour votre instance Jenkins</a></dt>
+               <dt>8.23. <a href="sect-notifo.html#fig-hudson-notification-notifo-config">Configurer les notifications via Notifo dans votre t&acirc;che de build Jenkins</a></dt>
+               <dt>8.24. <a href="sect-notifo.html#fig-hudson-notifo-iphone">Recevoir une notification via Notifo sur un iPhone</a></dt>
+               <dt>8.25. <a href="sect-notification-mobile.html#fig-hudson-notification-iphone">Utiliser l'application iPhone Hudson Helper</a></dt>
+               <dt>8.26. <a href="sect-notification-sms.html#fig-hudson-sms-notification-config">Envoyer des notifictions SMS via une passerelle SMS</a></dt>
+               <dt>8.27. <a href="sect-notification-sms.html#fig-hudson-sms-notification">Recevoir des notifications via SMS</a></dt>
+               <dt>8.28. <a href="sect-notification-noise.html#fig-hudson-sounds">Configurer les r&egrave;gles de Jenkins Sounds dans une t&acirc;che de build</a></dt>
+               <dt>8.29. <a href="sect-notification-noise.html#fig-hudson-sounds-config">Configurer Jenkins Sounds</a></dt>
+               <dt>8.30. <a href="sect-notification-noise.html#fig-hudson-speaks">Configurer Jenkins Speaks</a></dt>
+               <dt>8.31. <a href="sect-notification-extreme.html#fig-hudson-nabaztag">Un Nabaztag</a></dt>
+               <dt>8.32. <a href="sect-notification-extreme.html#fig-hudson-nabaztag-config">Configurer votre Nabaztag</a></dt>
+               <dt>9.1. <a href="sect-code-quality-tools.html#fig-hudson-quality-checkstyle">C&#8217;est facile de configurer les r&egrave;gles Checkstyle avec
+                             Eclipse</a></dt>
+               <dt>9.2. <a href="sect-code-quality-tools.html#fig-hudson-quality-pmd">Configurer les r&egrave;gles PMD dans Eclipse</a></dt>
+               <dt>9.3. <a href="sect-violations.html#fig-hudson-quality-goals">G&eacute;n&eacute;rer les rapports de qualit&eacute; de code dans un build
+                           Maven</a></dt>
+               <dt>9.4. <a href="sect-violations.html#fig-hudson-quality-freestyle-violations">Configurer le plugin violation pour un projet
+                             free-style</a></dt>
+               <dt>9.5. <a href="sect-violations.html#fig-hudson-quality-violations-graph">Les violations au cours du temps</a></dt>
+               <dt>9.6. <a href="sect-violations.html#fig-hudson-quality-violations-build">Les violations pour un build particulier</a></dt>
+               <dt>9.7. <a href="sect-violations.html#fig-hudson-quality-violations-rollover">Configurer le plugin de violations pour un projet
+                             free-style</a></dt>
+               <dt>9.8. <a href="sect-violations.html#fig-hudson-maven-violations">Configurer le plugin Violations pour un projet Maven.</a></dt>
+               <dt>9.9. <a href="sect-violations.html#fig-hudson-maven-modules">Les t&acirc;ches de build Maven de Jenkins comprennent les structures
+                             multi-modules de Maven</a></dt>
+               <dt>9.10. <a href="sect-violations.html#fig-hudson-violations-module-config">Activer le plugin Violations pour un module individuel</a></dt>
+               <dt>9.11. <a href="sect-code-quality-checkstyle.html#fig-hudson-analysis-plugins">Installer les plugins Checkstyle et Static Analysis
+                           Utilities.</a></dt>
+               <dt>9.12. <a href="sect-code-quality-checkstyle.html#fig-hudson-checkstyle-config">Configurer le plugin Checkstyle</a></dt>
+               <dt>9.13. <a href="sect-code-quality-checkstyle.html#fig-hudson-checkstyle-trend">Afficher les tendances Checkstyle</a></dt>
+               <dt>9.14. <a href="sect-code-quality-complexity.html#fig-hudson-coverage-complexity">Un nuage de point couverture/complexit&eacute;.</a></dt>
+               <dt>9.15. <a href="sect-code-quality-complexity.html#fig-hudson-coverage-complexity-details">Vous pouvez cliquer sur n&#8217;importe quel point du graphique pour
+                           poursuivre l&#8217;enqu&ecirc;te</a></dt>
+               <dt>9.16. <a href="sect-code-quality-open-tasks.html#fig-hudson-task-scanner">Configurer le plugin Task Scanner est simple</a></dt>
+               <dt>9.17. <a href="sect-code-quality-open-tasks.html#fig-hudson-task-scanner-report">Le graphique de tendances des t&acirc;ches ouvertes</a></dt>
+               <dt>9.18. <a href="sect-code-quality-sonar.html#fig-hudson-sonar">Rapport de qualit&eacute; de code par Sonar.</a></dt>
+               <dt>9.19. <a href="sect-code-quality-sonar.html#fig-hudson-sonar-architecture">Jenkins et Sonar</a></dt>
+               <dt>9.20. <a href="sect-code-quality-sonar.html#fig-hudson-sonar-config">Configurer Sonar dans Jenkins</a></dt>
+               <dt>9.21. <a href="sect-code-quality-sonar.html#fig-hudson-sonar-config-job">Configurer Sonar dans une t&acirc;che de build</a></dt>
+               <dt>9.22. <a href="sect-code-quality-sonar.html#fig-hudson-sonar-build-schedule">Planifier les builds Sonar</a></dt>
+               <dt>10.1. <a href="sect-advanced-builds-parameterized.html#fig-hudson-parameterized-build">Cr&eacute;er une t&acirc;che de build param&eacute;tr&eacute;e</a></dt>
+               <dt>10.2. <a href="sect-advanced-builds-parameterized.html#fig-hudson-string-build-parameter">Ajouter un param&egrave;tre &agrave; la t&acirc;che de build</a></dt>
+               <dt>10.3. <a href="sect-advanced-builds-parameterized.html#fig-hudson-enter-string-parameter">Ajouter un param&egrave;tre &agrave; la t&acirc;che de build</a></dt>
+               <dt>10.4. <a href="sect-advanced-builds-parameterized.html#fig-hudson-parameterized-shell">D&eacute;monstration d'un param&egrave;tre de build</a></dt>
+               <dt>10.5. <a href="sect-advanced-builds-parameterized.html#fig-hudson-inject-parameter-maven">Ajouter un param&egrave;tre &agrave; la t&acirc;che de build Maven</a></dt>
+               <dt>10.6. <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-types">Diff&eacute;rents types de param&egrave;tres sont disponibles</a></dt>
+               <dt>10.7. <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-choice">Configurer un param&egrave;tre Choix</a></dt>
+               <dt>10.8. <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-run-param">Configurer un param&egrave;tre Run</a></dt>
+               <dt>10.9. <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-file">Configurer un param&egrave;tre Fichier</a></dt>
+               <dt>10.10. <a href="sect-advanced-builds-parameterized.html#fig-jenkins-parameterized-subversion-tag">Ajouter des param&egrave;tres pour r&eacute;aliser un build &agrave; partir d'un tag
+                             Subversion</a></dt>
+               <dt>10.11. <a href="sect-advanced-builds-parameterized.html#fig-jenkins-parameterized-subversion">R&eacute;aliser un build &agrave; partir d'un tag Subversion</a></dt>
+               <dt>10.12. <a href="sect-advanced-builds-parameterized.html#fig-jenkins-git-release-param">Configurer un param&egrave;tre pour un tag Git</a></dt>
+               <dt>10.13. <a href="sect-advanced-builds-parameterized.html#fig-jenkins-git-tag">R&eacute;aliser un build &agrave; partir d'un tag Git</a></dt>
+               <dt>10.14. <a href="sect-advanced-builds-parameterized.html#fig-hudson-build-parameter-history">Jenkins stocke les valeurs des param&egrave;tres utilis&eacute;es pour chaque
+                             build</a></dt>
+               <dt>10.15. <a href="sect-advanced-builds-triggers.html#fig-hudson-build-parameters-unit-test">T&acirc;che de build param&eacute;tr&eacute; pour des tests unitaires</a></dt>
+               <dt>10.16. <a href="sect-advanced-builds-triggers.html#fig-hudson-build-parameters-trigger">Ajouter un d&eacute;clencheur param&eacute;tr&eacute; &agrave; une t&acirc;che de build</a></dt>
+               <dt>10.17. <a href="sect-advanced-builds-triggers.html#fig-hudson-build-parameters-integration-test">La t&acirc;che de build que vous d&eacute;clenchez doit aussi &ecirc;tre une t&acirc;che
+                           param&eacute;tr&eacute;e</a></dt>
+               <dt>10.18. <a href="sect-advanced-builds-triggers.html#fig-hudson-build-parameters-deploy-trigger">Passer un param&egrave;tre pr&eacute;d&eacute;fini &agrave; une t&acirc;che de build
+                           param&eacute;tr&eacute;</a></dt>
+               <dt>10.19. <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-multi-configuration">Cr&eacute;er une t&acirc;che de build multiconfiguration</a></dt>
+               <dt>10.20. <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-multi-config">Ajouter un axe &agrave; un build multiconfiguration</a></dt>
+               <dt>10.21. <a href="sect-multi-configuration-build-jobs.html#fig-build-multi-config-slaves">D&eacute;finir un axe de noeuds esclave</a></dt>
+               <dt>10.22. <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-multi-config-jdk">D&eacute;finir un axe de versions de JDK</a></dt>
+               <dt>10.23. <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-mulit-config-custom">D&eacute;finir un axe sp&eacute;cifique &agrave; l'utilisateur</a></dt>
+               <dt>10.24. <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-multi-config-results">R&eacute;sultats de build multiconfiguration</a></dt>
+               <dt>10.25. <a href="sect-multi-configuration-build-jobs.html#fig-hudson-build-multi-config-filters">Mettre en place un filtre de combinaison</a></dt>
+               <dt>10.26. <a href="sect-multi-configuration-build-jobs.html#fig-hudson-multi-config-filter-result">R&eacute;sultats de build utilisant un filtre de combinaison</a></dt>
+               <dt>10.27. <a href="I_sect110_d1e14808.html#jenkins-plugin-google-guice-trunk-job">Une t&acirc;che g&eacute;n&eacute;r&eacute;e avec le Maven Jenkins plugin</a></dt>
+               <dt>10.28. <a href="I_sect110_d1e14808.html#jenkins-plugin-jenkins-master-job">T&acirc;che g&eacute;n&eacute;r&eacute;e jenkins-master</a></dt>
+               <dt>10.29. <a href="I_sect110_d1e14808.html#jenkins-plugin-artifactory">Configuration du plugin Jenkins pour Artifactory</a></dt>
+               <dt>10.30. <a href="I_sect110_d1e15110.html#fig-hudson-build-other-projects">D&eacute;clencher plusieurs autres builds apr&egrave;s une t&acirc;che de
+                             build</a></dt>
+               <dt>10.31. <a href="I_sect110_d1e15110.html#fig-hudson-dependency-graph">Un graphe de d&eacute;pendance de t&acirc;che de build</a></dt>
+               <dt>10.32. <a href="I_sect110_d1e15110.html#fig-hudson-build-join">Configurer une jonction dans la t&acirc;che de build
+                             phoenix-web-tests</a></dt>
+               <dt>10.33. <a href="I_sect110_d1e15110.html#fig-build-dependency-graph-join">Un graphe de d&eacute;pendance de t&acirc;che de build plus
+                             compliqu&eacute;</a></dt>
+               <dt>10.34. <a href="I_sect110_d1e15110.html#fig-jenkins-build-lock">Ajouter un nouveau verrou</a></dt>
+               <dt>10.35. <a href="I_sect110_d1e15110.html#fig-jenkins-build-locks">Configurer une t&acirc;che de build pour utiliser un verrou</a></dt>
+               <dt>10.36. <a href="sect-build-pipelines.html#fig-build-m2release-plugin">Configurer une release Maven en utilisant le plugin
+                             M2Release</a></dt>
+               <dt>10.37. <a href="sect-build-pipelines.html#fig-jenkins-m2-release-menu">L'option de menu Perform Maven Release</a></dt>
+               <dt>10.38. <a href="sect-build-pipelines.html#fig-jenkins-perform-release">Effectuer une release Maven dans Jenkins</a></dt>
+               <dt>10.39. <a href="sect-build-pipelines.html#fig-build-copy-artifacts">Ajouter une &eacute;tape de build &#8220;Copier des artefacts d'un autre
+                             projet&#8221;</a></dt>
+               <dt>10.40. <a href="sect-build-pipelines.html#fig-jenkins-copy-artifact-web">Ex&eacute;cuter des tests web sur un fichier WAR copi&eacute;</a></dt>
+               <dt>10.41. <a href="sect-build-pipelines.html#fig-jenkins-multi-config-artifacts">Copier &agrave; partir d'un build multiconfiguration</a></dt>
+               <dt>10.42. <a href="sect-build-pipelines.html#fig-jenkins-build-promotion-jobs">T&acirc;ches de build dans le processus de promotion</a></dt>
+               <dt>10.43. <a href="sect-build-pipelines.html#fig-jenkins-build-promotion">Configurer un processus de promotion de build</a></dt>
+               <dt>10.44. <a href="sect-build-pipelines.html#fig-jenkins-manual-build-promotion">Configurer un processus manuel de promotion de build</a></dt>
+               <dt>10.45. <a href="sect-build-pipelines.html#fig-jenkins-promotion-details">Voir les d&eacute;tails d'une promotion de build</a></dt>
+               <dt>10.46. <a href="sect-build-pipelines.html#fig-jenkins-build-promotion-fingerprints">Utiliser fingerprints dans le processus de promotion de
+                             build</a></dt>
+               <dt>10.47. <a href="sect-build-pipelines.html#fig-jenkins-build-promotion-integration">R&eacute;cup&eacute;rer le fichier WAR depuis la t&acirc;che de build amont</a></dt>
+               <dt>10.48. <a href="sect-build-pipelines.html#fig-jenkins-promotion-integration-archive">Archiver le fichier WAR dans la t&acirc;che aval</a></dt>
+               <dt>10.49. <a href="sect-build-pipelines.html#fig-jenkins-promotion-copy-from-integration">R&eacute;cup&eacute;rer le fichier WAR depuis la t&acirc;che d'int&eacute;gration</a></dt>
+               <dt>10.50. <a href="sect-build-pipelines.html#fig-jenkins-promotion-fingerprint-web">Nous avons besoin de d&eacute;terminer le fingerprint du fichier WAR
+                             que nous utilisons</a></dt>
+               <dt>10.51. <a href="sect-build-pipelines.html#fig-jenkins-copy-promoted-war">R&eacute;cup&eacute;rer le dernier fichier WAR promu</a></dt>
+               <dt>10.52. <a href="sect-build-pipelines.html#fig-jenkins-promoted-build-history">Les builds promus sont indiqu&eacute;s par une &eacute;toile dans
+                             l'historique de build</a></dt>
+               <dt>10.53. <a href="sect-build-pipelines.html#fig-jenkins-aggregate-downstream-tests">Rapport sur l'agr&eacute;gation des r&eacute;sultats de test</a></dt>
+               <dt>10.54. <a href="sect-build-pipelines.html#fig-jenkins-show-aggregate-tests">Visualisation des r&eacute;sultats de tests agr&eacute;g&eacute;s</a></dt>
+               <dt>10.55. <a href="sect-build-pipelines.html#fig-jenkins-build-pipeline-downstream">Configurer une &eacute;tape manuelle dans le pipeline de build</a></dt>
+               <dt>10.56. <a href="sect-build-pipelines.html#fig-jenkins-build-pipeline-view">Cr&eacute;er une vue Build Pipeline</a></dt>
+               <dt>10.57. <a href="sect-build-pipelines.html#fig-jenkins-build-pipeline-configure">Configurer une vue Build Pipeline</a></dt>
+               <dt>10.58. <a href="sect-build-pipelines.html#fig-jenkins-build-pipeline">Un Pipeline de Build en action</a></dt>
+               <dt>11.1. <a href="sect-master-slave-strategies.html#fig-jenkins-manage-nodes">G&eacute;rer les noeuds esclaves</a></dt>
+               <dt>11.2. <a href="sect-master-slave-strategies.html#fig-jenkins-new-slave">Cr&eacute;er un nouveau noeud esclave</a></dt>
+               <dt>11.3. <a href="sect-master-slave-strategies.html#fig-jenkins-slave-ssh">Cr&eacute;er un noeud esclave Unix</a></dt>
+               <dt>11.4. <a href="sect-master-slave-strategies.html#fig-jenkins-slave-idle">Mettre un esclave hors-ligne lorsqu'il est inactif</a></dt>
+               <dt>11.5. <a href="sect-master-slave-strategies.html#fig-jenkins-slave-node-tools">Configurer l'emplacement des outils</a></dt>
+               <dt>11.6. <a href="sect-master-slave-strategies.html#fig-jenkins-slave-nodes">Votre nouveau noeud esclave en action</a></dt>
+               <dt>11.7. <a href="sect-master-slave-strategies.html#fig-jenkins-jnlp-slave">Cr&eacute;er un noeud esclave pour JNLP</a></dt>
+               <dt>11.8. <a href="sect-master-slave-strategies.html#fig-jenkins-launch-jnlp">Lancer un esclave via Java Web Start</a></dt>
+               <dt>11.9. <a href="sect-master-slave-strategies.html#fig-jenkins-slave-agent">L'agent esclave Jenkins en action</a></dt>
+               <dt>11.10. <a href="sect-master-slave-strategies.html#fig-jenkins-slave-unable-to-connect">L'esclave Jenkins &eacute;chouant &agrave; la connexion au ma&icirc;tre</a></dt>
+               <dt>11.11. <a href="sect-master-slave-strategies.html#fig-jenkins-tcp-ports">Configurer le port de l'esclave Jenkins</a></dt>
+               <dt>11.12. <a href="sect-master-slave-strategies.html#fig-jenkins-install-slave-service">Installer l'esclave Jenkins en tant que service Windows</a></dt>
+               <dt>11.13. <a href="sect-master-slave-strategies.html#fig-jenkins-slave-service-installed">G&eacute;rer le service Windows Jenkins</a></dt>
+               <dt>11.14. <a href="sect-master-slave-strategies.html#fig-jenkins-slave-service">Permettre &agrave; Jenkins de contr&ocirc;ler un esclave Windows comme un
+                             service Windows</a></dt>
+               <dt>11.15. <a href="sect-build-job-ties.html#fig-jenkins-label-expression">Ex&eacute;cuter une t&acirc;che de build sur un noeud esclave
+                           particulier</a></dt>
+               <dt>11.16. <a href="node-monitoring.html#fig-jenkins-node-monitoring">Jenkins surveille proactivement vos agents de build</a></dt>
+               <dt>11.17. <a href="I_sect111_d1e16634.html#fig-jenkins-aws-console">Vous g&eacute;rez vos instances EC2 en utilisant la console de gestion
+                               Amazon AWS</a></dt>
+               <dt>11.18. <a href="I_sect111_d1e16634.html#fig-jenkins-ec2-linux">Configurer un esclave Amazon EC2</a></dt>
+               <dt>11.19. <a href="I_sect111_d1e16634.html#fig-jenkins-ec2-cloud">Configurer un esclave Amazon EC2</a></dt>
+               <dt>11.20. <a href="I_sect111_d1e16634.html#fig-jenkins-ec2-create-image">Cr&eacute;er une nouvelle image Amazon EC2</a></dt>
+               <dt>11.21. <a href="I_sect111_d1e16634.html#fig-jenkins-amazon-cloud-manual">Ajouter un nouvel esclave Amazon EC2 manuellement</a></dt>
+               <dt>12.1. <a href="sect-deploying-to-an-app-server.html#fig-cd-pipeline">Une cha&icirc;ne simple de d&eacute;ploiement automatis&eacute;</a></dt>
+               <dt>12.2. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-cd-copy-artifacts">Copier l'artefact binaire &agrave; d&eacute;ployer</a></dt>
+               <dt>12.3. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-cd-deploy-plugin">D&eacute;ployer sur Tomcat avec le plugin Deploy</a></dt>
+               <dt>12.4. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-build-selector-copy-artifact">Ajouter un param&egrave;tre &#8220;Build selector for Copy Artifact&#8221;</a></dt>
+               <dt>12.5. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-build-selector-parameter">Configurer le s&eacute;lecteur de param&eacute;trage de build</a></dt>
+               <dt>12.6. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-copy-artifacts-build-parameter">Specifier o&ugrave; trouver les artefacts &agrave; d&eacute;ployer</a></dt>
+               <dt>12.7. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-redeploy-choose-build">Choix du build &agrave; red&eacute;ployer</a></dt>
+               <dt>12.8. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-build-permalink">Utiliser l'option &#8220;Specified by permalink&#8221;</a></dt>
+               <dt>12.9. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-specific-build">Utiliser un build sp&eacute;cifique</a></dt>
+               <dt>12.10. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-enterprise-repositories">Utiliser un d&eacute;p&ocirc;t d'entreprise Maven</a></dt>
+               <dt>12.11. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-gameoflife-deploy">D&eacute;ployer un artefact depuis un d&eacute;p&ocirc;t Maven</a></dt>
+               <dt>12.12. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-mvn-package">Pr&eacute;parer le WAR &agrave; d&eacute;ployer</a></dt>
+               <dt>12.13. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-ssh-config">Configurer un h&ocirc;te distant</a></dt>
+               <dt>12.14. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-ssh-build-step">D&eacute;ployer des fichiers vers un h&ocirc;te distant dans la section build</a></dt>
+               <dt>12.15. <a href="sect-deploying-to-an-app-server.html#fig-jenkins-ssh-deploy">D&eacute;ployer des fichiers vers un h&ocirc;te distant depuis les actions r&eacute;alis&eacute;es apr&egrave;s le build</a></dt>
+               <dt>13.1. <a href="sect-maint-disk-space.html#fig-maintenance-discard-old-builds">Suppression des anciens builds</a></dt>
+               <dt>13.2. <a href="sect-maint-disk-space.html#fig-maintenance-discard-old-builds-advanced">Supprimer les anciens builds &#8212; options avanc&eacute;es</a></dt>
+               <dt>13.3. <a href="sect-maint-disk-space.html#fig-maintenance-disk-usage">Voir l'utilisation d'espace disque</a></dt>
+               <dt>13.4. <a href="sect-maint-disk-space.html#fig-maintenance-disk-usage-project">Affichage de l'utilisation disque d'un projet</a></dt>
+               <dt>13.5. <a href="sect-maint-disk-space.html#fig-maintenance-project-disk-usage">Affichage de l'espace disque d'un projet au cours du temps
+                     				</a></dt>
+               <dt>13.6. <a href="sect-maint-disk-space.html#fig-jenkins-maven-no-archives">T&acirc;ches de build Maven&#8212;options avanc&eacute;es</a></dt>
+               <dt>13.7. <a href="sect-maint-server-load.html#fig-jenkins-load-statistics">Statistiques de charge Jenkins</a></dt>
+               <dt>13.8. <a href="sect-maint-server-load.html#fig-jenkins-monitoring-pluging">Le plugin Jenkins Monitoring</a></dt>
+               <dt>13.9. <a href="sect-maint-backups.html#fig-jenkins-build-directory">Le dossier des builds</a></dt>
+               <dt>13.10. <a href="sect-maint-backups.html#fig-jenkins-backup-manager">Le plugin Jenkins Backup Manager</a></dt>
+               <dt>13.11. <a href="sect-maint-backups.html#fig-jenkins-backup-config">Configurer Jenkins Backup Manager</a></dt>
+               <dt>13.12. <a href="sect-maint-backups.html#fig-lightweight-backup-config">Configurer le plugin Thin Backup</a></dt>
+               <dt>13.13. <a href="sect-maint-backups.html#fig-restore-light-plugin">Restaurer une configiuratiopn pr&eacute;c&eacute;dente</a></dt>
+               <dt>13.14. <a href="sect-maint-archiving-jobs.html#fig-maintenance-reload-configuration">Recharger la configuration &agrave; partir du disque</a></dt>
+               <dt>13.15. <a href="sect-maint-migrating-jobs.html#fig-jenkins-new-version">Jenkins vous informe si vos donn&eacute;es ne sont pas compatibles
+                     				avec la version actuelle</a></dt>
+               <dt>13.16. <a href="sect-maint-migrating-jobs.html#fig-jenkins-manage-old-data">Gestion de configuration p&eacute;rim&eacute;e</a></dt>
+               <dt>A.1. <a href="appendix-automating-your-tests.html#fig-hudson-testing-sample-project">Un projet contenant des classes de tests nomm&eacute;es librement</a></dt>
+            </dl>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left">&nbsp;</td>
+               <td width="20%" align="center">&nbsp;</td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="copyright.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;Copyright</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,198 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>4.2.&nbsp;Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-configuration.html" title="Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins">
+      <link rel="prev" href="chapter-configuration.html" title="Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins">
+      <link rel="next" href="sect-configuration-system.html" title="4.3.&nbsp;Configurer l'environnement syst&egrave;me">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-configuration.html">Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-system.html">4.3.&nbsp;Configurer l'environnement syst&egrave;me</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-configuration-manage-hudson"></a>4.2.&nbsp;Le tableau de bord de configuration &#8212; L'&eacute;cran Administrer
+                         Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Dans <a class="indexterm" name="ch04-manage"></a>Jenkins, vous g&eacute;rez pratiquement tous les aspects de la
+                configuration du syst&egrave;me dans l'&eacute;cran Administrer Jenkins (voir <a href="sect-configuration-manage-hudson.html#fig-hudson-manage-hudson" title="Figure&nbsp;4.1.&nbsp;Configurer son installation Jenkins dans l'&eacute;cran Administrer Jenkins">Figure&nbsp;4.1, &#8220;Configurer son installation Jenkins dans l'&eacute;cran Administrer
+                     Jenkins&#8221;</a>). Vous pouvez aussi atteindre cet
+                &eacute;cran directement depuis n'importe o&ugrave; dans l'application en tapant
+                &#8220;manage&#8221; dans la bo&icirc;te de recherche Jenkins. Cet &eacute;cran change en fonction
+                des plugins que vous installez, ne soyez donc pas surpris si vous voyez
+                plus de choses que ce que nous montrons ici.
+         </p>
+         <div class="figure"><a name="fig-hudson-manage-hudson"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject4_d1e4146"></a><img src="figs/web/jtdg_0401.png" alt="Configurer son installation Jenkins dans l'&eacute;cran Administrer Jenkins"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;4.1.&nbsp;Configurer son installation Jenkins dans l'&eacute;cran Administrer
+                        Jenkins</b></p>
+         </div><br class="figure-break"><p>Cet &eacute;cran vous permet de configurer diff&eacute;rents aspects de votre
+                serveur Jenkins. Chaque lien sur cette page vous am&egrave;ne &agrave; un &eacute;cran de
+                configuration d&eacute;di&eacute;, o&ugrave; vous pouvez g&eacute;rer diff&eacute;rentes parties du serveur
+                Jenkins. Quelques-unes des options les plus int&eacute;ressantes sont discut&eacute;es
+                ici :
+         </p>
+         <div class="variablelist">
+            <dl>
+               <dt><span class="term">Configurer le syst&egrave;me</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm4_d1e4159"></a><a class="indexterm" name="I_indexterm4_d1e4164"></a>C'est l&agrave; que vous g&eacute;rez les chemins vers les
+                               diff&eacute;rents outils que vous utilisez dans vos builds, comme
+                               les JDKs, les versions de Ant et Maven, les options de s&eacute;curit&eacute;, les
+                               serveurs d'email, et autres d&eacute;tails de configuration de niveau
+                               syst&egrave;me. Plusieurs des plugins que vous installerez n&eacute;cessiteront
+                               aussi d'&ecirc;tre configur&eacute;s ici &#8212; Jenkins ajoutera les champs
+                               dynamiquement &agrave; l'installation des plugins.
+                  </p>
+               </dd>
+               <dt><span class="term">Recharger la configuration &agrave; partir du disque</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm4_d1e4173"></a><a class="indexterm" name="I_indexterm4_d1e4178"></a>Comme nous l'avons vu dans le pr&eacute;c&eacute;dent chapitre,
+                               Jenkins stocke tous les d&eacute;tails de configuration du syst&egrave;me et des
+                               t&acirc;ches de build dans des fichiers XML localis&eacute;s dans le
+                               r&eacute;pertoire de travail de Jenkins (voir <a href="sec-hudson-home-directory.html" title="3.4.&nbsp;Le r&eacute;pertoire de travail de Jenkins">Section&nbsp;3.4, &#8220;Le r&eacute;pertoire de travail de Jenkins&#8221;</a>). Il stocke aussi tout
+                               l'historique des builds dans le m&ecirc;me r&eacute;pertoire. Si vous
+                               migrez des t&acirc;ches de build d'une instance Jenkins &agrave; une
+                               autre, ou archivez de vieilles t&acirc;ches de build, vous aurez
+                               besoin d'ajouter ou d'enlever les diff&eacute;rents r&eacute;pertoires de t&acirc;ches
+                               de build du r&eacute;pertoire <code class="filename">builds</code> de Jenkins. Vous
+                               n'avez pas besoin de d&eacute;sactiver Jenkins pour faire cela &#8212; vous
+                               pouvez simplement utiliser l'option &#8220;Recharger la configuration &agrave;
+                               partir du disque&#8221; pour recharger directement la configuration
+                               syst&egrave;me de Jenkins et des t&acirc;ches de build. Ce processus peut
+                               &ecirc;tre un peu lent s'il y a beaucoup d'historique de build,
+                               pendant que Jenkins charge non seulement la configuration des
+                               builds mais aussi les donn&eacute;es de l'historique.
+                  </p>
+               </dd>
+               <dt><span class="term">Gestion des plugins</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm4_d1e4192"></a><a class="indexterm" name="I_indexterm4_d1e4197"></a><a class="indexterm" name="I_indexterm4_d1e4200"></a>L'une des meilleures fonctionnalit&eacute;s de Jenkins est
+                               son architecture extensible. Il y a un large &eacute;cosyst&egrave;me de plugins
+                               open source tierces disponibles, vous permettant d'ajouter des
+                               fonctionnalit&eacute;s &agrave; votre serveur de build, du support des
+                               diff&eacute;rents outils de gestion de sources comme Git, Mercurial ou
+                               ClearCase, aux m&eacute;triques de qualit&eacute; du code et de couverture de
+                               code. Nous regarderons plusieurs des plugins les plus populaires et
+                               utiles &agrave; travers ce livre. Les plugins peuvent &ecirc;tre install&eacute;s, mis &agrave;
+                               jour et enlev&eacute;s via l'&eacute;cran G&eacute;rer les Plugins. Notez qu'enlever des
+                               plugins n&eacute;cessite un certain soin, parce que cela peut parfois
+                               affecter la stabilit&eacute; de votre instance Jenkins &#8212; nous verrons cela
+                               plus en d&eacute;tails dans <a href="sect-maint-migrating-jobs.html" title="13.6.&nbsp;Migrer les t&acirc;ches de build">Section&nbsp;13.6, &#8220;Migrer les t&acirc;ches de build&#8221;</a>.
+                  </p>
+               </dd>
+               <dt><span class="term">Information Syst&egrave;me</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm4_d1e4213"></a><a class="indexterm" name="I_indexterm4_d1e4218"></a>Cet &eacute;cran affiche une liste de toutes les propri&eacute;t&eacute;s
+                               syst&egrave;me Java et les variables d'environnement syst&egrave;me. Ici, vous
+                               pouvez v&eacute;rifier dans quelle version exacte de Java Jenkins est en
+                               train de fonctionner, avec quel utilisateur, etc. Vous pouvez aussi
+                               v&eacute;rifier que Jenkins utilise le bon param&eacute;trage des variables
+                               d'environnement. Cet &eacute;cran sert principalement pour le d&eacute;pannage. Il
+                               vous permet de vous assurer que votre serveur fonctionne avec les
+                               propri&eacute;t&eacute;s syst&egrave;me et les variables d'environnement que vous
+                               pensez.
+                  </p>
+               </dd>
+               <dt><span class="term">Log syst&egrave;me</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm4_d1e4230"></a><a class="indexterm" name="I_indexterm4_d1e4235"></a>L'&eacute;cran Log syst&egrave;me est un moyen pratique de voir
+                               les fichiers de log Jenkins en temps r&eacute;el. Encore une fois, ceci
+                               sert principalement au d&eacute;pannage.
+                  </p>
+                  <p>Vous pouvez aussi souscrire aux flux RSS pour diff&eacute;rents
+                               niveaux de messages de logs. Par exemple, en tant qu'administrateur
+                               Jenkins, il peut &ecirc;tre une bonne id&eacute;e de souscrire &agrave; tous les
+                               messages de log de niveau ERROR et WARNING.
+                  </p>
+               </dd>
+               <dt><span class="term">Statistiques d'utilisation</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm4_d1e4246"></a><a class="indexterm" name="I_indexterm4_d1e4251"></a>Jenkins garde la trace du niveau d'activit&eacute; de votre
+                               serveur en fonction du nombre de builds concurrents et de
+                               la longueur de la file d'attente de build (ce qui vous donne
+                               une id&eacute;e de la dur&eacute;e pendant laquelle vos builds doivent
+                               attendre avant d'&ecirc;tre ex&eacute;cut&eacute;s). Ces statistiques peuvent vous
+                               aider &agrave; savoir si vous avez besoin d'ajouter de la capacit&eacute;
+                               additionnelle ou des n&#339;uds suppl&eacute;mentaires &agrave; votre
+                               infrastructure.
+                  </p>
+               </dd>
+               <dt><span class="term">Console de script</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm4_d1e4260"></a><a class="indexterm" name="I_indexterm4_d1e4265"></a><a class="indexterm" name="I_indexterm4_d1e4268"></a>Cet &eacute;cran vous permet d'ex&eacute;cuter des scripts Groovy
+                               sur le serveur. C'est utile pour le d&eacute;pannage avanc&eacute; : cela requiert
+                               en effet une connaissance profonde de l'architecture interne de
+                               Jenkins. Cet &eacute;cran est donc principalement utile pour les
+                               d&eacute;veloppeurs de plugins et consorts.
+                  </p>
+               </dd>
+               <dt><span class="term">G&eacute;rer les n&#339;uds</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm4_d1e4279"></a><a class="indexterm" name="I_indexterm4_d1e4284"></a>Jenkins g&egrave;re aussi bien les builds parall&egrave;les
+                               que distribu&eacute;s. Dans cet &eacute;cran, vous pouvez configurer le nombre de
+                               builds que vous voulez. Jenkins les ex&eacute;cute simultan&eacute;ment,
+                               et, si vous utilisez des builds distribu&eacute;s, configure
+                     		  les n&#339;uds de build. Un n&#339;ud de build est une autre machine
+                               que Jenkins peut utiliser pour ex&eacute;cuter ses builds. Nous
+                               regarderons comment configurer les builds distribu&eacute;s en
+                               d&eacute;tail dans <a href="chapter-distributed-builds.html" title="Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s">Chapter&nbsp;11, <i xmlns:xlink="http://www.w3.org/1999/xlink">Builds distribu&eacute;s</i></a>.
+                  </p>
+               </dd>
+               <dt><span class="term">Pr&eacute;parer &agrave; la fermeture</span></dt>
+               <dd>
+                  <p><a class="indexterm" name="I_indexterm4_d1e4295"></a><a class="indexterm" name="I_indexterm4_d1e4300"></a>Si vous avez besoin d'&eacute;teindre Jenkins, ou le serveur
+                               sur lequel il fonctionne, c'est mieux de ne pas le faire lorsqu'un
+                               build est en cours. Pour fermer Jenkins proprement, vous
+                               pouvez utiliser le lien Pr&eacute;parer &agrave; la fermeture, qui emp&ecirc;che le
+                               d&eacute;marrage de tout nouveau build. Finalement, lorsque tous
+                               les builds en cours seront termin&eacute;s, vous pourrez &eacute;teindre
+                               Jenkins proprement.
+                  </p>
+               </dd>
+            </dl>
+         </div>
+         <p>Nous reviendrons sur certaines de ces fonctionnalit&eacute;s en d&eacute;tails
+                plus loin dans le livre. Dans les sections suivantes, nous nous
+                concentrerons sur comment configurer les param&egrave;tres syst&egrave;mes les plus
+                importants de Jenkins <a class="indexterm" name="I_indexterm4_d1e4306"></a><a class="indexterm" name="I_indexterm4_d1e4308"></a>.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-configuration.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-system.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;4.3.&nbsp;Configurer l'environnement syst&egrave;me</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

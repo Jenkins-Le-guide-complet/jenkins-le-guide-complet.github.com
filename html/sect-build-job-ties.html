@@ -1,0 +1,127 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>11.4.&nbsp;Associer une t&acirc;che de build avec un esclave ou un groupe d'esclaves</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-distributed-builds.html" title="Chapter&nbsp;11.&nbsp;Builds distribu&eacute;s">
+      <link rel="prev" href="sect-master-slave-strategies.html" title="11.3.&nbsp;Strat&eacute;gies Ma&icirc;tre/Esclave dans Jenkins">
+      <link rel="next" href="node-monitoring.html" title="11.5.&nbsp;Surveillance des noeuds">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-master-slave-strategies.html">11.3.&nbsp;Strat&eacute;gies Ma&icirc;tre/Esclave dans Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="node-monitoring.html">11.5.&nbsp;Surveillance des noeuds</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-build-job-ties"></a>11.4.&nbsp;Associer une t&acirc;che de build avec un esclave ou un groupe
+                         d'esclaves
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Dans la <a class="indexterm" name="ch11-job1"></a><a class="indexterm" name="ch11-job2"></a>section pr&eacute;c&eacute;dente, nous avons vu comment attribuer des
+            libell&eacute;s &agrave; vos noeuds esclaves. C'est un moyen commode pour grouper vos
+            esclaves en fonction de caract&eacute;ristiques telles que le syst&egrave;me
+            d'exploitation, l'environnement cible, le type de base de donn&eacute;es, ou tout
+                autre crit&egrave;re pertinent dans votre processus de build. Une application
+                commune de cette pratique est d'ex&eacute;cuter des tests fonctionnels sp&eacute;cifiques
+                &agrave; un OS sur des noeuds esclaves d&eacute;di&eacute;s, ou de r&eacute;server une machine
+                particuli&egrave;re aux tests de performance).
+         </p>
+         <p>Une fois que vous avez affect&eacute; vos libell&eacute;s &agrave; vos noeuds esclaves,
+                vous devez aussi dire &agrave; Jenkins o&ugrave; il peut ex&eacute;cuter les t&acirc;ches de build. Par
+                d&eacute;faut, Jenkins utilisera simplement le premier noeud esclave disponible, ce
+                qui offre g&eacute;n&eacute;ralement le meilleur temps de traitement global. Si vous avez
+                besoin d'attacher une t&acirc;che de build &agrave; une machine ou un groupe de machines
+                particulier, vous devez cocher la case &#8220;Resteindre les emplacements o&ugrave; ce
+                projet peut s'ex&eacute;cuter&#8221; dans la page de configuration du build (voir <a href="sect-build-job-ties.html#fig-jenkins-label-expression" title="Figure&nbsp;11.15.&nbsp;Ex&eacute;cuter une t&acirc;che de build sur un noeud esclave particulier">Figure&nbsp;11.15, &#8220;Ex&eacute;cuter une t&acirc;che de build sur un noeud esclave
+                     particulier&#8221;</a>). Ensuite, entrez le nom de la
+                machine, ou un libell&eacute; identifiant un groupe de machines, dans le champ
+                Expression de libell&eacute;. Jenkins fournira une liste d&eacute;roulante dynamique
+                montrant les noms de machines et libell&eacute;s de au fur et &agrave; mesure que vous
+                tapez.
+         </p>
+         <div class="figure"><a name="fig-jenkins-label-expression"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject11_d1e16531"></a><img src="figs/web/jtdg_1115.png" alt="Ex&eacute;cuter une t&acirc;che de build sur un noeud esclave particulier"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;11.15.&nbsp;Ex&eacute;cuter une t&acirc;che de build sur un noeud esclave
+                        particulier</b></p>
+         </div><br class="figure-break"><p>Ce champ admet aussi des expressions bool&eacute;ennes, ce qui vous permet de
+                d&eacute;finir des contraintes plus compliqu&eacute;es sp&eacute;cifiant o&ugrave; votre build devrait
+                s'ex&eacute;cuter. Le plus simple pour expliquer comment utiliser ces expressions
+                est de montrer des exemples. Supposez que vous avez une ferme de
+                construction avec des noeuds esclaves Windows et Linux (identifi&eacute;s par les
+                libell&eacute;s &#8220;windows&#8221; et &#8220;linux&#8221;), distribu&eacute;s sur trois sites (&#8220;sydney&#8221;,
+                &#8220;sanfrancisco&#8221;, et &#8220;london&#8221;). Votre application n&eacute;cessite aussi d'&ecirc;tre
+                test&eacute;e sur diff&eacute;rentes bases de donn&eacute;es (&#8220;oracle&#8221;, &#8220;db2&#8221;, &#8220;mysql&#8221;, et
+                &#8220;postgres&#8221;). Vous pouvez aussi utiliser des libell&eacute;s pour distinguer les
+                noeuds esclaves utilis&eacute;s pour d&eacute;ployer vers diff&eacute;rents environnements (test,
+                test d'acceptation, production).
+         </p>
+         <p>L'utilisation la plus simple des expressions de libell&eacute;s est de
+                d&eacute;finir o&ugrave; une t&acirc;che de build peut ou ne peut pas &ecirc;tre ex&eacute;cut&eacute;e. Si vos tests web
+                n&eacute;cessitent Internet Explorer, par exemple, vous aurez besoin de les
+                ex&eacute;cuter sur une machine Windows. Vous pourriez exprimer cela en indiquant
+                simplement le libell&eacute; suivant :
+         </p><a name="I_programlisting11_d1e16540"></a><pre class="programlisting">windows</pre><p>Sinon, vous pourriez vouloir ex&eacute;cuter vos tests sur Firefox, mais
+                seulement sur des machines Linux. Vous pourriez exclure les machines Windows
+                de l'&eacute;ventails des noeuds candidats en utilisant l'op&eacute;rateur <code class="literal">!</code> :
+         </p><a name="I_programlisting11_d1e16547"></a><pre class="programlisting">!windows</pre><p>Vous pouvez aussi utiliser les op&eacute;rateurs <span><strong class="command">et</strong></span> (<code class="literal">&amp;&amp;</code>)
+                et <span><strong class="command">ou</strong></span> (<code class="literal">!!</code>) pour combiner les expressions. Par exemple,
+                supposez que la base Postgres soit uniquement test&eacute;e pour Linux. Vous
+                pourriez dire &agrave; Jenkins d'ex&eacute;cuter une t&acirc;che de build particuli&egrave;re seulement
+                sur les machines Linux sur lesquelles est install&eacute; Postgres en utilisant
+                l'expression suivante :
+         </p><a name="I_programlisting11_d1e16563"></a><pre class="programlisting">linux &amp;&amp; postgres</pre><p>Ou vous pourriez sp&eacute;cifier qu'une t&acirc;che de build particuli&egrave;re doit
+                uniquement tourner sur l'environnement de test d'acceptation utilisateur de
+                Sydney ou Londres :
+         </p><a name="I_programlisting11_d1e16568"></a><pre class="programlisting">uat &amp;&amp; (sydney || london)</pre><p>Si votre nom de machine contient des espaces, vous devrez les entourer
+                de double quotes :
+         </p><a name="I_programlisting11_d1e16572"></a><pre class="programlisting">"Windows 7" || "Windows XP"</pre><p>Il y a aussi deux op&eacute;rateurs logiques plus avanc&eacute;s que vous pourriez
+                trouver utile. L'op&eacute;rateur <span><strong class="command">implique</strong></span>
+                (<code class="literal">=&gt;</code>) vous permet de d&eacute;finir une
+                contrainte logique de la forme &#8220;si A est vrai, alors B doit aussi &ecirc;tre
+                vrai.&#8221; Par exemple, supposez que vous ayez une t&acirc;che de build qui peut
+                s'ex&eacute;cuter sur n'importe quelle distribution Linux, mais que si c'est une
+                machine Windows, ce doit &ecirc;tre Windows 7. Vous pourriez exprimer cette
+                contrainte comme suit :
+         </p><a name="I_programlisting11_d1e16582"></a><pre class="programlisting">windows -&gt; "Windows 7"</pre><p>L'autre op&eacute;rateur logique est l'op&eacute;rateur <span><strong class="command">si-et-seulement-si</strong></span> (<code class="literal">&lt;=&gt;</code>. Cette op&eacute;ration vous permet de d&eacute;finir
+                des contraintes plus fortes de la forme "Si A est vrai, alors B doit &ecirc;tre
+                vrai, mais si A est faux, alors B doit &ecirc;tre faux". Par exemple, supposez que
+                les tests Windows 7 doivent uniquement &ecirc;tre ex&eacute;cut&eacute;s sur l'environnement de
+                tests d'acceptation utilisateur, et que seuls les tests Windows 7 doivent
+                &ecirc;tre ex&eacute;cut&eacute;s dans l'environnement de tests d'acceptation. Vous pourriez
+                exprimer cela comme <a class="indexterm" name="I_indexterm11_d1e16592"></a><a class="indexterm" name="I_indexterm11_d1e16594"></a>montr&eacute; ici :
+         </p><a name="I_programlisting11_d1e16597"></a><pre class="programlisting">"Windows 7" &lt;-&gt; uat</pre></div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-master-slave-strategies.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="node-monitoring.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">11.3.&nbsp;Strat&eacute;gies Ma&icirc;tre/Esclave dans Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;11.5.&nbsp;Surveillance des noeuds</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

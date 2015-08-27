@@ -1,0 +1,77 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>7.2.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-security.html" title="Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins">
+      <link rel="prev" href="chapter-security.html" title="Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins">
+      <link rel="next" href="hudson-security-simple.html" title="7.3.&nbsp;S&eacute;curit&eacute; simple dans Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-security.html">Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="hudson-security-simple.html">7.3.&nbsp;S&eacute;curit&eacute; simple dans Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-security-activating"></a>7.2.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Configurer <a class="indexterm" name="I_indexterm7_d1e10051"></a> une s&eacute;curit&eacute; basique dans Jenkins est assez simple. Allez
+                sur la page de configuration principale et s&eacute;lectionnez la case &agrave; cocher
+                Activer la s&eacute;curit&eacute; (voir <a href="sect-security-activating.html#fig-hudson-enabling-security" title="Figure&nbsp;7.1.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins">Figure&nbsp;7.1, &#8220;Activer la s&eacute;curit&eacute; dans Jenkins&#8221;</a>). Ceci affiche plusieurs options
+                que nous allons expliquer en d&eacute;tails dans ce chapitre. La premi&egrave;re
+                <a class="indexterm" name="I_indexterm7_d1e10059"></a>section, Domaine de s&eacute;curit&eacute;, d&eacute;finit o&ugrave; Jenkins regardera
+                pendant l'authentification, et inclut des options telles que l'utilisation
+                d'utilisateurs stock&eacute;s dans un serveur LDAP, en utilisant le compte
+                utilisateur Unix sous-jacent (en supposant, bien s&ucirc;r, que Jenkins est
+                ex&eacute;cut&eacute; sur une machine Unix), ou utilisant une simple base de donn&eacute;es
+                embarqu&eacute;e g&eacute;r&eacute;e par Jenkins.
+         </p>
+         <p>La <a class="indexterm" name="I_indexterm7_d1e10067"></a><a class="indexterm" name="I_indexterm7_d1e10072"></a>seconde section, Autorisations, d&eacute;termine ce que les
+                utilisateurs peuvent faire une fois qu'ils sont connect&eacute;s. Cela va de
+                simples options comme "Tout le monde a acc&egrave;s &agrave; toutes les fonctionnalit&eacute;s"
+                ou "Les utilisateurs connect&eacute;s peuvent tout faire" &agrave; des r&ocirc;les plus
+                sophistiqu&eacute;s ou des politiques d'autorisations par projet.
+         </p>
+         <div class="figure"><a name="fig-hudson-enabling-security"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject7_d1e10079"></a><img src="figs/web/jtdg_0701.png" alt="Activer la s&eacute;curit&eacute; dans Jenkins"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;7.1.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins</b></p>
+         </div><br class="figure-break"><p>&Agrave; la fin de ce chapitre, nous regarderons comment configurer la
+                s&eacute;curit&eacute; Jenkins pour un certain nombre de sc&eacute;narii courants.
+         </p>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-security.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="hudson-security-simple.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;7.3.&nbsp;S&eacute;curit&eacute; simple dans Jenkins</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

@@ -1,0 +1,199 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>3.4.&nbsp;Le r&eacute;pertoire de travail de Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-installing.html" title="Chapter&nbsp;3.&nbsp;Installer Jenkins">
+      <link rel="prev" href="chapter-installing-build-server.html" title="3.3.&nbsp;Pr&eacute;paration d'un serveur de build pour Jenkins">
+      <link rel="next" href="sect-installing-debian.html" title="3.5.&nbsp;Installer Jenkins sur Debian ou Ubuntu">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-installing-build-server.html">3.3.&nbsp;Pr&eacute;paration d'un serveur de build pour Jenkins</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-installing-debian.html">3.5.&nbsp;Installer Jenkins sur Debian ou Ubuntu</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sec-hudson-home-directory"></a>3.4.&nbsp;Le r&eacute;pertoire de travail de Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            			<a class="indexterm" name="ch03-home"></a>
+            			<a class="indexterm" name="ch03-home3"></a>
+            			Avant que nous installions Jenkins, toutefois, il y a certaines choses
+            			que vous devez savoir sur la fa&ccedil;on dont Jenkins stocke ses donn&eacute;es. En effet,
+            			peu importe
+            			o&ugrave; vous stockez le fichier WAR de Jenkins, Jenkins conserve toutes ses donn&eacute;es
+            			importantes
+            			dans un r&eacute;pertoire sp&eacute;cial s&eacute;par&eacute;
+            			appel&eacute; le r&eacute;pertoire de travail Jenkins.
+            			Ici,
+            			Jenkins stocke les informations sur la configuration de votre serveur de build, vos
+            			t&acirc;ches de
+            			build, les artefacts de build, les comptes utilisateur, et d'autres informations utiles,
+            			ainsi que tous les plugins que vous avez install&eacute;. Le
+            			formart du r&eacute;pertoire de travail 
+            			de Jenkins
+            			est
+            			<span class="keep-together">r&eacute;tro</span>
+            			compatible entre
+            			les versions, donc vous pouvez librement mettre &agrave; jour ou r&eacute;-installer votre ex&eacute;cutable Jenkins
+            			sans affecter votre
+            			r&eacute;pertoire de travail Jenkins.
+            		
+         </p>
+         <p>Il va sans dire que ce r&eacute;pertoire aura besoin de beaucoup d'espace
+            			disque.
+            		
+         </p>
+         <p>
+            			Par d&eacute;faut, le r&eacute;pertoire de travail Jenkins sera appel&eacute;
+            			<code class="filename">.jenkins,</code>
+            			et sera plac&eacute; dans votre r&eacute;prtoire de
+            			travail. Par exemple, si vous utilisez une machine sous Windows 7 et si
+            			votre nom d'utilisateur
+            			est &#8220;john&#8221;, vous trouverez le r&eacute;pertoire de travail Jenkins sous
+            			<code class="filename">C:\Users\john\.jenkins</code>
+            			. Sous Windows
+            			XP, ce serait
+            			<code class="filename">C:\Documents and
+               				Settings\John\.jenkins
+               			</code>
+            			. Sur une machine Linux, ce serait probablement
+            			sous
+            			<code class="filename">/home/john/.jenkins</code>
+            			.
+            			Et ainsi de suite.
+            		
+         </p>
+         <p>
+            			Vous
+            			<a class="indexterm" name="ch03-home2"></a>
+            			pouvez forcer Jenkins &agrave; utiliser un r&eacute;pertoire diff&eacute;rent pour son r&eacute;pertoire
+            			de travail en d&eacute;finissant la variable d'environnement
+            			<code class="code">JENKINS_HOME</code>
+            			.
+            			Vous pourriez avoir besoin de le faire sur une serveur de build pour vous conformer aux conventions du r&eacute;pertoire
+            			local ou pour rendre
+            			votre administrateur syst&egrave;me heureux. Par exemple,
+            			si
+            			votre fichier WAR Jenkins est install&eacute; dans
+            			<code class="filename">/usr/local/jenkins</code>
+            			, et que le r&eacute;pertoire de travail
+            			Jenkins a besoin d'&ecirc;tre dans le r&eacute;pertoire
+            			<code class="filename">/data/jenkins</code>
+            			, vous pourriez &eacute;crire un
+            			script de d&eacute;marrage comme suit :
+            		
+         </p><a name="I_programlisting3_d1e2869"></a><pre class="programlisting">export
+			JENKINS_BASE=/usr/local/jenkins
+			export JENKINS_HOME=/var/jenkins-data
+			java -jar ${JENKINS_BASE}/jenkins.war</pre><p>
+            			Si vous utilisez Jenkins dans un conteneur Java EE comme Tomcat ou
+            			JBoss, vous pouvez configurer la webapp pour exposer ses
+            			propres variables
+            			d'environnement. Par exemple, si vous utilisez Tomcat, vous pouvez cr&eacute;er un
+            			fichier
+            			appel&eacute;
+            			<code class="filename">jenkins.xml</code>
+            			dans le r&eacute;pertoire
+            			<code class="filename">$CATALINA_BASE/conf/localhost</code>
+            			:
+            		
+         </p><a name="I_programlisting3_d1e2879"></a><pre class="programlisting">&lt;Context
+			docBase="../jenkins.war"&gt;
+			&lt;Environment name="JENKINS_HOME" type="java.lang.String"
+			value="/data/jenkins" override="true"/&gt;
+			&lt;/Context&gt;</pre><p>
+            			Dans une vie ant&eacute;rieure, Jenkins &eacute;tait connu sous le nom de Hudson. Jenkins reste
+            			compatible avec les installations pr&eacute;c&eacute;dentes de Hudson, et
+            			le passage de
+            			Hudson
+            			&agrave; Jenkins peut-&ecirc;tre aussi simple que de remplacer l'ancien fichier
+            			<code class="filename">hudson.war</code>
+            			par
+            			<code class="filename">jenkins.war</code>
+            			. Jenkins cherchera son r&eacute;pertoire de travail
+            			dans les places suivantes (par ordre de
+            			<a class="indexterm" name="I_indexterm3_d1e2889"></a>
+            			pr&eacute;s&eacute;ance):
+            		
+         </p>
+         <div class="orderedlist">
+            <ol type="1">
+               <li>
+                  <p>Une entr&eacute;e d'environnement JNDI appel&eacute;e JENKINS_HOME</p>
+               </li>
+               <li>
+                  <p>Une entr&eacute;e d'environnement JNDI appel&eacute;e HUDSON_HOME</p>
+               </li>
+               <li>
+                  <p>Une propri&eacute;t&eacute; syst&egrave;me nomm&eacute;e JENKINS_HOME</p>
+               </li>
+               <li>
+                  <p>Une propri&eacute;t&eacute; syst&egrave;me nomm&eacute;e HUDSON_HOME</p>
+               </li>
+               <li>
+                  <p>Une variable d'environnement nomm&eacute;e JENKINS_HOME</p>
+               </li>
+               <li>
+                  <p>Une variable d'environnement nomm&eacute;e HUDSON_HOME</p>
+               </li>
+               <li>
+                  <p>
+                     					Le r&eacute;pertoire
+                     					<code class="filename">.hudson</code>
+                     					dans
+                     					le r&eacute;pertoire de travail utilisateur, s'il existe d&eacute;j&agrave;
+                     				
+                  </p>
+               </li>
+               <li>
+                  <p>
+                     					Le r&eacute;pertoire
+                     					<code class="filename">.jenkins</code>
+                     					dans
+                     					le r&eacute;pertoire de travail
+                     					<a class="indexterm" name="I_indexterm3_d1e2924"></a>
+                     					<a class="indexterm" name="I_indexterm3_d1e2926"></a>
+                     					<a class="indexterm" name="I_indexterm3_d1e2928"></a>
+                     					utilisateur
+                     				
+                  </p>
+               </li>
+            </ol>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="chapter-installing-build-server.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-installing-debian.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">3.3.&nbsp;Pr&eacute;paration d'un serveur de build pour Jenkins&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;3.5.&nbsp;Installer Jenkins sur Debian ou Ubuntu</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

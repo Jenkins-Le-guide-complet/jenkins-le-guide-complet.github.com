@@ -1,0 +1,119 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="prev" href="sect-chapter-automated-testing-conclusion.html" title="6.10.&nbsp;Conclusion">
+      <link rel="next" href="sect-security-activating.html" title="7.2.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-conclusion.html">6.10.&nbsp;Conclusion</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-security-activating.html">7.2.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title"><a name="chapter-security"></a>Chapter&nbsp;7.&nbsp;S&eacute;curiser Jenkins
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt><span class="sect1"><a href="chapter-security.html#sect-security-introduction">7.1. Introduction</a></span></dt>
+               <dt><span class="sect1"><a href="sect-security-activating.html">7.2. Activer la s&eacute;curit&eacute; dans Jenkins</a></span></dt>
+               <dt><span class="sect1"><a href="hudson-security-simple.html">7.3. S&eacute;curit&eacute; simple dans Jenkins</a></span></dt>
+               <dt><span class="sect1"><a href="sect-security-realms.html">7.4. Domaines de s&eacute;curit&eacute; &#8212; Identifier les
+                            utilisateurs Jenkins</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-security-realms.html#hudson-users-internal">7.4.1. Utiliser la base de donn&eacute;es int&eacute;gr&eacute;e &agrave; Jenkins</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-security-realms.html#sec-security-ldap">7.4.2. Utiliser un annuaire LDAP</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-security-realms.html#d0e10590">7.4.3. Utiliser Microsoft Active Directory</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-security-realms.html#d0e10666">7.4.4. Utiliser les utilisateurs et les groupes Unix</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-security-realms.html#d0e10691">7.4.5. D&eacute;l&eacute;guer au conteneur de Servlet</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-security-realms.html#d0e10729">7.4.6. Utiliser Atlassian Crowd</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-security-realms.html#d0e10804">7.4.7. S'int&eacute;grer avec d'autres syst&egrave;mes</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-authorization.html">7.5. Autorisation &#8212; Qui peut faire quoi</a></span></dt>
+               <dd>
+                  <dl>
+                     <dt><span class="sect2"><a href="sect-authorization.html#sec-matrix-security">7.5.1. S&eacute;curit&eacute; bas&eacute;e sur une matrice</a></span></dt>
+                     <dd>
+                        <dl>
+                           <dt><span class="sect3"><a href="sect-authorization.html#d0e10959">7.5.1.1. Mettre en place la s&eacute;curit&eacute; bas&eacute;e sur une matrice</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-authorization.html#d0e11010">7.5.1.2. Configurer plus finement les permissions utilisateurs</a></span></dt>
+                           <dt><span class="sect3"><a href="sect-authorization.html#d0e11198">7.5.1.3. A l'aide ! Je me suis verrouill&eacute; tout seul !</a></span></dt>
+                        </dl>
+                     </dd>
+                     <dt><span class="sect2"><a href="sect-authorization.html#d0e11220">7.5.2. S&eacute;curit&eacute; bas&eacute;e sur le projet</a></span></dt>
+                     <dt><span class="sect2"><a href="sect-authorization.html#d0e11324">7.5.3. S&eacute;curit&eacute; bas&eacute;e sur les r&ocirc;les</a></span></dt>
+                  </dl>
+               </dd>
+               <dt><span class="sect1"><a href="sect-security-auditing.html">7.6. Audit &#8212; Garder la trace des actions utilisateurs</a></span></dt>
+               <dt><span class="sect1"><a href="sect-security-conclusion.html">7.7. Conclusion</a></span></dt>
+            </dl>
+         </div>
+         <div class="sect1" lang="en">
+            <div class="titlepage">
+               <div>
+                  <div>
+                     <h2 class="title" style="clear: both"><a name="sect-security-introduction"></a>7.1.&nbsp;Introduction
+                     </h2>
+                  </div>
+               </div>
+            </div>
+            <p><a class="indexterm" name="ch07-sec"></a><a class="indexterm" name="I_indexterm7_d1e10038"></a>Jenkins supporte plusieurs mod&egrave;les de s&eacute;curit&eacute;, et peut
+                   s'int&eacute;grer avec diff&eacute;rents gestionnaires d'utilisateurs. Dans les petites
+                   organisations, o&ugrave; les d&eacute;veloppeurs travaillent proches les uns des autres,
+                   la s&eacute;curit&eacute; de votre machine Jenkins n'est peut-&ecirc;tre pas un gros probl&egrave;me
+                   &#8212; vous pourriez juste vouloir &eacute;viter que des utilisateurs non identifi&eacute;s
+                   n'alt&egrave;rent vos configurations de t&acirc;ches de build. Pour de plus importantes
+                   organisations, avec de multiples &eacute;quipes, une approche plus stricte
+                   pourrait &ecirc;tre n&eacute;cessaire, dans laquelle seuls les membres de l'&eacute;quipe et
+                   les administrateurs syst&egrave;mes ont les droits pour modifier la configuration
+                   des t&acirc;ches de build. Et dans des situations o&ugrave; Jenkins serait expos&eacute; &agrave; une
+                   audience plus large, comme un site web interne d'une entreprise, ou m&ecirc;me
+                   sur Internet, certaines t&acirc;ches de build pourraient &ecirc;tre visibles &agrave; tous
+                   les utilisateurs alors que d'autres n&eacute;cessiteraient d'&ecirc;tre cach&eacute;es aux
+                   utilisateurs non autoris&eacute;s.
+            </p>
+            <p>Dans ce chapitre, nous regarderons comment configurer diff&eacute;rentes
+                   configurations de s&eacute;curit&eacute; dans Jenkins, pour diff&eacute;rents environnements et
+                   circonstances.
+            </p>
+         </div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-chapter-automated-testing-conclusion.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-security-activating.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">6.10.&nbsp;Conclusion&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;7.2.&nbsp;Activer la s&eacute;curit&eacute; dans Jenkins</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

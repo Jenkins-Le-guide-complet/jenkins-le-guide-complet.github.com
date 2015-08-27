@@ -1,0 +1,315 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>2.6.&nbsp;Your First Build Job in Action</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-first-steps.html" title="Chapter&nbsp;2.&nbsp;Vos premiers pas avec Jenkins">
+      <link rel="prev" href="sect-first-steps-first-job.html" title="2.5.&nbsp;Your First Jenkins Build Job">
+      <link rel="next" href="sect-first-steps-javadocs.html" title="2.7.&nbsp;More Reporting&#8212;Displaying Javadocs">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-first-steps-first-job.html">2.5.&nbsp;Your First Jenkins Build Job</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-javadocs.html">2.7.&nbsp;More Reporting&#8212;Displaying Javadocs</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-first-steps-first-job-in-action"></a>2.6.&nbsp;Your First Build Job in Action
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>Once you save your new build job, Jenkins will display the home page
+                for this job (see <a href="sect-first-steps-first-job-in-action.html#fig-new-job-running" title="Figure&nbsp;2.19.&nbsp;Your first build job running">Figure&nbsp;2.19, &#8220;Your first build job running&#8221;</a>). This is where
+                Jenkins displays details about the latest build results and the build
+                history.
+         </p>
+         <p>If <a class="indexterm" name="I_indexterm2_d1e1919"></a>you wait a minute or so, the build should kick off
+                automatically&#8212;you can see the stripy progress bar in the Build History
+                section in the bottom left hand corner of <a href="sect-first-steps-first-job-in-action.html#fig-new-job-running" title="Figure&nbsp;2.19.&nbsp;Your first build job running">Figure&nbsp;2.19, &#8220;Your first build job running&#8221;</a>. Or, <a class="indexterm" name="I_indexterm2_d1e1927"></a><a class="indexterm" name="I_indexterm2_d1e1932"></a>if you are impatient, you can also trigger the build
+                manually using the Build Now button.
+         </p>
+         <div class="figure"><a name="fig-new-job-running"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e1941"></a><img src="figs/web/jtdg_0219.png" alt="Your first build job running"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.19.&nbsp;Your first build job running</b></p>
+         </div><br class="figure-break"><p>The<a class="indexterm" name="I_indexterm2_d1e1948"></a><a class="indexterm" name="I_indexterm2_d1e1953"></a> build will also now figure proudly on your Jenkins server&#8217;s
+                home page (see <a href="sect-first-steps-first-job-in-action.html#fig-hudson-dashboard" title="Figure&nbsp;2.20.&nbsp;The Jenkins dashboard">Figure&nbsp;2.20, &#8220;The Jenkins dashboard&#8221;</a>). This page shows a
+                summary of all of your build jobs, including the current build status and
+                general state of heath of each of your builds. It tells you when each
+                build ran successfully for the last time, and when it last failed, and
+                also the result of the last build.
+         </p>
+         <p>Once of Jenkins&#8217;s specialities is the way it lets you get an idea of
+                build behavior over time. For example, Jenkins uses a weather metaphor to
+                help give you an idea of the stability of your builds. Essentially, the
+                more your builds fail, the worse the weather gets. This helps you get an
+                idea of whether a particular broken build is an isolated event, or if the
+                build is breaking on a regular basis, in which case it might need some
+                special attention.
+         </p>
+         <p>You can also manually<a class="indexterm" name="I_indexterm2_d1e1967"></a><a class="indexterm" name="I_indexterm2_d1e1972"></a> trigger a build job here, using the build schedule button
+                (that&#8217;s the one that looks a bit like a green play button on top of a
+                clock).
+         </p>
+         <div class="figure"><a name="fig-hudson-dashboard"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject2_d1e1981"></a><img src="figs/web/jtdg_0220.png" alt="The Jenkins dashboard"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;2.20.&nbsp;The Jenkins dashboard</b></p>
+         </div><br class="figure-break"><p>When<a class="indexterm" name="I_indexterm2_d1e1988"></a> the build finishes, the ball in the Build History box
+                becomes solid blue. This means the build was a success. Build <a class="indexterm" name="I_indexterm2_d1e1994"></a>failures are generally indicated by a red ball. For some
+                types of project, you can also distinguish between a build error (such as
+                a compiler error), indicated by a red ball, and other sorts of build
+                failures, such as unit test failures or insufficient code coverage, which
+                are indicated by a yellow ball. There are also some other details about
+                the latest test results, when the last build was run, and so on. But
+                before we look at the details, let&#8217;s get back to the core business model
+                of a Continuous Integration server&#8212;kicking off builds when someone changes
+                the code!
+         </p>
+         <p>We<a class="indexterm" name="ch02-failure"></a> are going to commit a code change to GitHub and see what
+                happens, using the source code we checked out in <a href="sect-first-steps-environment.html#sect-git-fork" title="2.2.5.&nbsp;Forker le d&eacute;p&ocirc;t des exemples">Section&nbsp;2.2.5, &#8220;Forker le d&eacute;p&ocirc;t des exemples&#8221;</a>. We now have Jenkins configured to monitor our
+                GitHub fork, so if we make any changes, Jenkins should be able to pick
+                them up.
+         </p>
+         <p>So let&#8217;s make a change. The idea is to introduce a code change that
+                will cause the unit tests to fail. If your Java is a bit rusty, don&#8217;t
+                worry, you won&#8217;t need to know any Java to be able to break the build&#8212;just
+                follow the instructions!
+         </p>
+         <p>Now in normal development, you would first modify the unit test that
+                describes this behaviour. Then you would verify that the test fails with
+                the existing code, and implement the code to ensure that the test passes.
+                <span class="emphasis"><em>Then</em></span> you would commit your changes to your version
+                control system, allowing Jenkins to build them. However this would be a
+                poor demonstration of how Jenkins handles unit test failures. So in this
+                example, we will, against all best practices, simply modify the
+                application code directly.
+         </p>
+         <p>First of all, open the <code class="filename">Cell.java</code> file, which you will find in the
+                <code class="filename">gameoflife-core/src/main/java/com/wakaleo/gameoflife/domain</code>
+                directory. Open this file in your favorite text editor. You should see
+                something like this:
+         </p><a name="I_programlisting2_d1e2030"></a><pre class="programlisting">package com.wakaleo.gameoflife.domain;
+
+public enum Cell {
+    LIVE_CELL("*"), DEAD_CELL(".");
+
+    private String symbol;
+
+    private Cell(String symbol) {
+        this.symbol = symbol;
+    }
+
+    @Override
+    public String toString() {
+        return symbol;
+    }
+
+    static Cell fromSymbol(String symbol) {
+        Cell cellRepresentedBySymbol = null;
+        for (Cell cell : Cell.values()) {
+            if (cell.symbol.equals(symbol)) {
+                cellRepresentedBySymbol = cell;
+                break;
+            }
+        }
+        return cellRepresentedBySymbol;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+}</pre><p>The application can print the state of the grid as a text array.
+                Currently, the application prints our live cells as an asterisk
+                (<code class="literal">*</code>), and dead cells appear as a minus character
+                (<code class="literal">&#8211;</code>). So a five-by-five grid containing a single living
+                cell in the center would look like this:
+         </p><pre class="screen">-----
+--*--
+-----</pre><p>Now users have asked for a change to the application&#8212;they want
+                pluses (<code class="literal">+</code>) instead of stars! So we are going to make a
+                slight change to the <code class="code">Cell</code> class method, and rewrite it as
+                follows (the modifications are in <strong class="userinput"><code>bold</code></strong>):
+         </p><a name="I_programlisting2_d1e2053"></a><pre class="programlisting">package com.wakaleo.gameoflife.domain;
+
+public enum Cell {
+    <strong class="userinput"><code>LIVE_CELL("+")</code></strong>, DEAD_CELL(".");
+
+    private String symbol;
+
+    private Cell(String symbol) {
+        this.symbol = symbol;
+    }
+
+    @Override
+    public String toString() {
+        return symbol;
+    }
+
+    static Cell fromSymbol(String symbol) {
+        Cell cellRepresentedBySymbol = null;
+        for (Cell cell : Cell.values()) {
+            if (cell.symbol.equals(symbol)) {
+                cellRepresentedBySymbol = cell;
+                break;
+            }
+        }
+        return cellRepresentedBySymbol;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+}</pre><p>Save this change, and then commit them to the local Git repository
+                by running <code class="literal">git commit</code>:
+         </p><pre class="screen">$ <strong class="userinput"><code>git commit -a -m "Changes stars to pluses"</code></strong>
+[master 61ce946] Changes stars to pluses
+ 1 files changed, 1 insertions(+), 1 deletions(-)</pre><p>This will commit the changes locally, but since Git is a distributed
+                repository, you now have to push these changes through to your fork on
+                GitHub. You do this by running <code class="literal">git push</code>:
+         </p><pre class="screen">$ <strong class="userinput"><code>git push</code></strong>
+Counting objects: 21, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (11/11), 754 bytes, done.
+Total 11 (delta 4), reused 0 (delta 0)
+To git@github.com:john-smart/game-of-life.git
+   7882d5c..61ce946  master -&gt; master</pre><p>Now go back to the Jenkins web page. After a minute or so, a new
+                build should kick off, and fail. In fact, there are several other places
+                which are affected by this change, and the regression tests related to
+                these features are now failing. On the build job home page, you will see a
+                second build in the <a class="indexterm" name="I_indexterm2_d1e2081"></a>build history with an ominous red ball (see <a href="sect-first-steps-first-job-in-action.html#fig-new-job-failed" title="Figure&nbsp;2.21.&nbsp;A failed build">Figure&nbsp;2.21, &#8220;A failed build&#8221;</a>)&#8212;this tells you that the latest build has
+                failed.
+         </p>
+         <p>You <a class="indexterm" name="I_indexterm2_d1e2093"></a>might also notice some clouds next to the Build History
+                title&#8212;this is the same &#8220;weather&#8221; icon that we saw on the home page, and
+                serves the same purpose&#8212;to give you a general idea of how stable your
+                build is over time.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-new-job-failed"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e2102"></a><img src="figs/web/jtdg_0221.png" alt="A failed build"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.21.&nbsp;A failed build</b></p>
+            </div><br class="figure-break"></div>
+         <p>If <a class="indexterm" name="ch02-details"></a><a class="indexterm" name="ch02-details2"></a><a class="indexterm" name="ch02-details3"></a>you click on the new build history entry, Jenkins will give
+                you some more details about what went wrong (see <a href="sect-first-steps-first-job-in-action.html#fig-new-job-failure-details" title="Figure&nbsp;2.22.&nbsp;The list of all the broken tests">Figure&nbsp;2.22, &#8220;The list of all the broken tests&#8221;</a>). Jenkins tells us that there
+                were 11 new test failures in this build, something which can be seen at a
+                glance in the <a class="indexterm" name="I_indexterm2_d1e2127"></a>Test Result Trend graph&#8212;red indicates test failures. You can
+                even see which tests are failing, and how long they have been
+                broken.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-new-job-failure-details"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e2134"></a><img src="figs/web/jtdg_0222.png" alt="The list of all the broken tests"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.22.&nbsp;The list of all the broken tests</b></p>
+            </div><br class="figure-break"></div>
+         <p>If you want to know exactly what went wrong, that&#8217;s easy enough to
+                figure out as well. If you click on the failed test classes, Jenkins
+                brings up the actual details of the test failures (see <a href="sect-first-steps-first-job-in-action.html#fig-hudson-new-job-test-failure-details" title="Figure&nbsp;2.23.&nbsp;Details about a failed test">Figure&nbsp;2.23, &#8220;Details about a failed test&#8221;</a>), which is a great
+                help when it comes to reproducing and fixing the issue.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-hudson-new-job-test-failure-details"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e2146"></a><img src="figs/web/jtdg_0223.png" alt="Details about a failed test"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.23.&nbsp;Details about a failed test</b></p>
+            </div><br class="figure-break"></div>
+         <p>Jenkins displays a host of information about the failed test in a
+                very readable form, including the error message the test produced, the
+                stack trace, how long the test has been broken, and how long it took to
+                run. Often, this in itself is enough to put a developer on the right track
+                towards<a class="indexterm" name="I_indexterm2_d1e2154"></a><a class="indexterm" name="I_indexterm2_d1e2156"></a> fixing<a class="indexterm" name="I_indexterm2_d1e2159"></a><a class="indexterm" name="I_indexterm2_d1e2161"></a> the issue.
+         </p>
+         <p>Now let&#8217;s fix the build. To make things simple, we&#8217;ll just back out
+                our changes and recommit the code in its original state (the end users
+                just changed their mind about the asterisks, anyway). So just undo the
+                changes you made to the <code class="literal">Cell</code> class (again, the changes
+                are highlighted in <strong class="userinput"><code>bold</code></strong>):
+         </p><a name="I_programlisting2_d1e2172"></a><pre class="programlisting">package com.wakaleo.gameoflife.domain;
+
+public enum Cell {
+    <strong class="userinput"><code>LIVE_CELL("*")</code></strong>, DEAD_CELL(".");
+
+    private String symbol;
+
+    private Cell(String symbol) {
+        this.symbol = symbol;
+    }
+
+    @Override
+    public String toString() {
+        return symbol;
+    }
+
+    static Cell fromSymbol(String symbol) {
+        Cell cellRepresentedBySymbol = null;
+        for (Cell cell : Cell.values()) {
+            if (cell.symbol.equals(symbol)) {
+                cellRepresentedBySymbol = cell;
+                break;
+            }
+        }
+        return cellRepresentedBySymbol;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+}</pre><p>When you&#8217;ve done this, commit your changes again:</p><pre class="screen">$ <strong class="userinput"><code>git commit -a -m "Restored the star"</code></strong>
+[master bc924be] Restored the star
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+$ <strong class="userinput"><code>git push</code></strong>
+Counting objects: 21, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (11/11), 752 bytes, done.
+Total 11 (delta 4), reused 6 (delta 0)
+To git@github.com:john-smart/game-of-life.git
+   61ce946..bc924be  master -&gt; master</pre><p>Once you&#8217;ve committed these changes, Jenkins should pick them up and
+                kick off a build. Once this is done, you will be able to see the fruit of
+                your work on the build job home page (see <a href="sect-first-steps-first-job-in-action.html#fig-new-job-fixed-build" title="Figure&nbsp;2.24.&nbsp;Now the build is back to normal">Figure&nbsp;2.24, &#8220;Now the build is back to normal&#8221;</a>)&#8212;the build status is blue again and
+                all is well. Also notice the way we are building up a trend graph showing
+                the number of succeeding unit tests over time&#8212;this sort of report really
+                is one of Jenkins&#8217;s strong points.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-new-job-fixed-build"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject2_d1e2195"></a><img src="figs/web/jtdg_0224.png" alt="Now the build is back to normal"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;2.24.&nbsp;Now the build is back to normal</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-first-steps-first-job.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-first-steps-javadocs.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">2.5.&nbsp;Your First Jenkins Build Job&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;2.7.&nbsp;More Reporting&#8212;Displaying Javadocs</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>

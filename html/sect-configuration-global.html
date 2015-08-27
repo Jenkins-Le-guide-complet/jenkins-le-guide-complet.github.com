@@ -1,0 +1,93 @@
+<html xmlns:fo="http://www.w3.org/1999/XSL/Format">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   
+      <title>4.4.&nbsp;Configurer les propri&eacute;t&eacute;s globales</title>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+      <link rel="start" href="book.html" title="Jenkins : Le guide complet">
+      <link rel="up" href="chapter-configuration.html" title="Chapter&nbsp;4.&nbsp;Configurer votre serveur Jenkins">
+      <link rel="prev" href="sect-configuration-system.html" title="4.3.&nbsp;Configurer l'environnement syst&egrave;me">
+      <link rel="next" href="sect-configuration-jdks.html" title="4.5.&nbsp;Configurer vos JDKs">
+   </head>
+   <body>
+      <div class="navheader">
+         <table width="100%" summary="Navigation header">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-system.html">4.3.&nbsp;Configurer l'environnement syst&egrave;me</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">
+                     												TOC
+                                                                 </a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-jdks.html">4.5.&nbsp;Configurer vos JDKs</a></td>
+            </tr>
+         </table>
+      </div>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title" style="clear: both"><a name="sect-configuration-global"></a>4.4.&nbsp;Configurer les propri&eacute;t&eacute;s globales
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p>La section <a class="indexterm" name="ch04-global1"></a><a class="indexterm" name="ch04-global2"></a><a class="indexterm" name="ch04-global3"></a><a class="indexterm" name="ch04-global4"></a>Propri&eacute;t&eacute;s globales (voir <a href="sect-configuration-global.html#fig-configure-global-properties" title="Figure&nbsp;4.3.&nbsp;Configurer les variables d'environnement dans Jenkins">Figure&nbsp;4.3, &#8220;Configurer les variables d'environnement dans Jenkins&#8221;</a>) vous permet de d&eacute;finir des
+            variables de fa&ccedil;on centralis&eacute;e et de les utiliser dans toutes vos t&acirc;ches de
+            build. Vous pouvez ajouter autant de propri&eacute;t&eacute;s que vous voulez, et
+            les utiliser dans vos t&acirc;ches. Jenkins les rendra disponible &agrave; l'int&eacute;rieur
+                de l'environnement de vos t&acirc;ches de build, vous permettant de les
+                utiliser facilement dans vos scripts Ant ou Maven. A noter que vous ne
+                devez pas mettre de points (&#8220;.&#8221;) dans les noms de propri&eacute;t&eacute;s, parce qu'ils
+                ne seront pas trait&eacute;s correctement. Utilisez donc <code class="literal">ldapserver</code> ou <code class="literal">ldap_server</code>, mais pas <code class="literal">ldap.server</code>.
+         </p>
+         <div class="figure"><a name="fig-configure-global-properties"></a><div class="figure-contents">
+               <div class="mediaobject"><a name="I_mediaobject4_d1e4446"></a><img src="figs/web/jtdg_0403.png" alt="Configurer les variables d'environnement dans Jenkins"></div>
+            </div>
+            <p class="title"><b>Figure&nbsp;4.3.&nbsp;Configurer les variables d'environnement dans Jenkins</b></p>
+         </div><br class="figure-break"><p>Il y a deux fa&ccedil;ons principales d'utiliser ces variables.
+                Premi&egrave;rement, vous pouvez les utiliser directement dans votre script de
+                build, en utilisant la notation <code class="literal">${key}</code> ou <code class="literal">$key</code> (donc <code class="literal">${ldapserver}</code> ou <code class="literal">$ldapserver</code> dans l'exemple donn&eacute; ci-dessus).
+                C'est l'approche la plus simple, mais cela signifie qu'il y a un couplage
+                fort entre la configuration de votre t&acirc;che et vos scripts de
+                build.
+         </p>
+         <p>Si votre script utilise un nom de propri&eacute;t&eacute; diff&eacute;rent (un contenant
+                des points, par exemple), vous pouvez aussi passer la valeur &agrave; votre
+                script de build dans la configuration de votre t&acirc;che de
+                build. Dans <a href="sect-configuration-global.html#fig-config-properties-in-job" title="Figure&nbsp;4.4.&nbsp;Utiliser une variable d'environnement configur&eacute;e">Figure&nbsp;4.4, &#8220;Utiliser une variable d'environnement configur&eacute;e&#8221;</a> nous
+                passons la valeur de la propri&eacute;t&eacute; <code class="literal">ldapserver</code> d&eacute;finie dans <a href="sect-configuration-global.html#fig-configure-global-properties" title="Figure&nbsp;4.3.&nbsp;Configurer les variables d'environnement dans Jenkins">Figure&nbsp;4.3, &#8220;Configurer les variables d'environnement dans Jenkins&#8221;</a> &agrave; une t&acirc;che de build
+                Maven. Utiliser l'option <code class="literal">-D</code> signifie
+                que cette valeur sera accessible &agrave; l'int&eacute;rieur du script. C'est une
+                approche flexible, parce qu'on peut assigner les propri&eacute;t&eacute;s globales
+                d&eacute;finies dans Jenkins &agrave; des variables sp&eacute;cifiques &agrave; nos scripts de
+                build. Dans <a href="sect-configuration-global.html#fig-config-properties-in-job" title="Figure&nbsp;4.4.&nbsp;Utiliser une variable d'environnement configur&eacute;e">Figure&nbsp;4.4, &#8220;Utiliser une variable d'environnement configur&eacute;e&#8221;</a>, par
+                exemple, la propri&eacute;t&eacute; <code class="literal">ldapserver</code> sera
+                disponible &agrave; l'int&eacute;rieur du build Maven via la
+                propri&eacute;t&eacute;<a class="indexterm" name="I_indexterm4_d1e4483"></a><a class="indexterm" name="I_indexterm4_d1e4485"></a><a class="indexterm" name="I_indexterm4_d1e4487"></a><a class="indexterm" name="I_indexterm4_d1e4489"></a> <code class="literal">${ldap.server}</code>.
+         </p>
+         <div class="figure-float">
+            <div class="figure"><a name="fig-config-properties-in-job"></a><div class="figure-contents">
+                  <div class="mediaobject"><a name="I_mediaobject4_d1e4498"></a><img src="figs/web/jtdg_0404.png" alt="Utiliser une variable d'environnement configur&eacute;e"></div>
+               </div>
+               <p class="title"><b>Figure&nbsp;4.4.&nbsp;Utiliser une variable d'environnement configur&eacute;e</b></p>
+            </div><br class="figure-break"></div>
+      </div>
+      <div class="navfooter">
+         <hr>
+         <table width="100%" summary="Navigation footer">
+            <tr>
+               <td width="40%" align="left"><a accesskey="p" href="sect-configuration-system.html">Prev</a>&nbsp;
+               </td>
+               <td width="20%" align="center"><a accesskey="h" href="book.html">Home</a></td>
+               <td width="40%" align="right">&nbsp;<a accesskey="n" href="sect-configuration-jdks.html">Next</a></td>
+            </tr>
+            <tr>
+               <td width="40%" align="left" valign="top">4.3.&nbsp;Configurer l'environnement syst&egrave;me&nbsp;</td>
+               <td width="20%" align="center"><span style="color:white;font-size:90%;"><a href="http://www.sonatype.com/" title="Sonatype: Build Success for your Enterprise">Sponsored by Sonatype
+                                                                </a></span></td>
+               <td width="40%" align="right" valign="top">&nbsp;4.5.&nbsp;Configurer vos JDKs</td>
+            </tr>
+         </table>
+      </div>
+   </body>
+</html>
